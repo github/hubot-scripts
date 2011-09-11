@@ -1,6 +1,6 @@
 # Display a random "trollface" image
 #
-# Hubot: haters - Returns a trollface url
+# hubot problem? - Returns a trollface url
 #
 #
 trolls = [
