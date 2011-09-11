@@ -6,12 +6,12 @@
   "description": "Allows you to open in to a variety of scripts",
   "licenses":     [{
     "type":       "MIT",
-    "url":        "http://github.com/github/github/raw/master/LICENSE"
+    "url":        "http://github.com/github/hubt-scripts/raw/master/LICENSE"
   }],
 
   "repository" : {
     "type" : "git",
-    "url" : "http://github.com/github/hubot-scripts.git"
+    "url" : "https://github.com/github/hubot-scripts.git"
   },
 
   "dependencies": {
