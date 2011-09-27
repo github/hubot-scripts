@@ -1,8 +1,8 @@
-Tests  = require('./tests')
+Tests  = require('../tests')
 assert = require 'assert'
 helper = Tests.helper()
 
-require('../src/scripts/speak') helper
+require('../../src/scripts/speak') helper
 
 process.env.HUBOT_MSTRANSLATE_APIKEY ||= "0xDEADBEEF"
 

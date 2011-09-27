@@ -1,5 +1,5 @@
 test: deps
-	@find test -name '*_test.coffee' | xargs -n 1 -t coffee
+	@find test -name '*.coffee' | xargs -n 1 -t coffee
 
 dev: generate-js
 	@coffee -wc --bare -o lib src/*.coffee
