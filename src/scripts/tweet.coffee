@@ -1,6 +1,6 @@
 # Display a random tweet from twitter about a subject
 #
-# hubot github tweet - Returns a link to a tweet about github
+# hubot <keyword> tweet - Returns a link to a tweet about <keyword>
 #
 
 module.exports = (robot) ->
