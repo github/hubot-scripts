@@ -1,6 +1,6 @@
 {
   "name":        "hubot-scripts",
-  "version":     "0.1.0",
+  "version":     "1.0.0",
   "author":      "GitHub Inc.",
   "keywords":    "hubot plugin scripts campfire bot robot",
   "description": "Allows you to open in to a variety of scripts",
@@ -15,10 +15,11 @@
   },
 
   "dependencies": {
-    "hubot": "0.1.0"
+    "hubot": ">= 1.0.0"
   },
 
   "directories":  {
     "lib": "./src"
   }
+  "engine": "node >= 0.4.1"
 }
