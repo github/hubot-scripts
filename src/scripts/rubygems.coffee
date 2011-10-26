@@ -1,6 +1,6 @@
 # Find a rubygem from rubygems.org
 #
-# hubot <there's a gem for> that - Returns a link to a gem on rubygems.org
+# <there's a gem for> that - Returns a link to a gem on rubygems.org
 #
 
 module.exports = (robot) ->
