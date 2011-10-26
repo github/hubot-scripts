@@ -1,6 +1,6 @@
 # Display a random "haters gonna hate" image
 #
-# hubot haters - Returns a random haters gonna hate url
+# haters - Returns a random haters gonna hate url
 #
 #
 haters = [
