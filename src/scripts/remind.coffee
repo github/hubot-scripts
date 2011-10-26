@@ -5,27 +5,41 @@
 #                                      Time segments are optional, as are commas
 
 class Reminders
-  constructor: ->
+  constructor: (@robot) ->
     @cache = []
     @current_timeout = null
+
+    loadReminders = =>
+      if @robot.brain.data.reminders
+        @cache = @robot.brain.data.reminders
+        @queue()
+    setTimeout loadReminders, 5000 # Hacky until there's some kind of 'loaded' notification
 
   add: (reminder) ->
     @cache.push reminder
     @cache.sort (a, b) -> a.due - b.due
+    @robot.brain.data.reminders = @cache
     @queue()
+
+  removeFirst: ->
+    reminder = @cache.shift()
+    @robot.brain.data.reminders = @cache
+    return reminder
 
   queue: ->
     clearTimeout @current_timeout if @current_timeout
     if @cache.length > 0
       now = new Date().getTime()
-      trigger = =>
-        reminder = @cache.shift()
-        reminder.msg.send reminder.msg.message.user.name + ', you asked me to remind you to ' + reminder.action
-        @queue()
-      @current_timeout = setTimeout trigger, @cache[0].due - now
+      @removeFirst() until @cache.length is 0 or @cache[0].due > now
+      if @cache.length > 0
+        trigger = =>
+          reminder = @removeFirst()
+          @robot.send reminder.for, reminder.for.name + ', you asked me to remind you to ' + reminder.action
+          @queue()
+        @current_timeout = setTimeout trigger, @cache[0].due - now
 
 class Reminder
-  constructor: (@msg, @time, @action) ->
+  constructor: (@for, @time, @action) ->
     @time.replace(/^\s+|\s+$/g, '')
 
     periods =
@@ -59,12 +73,12 @@ class Reminder
 
 module.exports = (robot) ->
 
-  reminders = new Reminders
+  reminders = new Reminders robot
 
   robot.respond /remind me in ((?:(?:\d+) (?:weeks?|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?)[ ,]*(?:and)? +)+)to (.*)/i, (msg) ->
     time = msg.match[1]
     action = msg.match[2]
-    reminder = new Reminder msg, time, action
+    reminder = new Reminder msg.message.user, time, action
     reminders.add reminder
     msg.send 'I\'ll remind you to ' + action + ' on ' + reminder.dueDate()
 
