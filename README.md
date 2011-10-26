@@ -19,7 +19,7 @@ Want to write your own Hubot script? The best way is to take a look at an
 and see how things are set up. Hubot scripts are written in CoffeeScript, a
 higher-level implementation of JavaScript.
 
-You'll also want to [add tests](https://github.com/github/hubot-scripts/blob/master/test/scripts/test.coffee)
+You'll also want to [add tests](https://github.com/github/hubot-scripts/blob/master/test/tests.coffee)
 for your script; no one likes untested code. It makes Hubot sad.
 
 Additionally, it's extremely helpful to add [TomDoc](http://tomdoc.org) to the
