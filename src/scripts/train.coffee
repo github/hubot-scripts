@@ -1,6 +1,6 @@
 # A way to interact with the NS (Dutch Railways) API
 #
-# To configure, add NS_API_EMAIL and NS_API_PASSWORD to your Heroku config with "heroku config:add"
+# To configure, add HUBOT_NS_API_EMAIL and HUBOT_NS_API_PASSWORD to your Heroku config with "heroku config:add"
 #
 # train disruptions <station> - Retrieve the list of disruptions near <station>.
 #                               Please note: <station> can be a station code (e.g. 'asd')
@@ -41,8 +41,8 @@ module.exports = (robot) ->
 
 findDisruptions = (msg, station, callback) ->
   url = disruptionApiUrl
-  username = process.env.NS_API_EMAIL
-  password = process.env.NS_API_PASSWORD
+  username = process.env.HUBOT_NS_API_EMAIL
+  password = process.env.HUBOT_NS_API_PASSWORD
   auth = "Basic " + new Buffer(username + ':' + password).toString('base64')
 
   parser = new xml2js.Parser({explicitArray: true})
