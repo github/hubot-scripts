@@ -1,14 +1,15 @@
 # Display a random tweet from twitter about a subject
 #
-# hubot <keyword> tweet - Returns a link to a tweet about <keyword>
-#
+# <robot_name> tweet me <query> - Returns a random link to a tweet about <query>
 
 module.exports = (robot) ->
-  robot.respond /(.*) tweet/i, (msg) ->
-    search = escape(msg.match[1])
+  robot.respond /(tweet)( me)? (.*)/i, (msg) ->
+    query = escape(msg.match[3])
     msg.http('http://search.twitter.com/search.json')
-      .query(q: search)
+      .query(q: query)
       .get() (err, res, body) ->
         tweets = JSON.parse(body)
-        tweet  = msg.random tweets.results
-        msg.send "http://twitter.com/#!/#{tweet.from_user}/status/#{tweet.id_str}"
+
+        if tweets.results? and tweets.results.length > 0
+          tweet = msg.random tweets.results
+          msg.send "http://twitter.com/#!/#{tweet.from_user}/status/#{tweet.id_str}"
