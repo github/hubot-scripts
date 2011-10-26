@@ -1,6 +1,6 @@
 # Display a random tweet from twitter about a subject
 #
-# tweet me <query> - Returns a random link to a tweet about <query>
+# <robot_name> tweet me <query> - Returns a random link to a tweet about <query>
 
 module.exports = (robot) ->
   robot.respond /(tweet)( me)? (.*)/i, (msg) ->
