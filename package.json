@@ -18,7 +18,8 @@
     "htmlparser": "1.7.x",
     "hubot": ">= 1.0.4",
     "redis": "0.6.7",
-    "soupselect": "0.2.0"
+    "soupselect": "0.2.0",
+    "jquery": ">= 1.6.3"
   },
 
   "directories":  {
