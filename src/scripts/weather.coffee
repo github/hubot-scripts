@@ -42,10 +42,10 @@ module.exports = (robot) ->
   getDom = (xml) ->
     body = JsDom.jsdom(xml)
     throw Error('No xml') if body.getElementsByTagName('weather')[0].childNodes.length == 0
-    return body
+    body
 
   convertTemp = (faren) ->
-    return ((5 / 9) * (faren - 32)).toFixed 0
+    ((5 / 9) * (faren - 32)).toFixed 0
 
   query = (msg, cb) ->
     location = msg.match[1]
