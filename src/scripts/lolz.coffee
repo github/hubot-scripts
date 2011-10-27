@@ -2,10 +2,9 @@
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
-util = require 'util'
 
 module.exports = (robot) ->
-  robot.respond /l[ou]lz/i, (msg) ->
+  robot.respond /.*l[ou]lz/i, (msg) ->
     msg.http("http://bukk.it")
       .get() (err, res, body) ->
         handler = new HtmlParser.DefaultHandler()
