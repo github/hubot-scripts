@@ -1,12 +1,12 @@
 {
   "name":        "hubot-scripts",
   "version":     "1.1.0",
-  "author":      "GitHub Inc.",
+  "author":      "hubot",
   "keywords":    "hubot plugin scripts campfire bot robot",
   "description": "Allows you to open in to a variety of scripts",
   "licenses":     [{
     "type":       "MIT",
-    "url":        "http://github.com/github/hubt-scripts/raw/master/LICENSE"
+    "url":        "http://github.com/github/hubot-scripts/raw/master/LICENSE"
   }],
 
   "repository" : {
