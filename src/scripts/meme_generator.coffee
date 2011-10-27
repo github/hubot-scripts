@@ -60,5 +60,4 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
 
       msg.http(instanceURL).get() (err, res, body) ->
         # Need to hit instanceURL so that image gets generated
-
-      callback img
+        callback img
