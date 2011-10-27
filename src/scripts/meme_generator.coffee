@@ -8,7 +8,7 @@
 #
 # <text> ORLY?               - Generates the ORLY? owl with the top caption of <text>
 #
-# <text> SUCCESS             - Generates success kid with the top caption of <text>
+# <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
 #
 
 module.exports = (robot) ->
