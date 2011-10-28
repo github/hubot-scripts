@@ -13,6 +13,5 @@ responses = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /thanks/i, (msg) ->
+  robot.respond /(thanks|thank you|cheers|nice one)/i, (msg) ->
     msg.send msg.random responses
-
