@@ -1,5 +1,5 @@
 #
-# achievement get <achievement> [achiever's email] - life goals are in reach.
+# achievement get <achievement> [achiever's gravatar email] - life goals are in reach.
 #
 module.exports = (robot) ->
   robot.hear /achievement get (.+?)((?:\s*)[^@\s]+@[^@\s]+)?$/i, (msg) ->
