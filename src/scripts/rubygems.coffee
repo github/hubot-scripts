@@ -13,4 +13,4 @@ module.exports = (robot) ->
         gems=[]
         for result in results[0..4]
           gems.push "#{result.name}: https://rubygems.org/gems/#{result.name}"
-        if gems.length>0 then msg.send gems.join('\n') else msg.send "Actually there aren't any gems for that"
+        if gems.length>0 then msg.send gems.join('\n') else msg.send "Actually, there isn't a gem for that!"
