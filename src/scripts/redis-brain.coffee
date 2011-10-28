@@ -22,7 +22,7 @@ module.exports = (robot) ->
         robot.brain.mergeData JSON.parse(reply.toString())
 
   robot.brain.on 'save', (data) ->
-    client.set 'hubot:storage', data
+    client.set 'hubot:storage', JSON.stringify data
 
   robot.brain.on 'close', ->
     client.quit()
