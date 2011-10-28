@@ -10,7 +10,7 @@ module.exports = (robot) ->
   robot.respond /question (.*)$/i, (msg) ->
     Wolfram.query msg.match[1], (e, result) ->
       # console.log result
-      if result.length > 0
+      if result and result.length > 0
         msg.reply result[1]['subpods'][0]['value']
       else
         msg.reply 'Hmm...not sure.  Maybe I don\'t understand the question.'
