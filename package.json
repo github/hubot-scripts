@@ -1,6 +1,6 @@
 {
   "name":        "hubot-scripts",
-  "version":     "1.1.0",
+  "version":     "1.1.2",
   "author":      "hubot",
   "keywords":    "hubot plugin scripts campfire bot robot",
   "description": "Allows you to open in to a variety of scripts",
@@ -15,8 +15,10 @@
   },
 
   "dependencies": {
-    "hubot": ">= 1.0.4",
+    "htmlparser": "1.7.x",
+    "hubot": ">= 1.1.2",
     "redis": "0.6.7",
+    "soupselect": "0.2.0"
     "jsdom": "==0.2.0"
   },
 
