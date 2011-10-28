@@ -5,6 +5,10 @@
 parse_directions = (body) ->
   directions = JSON.parse body
   first_route = directions.routes[0]
+  
+  if !first_route
+    return "Sorry, boss. Couldn't find directions"
+
   final_directions = []
 
   for leg in first_route.legs
