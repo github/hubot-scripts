@@ -6,7 +6,7 @@ parse_directions = (body) ->
   directions = JSON.parse body
   first_route = directions.routes[0]
   
-  if !first_route
+  if not first_route
     return "Sorry, boss. Couldn't find directions"
 
   final_directions = []
