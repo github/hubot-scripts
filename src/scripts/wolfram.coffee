@@ -11,6 +11,6 @@ module.exports = (robot) ->
     Wolfram.query msg.match[1], (e, result) ->
       # console.log result
       if result.length > 0
-        msg.send result[1]['subpods'][0]['value']
+        msg.reply result[1]['subpods'][0]['value']
       else
-        msg.send 'Hmm...not sure.  Maybe I don\'t understand the question.'
+        msg.reply 'Hmm...not sure.  Maybe I don\'t understand the question.'
