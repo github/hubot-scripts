@@ -12,21 +12,21 @@
 #
 
 module.exports = (robot) ->
-  robot.hear /Y U NO (.+)/i, (msg) ->
+  robot.respond /Y U NO (.+)/i, (msg) ->
     caption = msg.match[1] || ""
 
     memeGenerator msg, 2, 166088, "Y U NO", caption, (url) ->
       msg.send url
 
-  robot.hear /(I DON'?T ALWAYS .*) (BUT WHEN I DO .*)/i, (msg) ->
+  robot.respond /(I DON'?T ALWAYS .*) (BUT WHEN I DO .*)/i, (msg) ->
     memeGenerator msg, 74, 2485, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
-  robot.hear /(.*)(O\s?RLY\??.*)/i, (msg) ->
+  robot.respond /(.*)(O\s?RLY\??.*)/i, (msg) ->
     memeGenerator msg, 920, 117049, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
-  robot.hear /(.*)(SUCCESS|NAILED IT.*)/i, (msg) ->
+  robot.respond /(.*)(SUCCESS|NAILED IT.*)/i, (msg) ->
     memeGenerator msg, 121, 1031, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
