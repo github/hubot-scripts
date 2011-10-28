@@ -10,5 +10,7 @@ module.exports = (robot) ->
       .query(query: search)
       .get() (err, res, body) ->
         results = JSON.parse(body)
-        result = results[0]
-        msg.send "https://rubygems.org/gems/#{result.name}"
+        gems=[]
+        for result in results[0..4]
+          gems.push "#{result.name}: https://rubygems.org/gems/#{result.name}"
+        msg.send gems.join('\n')
