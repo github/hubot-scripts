@@ -27,5 +27,5 @@ module.exports = (robot) ->
           for issue in issues
             labels = ("##{label.name}" for label in issue.labels).join(" ")
             assignee = if issue.assignee then " (#{issue.assignee.login})" else ""
-            msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee}"
+            msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee} = #{issue.html_url}"
 
