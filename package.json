@@ -21,7 +21,8 @@
     "xml2js": "0.1.x",
     "wolfram": "0.1.1",
     "soupselect": "0.2.0",
-    "htmlparser": "1.7.x"
+    "htmlparser": "1.7.x",
+    "sprintf": "0.1.1"
   },
 
   "directories":  {
