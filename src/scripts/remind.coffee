@@ -9,11 +9,10 @@ class Reminders
     @cache = []
     @current_timeout = null
 
-    loadReminders = =>
+    @robot.brain.on 'loaded', =>
       if @robot.brain.data.reminders
         @cache = @robot.brain.data.reminders
         @queue()
-    setTimeout loadReminders, 5000 # Hacky until there's some kind of 'loaded' notification
 
   add: (reminder) ->
     @cache.push reminder
@@ -58,7 +57,7 @@ class Reminder
       seconds:
         value: 0
         regex: "seconds?|secs?"
-    
+
     for period of periods
       pattern = new RegExp('^.*?([\\d\\.]+)\\s*(?:(?:' + periods[period].regex + ')).*$', 'i')
       matches = pattern.exec(@time)
@@ -81,4 +80,3 @@ module.exports = (robot) ->
     reminder = new Reminder msg.message.user, time, action
     reminders.add reminder
     msg.send 'I\'ll remind you to ' + action + ' on ' + reminder.dueDate()
-
