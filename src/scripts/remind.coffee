@@ -13,7 +13,6 @@ class Reminders
       if @robot.brain.data.reminders
         @cache = @robot.brain.data.reminders
         @queue()
-    loadReminders = =>
 
   add: (reminder) ->
     @cache.push reminder
