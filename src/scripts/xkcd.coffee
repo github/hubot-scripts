@@ -18,7 +18,7 @@ module.exports = (robot) ->
 
     msg.http("http://xkcd.com/#{num}info.0.json")
       .get() (err, res, body) ->
-        if /404/.test(body)
+        if res.statusCode == 404
           msg.send 'Comic not found.'
         else
           object = JSON.parse(body)
