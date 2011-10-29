@@ -9,7 +9,7 @@ module.exports = (robot) ->
       .query
         login: process.env.HUBOT_BITLY_USERNAME
         apiKey: process.env.HUBOT_BITLY_API_KEY
-        longUrl: msg.match[1]
+        longUrl: msg.match[2]
         format: "json"
       .get() (err, res, body) ->
         response = JSON.parse body
