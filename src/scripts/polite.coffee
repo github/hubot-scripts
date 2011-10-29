@@ -12,6 +12,14 @@ responses = [
   "Don't mention it."
 ]
 
+shortResponses = [
+  'vw',
+  'np',
+]
+
 module.exports = (robot) ->
   robot.respond /(thanks|thank you|cheers|nice one)/i, (msg) ->
     msg.send msg.random responses
+
+  robot.respond /(ty|thx)/i, (msg) ->
+    msg.send msg.random shortResponses
