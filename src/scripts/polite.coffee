@@ -3,12 +3,12 @@
 # Say thanks to your robot.
 
 responses = [
-  "You're welcome",
-  "No problem",
-  "Anytime",
+  "You're welcome.",
+  "No problem.",
+  "Anytime.",
   "That's what I'm here for!",
-  "You are more than welcome",
-  "You don't have to thank me, I'm your loyal servant",
+  "You are more than welcome.",
+  "You don't have to thank me, I'm your loyal servant.",
   "Don't mention it."
 ]
 
