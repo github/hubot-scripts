@@ -1,5 +1,5 @@
 # Interact with your jenkins CI server, assumes you have a parameterized build
-# with the parameter
+# with the branch to build as a parameter
 #
 # You need to set the following variables:
 #   HUBOT_JENKINS_URL = "http://ci.example.com:8080"
