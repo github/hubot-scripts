@@ -29,5 +29,5 @@ dynamicScript =
     Path.resolve deployLocalScriptsPath, scriptName
 
   load: (robot, scriptName, body) ->
-    foo = Fs.writeFileSync @path(scriptName), body
+    Fs.writeFileSync @path(scriptName), body
     robot.loadFile deployLocalScriptsPath, scriptName
