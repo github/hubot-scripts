@@ -22,7 +22,8 @@
     "wolfram": "0.1.1",
     "soupselect": "0.2.0",
     "htmlparser": "1.7.x",
-    "sprintf": "0.1.1"
+    "sprintf": "0.1.1",
+    "hashlib": "1.0.1"
   },
 
   "directories":  {
