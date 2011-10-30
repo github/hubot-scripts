@@ -23,7 +23,8 @@
     "soupselect": "0.2.0",
     "htmlparser": "1.7.x",
     "sprintf": "0.1.1",
-    "hashlib": "1.0.1"
+    "hashlib": "1.0.1",
+    "wwwdude": "0.1.0"
   },
 
   "directories":  {
