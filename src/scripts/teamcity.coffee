@@ -20,7 +20,8 @@ module.exports = (robot) ->
           return
         # Sort by build number.
         builds = JSON.parse(body).build.sort((a, b)-> parseInt(b.number) - parseInt(a.number))
-        for build in builds
+
+        displayBuild = (msg, build) ->
           msg.http("http://#{hostname}#{build.href}")
             .headers(Authorization: "Basic #{new Buffer("#{username}:#{password}").toString("base64")}", Accept: "application/json")
             .get() (err, res, body) ->
@@ -40,3 +41,6 @@ module.exports = (robot) ->
                 msg.send "#{project.buildType.projectName} - #{build.number} is full of win"
               else if build.status is "FAILUED"
                 msg.send "#{project.buildType.projectName} - #{build.number} is #fail"
+
+        for build in builds
+          displayBuild(msg, build)
