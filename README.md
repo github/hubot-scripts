@@ -33,20 +33,20 @@ robot-wide `hubot help` command.
 
 __Format:__
 
-spin me <query> - Returns a spun version of the input.
+    spin me <query> - Returns a spun version of the input.
 
 __Input:__
 
-@yourbot spin me {Hi there|Greetings|Hi|Hello|Hello There}{!|,}
+    @yourbot spin me {Hi there|Greetings|Hi|Hello|Hello There}{!|,}
 
-I {really|simply|totally} {love|respect|admire} your {blog|article|post|opinion} and {will tell all my friends about it|will be back again tomorrow|also the design of your website}.
+    I {really|simply|totally} {love|respect|admire} your {blog|article|post|opinion} and {will tell all my friends about it|will be back again tomorrow|also the design of your website}.
 
-{Thanks|Thank you|Cheers|Bye for now}!
+    {Thanks|Thank you|Cheers|Bye for now}!
 
 __Output:__
 
-Greetings!
+    Greetings!
 
-I simply admire your blog and also the design of your website.
+    I simply admire your blog and also the design of your website.
 
-Cheers!
+    Cheers!
