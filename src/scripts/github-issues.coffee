@@ -21,7 +21,11 @@ module.exports = (robot) ->
           msg.send "GitHub says: #{err}"
           return
         issues = JSON.parse(body)
-        for issue in issues
-          labels = ("##{label.name}" for label in issue.labels)
-          msg.send "[#{issue.number}] #{issue.title} #{labels.join(" ")}"
+        if issues.length == 0
+            msg.send "Achievement unlocked: issues zero!"
+        else
+          for issue in issues
+            labels = ("##{label.name}" for label in issue.labels).join(" ")
+            assignee = if issue.assignee then " (#{issue.assignee.login})" else ""
+            msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee} = #{issue.html_url}"
 

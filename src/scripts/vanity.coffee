@@ -15,7 +15,7 @@
 #
 
 Path     = require "path"
-sprintf  = require(Path.resolve(Path.join(__dirname, "..", "lib", "sprintf"))).sprintf
+sprintf  = require("sprintf").sprintf
 
 countFollowers = (msg, ids, cb) ->
   counts = []
@@ -55,4 +55,3 @@ module.exports = (robot) ->
             msg.send output
         else
           msg.reply "Sorry, not right now. Twitter's returning a #{res.statusCode} error"
-

@@ -3,13 +3,13 @@
 # Y U NO <text>              - Generates the Y U NO GUY with the bottom caption
 #                              of <text>
 #
-# I don't always <something>
-#       but when I do <text> - Generates The Most Interesting man in the World
+# I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
 #
 # <text> ORLY?               - Generates the ORLY? owl with the top caption of <text>
 #
 # <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
 #
+# <text> ALL the <things>    - Generates ALL THE THINGS
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
