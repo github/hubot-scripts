@@ -1,6 +1,5 @@
 # Extends robot adding conversation features
 
-hubot = require 'robot'
 
 module.exports = (robot) ->
   robot.eatListeners = {}
@@ -14,24 +13,51 @@ module.exports = (robot) ->
   #
   # Returns nothing.
   robot.eatOneResponse = (user, callback) ->
-    robot.eatListeners[user.id] = new hubot.TextListener(@, /\s*(.*?)\s*/, callback)
+    robot.eatListeners[user.id] = new Listener(robot, callback)
+  
   
   # Change default receive command, addind processing of eatListeners
   robot.origReceive = robot.receive
   robot.receive = (message) ->
-    if message.user.id in robot.eatListeners
+    if robot.eatListeners[message.user.id]?
       lst = robot.eatListeners[message.user.id]
       delete robot.eatListeners[message.user.id]
-      lst.call message
-      return
-    
+      
+      if lst.call message
+        return
+       
+      # Put back to process next message
+      robot.eatListeners[message.user.id] = lst
+        
     robot.origReceive(message)
+  
   
   # Public: Waits for the next message from the current user.
   #
   # callback - Called with the user response
   #
   # Returns nothing.
-  hubot.Robot.Response.prototype.waitResponse = (callback) ->
-    this.robot.eatOneResponse this.message.user, callback
+  robot.Response.prototype.waitResponse = (callback) ->
+    robot.eatOneResponse this.message.user, callback
+
+
+
+class Listener
+  constructor: (@robot, @callback) ->
+    if robot.enableSlash
+      @regex = new RegExp("^(?:\/|#{robot.name}:?)\\s*(.*?)\\s*$", 'i')
+    else
+      @regex = new RegExp("^#{robot.name}:?\\s*(.*?)\\s*$", 'i')
+
+    @matcher = (message) =>
+      if message.text?
+        message.text.match @regex
+  
+  call: (message) =>
+    if match = @matcher message
+      @callback new @robot.Response(@robot, message, match)
+      return true
+    else
+      return false
+
 
