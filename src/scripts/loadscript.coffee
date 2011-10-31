@@ -6,10 +6,10 @@ Path = require 'path'
 Fs   = require 'fs'
 
 module.exports = (robot) ->
-  robot.respond /learn (https?.*\.(coffee|js))/i, (msg) ->
-    url = msg.match[1]
+  robot.respond /(re)?learn (https?.*\.(coffee|js))/i, (msg) ->
+    url = msg.match[2]
     name = Path.basename url
-    unless dynamicScript.exists name
+    unless dynamicScript.exists name and not msg.match[1]
       msg.http(url).get() (err, res, body) ->
         if res.statusCode is 200
           dynamicScript.load robot, name, body
