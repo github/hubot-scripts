@@ -4,7 +4,7 @@
 # pronounce me <word> - Links to a pronunciation of a word.
 
 module.exports = (robot) ->
-  # Definition
+  # Word definition
   robot.respond /define( me)? (.*)/i, (msg) ->
     word = msg.match[2]
     
@@ -29,7 +29,8 @@ module.exports = (robot) ->
           reply += "  - #{def.text}\n"
         
         msg.send reply
-  
+
+  # Pronunciation
   robot.respond /(pronounce|enunciate)( me)? (.*)/i, (msg) ->
     word = msg.match[3]
     
