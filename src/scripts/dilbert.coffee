@@ -1,5 +1,4 @@
 htmlparser = require "htmlparser"
-sys = require "sys"
 
 module.exports = (robot) ->
   robot.respond /(show( me)?|fetch ( me)? )?dilbert/i, (msg) ->
