@@ -23,3 +23,6 @@ module.exports = (robot) ->
 
   robot.respond /(ty|thx)/i, (msg) ->
     msg.send msg.random shortResponses
+
+  robot.respond /(hello|hi|sup|howdy|good (morning|evening|afternoon))/i, (msg) ->
+    msg.send "#{robot.name} at your service!"
