@@ -32,3 +32,22 @@ module.exports = (robot) ->
           
           msg.send reply
 
+  robot.respond /spell(?: me)? (.*)/i, (msg) ->
+    if not process.env.WORDNIK_API_KEY?
+      msg.send "Missing WORDNIK_API_KEY env variable."
+      return
+
+    word = msg.match[1]
+
+    msg.http("http://api.wordnik.com/v4/word.json/#{escape(word)}?includeSuggestions=true")
+      .header('api_key', process.env.WORDNIK_API_KEY)
+      .get() (err, res, body) ->
+        wordinfo = JSON.parse(body)
+        if wordinfo.canonicalForm
+          msg.send "\"#{word}\" is a word."
+        else if not wordinfo.suggestions
+          console.log wordinfo.suggestions
+          msg.send "No suggestions for \"#{word}\" found."
+        else
+          list = wordinfo.suggestions.join(', ')
+          msg.send "Suggestions for \"#{word}\": #{list}"
