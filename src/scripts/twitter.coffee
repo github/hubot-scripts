@@ -1,4 +1,4 @@
-# Allows hubot follow a user on twitter.
+# Allows hubot to follow a user on twitter.
 #
 # Set the HUBOT_TWITTER_USER environment var to your twitter username
 # and HUBOT_TWITTER_PASSWORD to your password
