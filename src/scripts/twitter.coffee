@@ -6,6 +6,7 @@
 # follow <twitter_user_id> - Follows a user on twitter.
 
 TwitterNode = require('twitter-node').TwitterNode
+sys         = require('sys')
 
 twit = new TwitterNode(
   user: process.env.HUBOT_TWITTER_USER
