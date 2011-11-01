@@ -6,7 +6,7 @@
 
 module.exports = (robot) ->
   robot.respond /roll dice/i, (msg) ->
-    msg.send report roll 2, 6
+    msg.reply report roll 2, 6
   robot.respond /roll (\d+)d(\d+)/i, (msg) ->
     dice = parseInt msg.match[1]
     sides = parseInt msg.match[2]
@@ -16,7 +16,7 @@ module.exports = (robot) ->
       "I'm not going to roll more than 100 dice for you."
     else
       report roll dice, sides
-    msg.send answer
+    msg.reply answer
 
 report = (results) ->
   if results?
