@@ -18,7 +18,7 @@ module.exports = (robot) ->
     memeGenerator msg, 2, 166088, "Y U NO", caption, (url) ->
       msg.send url
 
-  robot.respond /(I DON'?T ALWAYS .*),? (BUT WHEN I DO,? .*)/i, (msg) ->
+  robot.respond /(I DON'?T ALWAYS .*) (BUT WHEN I DO,? .*)/i, (msg) ->
     memeGenerator msg, 74, 2485, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
