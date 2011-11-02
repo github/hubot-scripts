@@ -11,7 +11,7 @@ module.exports = (robot) ->
       return msg.send err if err
 
       city = body.getElementsByTagName("city")[0]
-      return msg.send "Sorry, but you didn't specify a location." if not city or not city.getAttribute
+      return msg.send "Sorry, but I couldn't find that location." if not city or not city.getAttribute
       
       city = city.getAttribute("data")
 
