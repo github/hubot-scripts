@@ -28,7 +28,7 @@ uptimeMe = (msg, start, cb) ->
   if elements.length > 1
     last = elements.pop()
     response = elements.join ', '
-    response += ' and ' + last if last
+    response += ' and ' + last
   else
     response = elements.join ', '
 
