@@ -39,3 +39,29 @@ module.exports = (robot) ->
                   msg.send message
             return
         msg.send "No project #{project_name}"
+
+  robot.respond /(pivotal story)? (.*)/i, (msg)->
+    Parser = require("xml2js").Parser
+    token = process.env.HUBOT_PIVOTAL_TOKEN
+    project_id = process.env.HUBOT_PIVOTAL_PROJECT
+    story_id = msg.match[2]
+
+    msg.http("https://www.pivotaltracker.com/services/v3/projects/#{project_id}/stories/#{story_id}").headers("X-TrackerToken": token).get() (err, res, body) ->
+      if err
+        msg.send "Pivotal says: #{err}"
+        return
+
+      if res.statusCode == 500
+        msg.send "Whoa! Pivotal returned 500..."
+        return
+
+      (new Parser).parseString body, (err, story)->
+        if !story.id
+          msg.send "Story not found."
+          return
+
+        message = "##{story.id['#']} #{story.name}"
+        message += " (#{story.owned_by})" if story.owned_by
+        message += " is #{story.current_state}" if story.current_state && story.current_state != "unstarted"
+        msg.send message
+
