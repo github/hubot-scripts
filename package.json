@@ -1,9 +1,9 @@
 {
   "name":        "hubot-scripts",
-  "version":     "1.1.4",
+  "version":     "1.1.6",
   "author":      "hubot",
   "keywords":    "hubot plugin scripts campfire bot robot",
-  "description": "Allows you to open in to a variety of scripts",
+  "description": "Allows you to opt in to a variety of scripts",
   "licenses":     [{
     "type":       "MIT",
     "url":        "http://github.com/github/hubot-scripts/raw/master/LICENSE"
@@ -24,7 +24,8 @@
     "htmlparser": "1.7.x",
     "sprintf": "0.1.1",
     "hashlib": "1.0.1",
-    "wwwdude": "0.1.0"
+    "wwwdude": "0.1.0",
+    "pypi": "0.1.0"
   },
 
   "directories":  {
