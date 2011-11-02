@@ -19,10 +19,10 @@ shortResponses = [
 
 module.exports = (robot) ->
   robot.respond /(thanks|thank you|cheers|nice one)/i, (msg) ->
-    msg.send msg.random responses
+    msg.reply msg.random responses
 
   robot.respond /(ty|thx)/i, (msg) ->
-    msg.send msg.random shortResponses
+    msg.reply msg.random shortResponses
 
   robot.respond /(hello|hi|sup|howdy|good (morning|evening|afternoon))/i, (msg) ->
-    msg.send "#{robot.name} at your service!"
+    msg.reply "#{robot.name} at your service!"
