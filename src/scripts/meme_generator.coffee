@@ -42,7 +42,7 @@ module.exports = (robot) ->
     memeGenerator msg, 998, 203665, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
-  robot.respond /^(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
+  robot.respond /(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
     memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
