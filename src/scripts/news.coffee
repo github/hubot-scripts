@@ -18,7 +18,7 @@ module.exports = (robot) ->
         strings.push "Here's the latest news headlines:\n"
       
       for story in response.responseData.results
-        strings.push story.titleNoFormatting.replace("&#39;", "'").replace("`", "'").replace("&quot;", "\"")
+        strings.push story.titleNoFormatting.replace(/&#39;/g, "'").replace(/`/g, "'").replace(/&quot;/g, "\"")
         strings.push story.unescapedUrl + "\n"
 
       msg.send strings.join "\n"
