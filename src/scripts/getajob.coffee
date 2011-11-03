@@ -26,8 +26,14 @@ module.exports = (robot) ->
         msg.send get_a_job response
 
 get_a_job = (response) ->
-  random_listing = random_choice response.listings.listing
+  listings = response.listings.listing
+
+  if not listings.length
+    return "Sorry, I couldn't find you a job. Guess you're going to be broke for a while!"
+
+  random_listing = random_choice listings
+
   "#{random_listing.title} at #{random_listing.company.name}. Apply at #{random_listing.apply_url or random_listing.apply_email}"
 
 random_choice = (array) ->
-  array[Math.floor(Math.random() * array.length)]
+  array[Math.floor Math.random() * array.length]
