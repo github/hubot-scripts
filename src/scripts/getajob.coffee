@@ -12,11 +12,8 @@ module.exports = (robot) ->
       perpage: 100
       format: "json"
 
-    if keywords?
-      params.keywords = keywords
-
-    if location?
-      params.location = location
+    params.keywords = keywords if keywords?
+    params.location = location if location?
 
     msg
       .http("http://www.authenticjobs.com/api/")
