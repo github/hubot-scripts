@@ -10,6 +10,10 @@
 # <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
 #
 # <text> ALL the <things>    - Generates ALL THE THINGS
+#
+# <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
+#
+# Good news everyone! <news> - Generates Professor Farnsworth
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -32,6 +36,14 @@ module.exports = (robot) ->
 
   robot.respond /(.*) (ALL the .*)/, (msg) ->
     memeGenerator msg, 6013, 1121885, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(.*) (\w+\sTOO DAMN .*)/i, (msg) ->
+    memeGenerator msg, 998, 203665, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /^(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
+    memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
