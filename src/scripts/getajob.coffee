@@ -7,7 +7,7 @@ module.exports = (robot) ->
     [keywords, location] = [msg.match[1], msg.match[3]]
 
     params =
-      api_key: process.env.HUBOT_AUTHENTICJOBS_API_KEY
+      api_key: process.env.HUBOT_AUTHENTIC_JOBS_API_KEY
       method: "aj.jobs.search"
       perpage: 100
       format: "json"
