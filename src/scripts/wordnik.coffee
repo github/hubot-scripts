@@ -48,9 +48,6 @@ module.exports = (robot) ->
     word = msg.match[1]
 
     fetch_wordnik_resource(msg, word, '', {includeSuggestions: 'true'}) (err, res, body) ->
-      #msg.http("http://api.wordnik.com/v4/word.json/#{escape(word)}?includeSuggestions=true")
-      #  .header('api_key', process.env.WORDNIK_API_KEY)
-      #  .get() (err, res, body) ->
       wordinfo = JSON.parse(body)
       if wordinfo.canonicalForm
         msg.send "\"#{word}\" is a word."
