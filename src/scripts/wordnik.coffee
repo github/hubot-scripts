@@ -52,7 +52,6 @@ module.exports = (robot) ->
       if wordinfo.canonicalForm
         msg.send "\"#{word}\" is a word."
       else if not wordinfo.suggestions
-        console.log wordinfo.suggestions
         msg.send "No suggestions for \"#{word}\" found."
       else
         list = wordinfo.suggestions.join(', ')
