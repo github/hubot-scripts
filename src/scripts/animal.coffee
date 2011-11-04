@@ -23,6 +23,7 @@ animalMe = (msg, location, cb) ->
       handler = new HtmlParser.DefaultHandler()
       parser  = new HtmlParser.Parser handler
 
+      parser.parseComplete body
       img = Select handler.dom, "#content .post .entry img"
 
       console.log img
