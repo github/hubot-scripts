@@ -20,17 +20,14 @@ module.exports = (robot) ->
       .query(params)
       .get() (err, res, body) ->
         response = JSON.parse body
-        msg.send get_a_job response
+        msg.send get_a_job msg, response
 
-get_a_job = (response) ->
+get_a_job = (msg, response) ->
   listings = response.listings.listing
 
   if not listings.length
     return "Sorry, I couldn't find you a job. Guess you're going to be broke for a while!"
 
-  random_listing = random_choice listings
+  random_listing = msg.random listings
 
   "#{random_listing.title} at #{random_listing.company.name}. Apply at #{random_listing.apply_url or random_listing.apply_email}"
-
-random_choice = (array) ->
-  array[Math.floor Math.random() * array.length]
