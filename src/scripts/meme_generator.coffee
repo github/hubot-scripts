@@ -127,7 +127,7 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
       text1: text1
     .get() (err, res, body) ->
       result = JSON.parse(body)['result']
-      if result['instanceUrl']? and result['instanceImageUrl']?
+      if result? and result['instanceUrl']? and result['instanceImageUrl']?
         instanceURL = result['instanceUrl']
         img = "http://memegenerator.net" + result['instanceImageUrl']
         msg.http(instanceURL).get() (err, res, body) ->
