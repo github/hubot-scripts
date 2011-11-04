@@ -9,7 +9,8 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         # If not response bad username
         if res.headers['content-length'] <= 1
-          msg.send "Sorry I cannot find "+user+"'"+(user.substr(-1)=='s'?'':'s')+" coderwall" 
+          letter_s = if user.substr(-1)=='s' then '' else 's'
+          msg.send "Sorry I cannot find "+user+"'"+letter_s+" coderwall" 
         # Else return the coder badges
         else 
           profile = JSON.parse(body)
