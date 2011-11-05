@@ -26,3 +26,27 @@ Additionally, it's extremely helpful to add [TomDoc](http://tomdoc.org) to the
 top of each file. (Check out [an example](https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5)).
 We'll pull out the commands from those lines and display them in the generic,
 robot-wide `hubot help` command.
+
+## Scripts
+
+### Spin me
+
+__Format:__
+
+    spin me <query> - Returns a spun version of the input.
+
+__Input:__
+
+    @yourbot spin me {Hi there|Greetings|Hi|Hello|Hello There}{!|,}
+
+    I {really|simply|totally} {love|respect|admire} your {blog|article|post|opinion} and {will tell all my friends about it|will be back again tomorrow|also the design of your website}.
+
+    {Thanks|Thank you|Cheers|Bye for now}!
+
+__Output:__
+
+    Greetings!
+
+    I simply admire your blog and also the design of your website.
+
+    Cheers!
