@@ -106,6 +106,5 @@ module.exports = (robot) ->
 		# get input from memory
 		if @robot.brain.data.spin[msg.message.user.reply_to]
 			msg.send spin robot.brain.data.spin[msg.message.user.reply_to]
-			robot.brain.data.spin[msg.message.user.reply_to] = null
 		else
 			msg.send "Nothing so spin. Please use spun first."
