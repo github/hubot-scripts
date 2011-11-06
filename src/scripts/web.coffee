@@ -8,7 +8,6 @@ HtmlParser = require "htmlparser"
 module.exports = (robot) ->
   robot.hear /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/i, (msg) ->
     url = msg.match[0]
-    msg.send url
     msg.http(url)
      .get() (err, res, body) ->
        handler = new HtmlParser.DefaultHandler()
@@ -24,4 +23,4 @@ module.exports = (robot) ->
            console.log results[0]
            msg.send results[0].children[0].raw
          else
-           msg.send "No title found. Time to unlease the nerds/jackels."
+           msg.send "No title found. Time to unleash the nerds/jackels."

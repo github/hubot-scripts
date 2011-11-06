@@ -9,5 +9,13 @@ module.exports = (robot) ->
    msg.http("http://www.urbandictionary.com/iphone/search/define?term=#{escape(word)}")
     .get() (err, res, body) ->
       response = JSON.parse body
-      console.log response.list
-      msg.send response.list[0].definition
+      result = response.list
+      if response.result_type is ("exact" or "fulltext")
+        msg.send (word.definition) for word in result
+      else
+        i = 0
+        while i < result.length
+          word = result[i]
+          message = "Not found. Maybe you mean " + result[i-1].term + " or " + result[i+1].term + "?"  if word.type is "undefined"
+          i++
+	      msg.send message
