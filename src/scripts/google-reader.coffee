@@ -1,11 +1,11 @@
 # Subscribe to a feed in Google Reader, requires you set
 # GOOGLE_USERNAME & GOOGLE_PASSWORD environment variables
 #
-# reader subscribe <domainname> - returns whether you've subscribed succesfully
+# subscribe <domainname> - returns whether you've subscribed succesfully
 #
 
 module.exports = (robot) ->
-  robot.hear /reader subscribe (.*)/i, (msg) ->
+  robot.hear /subscribe (.*)/i, (msg) ->
     domain = msg.match[1]
     getAuth msg, (auth) ->
       getToken msg, auth, (token) ->
