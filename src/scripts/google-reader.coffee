@@ -26,7 +26,7 @@ getAuth = (msg, cb) ->
         when 403
           msg.send "You need to authenticate by setting the GOOGLE_USERNAME & GOOGLE_PASSWORD environment variables"
         else
-          msg.send "Unable to process your request and we're not sure why :("
+          msg.send "Unable to get auth token, request returned with the status code: #{res.statusCode}"
 
 getToken = (msg, auth, cb) ->
   msg.http('http://www.google.com/reader/api/0/token')
@@ -51,4 +51,4 @@ readerSubscribe = (msg, auth, token, domain) ->
         when 200
           msg.send "You are now subscribing to #{domain}"
         else
-          msg.send "Unable to subscribe request returned with the status code: #{res.statusCode}"
+          msg.send "Unable to subscribe, request returned with the status code: #{res.statusCode}"
