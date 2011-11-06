@@ -7,3 +7,5 @@ module.exports = (robot) ->
       response = JSON.parse body
       if response[0]
        msg.send response[0]["text"]
+      else
+       msg.send "Error"
