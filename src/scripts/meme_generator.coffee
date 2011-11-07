@@ -10,6 +10,10 @@
 # <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
 #
 # <text> ALL the <things>    - Generates ALL THE THINGS
+#
+# <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
+#
+# Good news everyone! <news> - Generates Professor Farnsworth
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -18,7 +22,7 @@ module.exports = (robot) ->
     memeGenerator msg, 2, 166088, "Y U NO", caption, (url) ->
       msg.send url
 
-  robot.respond /(I DON'?T ALWAYS .*) (BUT WHEN I DO .*)/i, (msg) ->
+  robot.respond /(I DON'?T ALWAYS .*) (BUT WHEN I DO,? .*)/i, (msg) ->
     memeGenerator msg, 74, 2485, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
@@ -32,6 +36,14 @@ module.exports = (robot) ->
 
   robot.respond /(.*) (ALL the .*)/, (msg) ->
     memeGenerator msg, 6013, 1121885, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(.*) (\w+\sTOO DAMN .*)/i, (msg) ->
+    memeGenerator msg, 998, 203665, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
+    memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
@@ -59,9 +71,11 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
       text1: text1
     .get() (err, res, body) ->
       result = JSON.parse(body)['result']
-      instanceURL = result['instanceUrl']
-      img = "http://memegenerator.net" + result['instanceImageUrl']
-
-      msg.http(instanceURL).get() (err, res, body) ->
-        # Need to hit instanceURL so that image gets generated
-        callback img
+      if result? and result['instanceUrl']? and result['instanceImageUrl']?
+        instanceURL = result['instanceUrl']
+        img = "http://memegenerator.net" + result['instanceImageUrl']
+        msg.http(instanceURL).get() (err, res, body) ->
+          # Need to hit instanceURL so that image gets generated
+          callback img
+      else
+        msg.reply "Sorry, I couldn't generate that image."
