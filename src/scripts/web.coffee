@@ -19,8 +19,11 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         response = JSON.parse body
         responseTitle = response.data.info[0].title
-        console.log responseTitle if responseTitle
-        msg.send if response.status_code is 200 then response.data.info[0].title else response.status_txt
+        if responseTitle
+          msg.send if response.status_code is 200 then response.data.info[0].title else response.status_txt
+        else
+          msg.send "This bit.ly link doesn't have a title attribute set."
+          #grab longUrl, and retreive using http method
 
     #else print title
     else
