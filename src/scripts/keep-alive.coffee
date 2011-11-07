@@ -68,7 +68,8 @@ module.exports = (robot) ->
     url = msg.match[1]
 
     robot.brain.data.keepalives ?= []
-    robot.brain.data.keepalives.pop url
+
+    robot.brain.data.keepalives.splice(robot.brain.data.keepalives.indexOf(url), 1);
     msg.send "OK. I've removed that url from my list of urls to keep alive."
 
   robot.respond /what are you keeping alive/i, (msg) ->
