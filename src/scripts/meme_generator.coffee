@@ -1,13 +1,11 @@
-# Integrates with memegenerator.net
+# Generates images with memegenerator.net
 #
+# meme [me] <meme> [<top>|]<bottom> - Generates an image for <meme> with top text <top> and bottom text <bottom>
+# 
 # Y U NO <text>              - Generates the Y U NO GUY with the bottom caption
 #                              of <text>
 #
-# I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
-#
-# <text> ORLY?               - Generates the ORLY? owl with the top caption of <text>
-#
-# <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
+# I don't always <something> but when i do, <text> - Generates The Most Interesting man in the World
 #
 # <text> ALL the <things>    - Generates ALL THE THINGS
 #
@@ -16,22 +14,80 @@
 # Good news everyone! <news> - Generates Professor Farnsworth
 
 module.exports = (robot) ->
+  memes =
+    yuno:
+      generator: 2
+      image: 166088
+    philosoraptor:
+      generator: 17
+      image: 984
+    bachelorfrog:
+      generator: 3
+      image: 203
+    insanitywolf:
+      generator: 45
+      image: 20
+    sap:
+      generator: 29
+      image: 983
+    decreux:
+      generator: 54
+      image: 42
+    couragewolf:
+      generator: 303
+      image: 24
+    foreveralone:
+      generator: 116
+      image: 142442
+    fry:
+      generator: 305
+      image: 84688
+    successkid:
+      generator: 121
+      image: 1031
+    trollface:
+      generator: 68
+      image: 269
+    interestingman:
+      generator: 74
+      image: 2485
+    goodguygreg:
+      generator: 534
+      image: 699717
+    yodawg:
+      generator: 79
+      image: 108785
+    orly:
+      generator: 920
+      image: 117049
+    all:
+      generator: 6013
+      image: 1121885
+    toodamn:
+      generator: 998
+      image: 203665
+    farnsworth:
+      generator: 1591
+      image: 112464
+      
+  robot.respond /meme(?:\s+me)?\s+(\S+)(\s+[^|]+)?(?:\s*\|\s*(.*))?/i, (msg) ->
+    memeName = msg.match[1].toLowerCase()
+    topText = if msg.match[2]? then msg.match[2].trim() else ''
+    bottomText = if msg.match[3]? then msg.match[3].trim() else ''
+    meme = memes[memeName]
+    if meme?
+      memeGenerator msg, meme.generator, meme.image, topText, bottomText, (url) ->
+        msg.send url
+    else
+      msg.reply "I don't know that meme."
+
   robot.respond /Y U NO (.+)/i, (msg) ->
     caption = msg.match[1] || ""
-
     memeGenerator msg, 2, 166088, "Y U NO", caption, (url) ->
       msg.send url
 
   robot.respond /(I DON'?T ALWAYS .*) (BUT WHEN I DO,? .*)/i, (msg) ->
     memeGenerator msg, 74, 2485, msg.match[1], msg.match[2], (url) ->
-      msg.send url
-
-  robot.respond /(.*)(O\s?RLY\??.*)/i, (msg) ->
-    memeGenerator msg, 920, 117049, msg.match[1], msg.match[2], (url) ->
-      msg.send url
-
-  robot.respond /(.*)(SUCCESS|NAILED IT.*)/i, (msg) ->
-    memeGenerator msg, 121, 1031, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
   robot.respond /(.*) (ALL the .*)/, (msg) ->
