@@ -1,9 +1,9 @@
 # Is the day ?
 #
-# is the <action> day ? - Returns if it's the day for your action.
+# is it <action> day ? - Returns if it's the day for your action.
 #                      
 module.exports = (robot) ->
-  robot.respond /is the (\w+) day \?/i, (msg) ->
+  robot.respond /is it (\w+) day \?/i, (msg) ->
     action = msg.match[1]
     nbDay = Math.floor(new Date().getTime() / 1000 / 86400)
     actionHash = action.length + action.charCodeAt(0) + action.charCodeAt(action.length - 1)
