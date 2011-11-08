@@ -21,11 +21,11 @@ module.exports = (robot) ->
             parser.parseComplete body
             results = (Select handler.dom, "head title")
             if results[0]
-              msg.send results[0].children[0].data
+              msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"")
             else
               results = (Select handler.dom, "title")
               if results[0]
-                msg.send results[0].children[0].data
+                msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"")
           else
             msg.send "Error " + res.statusCode
 
@@ -39,7 +39,7 @@ module.exports = (robot) ->
           format: "json"
         .get() (err, res, body) ->
           response = JSON.parse body
-          responseTitle = response.data.info[0].title
+          responseTitle = response.data.info[0].title.replace(/(\r\n|\n|\r)/gm,"")
           if responseTitle
             msg.send if response.status_code is 200 then responseTitle else response.status_txt
           else
