@@ -94,6 +94,7 @@ module.exports = (robot) ->
     return if message.match[1] == 'stats'
     return if message.match[1].split(' ')[0] == 'song'
     return if message.match[1].split(' ')[0] == 'album'
+    return if message.match[1].split(' ')[0] == 'something'
     message.http("#{URL}/add_artist")
       .query(user_login: message.message.user.githubLogin, artist_name: message.match[1])
       .post() (err, res, body) ->
@@ -125,6 +126,20 @@ module.exports = (robot) ->
           message.send("Queued up " + str)
         else
           message.send("Never heard of it.")
+
+  robot.respond /(I like|star) this song/i, (message) ->
+    message.http("#{URL}/star_now_playing")
+      .query(user_login: message.message.user.githubLogin)
+      .post() (err, res, body) ->
+        json = JSON.parse(body)
+        message.send("You have a weird taste in music, but I'll remember it.")
+
+  robot.respond /play something i('d)? like/i, (message) ->
+    message.http("#{URL}/play_stars")
+      .query(user_login: message.message.user.githubLogin)
+      .post() (err, res, body) ->
+        json = JSON.parse(body)
+        message.send("Queued up " + json.song_title + " by " + json.artist_name)
 
   robot.respond /I want this song/i, (message) ->
     message.http("#{URL}/now_playing").get() (err, res, body) ->
