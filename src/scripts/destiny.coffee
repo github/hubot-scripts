@@ -1,4 +1,4 @@
-# Is the day ?
+# Is it the day ?
 #
 # is it <action> day ? - Returns if it's the day for your action.
 #                      
@@ -12,4 +12,4 @@ module.exports = (robot) ->
     if destiny > limit
       msg.send "Sorry, it's not " + action + " day. But try tomorrow..."
     else
-      msg.send "Yes, it's the " + action + " day !"
+      msg.send "Yes, it's " + action + " day !"
