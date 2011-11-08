@@ -16,6 +16,7 @@
 
   "dependencies": {
     "hubot": ">= 1.1.2",
+    "optparse": "1.0.3",
     "redis": "0.6.7",
     "jsdom": "==0.2.0",
     "xml2js": "0.1.x",
