@@ -1,3 +1,8 @@
+v1.1.8
+======
+* allow people to start tracks - Zach Holman <github.com@zachholman.com>
+* simplify local development - atmos
+
 v1.1.7
 ======
 * urban dictionary definitions - Kevin Traver <kevintraver@gmail.com>
