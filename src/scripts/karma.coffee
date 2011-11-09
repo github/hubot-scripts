@@ -37,11 +37,11 @@ class Karma
 
 module.exports = (robot) ->
   karma = new Karma robot
-  robot.hear /(\S+[^+])\+\+(\s|$)/, (msg) ->
+  robot.hear /(\S+[^+\s])\+\+(\s|$)/, (msg) ->
     karma.add msg.match[1].toLowerCase()
     msg.reply "The operation succeeded."
 
-  robot.hear /(\S+[^-])--(\s|$)/, (msg) ->
+  robot.hear /(\S+[^-\s])--(\s|$)/, (msg) ->
     karma.subtract msg.match[1].toLowerCase()
     msg.reply "The operation succeeded."
 
@@ -57,6 +57,6 @@ module.exports = (robot) ->
                "(#{s[2].karma}). Lowest karma: \"#{s[s.length-1].name}\" " +
                "(#{s[s.length-1].karma}), \"#{s[s.length-2].name}\" " +
                "(#{s[s.length-2].karma}), and \"#{s[s.length-3].name}\" " +
-               "(#{s[s.length-2].karma})."
+               "(#{s[s.length-3].karma})."
       else
         msg.send "There aren't enough items with karma to give a top and bottom 3"
