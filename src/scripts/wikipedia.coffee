@@ -40,6 +40,7 @@ module.exports = (robot) ->
 
 wikiMe = (msg, query, cb) ->
   articleURL = makeArticleURL(makeTitleFromQuery(query))
+
   msg.http(articleURL)
     .header('User-Agent', 'Hubot Wikipedia Script')
     .get() (err, res, body) ->
@@ -51,8 +52,7 @@ wikiMe = (msg, query, cb) ->
       if /does not have an article/.test body
         return cb "Wikipedia has no idea what you're talking about."
 
-      [rawHTML, articleTitle] = extractHTMLAndTitleFromBody(body)
-      paragraphs = parseHTML(rawHTML, "p")
+      paragraphs = parseHTML(body, "p")
 
       bodyText = findBestParagraph(paragraphs) or "Have a look for yourself:"
       cb bodyText, articleURL
@@ -66,9 +66,6 @@ childrenOfType = (root, nodeType) ->
     return (childrenOfType(child, nodeType) for child in root.children)
 
   []
-
-extractHTMLAndTitleFromBody = (body) ->
-  [body, parseHTML(body, "h1#firstHeading").data]
 
 findBestParagraph = (paragraphs) ->
   return null if paragraphs.length is 0
