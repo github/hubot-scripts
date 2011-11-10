@@ -26,7 +26,9 @@
     "sprintf": "0.1.1",
     "hashlib": "1.0.1",
     "wwwdude": "0.1.0",
-    "pypi": "0.1.0"
+    "pypi": "0.1.0",
+    "underscore": ">= 1.2.1",
+    "underscore.string": ">= 1.1.6"
   },
 
   "directories":  {
