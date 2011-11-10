@@ -2,13 +2,14 @@
 #
 # define me <word> - Grabs a dictionary definition of a word.
 # pronounce me <word> - Links to a pronunciation of a word.
+# spell me <word> - Suggests correct spellings of a possible word.
 
 module.exports = (robot) ->
   # Word definition
   robot.respond /define( me)? (.*)/i, (msg) ->
     word = msg.match[2]
     
-    fetch_wordnik_resource(msg, word, 'definitions') (err, res, body) ->
+    fetch_wordnik_resource(msg, word, 'definitions', {}) (err, res, body) ->
       definitions = JSON.parse(body)
       
       if definitions.length == 0
@@ -34,7 +35,7 @@ module.exports = (robot) ->
   robot.respond /(pronounce|enunciate)( me)? (.*)/i, (msg) ->
     word = msg.match[3]
     
-    fetch_wordnik_resource(msg, word, 'audio') (err, res, body) ->
+    fetch_wordnik_resource(msg, word, 'audio', {}) (err, res, body) ->
         pronunciations = JSON.parse(body)
       
         if pronunciations.length == 0
@@ -43,11 +44,25 @@ module.exports = (robot) ->
           pronunciation = pronunciations[0]
           msg.send pronunciation.fileUrl
 
-fetch_wordnik_resource = (msg, word, resource, callback) ->
+  robot.respond /spell(?: me)? (.*)/i, (msg) ->
+    word = msg.match[1]
+
+    fetch_wordnik_resource(msg, word, '', {includeSuggestions: 'true'}) (err, res, body) ->
+      wordinfo = JSON.parse(body)
+      if wordinfo.canonicalForm
+        msg.send "\"#{word}\" is a word."
+      else if not wordinfo.suggestions
+        msg.send "No suggestions for \"#{word}\" found."
+      else
+        list = wordinfo.suggestions.join(', ')
+        msg.send "Suggestions for \"#{word}\": #{list}"
+
+fetch_wordnik_resource = (msg, word, resource, query, callback) ->
   if process.env.WORDNIK_API_KEY == undefined
     msg.send "Missing WORDNIK_API_KEY env variable."
     return
     
   msg.http("http://api.wordnik.com/v4/word.json/#{escape(word)}/#{escape(resource)}")
+    .query(query)
     .header('api_key', process.env.WORDNIK_API_KEY)
     .get(callback)
