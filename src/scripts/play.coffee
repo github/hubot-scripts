@@ -127,7 +127,7 @@ module.exports = (robot) ->
         else
           message.send("Never heard of it.")
 
-  robot.respond /(I like|star) this song/i, (message) ->
+  robot.respond /(I like|star|I love) this song/i, (message) ->
     message.http("#{URL}/star_now_playing")
       .query(user_login: message.message.user.githubLogin)
       .post() (err, res, body) ->
