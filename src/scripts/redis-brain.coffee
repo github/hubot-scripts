@@ -20,6 +20,7 @@ module.exports = (robot) ->
         throw err
       else if reply
         robot.brain.mergeData JSON.parse(reply.toString())
+        robot.brain.emit 'load', robot.brain.data
 
   robot.brain.on 'save', (data) ->
     client.set 'hubot:storage', JSON.stringify data
