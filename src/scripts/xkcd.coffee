@@ -3,12 +3,6 @@
 # xkcd       - The latest XKCD comic
 # xkcd <num> - XKCD comic matching the supplied number
 #
-# Examples
-#
-#   xkcd 149
-#   # => Sandwich - http://imgs.xkcd.com/comics/sandwich.png
-#   # => Proper User Policy apparently means Simon Says.
-#
 module.exports = (robot) ->
   robot.respond /xkcd\s?(\d+)?/i, (msg) ->
     if msg.match[1] == undefined
