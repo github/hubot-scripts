@@ -17,6 +17,15 @@ shortResponses = [
   'np',
 ]
 
+farewellResponses = [
+  'Goodbye',
+  'Have a good evening',
+  'Bye',
+  'Take care',
+  'Nice speaking with you',
+  'See you later'
+]
+
 module.exports = (robot) ->
   robot.respond /(thanks|thank you|cheers|nice one)/i, (msg) ->
     msg.reply msg.random responses
@@ -26,3 +35,6 @@ module.exports = (robot) ->
 
   robot.respond /(hello|hi|sup|howdy|good (morning|evening|afternoon))/i, (msg) ->
     msg.reply "#{robot.name} at your service!"
+    
+  robot.respond /(bye|night|goodbye|good night)/i, (msg) ->
+    msg.reply msg.random farewellResponses
