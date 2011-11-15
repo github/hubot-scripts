@@ -14,6 +14,8 @@ isUp = (msg, domain, cb) ->
     .get() (err, res, body) ->
       if body.match("It's just you.")
         cb "#{domain} looks UP from here."
-      else
+      else if body.match("It's not just you!")
         cb "#{domain} looks DOWN from here."
+      else
+        cb "Not sure, #{domain} returned an error."
 
