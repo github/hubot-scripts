@@ -1,3 +1,7 @@
+# Allows Hubot to translate text into various dialects.
+#
+# dialectize|dialect|dia <dialect>|help <text> - Translates the given text into the given dialect.
+#
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
 
