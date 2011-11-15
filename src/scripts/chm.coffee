@@ -1,12 +1,12 @@
 # Shows a short history lesson of the day from the Computer History Museum.
 #
-# chm|tdih - Displays the content from the This Day in History page on the Computer History Museum site.
+# today in computer history - Displays the content from the This Day in History page on the Computer History Museum site.
 #
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
 
 module.exports = (robot) ->
-  robot.respond /chm|tdih$/i, (msg) ->
+  robot.respond /today in computer history$/i, (msg) ->
     msg.http("http://www.computerhistory.org/tdih/")
       .get() (err, res, body) ->
         handler = new HtmlParser.DefaultHandler()
