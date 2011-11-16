@@ -12,11 +12,14 @@ module.exports = (robot) ->
         handler = new HtmlParser.DefaultHandler()
         parser  = new HtmlParser.Parser handler
         parser.parseComplete body
-        result = Select handler.dom, ".tdihevent p"
-        return unless result
-        title = trim result[0].children[0].raw
-        blurb = trim result[1].children[0].raw
+        dateEl = Select handler.dom, ".title"
+        contentEl = Select handler.dom, ".tdihevent p"
+        return unless dateEl and contentEl
+        title = trim contentEl[0].children[0].raw
+        blurb = trim contentEl[1].children[0].raw
         sentences = blurb.split('.')
+        date = trim dateEl[0].children[0].raw
+        msg.send date
         msg.send title
         for sentence in sentences
           msg.send sentence + '.' if sentence and sentence isnt ""
