@@ -29,7 +29,8 @@
     "pypi": "0.1.0",
     "underscore": ">= 1.2.1",
     "underscore.string": ">= 1.1.6",
-    "cradle": "0.5.7"
+    "cradle": "0.5.7",
+    "clark": "*"
   },
 
   "directories":  {
