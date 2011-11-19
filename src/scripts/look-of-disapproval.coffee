@@ -1,4 +1,4 @@
-# Allows Hubot to speak many languages.
+# Allows Hubot to give a look of disapproval. 
 #
 # lod <name> - gives back the character for the look of disapproval, optionally @name.
 
