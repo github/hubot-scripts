@@ -1,4 +1,6 @@
-# look of disapproval (optional: name)
+# Allows Hubot to speak many languages.
+#
+# lod <name> - gives back the character for the look of disapproval, optionally @name.
 
 module.exports = (robot) ->
   robot.respond /lod\s?(.*)/i, (msg) ->
