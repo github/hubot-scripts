@@ -29,7 +29,7 @@ robot-wide `hubot help` command.
 
 ## Scripts
 
-spin.coffee
+## spin.coffee
 
 ### Spin me
 
@@ -101,46 +101,32 @@ For example:
 
     And please do not expect anything like Goethe or Schiller from my work, no expect everything, everything, but please no niveau! Because I am orientating myself way more direction Charles Bukowski and Hank was according to common knowledge born in a German town on the left river bank of the Rhine. I myself do live coincidentally in a small town along the Rhine, where triumphantly wins of the Handball team and disturbances in the local chemical plants are holding each other in suspense. Happily or sadly, both of them happen rather seldom.
 
-oauth.coffee
+## oauth.coffee
 
-### Get Authorization URL
-
-__Format:__
+### Get authorization URL
 
     get <api> authorization url - get a link to authorization place
 
-### Set Verifier
-
-__Format:__
+### Set verifier
 
     set <api> verifier <verification_code> - set verification code and access token after first step
 
-### Refresh Token
-
-__Format:__
+### Refresh token
 
     refresh <api> token - refresh access token if it expires, for OAuth 2.0 only
 
-### Get Request Token
-
-__Format:__
+### Get request token
 
     get <api> request token - retrieves request token public value
 
-### Get Access Token
-
-__Format:__
+### Get access token
 
     get <api> access token - retrieves access token public value
 
-### Get Verifier
-
-__Format:__
+### Get verifier
 
     get <api> verifier - retrieves verification code
 
-### Remove Authorization
-
-__Format:__
+### Remove authorization
 
     remove <api> authorization - clears tokens from memory if user is same who verified the last authorization
