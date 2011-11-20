@@ -87,7 +87,7 @@ Or if storage is empty: Nothing so spin. Please use spun first.
 
 __Format:__
 
-    spun and spin me <query> - Returns a spun version of the input using articlemanager.us spinner API first.
+    spun and spin me <query> - Returns a spun version of the input using spun me command first.
 
 __Input:__
 
