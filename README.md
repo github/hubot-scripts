@@ -103,30 +103,30 @@ For example:
 
 ## oauth.coffee
 
-### Get authorization URL
+__Get authorization URL__
 
     get <api> authorization url - get a link to authorization place
 
-### Set verifier
+__Set verifier__
 
     set <api> verifier <verification_code> - set verification code and access token after first step
 
-### Refresh token
+__Refresh token__
 
     refresh <api> token - refresh access token if it expires, for OAuth 2.0 only
 
-### Get request token
+__Get request token__
 
     get <api> request token - retrieves request token public value
 
-### Get access token
+__Get access token__
 
     get <api> access token - retrieves access token public value
 
-### Get verifier
+__Get verifier__
 
     get <api> verifier - retrieves verification code
 
-### Remove authorization
+__Remove authorization__
 
     remove <api> authorization - clears tokens from memory if user is same who verified the last authorization
