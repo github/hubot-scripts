@@ -1,9 +1,8 @@
 # Extends robot adding conversation features
 
-
 module.exports = (robot) ->
   robot.eatListeners = {}
-  
+
   # Public: Adds a Listener that receives the next message from the user and av
   # further processing of it.
   #
@@ -14,24 +13,22 @@ module.exports = (robot) ->
   # Returns nothing.
   robot.eatOneResponse = (user, callback) ->
     robot.eatListeners[user.id] = new Listener(robot, callback)
-  
-  
+
   # Change default receive command, addind processing of eatListeners
   robot.origReceive = robot.receive
   robot.receive = (message) ->
     if robot.eatListeners[message.user.id]?
       lst = robot.eatListeners[message.user.id]
       delete robot.eatListeners[message.user.id]
-      
+
       if lst.call message
         return
-       
+
       # Put back to process next message
       robot.eatListeners[message.user.id] = lst
-        
+
     robot.origReceive(message)
-  
-  
+
   # Public: Waits for the next message from the current user.
   #
   # callback - Called with the user response
@@ -39,8 +36,6 @@ module.exports = (robot) ->
   # Returns nothing.
   robot.Response.prototype.waitResponse = (callback) ->
     robot.eatOneResponse this.message.user, callback
-
-
 
 class Listener
   constructor: (@robot, @callback) ->
@@ -52,12 +47,11 @@ class Listener
     @matcher = (message) =>
       if message.text?
         message.text.match @regex
-  
+
   call: (message) =>
     if match = @matcher message
       @callback new @robot.Response(@robot, message, match)
       return true
     else
       return false
-
 
