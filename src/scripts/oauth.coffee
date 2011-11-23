@@ -54,41 +54,55 @@ handle_refresh = (robot, msg) ->
   else
     msg.send "Access token not found"
 
+# small factory to support both gtalk and other adapters by hearing all lines or those called by bot name only
+hear_and_respond = (robot, regex, callback) ->
+  robot.hear eval('/^'+regex+'/i'), callback
+  robot.respond eval('/'+regex+'/i'), callback
+
 module.exports = (robot) ->
-  robot.hear /^get ([0-9a-zA-Z].*) authorization url$/i, (msg) ->
+  hear_and_respond robot, 'get ([0-9a-zA-Z].*) authorization url$', (msg) ->
     handle_authorization robot, msg
 
-  robot.hear /^set ([0-9a-zA-Z].*) verifier (.*)/i, (msg) ->
+  hear_and_respond robot, 'set ([0-9a-zA-Z].*) verifier (.*)', (msg) ->
     handle_verification robot, msg
 
-  robot.hear /^refresh ([0-9a-zA-Z].*) token$/i, (msg) ->
+  hear_and_respond robot, 'refresh ([0-9a-zA-Z].*) token$', (msg) ->
     handle_refresh robot, msg
 
-  robot.hear /^get ([0-9a-zA-Z].*) request token$/i, (msg) ->
+  hear_and_respond robot, 'get ([0-9a-zA-Z].*) request token$', (msg) ->
     if token = new scribe.OAuth(robot.brain.data, msg.match[1].toLowerCase(), services).get_request_token()
       message = "Request token: " + token.getToken()
     else
       message = "Request token not found"
     msg.send message
 
-  robot.hear /^get ([0-9a-zA-Z].*) access token$/i, (msg) ->
+  hear_and_respond robot, 'get ([0-9a-zA-Z].*) access token$', (msg) ->
     if token = new scribe.OAuth(robot.brain.data, msg.match[1].toLowerCase(), services).get_access_token()
       message = "Access token: " + token.getToken()
     else
       message = "Access token not found"
     msg.send message
 
-  robot.hear /^get ([0-9a-zA-Z].*) verifier$/i, (msg) ->
+  hear_and_respond robot, 'get ([0-9a-zA-Z].*) verifier$', (msg) ->
     if token = new scribe.OAuth(robot.brain.data, msg.match[1].toLowerCase(), services).get_verifier()
       message = "Verifier: " + token.getValue()
     else
       message = "Verifier not found"
     msg.send message
 
-  robot.hear /^remove ([0-9a-zA-Z].*) authorization$/i, (msg) ->
+  hear_and_respond robot, 'remove ([0-9a-zA-Z].*) authorization$', (msg) ->
     api = msg.match[1].toLowerCase()
     if robot.brain.data.oauth_user and robot.brain.data.oauth_user[api] == msg.message.user.reply_to
       message = "Authorization removed: " + new scribe.OAuth(robot.brain.data, api, services).remove_authorization()
     else
       message = "Authorization can be removed by original verifier only: " + robot.brain.data.oauth_user[api]
+    msg.send message
+
+  hear_and_respond robot, 'set ([0-9a-zA-Z].*) access token (.*)', (msg) ->
+    api = msg.match[1].toLowerCase()
+    if new scribe.OAuth(robot.brain.data, api, services).set_access_token_code(msg.match[2])
+      robot.brain.data.oauth_user[api] = msg.message.user.reply_to
+      message = "Access token set"
+    else
+      message = "Error on setting access token"
     msg.send message
