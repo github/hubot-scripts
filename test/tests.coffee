@@ -24,12 +24,13 @@ exports.danger = (helper, cb) ->
         server.close() if tests.length == 0
 
       cb()
+    server.on 'close', -> helper.close()
 
   server
 
 class Helper extends Robot
   constructor: (path) ->
-    super path
+    super false, 'helper'
     @sent = []
     @Response = Helper.Response
 
@@ -45,7 +46,7 @@ class Helper extends Robot
   # modified to accept a string and pass the Robot.Message to super()
   receive: (text) ->
     user = new Robot.User 1, 'helper'
-    super new Robot.Message(user, text)
+    super new Robot.TextMessage(user, text)
 
 class Helper.Response extends Robot.Response
   http: (url) ->
