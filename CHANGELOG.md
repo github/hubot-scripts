@@ -1,3 +1,30 @@
+v1.1.8
+======
+* allow people to start tracks - Zach Holman <github.com@zachholman.com>
+* simplify local development - atmos
+
+v1.1.7
+======
+* urban dictionary definitions - Kevin Traver <kevintraver@gmail.com>
+* latest tweet from a user - Kevin Traver <kevintraver@gmail.com>
+* bit.ly shortening - Kevin Traver <kevintraver@gmail.com>
+* Hubot Play support - Zach Holman <github.com@zachholman.com>
+* tvshow information - Victor Butler <victorbutler@gmail.com>
+* JIRA issue support - crcastle <crcastle@gmail.com>
+* lulz scripts can lulzbomb now - atmos
+* gaug.es support - Tom Bell <tomb@tombell.org.uk>
+* google reader support - Ben Ubois <ben@benubois.com>
+* faceup script enhancements - Joe Ekiert <joe.ekiert@gmail.com>
+* get a job support - Craig Slusher <cslush@gmail.com>
+* website uptime support - lukesmith <stuff@lukesmith.net>
+* me gusta support - John-Michael Glenn <phyre19@gmail.com>
+* coderwall support - Arlo Carreon <arlo.carreon@gmail.com>
+* cheer me up script - Carl Lerche <me@carllerche.com>
+* google news scripts - Matt McCormick <mbmccormick@gmail.com>
+* various meme generator enhancements - a lot of people :)
+* moar shipit images - Raphael Crawford-Marks <raphael.crawfordmarks@gmail.com>
+
+
 v1.1.4
 ======
 * hubot define me - Pete Nicholls <pete@metanation.com>

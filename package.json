@@ -30,7 +30,7 @@
     "underscore": ">= 1.2.1",
     "underscore.string": ">= 1.1.6",
     "cradle": "0.5.7",
-    "clark": "*",
+    "clark": ">= 0.0.3",
     "scribe-node": "0.0.20"
   },
 

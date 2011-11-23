@@ -20,14 +20,27 @@ module.exports = (robot) ->
           return
         # Sort by build number.
         builds = JSON.parse(body).build.sort((a, b)-> parseInt(b.number) - parseInt(a.number))
+
+        displayBuild = (msg, build) ->
+          msg.http("http://#{hostname}#{build.href}")
+            .headers(Authorization: "Basic #{new Buffer("#{username}:#{password}").toString("base64")}", Accept: "application/json")
+            .get() (err, res, body) ->
+              if err
+                msg.send "Team city says: #{err}"
+                return
+
+              project = JSON.parse(body)
+
+              if build.running
+                started = Date.parse(build.startDate.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})([+\-]\d{4})/, "$1-$2-$3T$4:$5:$6$7"))
+                elapsed = (Date.now() - started) / 1000
+                seconds = "" + Math.floor(elapsed % 60)
+                seconds = "0#{seconds}" if seconds.length < 2
+                msg.send "#{project.buildType.projectName} - #{build.number}, #{build.percentageComplete}% complete, #{Math.floor(elapsed / 60)}:#{seconds} minutes"
+              else if build.status is "SUCCESS"
+                msg.send "#{project.buildType.projectName} - #{build.number} is full of win"
+              else if build.status is "FAILUED"
+                msg.send "#{project.buildType.projectName} - #{build.number} is #fail"
+
         for build in builds
-          if build.running
-            started = Date.parse(build.startDate.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})([+\-]\d{4})/, "$1-$2-$3T$4:$5:$6$7"))
-            elapsed = (Date.now() - started) / 1000
-            seconds = "" + Math.floor(elapsed % 60)
-            seconds = "0#{seconds}" if seconds.length < 2
-            msg.send "#{build.number}, #{build.percentageComplete}% complete, #{Math.floor(elapsed / 60)}:#{seconds} minutes"
-          else if build.status is "SUCCESS"
-            msg.send "#{build.number} is full of win"
-          else if build.status is "FAILUED"
-            msg.send "#{build.number} is #fail"
+          displayBuild(msg, build)
