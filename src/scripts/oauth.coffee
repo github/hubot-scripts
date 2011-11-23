@@ -5,15 +5,16 @@
 # wraps OAuth routines to give simpler and maintainable development experience for coders.
 #
 # Usage:
-#  1. get <api> authorization url - get a link to authorization place
-#  2. set <api> verifier <verification_code> - set verification code and access token after first step
-#  3. refresh <api> token - refresh access token if it expires, for OAuth 2.0 only
-#  4. get <api> request token - retrieves request token public value
-#  5. get <api> access token - retrieves access token public value
-#  6. get <api> verifier - retrieves verification code
-#  7. remove <api> authorization - clears tokens from memory if user is same who verified the last authorization
+# get <api> authorization url - get a link to authorization place
+# set <api> verifier <verification_code> - set verification code and access token after first step
+# set <api> access token <code> - set access token manually, for OAuth 2.0 (Facebook) only
+# refresh <api> token - refresh access token if it expires, for OAuth 2.0 only
+# get <api> request token - retrieves request token public value
+# get <api> access token - retrieves access token public value
+# get <api> verifier - retrieves verification code
+# remove <api> authorization - clears tokens from memory if user is same who verified the last authorization
 # 
-# Supported APIs / widgets by default: analytics, analytics2, twitter
+# Supported APIs / widgets by default: analytics, analytics2, twitter, facebook
 
 # requires scribe-node module >= 0.0.19 which can be installed with: npm install scribe-node
 # or describing dependencity on package.json file
