@@ -1,6 +1,6 @@
 # Spin & spun text formatter script
 #
-# Script can be used to generate different combinations of the input text by variating synonyms for example.
+# Script can be used to generate different combinations of the input text by variating synonyms.
 #
 # 1. supports nested sets
 # 2. supports multiline input
@@ -94,17 +94,22 @@ spun = (msg, spinner = null, robot_brain = null) ->
 							robot_brain.data.spin[msg.message.user.reply_to] = body.message
 						msg.send body.message
 
+# small factory to support both gtalk and other adapters by hearing all lines or those called by bot name only
+hear_and_respond = (robot, regex, callback) ->
+	robot.hear eval('/^'+regex+'/i'), callback
+	robot.respond eval('/'+regex+'/i'), callback
+
 module.exports = (robot) ->
-	robot.hear /^spin me ([\s\S]*)/i, (msg) ->
+	hear_and_respond robot, 'spin me ([\\s\\S]*)', (msg) ->
 		msg.send spin msg.match[1]
 
-	robot.hear /^spun me ([\s\S]*)/i, (msg) ->
+	hear_and_respond robot, 'spun me ([\\s\\S]*)', (msg) ->
 		spun(msg, null, robot.brain)
 
-	robot.hear /^spun and spin me ([\s\S]*)/i, (msg) ->
+	hear_and_respond robot, 'spun and spin me ([\\s\\S]*)', (msg) ->
 		spun(msg, spin)
 
-	robot.hear /^spin the last spun$/i, (msg) ->
+	hear_and_respond robot, 'spin the last spun$', (msg) ->
 		# get user centric input from memory
 		if @robot.brain.data.spin[msg.message.user.reply_to]
 			msg.send spin robot.brain.data.spin[msg.message.user.reply_to]
