@@ -76,6 +76,6 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
         img = result['instanceImageUrl']
         msg.http(instanceURL).get() (err, res, body) ->
           # Need to hit instanceURL so that image gets generated
-          callback img
+          callback "http://memegenerator.net#{img}"
       else
         msg.reply "Sorry, I couldn't generate that image."
