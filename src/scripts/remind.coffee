@@ -33,7 +33,7 @@ class Reminders
       if @cache.length > 0
         trigger = =>
           reminder = @removeFirst()
-          @robot.send reminder.for, reminder.for.name + ', you asked me to remind you to ' + reminder.action
+          @robot.adapter.send reminder.for, reminder.for.name + ', you asked me to remind you to ' + reminder.action
           @queue()
         @current_timeout = setTimeout trigger, @cache[0].due - now
 
