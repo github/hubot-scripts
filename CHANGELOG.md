@@ -1,3 +1,9 @@
+v2.0.3
+======
+* start using `robot.logger` instead of console.log, eases runtime debugging
+* remove dependencies in package.json that don't work on node 0.6.0
+* require hubot 2.0 explicitly to start using new stuff
+
 v1.1.8
 ======
 * allow people to start tracks - Zach Holman <github.com@zachholman.com>

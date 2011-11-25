@@ -1,6 +1,6 @@
 {
   "name":        "hubot-scripts",
-  "version":     "2.0.2",
+  "version":     "2.0.3",
   "author":      "hubot",
   "keywords":    "hubot plugin scripts campfire bot robot",
   "description": "Allows you to opt in to a variety of scripts",
