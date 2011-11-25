@@ -10,10 +10,10 @@ module.exports = (robot) ->
     client.auth info.auth.split(":")[1]
 
   client.on "error", (err) ->
-    console.log "Error #{err}"
+    robot.logger.error err
 
   client.on "connect", ->
-    console.log "Successfully connected to Redis"
+    robot.logger.info "Successfully connected to Redis"
 
     client.get "hubot:storage", (err, reply) ->
       if err

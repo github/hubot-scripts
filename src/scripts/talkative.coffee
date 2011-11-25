@@ -1,12 +1,12 @@
 # Respond to custom answers
-# - say something about <topic> - will say something he knows about the subject 
-# - when asked <regexp_of_question> answer <response> - teach your bot to answer to <regexp_of_question> with <response> 
+# - say something about <topic> - will say something he knows about the subject
+# - when asked <regexp_of_question> answer <response> - teach your bot to answer to <regexp_of_question> with <response>
 # - forget answers - remove every teached answer from bot brain
 #
 # requires redis-brain
 
-module.exports = (robot) ->  
-  
+module.exports = (robot) ->
+
   basic_knowledge = {
     1: {regexp: "(what( is|'s))?( your)? favorite( programming)? language", answer: 'CoffeeScript'},
     2: {regexp: 'favorite (os|operating system|platform)', answer: 'Linux'}
@@ -17,19 +17,19 @@ module.exports = (robot) ->
       for key, item of robot.brain.data.knowledge
         break if msg.match[0].replace(robot.name,'').match new RegExp(item.regexp, 'i')
       msg.send item.answer if item?.answer?
-  
+
   knowledgeAbout = (subject) ->
     for key, item of robot.brain.data.knowledge
       if subject.replace(robot.name,'').match new RegExp(item.regexp, 'i')
         found = true ; break
-    if found == true 
+    if found == true
       @.key = key ; @.item = item
       return @
     else
       return null
 
   robot.brain.on 'loaded', =>
-    console.log "Loading knowledge"
+    robot.logger.info "Loading knowledge"
     robot.brain.data.knowledge ?= {}
 
     robot.brain.data.knowledge = basic_knowledge if Object.keys(robot.brain.data.knowledge).length == 0
@@ -39,9 +39,9 @@ module.exports = (robot) ->
   robot.respond /(when )?asked (.*) (reply|answer|return|say) (.*)$/i, (msg) ->
     question = msg.match[2]
     answer = msg.match[4]
-    
+
     result = new knowledgeAbout(question)
-        
+
     if result.key?
       if result.item.answer == answer
         msg.send "I already know that"
@@ -54,9 +54,9 @@ module.exports = (robot) ->
       robot.brain.data.knowledge[next_id] = new_question
       respondToAnswer(new_question)
       msg.send "OK, I will answer \"#{answer}\" when asked \"#{question}\""
-  
+
   robot.respond /(forget)( all)? (answers|replies|everything)$/i, (msg) ->
-    for key, item of robot.brain.data.knowledge 
+    for key, item of robot.brain.data.knowledge
       i = 0
       while i < robot.listeners.length
         robot.listeners.splice(i,1) if String(item.regexp) in String(robot.listeners[i].regex)
