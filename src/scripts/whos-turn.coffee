@@ -1,10 +1,10 @@
 # Who's turn to do something ?
 #
-# who <does something> : <someone>, <someone>, <someone> ? - Returns who does !
+# who <does something> ? - Returns who does !
 #                      
 module.exports = (robot) ->
-  robot.respond /(who|qui) (.+) : (.+) \?/i, (msg) ->
-    action = msg.match[2]
-    member = msg.random msg.match[3].split /[\s]*,[\s]*/
-    msg.send member + " " + action + " !"
-
+  robot.respond /(who|qui) (.+)\?/i, (msg) ->
+    users = []
+    for own key, user of robot.brain.data.users
+      users.push "#{user.name}" if "#{user.name}" != robot.name
+    msg.send (msg.random users).split(" ")[0] + " " + msg.match[2] + "!"
