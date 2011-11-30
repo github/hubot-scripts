@@ -5,11 +5,11 @@
 #   HUBOT_JENKINS_URL = "http://ci.example.com:8080"
 # 
 # The following variables are optional
-#   HUBOT_JENKINS_JOB - if not set you will have to specify job name every time
-#   HUBOT_JENKINS_BRANCH_PARAMETER_NAME - if not set is assumed to be BRANCH_SPECIFIER
+#   HUBOT_JENKINS_JOB: if not set you will have to specify job name every time
+#   HUBOT_JENKINS_BRANCH_PARAMETER_NAME: if not set is assumed to be BRANCH_SPECIFIER
 #
-# build branch master -- starts a build for branch origin/master
-# build branch master on job Foo -- starts a build for branch origin/master on job Foo
+# build branch master - starts a build for branch origin/master
+# build branch master on job Foo - starts a build for branch origin/master on job Foo
 module.exports = (robot) ->
   robot.respond /build\s*(branch\s+)?([\w\d\-\/]+)(\s+(on job)?\s*(\w+))?/i, (msg)->
 
