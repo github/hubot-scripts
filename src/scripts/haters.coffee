@@ -11,6 +11,12 @@ haters = [
 , "http://24.media.tumblr.com/tumblr_lltwmdVpoL1qekprfo1_500.gif"
 , "http://s3.amazonaws.com/kym-assets/photos/images/newsfeed/000/087/536/1292102239519.gif"
 ]
+
+hatin = (msg) ->
+  msg.send msg.random haters
+
 module.exports = (robot) ->
   robot.respond /haters/i, (msg) ->
-    msg.send msg.random haters
+    hatin msg
+  robot.hear /haters gonna hate/i, (msg) ->
+    hatin msg
