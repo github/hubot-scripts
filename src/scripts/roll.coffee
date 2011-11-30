@@ -10,8 +10,6 @@
 #   # => rolled a 99 of 100
 #   roll 6
 #   # => rolled a 5 of 6
-#   roll 100-105
-#   # => rolled a 104 of 105
 #
 module.exports = (robot) ->
   robot.respond /(roll)\s?(\d+)?-?(\d+)?/i, (msg) ->
