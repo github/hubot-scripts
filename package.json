@@ -28,7 +28,9 @@
     "underscore": ">= 1.2.1",
     "underscore.string": ">= 1.1.6",
     "cradle": "0.5.7",
-    "clark": ">= 0.0.3"
+    "clark": ">= 0.0.3",
+    "bang": "0.2.x",
+    "shellwords": "0.0.x"
   },
 
   "directories":  {
