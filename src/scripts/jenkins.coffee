@@ -11,7 +11,7 @@
 # build branch master - starts a build for branch origin/master
 # build branch master on job Foo - starts a build for branch origin/master on job Foo
 module.exports = (robot) ->
-  robot.respond /build\s*(branch\s+)?([\w\d\-\/]+)(\s+(on job)?\s*(\w+))?/i, (msg)->
+  robot.respond /build\s*(branch\s+)?([\w\/-]+)(\s+(on job)?\s*([\w-]+))?/i, (msg) ->
 
     url = process.env.HUBOT_JENKINS_URL
 
