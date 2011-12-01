@@ -21,14 +21,16 @@ module.exports = (robot) ->
     branch = msg.match[2]
     branch = "origin/#{branch}" unless ~branch.indexOf("/")
 
-    json_val = JSON.stringify {"parameter": [{"name": job_parameter, "value": branch}]}
-    msg.http("#{url}/job/#{job}/build")
-      .query(json: json_val)
-      .post() (err, res, body) ->
+    json_val = JSON.stringify parameter: [{name: job_parameter, value: branch}]
+
+    req = msg.http("#{url}/job/#{job}/build/api/json")
+
+    req.headers 'Content-Type': 'application/x-www-form-urlencoded'
+    req.post("json=#{json_val}") (err, res, body) ->
         if err
           msg.send "Jenkins says: #{err}"
         else if res.statusCode == 302
-              msg.send "Build started for #{branch}! #{res.headers.location}"
-            else
-              msg.send "Jenkins says: #{body}"
+          msg.send "Build started for #{branch}! #{res.headers.location}"
+        else
+          msg.send "Jenkins says: #{body}"
 
