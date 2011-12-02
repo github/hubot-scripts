@@ -14,6 +14,8 @@
 # <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
 #
 # Good news everyone! <news> - Generates Professor Farnsworth
+#
+# khanify <text> - TEEEEEEEEEEEEEEEEEXT!
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -44,6 +46,10 @@ module.exports = (robot) ->
 
   robot.respond /(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
     memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /khanify (.*)/i, (msg) ->
+    memeGenerator msg, 6443, 1123022, "", khanify(msg.match[1]), (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
@@ -79,3 +85,11 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
           callback "http://memegenerator.net#{img}"
       else
         msg.reply "Sorry, I couldn't generate that image."
+
+khanify = (msg) ->
+  msg = msg.toUpperCase()
+  vowels = [ 'A', 'E', 'I', 'O', 'U' ]
+  index = -1
+  for v in vowels when msg.lastIndexOf(v) > index
+    index = msg.lastIndexOf(v)
+  "#{msg.slice 0, index}#{Array(10).join msg.charAt(index)}#{msg.slice index}!!!!!"
