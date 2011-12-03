@@ -14,6 +14,8 @@
 # <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
 #
 # Good news everyone! <news> - Generates Professor Farnsworth
+#
+# Not sure if <text> or <text> - Generates Futurama Fry
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -44,6 +46,10 @@ module.exports = (robot) ->
 
   robot.respond /(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
     memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(NOT SURE IF .*) (OR .*)/i, (msg) ->
+    memeGenerator msg, 305, 84688, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
