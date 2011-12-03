@@ -50,14 +50,9 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
   username = process.env.HUBOT_MEMEGEN_USERNAME
   password = process.env.HUBOT_MEMEGEN_PASSWORD
 
-  unless username
-    msg.send "MemeGenerator username isn't set. Sign up at http://memegenerator.net"
-    msg.send "Then set the HUBOT_MEMEGEN_USERNAME environment variable"
-    return
-
-  unless password
-    msg.send "MemeGenerator password isn't set. Sign up at http://memegenerator.net"
-    msg.send "Then set the HUBOT_MEMEGEN_PASSWORD environment variable"
+  unless username? and password?
+    msg.send "MemeGenerator account isn't setup. Sign up at http://memegenerator.net"
+    msg.send "Then ensure the HUBOT_MEMEGEN_USERNAME and HUBOT_MEMEGEN_PASSWORD environment variables are set"
     return
 
   msg.http('http://version1.api.memegenerator.net/Instance_Create')
