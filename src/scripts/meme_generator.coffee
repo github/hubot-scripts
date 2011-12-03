@@ -49,6 +49,7 @@ module.exports = (robot) ->
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
   username = process.env.HUBOT_MEMEGEN_USERNAME
   password = process.env.HUBOT_MEMEGEN_PASSWORD
+  preferredDimensions = process.env.HUBOT_MEMEGEN_DIMENSIONS
 
   unless username
     msg.send "MemeGenerator username isn't set. Sign up at http://memegenerator.net"
@@ -71,11 +72,15 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
       text1: text1
     .get() (err, res, body) ->
       result = JSON.parse(body)['result']
-      if result? and result['instanceUrl']? and result['instanceImageUrl']?
+      if result? and result['instanceUrl']? and result['instanceImageUrl']? and result['instanceID']?
+        instanceID = result['instanceID']
         instanceURL = result['instanceUrl']
         img = result['instanceImageUrl']
         msg.http(instanceURL).get() (err, res, body) ->
           # Need to hit instanceURL so that image gets generated
-          callback "http://memegenerator.net#{img}"
+          if preferredDimensions?
+            callback "http://images.memegenerator.net/instances/#{preferredDimensions}/#{instanceID}.jpg"
+          else
+            callback "http://memegenerator.net#{img}"
       else
         msg.reply "Sorry, I couldn't generate that image."
