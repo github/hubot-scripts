@@ -18,6 +18,8 @@
 # khanify <text> - TEEEEEEEEEEEEEEEEEXT!
 #
 # Not sure if <text> or <text> - Generates Futurama Fry
+#
+# Yo dawg <text> so <text> - Generates Yo Dawg
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -56,6 +58,10 @@ module.exports = (robot) ->
 
   robot.respond /(NOT SURE IF .*) (OR .*)/i, (msg) ->
     memeGenerator msg, 305, 84688, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(YO DAWG .*) (SO .*)/i, (msg) ->
+	  memeGenerator msg, 79, 108785, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
