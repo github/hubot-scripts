@@ -16,6 +16,8 @@
 # Good news everyone! <news> - Generates Professor Farnsworth
 #
 # khanify <text> - TEEEEEEEEEEEEEEEEEXT!
+#
+# Not sure if <text> or <text> - Generates Futurama Fry
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -50,6 +52,10 @@ module.exports = (robot) ->
 
   robot.respond /khanify (.*)/i, (msg) ->
     memeGenerator msg, 6443, 1123022, "", khanify(msg.match[1]), (url) ->
+      msg.send url
+
+  robot.respond /(NOT SURE IF .*) (OR .*)/i, (msg) ->
+    memeGenerator msg, 305, 84688, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
