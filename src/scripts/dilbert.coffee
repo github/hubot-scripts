@@ -1,7 +1,11 @@
+# Dilbert
+#
+# show me dilbert - gets the daily dilbert
+
 htmlparser = require "htmlparser"
 
 module.exports = (robot) ->
-  robot.respond /(show( me)?|fetch ( me)? )?dilbert/i, (msg) ->
+  robot.respond /((show|fetch)( me )?)?dilbert/i, (msg) ->
     dilbertRss msg, (url) ->
       msg.send url
 
@@ -14,6 +18,6 @@ dilbertRss = (msg, cb) ->
         item = dom.items[0]
         match = item.description.match(dilbertRegexp)
         cb match[1] if match
-          
+
       parser = new htmlparser.Parser(handler)
       parser.parseComplete(body)

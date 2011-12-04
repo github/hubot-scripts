@@ -1,6 +1,6 @@
-# Simple Python Package Index querying using XML-RPC API.
+# Simple Python Package Index querying using XMLRPC API.
 #
-# Set HUBOT_PYPI_URL to custom PyPI server if you like. Defaults to http://pypi.python.org/pypi
+# Set HUBOT_PYPI_URL to custom PyPI server if you like. Defaults to http://pypi.python.org/pypi.
 #
 # show latest from pypi for <package> - Shows latest version of Python package registered at PyPI
 # show total downloads from pypi for <package> - Shows total number of downloads accross all versions of Python package registered at PyPI
@@ -42,4 +42,3 @@ module.exports = (robot) ->
     robot.respond /show total downloads from pypi for (.*)/i, (msg) ->
         package = msg.match[1]
         showTotalDownloads msg, package
-
