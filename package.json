@@ -30,7 +30,8 @@
     "cradle": "0.5.7",
     "clark": ">= 0.0.3",
     "bang": "0.2.x",
-    "shellwords": "0.0.x"
+    "shellwords": "0.0.x",
+    "nodepie": "0.4.0"
   },
 
   "directories":  {
