@@ -57,10 +57,16 @@ module.exports = (robot) ->
       .post({}) (err, res, body) ->
         console.log body
         json = JSON.parse(body)
-        if json.success == 'true'
+        if json.success == true
           message.send("Bumped the volume for ya.")
         else
           message.send("Whoa, can't change the volume. Weird.")
+  
+  robot.respond /volume$/i, (message) ->
+    message.http("#{URL}/volume")
+      .get() (err, res, body) ->
+        json = JSON.parse(body)
+        message.send(json.message)
 
   robot.respond /quiet/i, (message) ->
     message.http("#{URL}/volume")
@@ -68,7 +74,7 @@ module.exports = (robot) ->
       .header('Content-Length', 0)
       .post() (err, res, body) ->
         json = JSON.parse(body)
-        if json.success == 'true'
+        if json.success == true
           message.send("Running silent.")
         else
           message.send("Whoa, can't change the volume. Weird.")
@@ -78,7 +84,7 @@ module.exports = (robot) ->
       .header('Content-Length', 0)
       .post() (err, res, body) ->
         json = JSON.parse(body)
-        if json.success == 'true'
+        if json.success == true
           message.send("Fine, fine.")
         else
           message.send("Nope, can't. You're on your own.")
@@ -88,7 +94,7 @@ module.exports = (robot) ->
       .header('Content-Length', 0)
       .post() (err, res, body) ->
         json = JSON.parse(body)
-        if json.success == 'true'
+        if json.success == true
           message.send("On to the next one.")
         else
           message.send("hwhoops")
