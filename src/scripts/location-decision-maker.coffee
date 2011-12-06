@@ -72,4 +72,4 @@ module.exports = (robot) ->
     else
       location = msg.random grouplocations
 
-      msg.send "I think you should goto #{location}"
+      msg.send "I think you should go to #{location}"
