@@ -14,7 +14,7 @@ send_meme = (message, response_handler)->
   message.http( meme_domain + "/random" ).get() (error, response, body)->
     return response_handler "Sorry, something went wrong" if error
 
-    response get_meme_image( body, "#img-wrap a img" ).children[0]['src']
+    response get_meme_image( body, ".img-wrap a img" ).children[0]['src']
 
 get_meme_image = (body)->
   html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
