@@ -6,19 +6,26 @@ HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
   robot.respond /9gag/i, (message)->
-    send_meme message, (text)->
+    send_meme message, false, (text)->
       message.send text
 
-send_meme = (message, response_handler)->
+send_meme = (message, location, response_handler)->
   meme_domain = "http://9gag.com"
-  message.http( meme_domain + "/random" ).get() (error, response, body)->
+  location  ||= "/random"
+  url         = meme_domain + location
+
+  message.http( url ).get() (error, response, body)->
     return response_handler "Sorry, something went wrong" if error
 
-    response get_meme_image( body, ".img-wrap a img" ).children[0]['src']
+    if response.statusCode == 302
+      location = response.headers['location']
+      return send_meme( message, location, response_handler )
 
-get_meme_image = (body)->
+    response_handler get_meme_image( body, ".img-wrap img" )
+
+get_meme_image = (body, selector)->
   html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
-  html_parser   = new HTMLParser.Parser handler
+  html_parser   = new HTMLParser.Parser html_handler
 
   html_parser.parseComplete body
-  Select handler.dom, selector
+  Select( html_handler.dom, selector )[0].attribs.src
