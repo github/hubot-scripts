@@ -16,7 +16,7 @@
 # 
 # Supported APIs / widgets by default: analytics, analytics2, twitter, facebook, linkedin
 
-# requires scribe-node module >= 0.0.23 which can be installed with: npm install scribe-node
+# requires scribe-node module >= 0.0.24 which can be installed with: npm install scribe-node
 # or describing dependencity on package.json file
 scribe = require('scribe-node').load(['OAuth'])
 # set custom service configurations if not available from scribe OAuth widget.
