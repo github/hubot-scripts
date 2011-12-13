@@ -33,6 +33,7 @@
     "shellwords": "0.0.x",
     "nodepie": "0.4.0",
     "mailer": "0.6.7"
+    "scribe-node": "0.0.24"
   },
 
   "directories":  {
