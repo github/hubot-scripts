@@ -1,4 +1,4 @@
-# quote me - Display a random programming quote from defprogramming.co
+# quote me - Display a random programming quote from defprogramming.com
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
