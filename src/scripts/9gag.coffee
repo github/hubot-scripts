@@ -1,3 +1,5 @@
+# 9gag me - Returns a random meme image.
+
 # Random meme from 9gag
 # Rewrite by Enrique Vidal
 
@@ -5,7 +7,7 @@ Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
-  robot.respond /9gag/i, (message)->
+  robot.respond /9gag( me)?/i, (message)->
     send_meme message, false, (text)->
       message.send text
 
