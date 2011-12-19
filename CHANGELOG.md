@@ -1,3 +1,9 @@
+v2.0.4
+======
+There is a ton of new functionality.
+
+https://github.com/github/hubot-scripts/compare/v2.0.3...v2.0.4
+
 v2.0.3
 ======
 * start using `robot.logger` instead of console.log, eases runtime debugging
