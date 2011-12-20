@@ -1,4 +1,6 @@
 # Show current Heroku status
+#
+# heroku status - Returns the current Heroku status for app operations and tools
 
 module.exports = (robot) ->
   robot.respond /heroku status/, (msg) ->
