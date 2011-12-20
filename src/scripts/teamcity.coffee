@@ -39,7 +39,7 @@ module.exports = (robot) ->
                 msg.send "#{project.buildType.projectName} - #{build.number}, #{build.percentageComplete}% complete, #{Math.floor(elapsed / 60)}:#{seconds} minutes"
               else if build.status is "SUCCESS"
                 msg.send "#{project.buildType.projectName} - #{build.number} is full of win"
-              else if build.status is "FAILUED"
+              else if build.status is "FAILURE"
                 msg.send "#{project.buildType.projectName} - #{build.number} is #fail"
 
         for build in builds
