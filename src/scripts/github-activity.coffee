@@ -20,7 +20,7 @@ module.exports = (robot) ->
     bot_github_pass = process.env.HUBOT_BOT_GITHUB_PASS
     auth = new Buffer("#{bot_github_user}:#{bot_github_pass}").toString('base64')
     url = "https://api.github.com/repos/#{repo}/commits"
-    msg.send "http://github.com/#{repo}"
+
     msg.http(url)
       .headers(Authorization: "Basic #{auth}", Accept: "application/json")
       .get() (err, res, body) ->
@@ -28,9 +28,12 @@ module.exports = (robot) ->
           msg.send "GitHub says: #{err}"
           return
         commits = JSON.parse(body)
-        if commits.length == 0
+        if commits.message
+          msg.send "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
+        else if commits.length == 0
             msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
         else
+          msg.send "http://github.com/#{repo}"
           send = 5
           for c in commits
             if send
