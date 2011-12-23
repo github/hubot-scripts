@@ -1,3 +1,15 @@
+# it was based on github-issues.coffee script
+# 
+# add "date-utils":">=1.2.5" in the hubot-scripts.json file
+#
+# add HUBOT_GITHUB_USER to your heroku env 
+# the HUBOT_GITHUB_USER should map to your account, not the bot account
+# the HUBOT_BOT_GITHUB_USER should map to the bot github username
+# the HUBOT_BOT_GITHUB_PASS should map to the bot github password
+# (you do not need to create a bot github account, but doing keeps your account secure)
+#
+# developed by http://github.com/vquaiato - Crafters Software Studio
+
 require('date-utils')
 
 module.exports = (robot) ->
