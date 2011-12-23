@@ -42,7 +42,7 @@ read_contributors = (msg, response_handler) ->
           return
         commits = JSON.parse(body)
         if commits.message
-          msg.send "Achievement unlocked: [needle in a haystack] repository #{commits.message}!"
+          msg.send "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
         else if commits.length == 0
           msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
         else
