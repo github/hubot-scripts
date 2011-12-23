@@ -8,8 +8,8 @@
 # developed by http://github.com/fellix - Crafters Software Studio
 
 module.exports = (robot) ->
-	robot.hear /^repo commiters (.*)$/i, (msg) ->
-	    read_contributors msg, (commits) ->
+  robot.hear /^repo commiters (.*)$/i, (msg) ->
+      read_contributors msg, (commits) ->
           max_length = commits.length
           max_length = 20 if commits.length > 20
           for commit in commits
@@ -17,15 +17,15 @@ module.exports = (robot) ->
             max_length -= 1
             return unless max_length
               
-	robot.hear /^repo top-commiter (.*)$/i, (msg) ->
-	    read_contributors msg, (commits) ->
+  robot.hear /^repo top-commiter (.*)$/i, (msg) ->
+      read_contributors msg, (commits) ->
           top_commiter = null
           for commit in commits
             top_commiter = commit if top_commiter == null
             top_commiter = commit if commit.contributions > top_commiter.contributions 
           msg.send "[#{top_commiter.login}] #{top_commiter.contributions} :trophy:"
-	
-	
+  
+  
 read_contributors = (msg, response_handler) ->
     repo = msg.match[1].toLowerCase()
     repo = "#{process.env.HUBOT_GITHUB_USER}/#{repo}" unless repo.indexOf("/") > -1
