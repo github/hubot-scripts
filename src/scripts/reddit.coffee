@@ -5,7 +5,6 @@
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
-_           = require "underscore"
 
 lookup_site = "http://www.reddit.com/"
 
@@ -26,13 +25,11 @@ module.exports = (robot)->
       list  = JSON.parse( body ).data.children
       count = 0
 
-      # Nasty way of breaking out of _.each()
-      try
-        _.each list, ( item )->
-          count++
+      for item in list
+        count++
 
-          text = item.data.title + " - " + item.data.url
-          response_handler text
+        text = item.data.title + " - " + item.data.url
+        response_handler text
 
-          throw false if count == top
-      catch e
+        break if count == top
+
