@@ -1,4 +1,4 @@
-# reddit (me) <reddit> [top] - Lookup reddit topic
+# reddit (me) <reddit> [limit] - Lookup reddit topic
 
 # Topic lookup from reddit
 # Enrique Vidal - enrique@cloverinteractive.com
@@ -14,9 +14,10 @@ module.exports = (robot)->
       message.send text
 
   lookup_reddit = (message, response_handler)->
-    top       = parseInt message.match[3]
-    reddit    = message.match[2]
-    location  = lookup_site + "r/" + reddit + ".json"
+    top     = parseInt message.match[3]
+    reddit  = "r/" + message.match[2] + ".json"
+
+    location  = lookup_site + reddit
 
     message.http( location ).get() (error, response, body)->
       return response_handler "Sorry, something went wrong"                   if error
@@ -28,7 +29,7 @@ module.exports = (robot)->
       for item in list
         count++
 
-        text = item.data.title + " - " + item.data.url
+        text = ( item.data.title || item.data.link_title ) + " - " + ( item.data.url || item.data.body )
         response_handler text
 
         break if count == top
