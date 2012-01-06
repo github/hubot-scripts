@@ -11,7 +11,7 @@
 # jenkins list - lists Jenkins jobs
 #
 module.exports = (robot) ->
-  robot.respond /jenkins build ([\w\.-_]+)( with (.+))?/i, (msg) ->
+  robot.respond /jenkins build ([\w\.\-_]+)( with (.+))?/i, (msg) ->
 
     url = process.env.HUBOT_JENKINS_URL
     job = msg.match[1]
