@@ -34,7 +34,8 @@
     "nodepie": "0.4.0",
     "mailer": "0.6.7",
     "scribe-node": "0.0.24",
-    "sandbox": "0.8.2"
+    "sandbox": "0.8.2", 
+    "twss":"0.1.1"
   },
 
   "directories":  {
