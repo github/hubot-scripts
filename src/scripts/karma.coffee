@@ -55,12 +55,12 @@ module.exports = (robot) ->
   robot.hear /(\S+[^+\s])\+\+(\s|$)/, (msg) ->
     subject = msg.match[1].toLowerCase()
     karma.increment subject
-    msg.reply "#{subject} #{karma.incrementResponse()} (Karma: #{karma.get(subject)})"
+    msg.send "#{subject} #{karma.incrementResponse()} (Karma: #{karma.get(subject)})"
   
   robot.hear /(\S+[^-\s])--(\s|$)/, (msg) ->
     subject = msg.match[1].toLowerCase()
     karma.decrement subject
-    msg.reply "#{subject} #{karma.decrementResponse()} (Karma: #{karma.get(subject)})"
+    msg.send "#{subject} #{karma.decrementResponse()} (Karma: #{karma.get(subject)})"
   
   robot.respond /karma ?(\S+[^-\s])?$/i, (msg) ->
     if msg.match[1]
