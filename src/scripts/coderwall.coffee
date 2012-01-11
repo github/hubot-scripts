@@ -19,6 +19,6 @@ module.exports = (robot) ->
           resp_str += user + "'s coderwall -> http://coderwall.com/"+user + "\n"
           # Iterate all badges and continue building string
           profile.badges.forEach (badge) ->
-            resp_str += badge.name + " - " + badge.description + "\n"
+            resp_str += "[" + badge.name + "] - " + badge.description + "\n"
           # Return response
           msg.send resp_str
