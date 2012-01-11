@@ -7,7 +7,7 @@
 # developed by http://github.com/fellix - Crafters Software Studio
 
 module.exports = (robot) ->
-	robot.hear /^basecamp calendar( (.*))?$/i, (msg) ->
+  robot.hear /^basecamp calendar( (.*))?$/i, (msg) ->
     project_name = msg.match[2]
     basecamp_request msg, 'projects.json', (projects) ->
       for project in projects.records
