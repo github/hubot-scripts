@@ -1,41 +1,60 @@
-# Interact with your jenkins CI server, assumes you have a parameterized build
-# with the branch to build as a parameter
+# Interact with your Jenkins CI server
 #
 # You need to set the following variables:
 #   HUBOT_JENKINS_URL = "http://ci.example.com:8080"
-# 
-# The following variables are optional
-#   HUBOT_JENKINS_JOB: if not set you will have to specify job name every time
-#   HUBOT_JENKINS_BRANCH_PARAMETER_NAME: if not set is assumed to be BRANCH_SPECIFIER
-#   HUBOT_JENKINS_AUTH: for authenticating the trigger request (user:apiToken)
 #
-# build branch master - starts a build for branch origin/master
-# build branch master on job Foo - starts a build for branch origin/master on job Foo
+# The following variables are optional
+#   HUBOT_JENKINS_AUTH: for authenticating the trigger request (user:password)
+#
+# jenkins build <job> - builds the specified Jenkins job
+# jenkins build <job> with <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
+# jenkins list - lists Jenkins jobs
+#
 module.exports = (robot) ->
-  robot.respond /build\s*(branch\s+)?([\w\/-]+)(\s+(on job)?\s*([\w-]+))?/i, (msg) ->
+  robot.respond /jenkins build ([\w\.\-_]+)( with (.+))?/i, (msg) ->
 
     url = process.env.HUBOT_JENKINS_URL
+    job = msg.match[1]
+    params = msg.match[3]
 
-    job = msg.match[5] || process.env.HUBOT_JENKINS_JOB
-    job_parameter = process.env.HUBOT_JENKINS_BRANCH_PARAMETER_NAME || "BRANCH_SPECIFIER"
+    path = if params then "#{url}/job/#{job}/buildWithParameters?#{params}" else "#{url}/job/#{job}/build"
 
-    branch = msg.match[2]
-    branch = "origin/#{branch}" unless ~branch.indexOf("/")
-
-    json_val = JSON.stringify parameter: [{name: job_parameter, value: branch}]
-
-    req = msg.http("#{url}/job/#{job}/build/api/json")
+    req = msg.http(path)
 
     if process.env.HUBOT_JENKINS_AUTH
       auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
       req.headers Authorization: "Basic #{auth}"
 
-    req.headers 'Content-Type': 'application/x-www-form-urlencoded'
-    req.post("json=#{json_val}") (err, res, body) ->
+    req.header('Content-Length', 0)
+    req.post() (err, res, body) ->
         if err
           msg.send "Jenkins says: #{err}"
         else if res.statusCode == 302
-          msg.send "Build started for #{branch}! #{res.headers.location}"
+          msg.send "Build started for #{job} #{res.headers.location}"
         else
           msg.send "Jenkins says: #{body}"
 
+
+  robot.respond /jenkins list/i, (msg) ->
+
+    url = process.env.HUBOT_JENKINS_URL
+    job = msg.match[1]
+    req = msg.http("#{url}/api/json")
+
+    if process.env.HUBOT_JENKINS_AUTH
+      auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+      req.headers Authorization: "Basic #{auth}"
+
+    req.get() (err, res, body) ->
+        response = ""
+        if err
+          msg.send "Jenkins says: #{err}"
+        else
+          try
+            content = JSON.parse(body)
+            for job in content.jobs
+              state = if job.color == "red" then "FAIL" else "PASS"
+              response += "#{state} #{job.name}\n"
+            msg.send response
+          catch error
+            msg.send error
