@@ -1,3 +1,13 @@
+# Show some help to git noobies
+#
+# use it as:
+# git help <topic>
+#
+# <topic> can be one of: 
+# create|clone|add|remove|commit|synchronize|branch|merge|tag|restore
+#
+# developed by http://github.com/vquaiato - Crafters Software Studio
+
 module.exports = (robot) ->
 	git_help = new Array()
 
@@ -21,5 +31,7 @@ module.exports = (robot) ->
 			
 	git_help["restore"] = "replace working copy with latest from HEAD -> git checkout --<file name>"
 		
-	robot.hear /^git help (create|clone|add|remove|commit|synchronize|branch|merge|tag|retore)$/i, (msg) ->
-		msg.send git_help[msg.match[1]]
+	robot.hear /^git help (create|clone|add|remove|commit|synchronize|branch|merge|tag|restore)$/i, (msg) ->
+		help = git_help[msg.match[1]]
+		
+		msg.send help
