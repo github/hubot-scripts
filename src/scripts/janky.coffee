@@ -120,7 +120,7 @@ module.exports = (robot) ->
       else
         msg.send("who knows")
 
-  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9]+))?/i, (msg) ->
+  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))?/i, (msg) ->
     app    = msg.match[2]
     count  = 5
     branch = msg.match[4] || 'master'
