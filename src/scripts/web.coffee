@@ -12,8 +12,7 @@ module.exports = (robot) ->
       msg
         .http(url)
         .get() (err, res, body) ->
-          if res.statusCode is 301
-            msg.send "Redirect: " + res.headers.location
+          if res.statusCode is 301 or res.statusCode is 302
             httpResponse(res.headers.location)
           else if res.statusCode is 200
             handler = new HtmlParser.DefaultHandler()
