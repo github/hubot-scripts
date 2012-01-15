@@ -29,5 +29,5 @@ robot-wide `hubot help` command.
 
 ## Discovering
 
-![The Script Catalog](http://hubot-script-catalog.herokuapp.com/)
+[The Script Catalog](http://hubot-script-catalog.herokuapp.com/)
 
