@@ -32,7 +32,7 @@ module.exports = (robot) ->
       return
 
     msg.http("https://api.smsified.com")
-      .path("/v1/smsmessaging/outbound/{senderAddress}/requests")
+      .path("/v1/smsmessaging/outbound/#{senderAddress}/requests")
       .header("Authorization", auth)
       .header("Content-Type", "application/x-www-form-urlencoded")
       .post(data) (err, res, body) ->
