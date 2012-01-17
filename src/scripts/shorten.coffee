@@ -1,9 +1,9 @@
 # Shorten URLs with bit.ly
 #
-# (bitly|shorten) me <url> - Shorten the URL using bit.ly
+# (bitly|shorten) (me) <url> - Shorten the URL using bit.ly
 
 module.exports = (robot) ->
-  robot.respond /(bitly|shorten) (me)? (.+)$/, (msg) ->
+  robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/, (msg) ->
     msg
       .http("http://api.bitly.com/v3/shorten")
       .query
