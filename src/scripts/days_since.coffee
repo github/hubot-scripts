@@ -23,7 +23,7 @@ module.exports = (robot) ->
   robot.respond /how long since\s+(.*?)\??$/i, (msg) ->
     if robot.brain.data.days_since && robot.brain.data.days_since[msg.match[1]]
       date = robot.brain.data.days_since[msg.match[1]]
-      days_since = Math.floor((new Date - date.getTime()) / (1000*24*60*60))
+      days_since = Math.floor((new Date - new Date(date).getTime()) / (1000*24*60*60))
       msg.send "it's been " + days_since + " days since " + msg.match[1]
     else
       msg.send "I don't recall that event"
