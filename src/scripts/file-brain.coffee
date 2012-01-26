@@ -1,20 +1,19 @@
-Url  = require "url"
 fs   = require 'fs'
 path = require 'path'
 
 
 # sets up hooks to persist the brain into file.
 module.exports = (robot) ->
-  brainPath   = process.env.FILE_BRAIN_PATH || '/var/hubot/brain'
-  brainPath   = path.join brainPath 'brain'
-  
-  fs.readFile brainPath, (err, data) ->
-    if err
-      throw err
-    else if data
-      robot.brain.mergeData JSON.parse(data.toString())
-      robat.brain.emit 'load', robot.brain.data
+  brainPath = process.env.FILE_BRAIN_PATH or '/var/hubot'
+  brainPath = path.join brainPath, 'brain-dump.json'
+
+  try
+    data = fs.readFileSync brainPath, 'utf-8'
+    if data
+      robot.brain.mergeData JSON.parse(data)
+      robot.brain.emit 'load', robot.brain.data
+  catch error
+      console.log('Unable to read file', error) unless error.code is 'ENOENT'
 
   robot.brain.on 'save', (data) ->
-    fs.writeFile brainPath, JSON.stringify data, () ->
-      return
+    fs.writeFileSync brainPath, JSON.stringify(data), 'utf-8'
