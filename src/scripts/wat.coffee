@@ -1,4 +1,4 @@
-# Get a random WAT image
+# Get a random WAT image - warning, this includes NSFW content!
 #
 # wat - Random WAT
 
