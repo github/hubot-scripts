@@ -282,10 +282,11 @@ class Redmine
       "X-Redmine-API-Key": @token
 
     endpoint = URL.parse(@url)
+    pathname = endpoint.pathname.replace /^\/$/, ''
 
     options =
       "host"   : endpoint.hostname
-      "path"   : "#{endpoint.pathname}#{path}"
+      "path"   : "#{pathname}#{path}"
       "method" : method
       "headers": headers
 
