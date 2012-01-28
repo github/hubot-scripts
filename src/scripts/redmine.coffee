@@ -29,7 +29,7 @@ module.exports = (robot) ->
   redmine = new Redmine process.env.HUBOT_REDMINE_BASE_URL, process.env.HUBOT_REDMINE_TOKEN
 
   # Robot add <hours> hours to <issue_id> ["comments for the time tracking"]
-  robot.respond /add (\d{1,2}) hours? to (?:issue )?(?:#)?(\d+)(?: "?([^"]+)"?)?/, (msg) ->
+  robot.respond /add (\d{1,2}) hours? to (?:issue )?(?:#)?(\d+)(?: "?([^"]+)"?)?/i, (msg) ->
     [hours, id, userComments] = msg.match[1..3]
 
     if userComments?
@@ -49,7 +49,7 @@ module.exports = (robot) ->
         msg.reply "Nothing could be logged. Make sure RedMine has a default activity set for time tracking. (Settings -> Enumerations -> Activities)"
 
   # Robot show <my|user's> [redmine] issues
-  robot.respond /show (?:my|(\w+\'s)) (?:redmine )?issues/, (msg) ->
+  robot.respond /show (?:my|(\w+\'s)) (?:redmine )?issues/i, (msg) ->
     userMode = true
     firstName =
       if msg.match[1]?
@@ -89,7 +89,7 @@ module.exports = (robot) ->
           msg.reply _.join "\n"
 
   # Robot update <issue> with "<note>"
-  robot.respond /update (?:issue )?(?:#)?(\d+)(?:\s*with\s*)?(?:[-:,])? (?:"?([^"]+)"?)/, (msg) ->
+  robot.respond /update (?:issue )?(?:#)?(\d+)(?:\s*with\s*)?(?:[-:,])? (?:"?([^"]+)"?)/i, (msg) ->
     [id, note] = msg.match[1..2]
 
     attributes =
@@ -105,7 +105,7 @@ module.exports = (robot) ->
         msg.reply "Done! Updated ##{id} with \"#{note}\""
 
   # Robot assign <issue> to <user> ["note to add with the assignment]
-  robot.respond /assign (?:issue )?(?:#)?(\d+) to (\w+)(?: "?([^"]+)"?)?/, (msg) ->
+  robot.respond /assign (?:issue )?(?:#)?(\d+) to (\w+)(?: "?([^"]+)"?)?/i, (msg) ->
     [id, userName, note] = msg.match[1..3]
 
     redmine.Users name:userName, (err, data) ->
@@ -133,7 +133,7 @@ module.exports = (robot) ->
           msg.reply "Assigned ##{id} to #{user.firstname}."
 
   # Robot redmine me <issue>
-  robot.respond /(?:redmine|show)(?: me)? (?:issue )?(?:#)?(\d+)/, (msg) ->
+  robot.respond /(?:redmine|show)(?: me)? (?:issue )?(?:#)?(\d+)/i, (msg) ->
     id = msg.match[1]
 
     params =
