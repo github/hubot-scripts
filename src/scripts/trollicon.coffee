@@ -1,5 +1,6 @@
 ﻿# trollicon - Returns a trollicon image
 # by Adan Alvarado
+# used resources from : https://github.com/sagargp/trollicons Adium extension
 
 trollicons = {
   'gasp' : 'http://i.imgur.com/tYmuZ.png',
