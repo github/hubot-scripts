@@ -25,7 +25,8 @@ get_username = (name) ->
 get_repo = (repo) ->
   repo = process.env.HUBOT_GITHUB_REPO unless repo?
   repo = repo.replace "for ", ""
-  "#{process.env.HUBOT_GITHUB_USER}/#{repo}" unless ~repo.indexOf("/")
+  repo = "#{process.env.HUBOT_GITHUB_USER}/#{repo}" unless _s.include repo, "/"
+  repo
 
 module.exports = (robot) ->
   robot.respond /show (me)?\s*(\d+|\d+ of)?\s*(@?\w+'s|my)?\s*(\S+)?\s*issues\s*(for \S+)?\s*(about .+)?/i, (msg) ->
@@ -68,3 +69,4 @@ module.exports = (robot) ->
             labels = ("##{label.name}" for label in issue.labels).join(" ")
             assignee = if issue.assignee then " (#{issue.assignee.login})" else ""
             msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee} = #{issue.html_url}"
+
