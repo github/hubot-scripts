@@ -1,5 +1,9 @@
-﻿# trollicon - Returns a trollicon image
-# by Adan Alvarado
+﻿# Return trollicon images
+#
+# :<trollicon>: - outputs trollicon image
+# :isee: what you did there, and :megusta: - is a valid example of multiple trollicons
+#
+# by Adan Alvarado and Enrique Vidal
 # used resources from : https://github.com/sagargp/trollicons Adium extension
 
 trollicons = {
@@ -21,6 +25,19 @@ trollicons = {
 }
 
 module.exports = (robot)->
-  robot.respond /trollicon( me)? (.*)/i, (message)->
-    message.send "#{trollicons[message.match[2]]}" if message.match[2] of trollicons
+  robot.hear /:(\w+):/g, (message)->
+    build_response message
 
+build_response = (message)->
+  orig_response = message.message.text
+  response      = orig_response
+
+  return if message.match.length == 0
+
+  for icon in message.match
+    expr  = new RegExp( icon, 'g' )
+    image = trollicons[ icon.replace( /:/g, '' ) ]
+
+    response = response.replace( expr, image ) if image != undefined
+
+  message.send response if response != undefined and response != orig_response
