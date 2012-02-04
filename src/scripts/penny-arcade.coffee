@@ -7,7 +7,7 @@ htmlparser = require "htmlparser"
 Select     = require("soupselect").select
 
 module.exports = (robot) ->
-  robot.respond /pa\s?((0?[1-9]|1[0-2]).(0?[1-9]|[1-2][0-9]|3[0-1]).(19\d{2}|20\d{2})$)?/i, (msg) ->
+  robot.respond /pa(\s(0?[1-9]|1[0-2]).(0?[1-9]|[1-2][0-9]|3[0-1]).(19\d{2}|20\d{2}))?$/i, (msg) ->
     if msg.match[1] == undefined
       date = ''
     else
