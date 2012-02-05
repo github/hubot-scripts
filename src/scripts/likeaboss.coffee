@@ -9,7 +9,6 @@ images = [
   "http://img.anongallery.org/img/6/0/like-a-boss.jpg",
   "http://www.18seven.com/wp-content/uploads/IMG_1745.jpg",
   "http://www.demotivers.com/uploads/2011_02/02/7733_1292_500_Like-A-Boss.jpg",
-  "http://t0.gstatic.com/images?q=tbn:ANd9GcSHwNOsPHBQsRqFklVDVL8M1BxMnPvqBNGZZJlHGzd_KeLfdXgTUZLtrHv78g",
   "http://images.cheezburger.com/completestore/2011/2/20/a4ea536d-4b21-4517-b498-a3491437d224.jpg",
   "http://funcorner.eu/wp-content/uploads/2011/03/like_a_boss.jpg",
   "http://www.japemonster.com/wp-content/uploads/2011/08/demotivational-posters-like-a-boss.jpg",
