@@ -56,7 +56,7 @@ filter_issues = (issues, criteria) ->
     issues = _.filter issues, (i) ->
               _.any [i.body, i.title], (text) -> _s.include text.toLowerCase(), query.toLowerCase()
   if limit?
-    issues = _.first issues, parseInt limit
+    issues = _.first issues, limit
   issues
 
 # Resolve assignee name to a potential GitHub username using sender
