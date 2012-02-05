@@ -45,16 +45,11 @@ parse_criteria = (message) ->
   repo: repo.replace("for ", "") if repo?,
   query: query.replace("about ", "") if query?
 
-# Filter the issue list by criteria.
-filter_issues = (issues, criteria) ->
-  { me, limit, assignee, label, repo, query } = criteria
-  if assignee?
-    issues = _.filter issues, (i) -> i.assignee? and i.assignee.login is assignee
-  if label?
-    issues = _.filter issues, (i) -> _.any(i.labels, (l) -> l.name is label)
+# Filter the issue list by criteria; most of the filtering is handled as part
+# of the Issues API, but limit and query paramaters are not part of the API.
+filter_issues = (issues, {limit, query}) ->
   if query?
-    issues = _.filter issues, (i) ->
-              _.any [i.body, i.title], (text) -> _s.include text.toLowerCase(), query.toLowerCase()
+    issues = _.filter issues, (i) -> _.any [i.body, i.title], (s) -> _s.include s.toLowerCase(), query.toLowerCase()
   if limit?
     issues = _.first issues, limit
   issues
@@ -80,10 +75,14 @@ module.exports = (robot) ->
     criteria.repo = complete_repo criteria.repo
     criteria.assignee = complete_assignee msg, criteria.assignee if criteria.assignee?
 
+    query_params = state: "open", sort: "created"
+    query_params.labels = criteria.label if criteria.label?
+    query_params.assignee = criteria.assignee if criteria.assignee?
+
     oauth_token = process.env.HUBOT_GITHUB_TOKEN
     msg.http("https://api.github.com/repos/#{criteria.repo}/issues")
       .headers(Authorization: "token #{oauth_token}", Accept: "application/json")
-      .query(state: "open", sort: "created")
+      .query(query_params)
       .get() (err, res, body) ->
         if err
           msg.send "GitHub says: #{err}"
