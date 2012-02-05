@@ -36,8 +36,8 @@ ASK_REGEX = ///
 
 # Given the text sent to robot.respond (e.g. 'hubot show me...'), parse the
 # criteria used for filtering issues.
-parse_criteria = (ask) ->
-  [me, limit, assignee, label, repo, query] = ask.match(ASK_REGEX)[1..]
+parse_criteria = (message) ->
+  [me, limit, assignee, label, repo, query] = message.match(ASK_REGEX)[1..]
   me: me,
   limit: parseInt limit.replace(" of", "") if limit?,
   assignee: assignee.replace("'s", "") if assignee?,
@@ -50,13 +50,13 @@ filter_issues = (issues, criteria) ->
   { me, limit, assignee, label, repo, query } = criteria
   if assignee?
     issues = _.filter issues, (i) -> i.assignee? and i.assignee.login is assignee
-  if issue_label?
-    issues = _.filter issues, (i) -> _.any(i.labels, (l) -> l.name is issue_label)
+  if label?
+    issues = _.filter issues, (i) -> _.any(i.labels, (l) -> l.name is label)
   if query?
     issues = _.filter issues, (i) ->
-              _.any [i.body, i.title], (text) -> _s.include text.toLowerCase(), query
+              _.any [i.body, i.title], (text) -> _s.include text.toLowerCase(), query.toLowerCase()
   if limit?
-    issues = _.first issues, parseInt limit
+    issues = _.first issues, limit
   issues
 
 # Resolve assignee name to a potential GitHub username using sender
@@ -115,12 +115,12 @@ test = ->
     assignee: (maybe one_of ["my", "@fred", "julia_roberts"]),
     label: (maybe one_of ["ui", "show-stopper"]),
     repo: (maybe one_of ["github/hubot", "hubot-scripts", "janky"]),
-    query: (maybe one_of ["firefox", "internet explorer"])
+    query: (maybe one_of ["firefox", "Internet Explorer"])
 
   # Create the string for the robot to receive from criteria. We create this
   # string from randomized criteria, then parse the string and compare the
   # results to the randomized criteria to test the `parse_criteria` function.
-  show_criteria = ({me, limit, assignee, label, repo, query}) -> [
+  criteria_to_message = ({me, limit, assignee, label, repo, query}) -> [
     'show', me,
     limit, 'of' if limit? and assignee?,
     (if assignee? and assignee isnt "my" then "#{assignee}'s" else assignee),
@@ -133,8 +133,8 @@ test = ->
   # QuickCheck-inspired randomized test cases.
   _.times 100, ->
     criteria_expected = random_criteria()
-    ask = show_criteria criteria_expected
-    criteria_parsed = parse_criteria ask
+    message = criteria_to_message criteria_expected
+    criteria_parsed = parse_criteria message
     unless _.isEqual criteria_expected, criteria_parsed
       console.log "Counterexample: \"#{ask}\"\n\tExpected: #{pp criteria_expected}\n\tGot:      #{pp criteria_parsed}" 
 
