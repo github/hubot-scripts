@@ -99,42 +99,4 @@ module.exports = (robot) ->
             assignee = if issue.assignee then " (#{issue.assignee.login})" else ""
             msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee} = #{issue.html_url}"
 
-
-# TODO: Move this once `make test` works again.
-test = ->
-  is_defined = (x)  -> x?
-  one_of     = (xs) -> xs[Math.floor Math.random() * xs.length]
-  maybe      = (x)  -> one_of [x, undefined]
-  pp         = (o)  -> "{ " + ("#{k}: '#{v}'" for k, v of o).join(', ') + " }"
-
-  # Get criteria for random ask string.
-  random_criteria = ->
-    me: (maybe 'me'),
-    limit: (maybe one_of [1..100]),
-    assignee: (maybe one_of ["my", "@fred", "julia_roberts"]),
-    label: (maybe one_of ["ui", "show-stopper"]),
-    repo: (maybe one_of ["github/hubot", "hubot-scripts", "janky"]),
-    query: (maybe one_of ["firefox", "Internet Explorer"])
-
-  # Create the string for the robot to receive from criteria. We create this
-  # string from randomized criteria, then parse the string and compare the
-  # results to the randomized criteria to test the `parse_criteria` function.
-  criteria_to_message = ({me, limit, assignee, label, repo, query}) -> [
-    'show', me,
-    limit, 'of' if limit? and assignee?,
-    (if assignee? and assignee isnt "my" then "#{assignee}'s" else assignee),
-    label,
-    'issues',
-    'for' if repo?, repo,
-    'about' if query?, query
-  ].filter(is_defined).join ' '
-
-  # QuickCheck-inspired randomized test cases.
-  _.times 100, ->
-    criteria_expected = random_criteria()
-    message = criteria_to_message criteria_expected
-    criteria_parsed = parse_criteria message
-    unless _.isEqual criteria_expected, criteria_parsed
-      console.log "Counterexample: \"#{ask}\"\n\tExpected: #{pp criteria_expected}\n\tGot:      #{pp criteria_parsed}" 
-
-#test()
+# require('../../test/scripts/github-issues_test').test parse_criteria
