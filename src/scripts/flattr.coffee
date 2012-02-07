@@ -9,7 +9,8 @@ module.exports = (robot) ->
 
   robot.respond /search things (.*)/i, (msg) ->
     query = msg.match[1]
-    msg.http("https://api.flattr.com/rest/v2/things/search?query=#{query}")
+    msg.http("https://api.flattr.com/rest/v2/things/search")
+      .query(query: query)
       .headers(Accept: "application/json")
       .get() (err, res, body) ->
         if err
@@ -68,7 +69,8 @@ module.exports = (robot) ->
 
   robot.hear /(http(?:s)?:\/\/.*)/, (msg) ->
     url = msg.match[1]
-    msg.http("https://api.flattr.com/rest/v2/things/lookup?q=#{url}")
+    msg.http("https://api.flattr.com/rest/v2/things/lookup")
+      .query(url: url)
       .headers(Accept: "application/json")
       .get() (err, res, body) ->
         if err
