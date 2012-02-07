@@ -9,7 +9,8 @@ module.exports = (robot) ->
 
   robot.respond /search things (.*)/i, (msg) ->
     query = msg.match[1]
-    msg.http("https://api.flattr.com/rest/v2/things/search?query=#{query}")
+    msg.http("https://api.flattr.com/rest/v2/things/search")
+      .query(query: query)
       .headers(Accept: "application/json")
       .get() (err, res, body) ->
         if err
@@ -66,18 +67,18 @@ module.exports = (robot) ->
         thing = JSON.parse(body)
         msg.send "Thing: [#{thing.flattrs}] #{thing.title} - #{thing.link}"
 
-  robot.hear /(http(?:s)?:\/\/.*)/, (msg) ->
+  robot.hear /(https?:\/\/[-a-zA-Z0-9+&@#/%?=~_|$!:,.;]*)/, (msg) ->
     url = msg.match[1]
-    msg.http("https://api.flattr.com/rest/v2/things/lookup?q=#{url}")
+    msg.http("https://api.flattr.com/rest/v2/things/lookup")
+      .query('url': url)
       .headers(Accept: "application/json")
       .get() (err, res, body) ->
         if err
           return
         location = JSON.parse(body)
-        if location.message == 'not_found'
-          return
-        msg.http(location.location)
-          .headers(Accept: "application/json")
-          .get() (err, res, body) ->
-            thing = JSON.parse(body)
-            msg.send "Thing: [#{thing.flattrs}] #{thing.title} - #{thing.link}"
+        if location.message == 'found'
+          msg.http(location.location)
+            .headers(Accept: "application/json")
+            .get() (err, res, body) ->
+              thing = JSON.parse(body)
+              msg.send "Thing: [#{thing.flattrs}] #{thing.title} - #{thing.link}"
