@@ -94,7 +94,7 @@ memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
           if preferredDimensions?
             callback "http://images.memegenerator.net/instances/#{preferredDimensions}/#{instanceID}.jpg"
           else
-            callback "http://memegenerator.net#{img}"
+            callback "http://images.memegenerator.net/instances/#{instanceID}.jpg"
       else
         msg.reply "Sorry, I couldn't generate that image."
 
