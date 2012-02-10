@@ -43,8 +43,9 @@ module.exports = (robot) ->
             msg.send if response.status_code is 200 then responseTitle else response.status_txt
           else
             httpResponse(url)
-
-    if url.match /^http\:\/\/bit\.ly/
+    if url.match /https?:\/\/(mobile\.)?twitter\.com/i
+      console.log "Twitter link; ignoring"
+    else if url.match /^http\:\/\/bit\.ly/
       httpBitlyResponse(url)
     else
       httpResponse(url)
