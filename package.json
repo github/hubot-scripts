@@ -1,6 +1,6 @@
 {
   "name":        "hubot-scripts",
-  "version":     "2.0.4",
+  "version":     "2.0.5",
   "author":      "hubot",
   "keywords":    "hubot plugin scripts campfire bot robot",
   "description": "Allows you to opt in to a variety of scripts",
@@ -34,7 +34,8 @@
     "nodepie": "0.4.0",
     "mailer": "0.6.7",
     "scribe-node": "0.0.24",
-    "sandbox": "0.8.2"
+    "sandbox": "0.8.2",
+    "prowler": "0.0.3"
   },
 
   "directories":  {

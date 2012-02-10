@@ -12,8 +12,7 @@ module.exports = (robot) ->
       msg
         .http(url)
         .get() (err, res, body) ->
-          if res.statusCode is 301
-            msg.send "Redirect: " + res.headers.location
+          if res.statusCode is 301 or res.statusCode is 302
             httpResponse(res.headers.location)
           else if res.statusCode is 200
             handler = new HtmlParser.DefaultHandler()
@@ -21,11 +20,11 @@ module.exports = (robot) ->
             parser.parseComplete body
             results = (Select handler.dom, "head title")
             if results[0]
-              msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"")
+              msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"").trim()
             else
               results = (Select handler.dom, "title")
               if results[0]
-                msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"")
+                msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"").trim()
           else
             msg.send "Error " + res.statusCode
 
@@ -39,7 +38,7 @@ module.exports = (robot) ->
           format: "json"
         .get() (err, res, body) ->
           response = JSON.parse body
-          responseTitle = response.data.info[0].title.replace(/(\r\n|\n|\r)/gm,"")
+          responseTitle = response.data.info[0].title.replace(/(\r\n|\n|\r)/gm,"").trim()
           if responseTitle
             msg.send if response.status_code is 200 then responseTitle else response.status_txt
           else
