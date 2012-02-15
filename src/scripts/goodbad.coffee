@@ -24,11 +24,6 @@ class GoodBad
     maxBadNum = if @badcache.length then Math.max.apply(Math,@badcache.map (n) -> n.num) else 0
     maxBadNum++
     maxBadNum  
-  add: (taskString) ->
-    task = {num: @nextTaskNum(), task: taskString}
-    @cache.push task
-    @robot.brain.data.tasks = @cache
-    task
   goodall: -> @goodcache
   badall: -> @badcache
   good: (goodString) ->
@@ -41,11 +36,12 @@ class GoodBad
     @badcache.push badthing
     @robot.brain.data.bad = @badcache
     badthing
-  deleteByNumber: (num) ->
-    index = @cache.map((n) -> n.num).indexOf(parseInt(num))
-    task = @cache.splice(index, 1)[0]
-    @robot.brain.data.tasks = @cache
-    task
+  delgood: ->
+    good = @goodcache = []
+    good 
+  delbad:
+    bad = @badcache = []
+    bad
 
 module.exports = (robot) ->
   goodbad = new GoodBad robot
@@ -76,7 +72,10 @@ module.exports = (robot) ->
     else 
       msg.send "Nothing bad happened."
 
-  robot.respond /(task delete|delete task) #?(\d+)/i, (msg) ->
-    taskNum = msg.match[2]
-    task = tasks.deleteByNumber taskNum
-    msg.send "Task deleted: ##{task.num} - #{task.task}"
+  robot.respond /(delgood)/i, (msg) ->
+    goodbad.delgood()
+    msg.send "Good things deleted." 
+
+  robot.respond /(delbad)/i, (msg) ->
+    goodbad.delbad()
+    msg.send "Bad things deleted." 
