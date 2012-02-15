@@ -39,11 +39,11 @@ class GoodBad
     @robot.brain.data.bad = @badcache
     badthing
   gooddel: ->
-    good = @goodcache = []
-    good 
+    @goodcache = []
+    @robot.brain.data.good = @goodcache
   baddel: ->
-    bad = @badcache = []
-    bad
+    @badcache = []
+    @robot.brain.data.bad = @badcache
 
 module.exports = (robot) ->
   goodbad = new GoodBad robot
