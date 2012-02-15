@@ -5,6 +5,8 @@
 # bad <bad thing> - Add something bad that happened this sprint
 # goodlist - List all good things that happened
 # badlist - List all bad things that happened
+# gooddel - Delete all good things that happened
+# baddel - Delete all bad things that happened
 
 class GoodBad
   constructor: (@robot) ->
@@ -24,8 +26,8 @@ class GoodBad
     maxBadNum = if @badcache.length then Math.max.apply(Math,@badcache.map (n) -> n.num) else 0
     maxBadNum++
     maxBadNum  
-  goodall: -> @goodcache
-  badall: -> @badcache
+  goodlist: -> @goodcache
+  badlist: -> @badcache
   good: (goodString) ->
     goodthing = {num: @nextGoodNum(), good: goodString}
     @goodcache.push goodthing
@@ -36,10 +38,10 @@ class GoodBad
     @badcache.push badthing
     @robot.brain.data.bad = @badcache
     badthing
-  delgood: ->
+  gooddel: ->
     good = @goodcache = []
     good 
-  delbad:
+  baddel: ->
     bad = @badcache = []
     bad
 
@@ -55,27 +57,27 @@ module.exports = (robot) ->
     msg.send "The sprint is festering..."
 
   robot.respond /(goodlist)/i, (msg) ->
-    if goodbad.goodall().length > 0
+    if goodbad.goodlist().length > 0
       response = ""
-      for good, num in goodbad.goodall()
+      for good, num in goodbad.goodlist()
         response += "##{good.num} - #{good.good}\n"
       msg.send response
     else 
       msg.send "Nothing good happened."
 
   robot.respond /(badlist)/i, (msg) ->
-    if goodbad.badall().length > 0
+    if goodbad.badlist().length > 0
       response = ""
-      for bad, num in goodbad.badall()
+      for bad, num in goodbad.badlist()
         response += "##{bad.num} - #{bad.bad}\n"
       msg.send response
     else 
       msg.send "Nothing bad happened."
 
-  robot.respond /(delgood)/i, (msg) ->
-    goodbad.delgood()
+  robot.respond /(gooddel)/i, (msg) ->
+    goodbad.gooddel()
     msg.send "Good things deleted." 
 
-  robot.respond /(delbad)/i, (msg) ->
-    goodbad.delbad()
+  robot.respond /(baddel)/i, (msg) ->
+    goodbad.baddel()
     msg.send "Bad things deleted." 
