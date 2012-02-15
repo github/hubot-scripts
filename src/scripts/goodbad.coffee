@@ -1,15 +1,15 @@
-# Allows tasks (TODOs) to be added to Hubot
+# Allows good and bad things to be added to Hubot for sprint retrospective
+#  Based on tasks.coffee
 #
-# task add <task> - Add a task
-# task list tasks - List the tasks
-# task delete <task number> - Delete a task
-#
+# good <good thing> - Add something good that happened this sprint
+# bad <bad thing> - Add something bad that happened this sprint
+# goodlist - List all good things that happened
+# badlist - List all bad things that happened
 
 class GoodBad
   constructor: (@robot) ->
     @goodcache = []
     @badcache = []
-    #@cache = []
     @robot.brain.on 'loaded', =>
       if @robot.brain.data.good
         @goodcache = @robot.brain.data.good
@@ -48,22 +48,17 @@ class GoodBad
     task
 
 module.exports = (robot) ->
-  #tasks = new Tasks robot
   goodbad = new GoodBad robot
   
-  robot.respond /(good:) (.+?)$/i, (msg) ->
+  robot.respond /(good) (.+?)$/i, (msg) ->
     good = goodbad.good msg.match[2]
     msg.send "The sprint is thriving!"
 
-  robot.respond /(bad:) (.+?)$/i, (msg) ->
+  robot.respond /(bad) (.+?)$/i, (msg) ->
     bad = goodbad.bad msg.match[2]
     msg.send "The sprint is festering..."
 
-#  robot.respond /(task add|add task) (.+?)$/i, (msg) ->
-#    task = tasks.add msg.match[2]
-#    msg.send "Task added: ##{task.num} - #{task.task}"
-
-  robot.respond /(good list)/i, (msg) ->
+  robot.respond /(goodlist)/i, (msg) ->
     if goodbad.goodall().length > 0
       response = ""
       for good, num in goodbad.goodall()
@@ -72,14 +67,14 @@ module.exports = (robot) ->
     else 
       msg.send "Nothing good happened."
 
-#  robot.respond /(task list|list tasks)/i, (msg) ->
-#    if tasks.all().length > 0
-#      response = ""
-#      for task, num in tasks.all()
-#        response += "##{task.num} - #{task.task}\n"
-#      msg.send response
-#    else
-#      msg.send "There are no tasks"
+  robot.respond /(badlist)/i, (msg) ->
+    if goodbad.badall().length > 0
+      response = ""
+      for bad, num in goodbad.badall()
+        response += "##{bad.num} - #{bad.bad}\n"
+      msg.send response
+    else 
+      msg.send "Nothing bad happened."
 
   robot.respond /(task delete|delete task) #?(\d+)/i, (msg) ->
     taskNum = msg.match[2]
