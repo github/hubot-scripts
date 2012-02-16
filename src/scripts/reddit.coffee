@@ -20,8 +20,9 @@ module.exports = (robot)->
     location  = lookup_site + reddit
 
     message.http( location ).get() (error, response, body)->
-      return response_handler "Sorry, something went wrong"                   if error
-      return response_handler "Reddit doesn't know what you're talking about" if response.statusCode == 404
+      return response_handler "Sorry, something went wrong"                      if error
+      return response_handler "Reddit doesn't know what you're talking about"    if response.statusCode == 404
+      return response_handler "Reddit doesn't want anyone to go there any more." if response.statusCode == 403
 
       list  = JSON.parse( body ).data.children
       count = 0
