@@ -2,7 +2,10 @@
 #
 # <thing>++ - give thing some karma
 # <thing>-- - take away some of thing's karma
-# karma <thing> - check thing's karma, if <thing> is ommitted get top and bottom 3
+# karma <thing> - check thing's karma (if <thing> is omitted, show the top 5)
+# karma empty <thing> - empty a thing's karma
+# karma best - show the top 5
+# karma worst - show the bottom 5
 class Karma
   
   constructor: (@robot) ->
@@ -19,7 +22,11 @@ class Karma
     @robot.brain.on 'loaded', =>
       if @robot.brain.data.karma
         @cache = @robot.brain.data.karma
-
+  
+  kill: (thing) ->
+    delete @cache[thing]
+    @robot.brain.data.karma = @cache
+  
   increment: (thing) ->
     @cache[thing] ?= 0
     @cache[thing] += 1
@@ -40,16 +47,20 @@ class Karma
     k = if @cache[thing] then @cache[thing] else 0
     return k
 
-  summary: ->
+  sort: ->
     s = []
-    for key,val of @cache
-      s.push({name: key, karma: val})
-    s.sort (a,b) -> b.karma - a.karma
-    if s.length >= 6
-      return [s[0], s[1], s[2], s[s.length-3], s[s.length-2], s[s.length-1]]
-    else
-      return s
-
+    for key, val of @cache
+      s.push({ name: key, karma: val })
+    s.sort (a, b) -> b.karma - a.karma
+  
+  top: (n = 5) ->
+    sorted = @sort()
+    sorted.slice(0, n)
+    
+  bottom: (n = 5) ->
+    sorted = @sort()
+    sorted.slice(-n).reverse()
+  
 module.exports = (robot) ->
   karma = new Karma robot
   robot.hear /(\S+[^+\s])\+\+(\s|$)/, (msg) ->
@@ -62,18 +73,25 @@ module.exports = (robot) ->
     karma.decrement subject
     msg.send "#{subject} #{karma.decrementResponse()} (Karma: #{karma.get(subject)})"
   
-  robot.respond /karma ?(\S+[^-\s])?$/i, (msg) ->
-    if msg.match[1]
-      match = msg.match[1].toLowerCase()
+  robot.respond /karma empty ?(\S+[^-\s])$/i, (msg) ->
+    subject = msg.match[1].toLowerCase()
+    karma.kill subject
+    msg.send "#{subject} has had its karma scattered to the winds."
+  
+  robot.respond /karma( best)?$/i, (msg) ->
+    verbiage = ["The Best"]
+    for item, rank in karma.top()
+      verbiage.push "#{rank + 1}. #{item.name} - #{item.karma}"
+    msg.send verbiage.join("\n")
+      
+  robot.respond /karma worst$/i, (msg) ->
+    verbiage = ["The Worst"]
+    for item, rank in karma.bottom()
+      verbiage.push "#{rank + 1}. #{item.name} - #{item.karma}"
+    msg.send verbiage.join("\n")
+  
+  robot.respond /karma (\S+[^-\s])$/i, (msg) ->
+    match = msg.match[1].toLowerCase()
+    if match != "best" && match != "worst"
       msg.send "\"#{match}\" has #{karma.get(match)} karma."
-    else
-      s = karma.summary()
-      if s.length >= 3
-        msg.send "Highest karma: \"#{s[0].name}\" (#{s[0].karma}), " +
-               "\"#{s[1].name}\" (#{s[1].karma}), and \"#{s[2].name}\" " +
-               "(#{s[2].karma}). Lowest karma: \"#{s[s.length-1].name}\" " +
-               "(#{s[s.length-1].karma}), \"#{s[s.length-2].name}\" " +
-               "(#{s[s.length-2].karma}), and \"#{s[s.length-3].name}\" " +
-               "(#{s[s.length-3].karma})."
-      else
-        msg.send "There aren't enough items with karma to give a top and bottom 3"
+  
