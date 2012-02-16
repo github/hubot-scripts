@@ -2,7 +2,8 @@
 #
 # <thing>++ - give thing some karma
 # <thing>-- - take away some of thing's karma
-# karma <thing> - check thing's karma, if <thing> is ommitted get top and bottom 3
+# karma <thing> - check thing's karma, if <thing> is omitted get top and bottom 3
+# karma empty <thing> - empty a thing's karma
 class Karma
   
   constructor: (@robot) ->
@@ -19,7 +20,11 @@ class Karma
     @robot.brain.on 'loaded', =>
       if @robot.brain.data.karma
         @cache = @robot.brain.data.karma
-
+  
+  kill: (thing) ->
+    delete @cache[thing]
+    @robot.brain.data.karma = @cache
+  
   increment: (thing) ->
     @cache[thing] ?= 0
     @cache[thing] += 1
@@ -61,6 +66,11 @@ module.exports = (robot) ->
     subject = msg.match[1].toLowerCase()
     karma.decrement subject
     msg.send "#{subject} #{karma.decrementResponse()} (Karma: #{karma.get(subject)})"
+  
+  robot.respond /karma empty ?(\S+[^-\s])$/i, (msg) ->
+    subject = msg.match[1].toLowerCase()
+    karma.kill subject
+    msg.send "#{subject} has had its karma scattered to the winds."
   
   robot.respond /karma ?(\S+[^-\s])?$/i, (msg) ->
     if msg.match[1]
