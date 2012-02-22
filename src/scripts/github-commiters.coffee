@@ -1,14 +1,14 @@
 # Show the commiters from a repo
 #
-# add HUBOT_GITHUB_USER to your heroku env 
-# the HUBOT_GITHUB_USER should map to your account, not the bot account
-# the HUBOT_BOT_GITHUB_USER should map to the bot github username
-# the HUBOT_BOT_GITHUB_PASS should map to the bot github password
-
-# developed by http://github.com/fellix - Crafters Software Studio
+# You need to set the following variables:
+#   HUBOT_GITHUB_TOKEN ="<oauth token>"
+#
+# repo commiters <repo> - shows commiters of repository
+# repo top-commiters <repo> - shows top commiters of repository
+#
 
 module.exports = (robot) ->
-  robot.hear /^repo commiters (.*)$/i, (msg) ->
+  robot.respond /repo commiters (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           max_length = commits.length
           max_length = 20 if commits.length > 20
@@ -17,7 +17,7 @@ module.exports = (robot) ->
             max_length -= 1
             return unless max_length
               
-  robot.hear /^repo top-commiter (.*)$/i, (msg) ->
+  robot.respond /repo top-commiter (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           top_commiter = null
           for commit in commits
@@ -29,13 +29,11 @@ module.exports = (robot) ->
 read_contributors = (msg, response_handler) ->
     repo = msg.match[1].toLowerCase()
     repo = "#{process.env.HUBOT_GITHUB_USER}/#{repo}" unless repo.indexOf("/") > -1
-    bot_github_user = process.env.HUBOT_BOT_GITHUB_USER 
-    bot_github_pass = process.env.HUBOT_BOT_GITHUB_PASS
-    auth = new Buffer("#{bot_github_user}:#{bot_github_pass}").toString('base64')
+    oauth_token = process.env.HUBOT_GITHUB_TOKEN
     url = "https://api.github.com/repos/#{repo}/contributors"
     
     msg.http(url)
-      .headers(Authorization: "Basic #{auth}", Accept: "application/json")
+      .headers(Authorization: "token #{oauth_token}", Accept: "application/json")
       .get() (err, res, body) ->
         if err
           msg.send "GitHub says: #{err}"
