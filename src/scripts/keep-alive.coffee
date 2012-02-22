@@ -16,7 +16,7 @@ ping = (url) ->
   options   =
     host: parsedUrl.host
     port: 80
-    path: '/'
+    path: parsedUrl.path
     method: 'GET'
 
   req = HTTP.request options, (res) ->
