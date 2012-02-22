@@ -32,7 +32,7 @@ get_data = (robot, msg, location, service, query, cb, lifetime, stack=0) ->
   robot.brain.data.wunderground or= {}
 
   data = robot.brain.data.wunderground[cache_key]
-  if data? and ttl(lifetime, data) <= 0
+  if data? and ttl(data) <= 0
     #console.log 'needs refresh'
     robot.brain.data.wunderground[cache_key] = data = null
   if data?
@@ -46,6 +46,7 @@ get_data = (robot, msg, location, service, query, cb, lifetime, stack=0) ->
     msg
       .http("http://api.wunderground.com/api/#{process.env.HUBOT_WUNDERGROUND_API_KEY}/#{service}/q/#{query}.json")
       .get() (err, res, body) ->
+        # check for a non-200 response. cache it for some short amount of time && msg.send 'unavailable'
         data = JSON.parse(body)
 
         # probably an unknown place
@@ -101,8 +102,11 @@ formatted_ttl = (data) ->
 # how long till our cached data expires?
 ttl = (data) ->
   now = new Date
-  retrieved = Date.parse(data.retrieved)
-  data.lifetime * 1000 - (now.getTime() - retrieved)
+  if not data.lifetime? or not data.retrieved?
+    -1
+  else
+    retrieved = Date.parse(data.retrieved)
+    data.lifetime * 1000 - (now.getTime() - retrieved)
 
 alternative_place = (item) ->
   return '' if item.country != 'US' || item.state == "" || item.city == ""
