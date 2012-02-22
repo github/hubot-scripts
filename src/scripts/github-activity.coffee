@@ -5,7 +5,8 @@
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
 #
-# developed by http://github.com/vquaiato - Crafters Software Studio
+# repo show <repo> - shows activity of repository
+#
 
 require('date-utils')
 

@@ -3,7 +3,9 @@
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
 #
-# developed by http://github.com/fellix - Crafters Software Studio
+# repo commiters <repo> - shows commiters of repository
+# repo top-commiters <repo> - shows top commiters of repository
+#
 
 module.exports = (robot) ->
   robot.respond /repo commiters (.*)$/i, (msg) ->
