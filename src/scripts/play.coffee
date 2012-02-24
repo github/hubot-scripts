@@ -61,12 +61,12 @@ module.exports = (robot) ->
           message.send("Bumped the volume for ya.")
         else
           message.send("Whoa, can't change the volume. Weird.")
-  
+
   robot.respond /volume$/i, (message) ->
     message.http("#{URL}/volume")
       .get() (err, res, body) ->
         json = JSON.parse(body)
-        message.send(json.message)
+        message.send(json.volume)
 
   robot.respond /quiet/i, (message) ->
     message.http("#{URL}/volume")
