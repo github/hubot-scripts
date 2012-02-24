@@ -66,7 +66,7 @@ module.exports = (robot) ->
     message.http("#{URL}/volume")
       .get() (err, res, body) ->
         json = JSON.parse(body)
-        message.send(json.volume)
+        message.send("#{json.volume}")
 
   robot.respond /quiet/i, (message) ->
     message.http("#{URL}/volume")
