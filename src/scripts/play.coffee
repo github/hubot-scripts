@@ -50,6 +50,22 @@ module.exports = (robot) ->
         json = JSON.parse(body)
         message.send(json.message)
 
+  robot.respond /who'?s online/i, (message) ->
+    message.http("#{URL}/online")
+      .get() (err, res, body) ->
+        json = JSON.parse(body)
+        users = json.users
+        last_user = users.pop()
+
+        str = []
+        str.push users.join(", ")
+        str.push "and" if str.length
+        str.push last_user
+        str.push (if users.length then "are" else "is")
+        str.push "online"
+
+        message.send(str.join(" "))
+
   robot.respond /volume (.*)/i, (message) ->
     message.http("#{URL}/volume")
       .query(level: message.match[1])
