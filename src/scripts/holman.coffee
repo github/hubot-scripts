@@ -26,6 +26,7 @@ module.exports = (robot) ->
             "Sometimes it's fun to be a little whimsical.",
             "Sometimes it's fun to be a little creepy.",
             "I WAS AMBUSHED BY THOSE JOURNALISTS THEY PUT WORDS IN MY MOUTH",
-            "Mom may have wanted me to be a doctor or something, but hey, \"Hot Tech Boy of the Week\" will do."
+            "Mom may have wanted me to be a doctor or something, but hey, \"Hot Tech Boy of the Week\" will do.",
+            "Are we going to Rickhouse now?"
         ]
         msg.send msg.random quotes
