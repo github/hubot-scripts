@@ -27,6 +27,9 @@ module.exports = (robot) ->
             "Sometimes it's fun to be a little creepy.",
             "I WAS AMBUSHED BY THOSE JOURNALISTS THEY PUT WORDS IN MY MOUTH",
             "Mom may have wanted me to be a doctor or something, but hey, \"Hot Tech Boy of the Week\" will do.",
-            "Are we going to Rickhouse now?"
+            "Are we going to Rickhouse now?",
+            "http://i.imgur.com/Myent.jpg",
+            "http://www.youtube.com/watch?v=z6nt6l_iv0g"
+            
         ]
         msg.send msg.random quotes
