@@ -2,7 +2,6 @@
 #
 # joinme              - Generates a new join.me 9-digit code and outputs a presenter link (download)
 #                       and a participant link (to view the session)
-#                     - Kind of annoying that you have to download and open a file each time, but it works!
 #
 
 module.exports = (robot) ->
