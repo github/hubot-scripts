@@ -67,7 +67,7 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond ASK_REGEX, (msg) ->
     criteria = parse_criteria msg.message.text
-    criteria.repo = github.qualified_repo( criteria.repo ?= process.env.HUBOT_GITHUB_REPO )
+    criteria.repo = github.qualified_repo criteria.repo
     criteria.assignee = complete_assignee msg, criteria.assignee if criteria.assignee?
 
     query_params = state: "open", sort: "created"

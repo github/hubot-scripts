@@ -34,7 +34,7 @@
     "nodepie": "0.4.0",
     "mailer": "0.6.7",
     "scribe-node": "0.0.24",
-    "githubot": "0.1.2",
+    "githubot": "0.1.3",
     "sandbox": "0.8.2",
     "prowler": "0.0.3"
   },
