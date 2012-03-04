@@ -63,40 +63,26 @@ complete_assignee = (msg, name) ->
   resolve = (n) -> process.env["HUBOT_GITHUB_USER_#{n.replace(/\s/g, '_').toUpperCase()}"]
   resolve(name) or resolve(name.split(' ')[0]) or name
 
-# Resolve repo to a qualified GitHub repo using environment variables.
-complete_repo = (repo) ->
-  repo = process.env.HUBOT_GITHUB_REPO unless repo?
-  repo = "#{process.env.HUBOT_GITHUB_USER}/#{repo}" unless _s.include repo, "/"
-  repo
-
 module.exports = (robot) ->
+  github = require("githubot")(robot)
   robot.respond ASK_REGEX, (msg) ->
     criteria = parse_criteria msg.message.text
-    criteria.repo = complete_repo criteria.repo
+    criteria.repo = github.qualified_repo criteria.repo
     criteria.assignee = complete_assignee msg, criteria.assignee if criteria.assignee?
 
     query_params = state: "open", sort: "created"
     query_params.labels = criteria.label if criteria.label?
     query_params.assignee = criteria.assignee if criteria.assignee?
 
-    oauth_token = process.env.HUBOT_GITHUB_TOKEN
-    msg.http("https://api.github.com/repos/#{criteria.repo}/issues")
-      .headers(Authorization: "token #{oauth_token}", Accept: "application/json")
-      .query(query_params)
-      .get() (err, res, body) ->
-        if err
-          msg.send "GitHub says: #{err}"
-          return
+    github.get "https://api.github.com/repos/#{criteria.repo}/issues", (issues) ->
+      issues = filter_issues issues, criteria
 
-        issues = JSON.parse(body)
-        issues = filter_issues issues, criteria
-       
-        if _.isEmpty issues
-            msg.send "No issues found."
-        else
-          for issue in issues
-            labels = ("##{label.name}" for label in issue.labels).join(" ")
-            assignee = if issue.assignee then " (#{issue.assignee.login})" else ""
-            msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee} = #{issue.html_url}"
+      if _.isEmpty issues
+          msg.send "No issues found."
+      else
+        for issue in issues
+          labels = ("##{label.name}" for label in issue.labels).join(" ")
+          assignee = if issue.assignee then " (#{issue.assignee.login})" else ""
+          msg.send "[#{issue.number}] #{issue.title} #{labels}#{assignee} = #{issue.html_url}"
 
 # require('../../test/scripts/github-issues_test').test parse_criteria

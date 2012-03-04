@@ -8,6 +8,7 @@
 #
 
 module.exports = (robot) ->
+  github = require("githubot")(robot)
   robot.respond /repo commiters (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           max_length = commits.length
@@ -16,7 +17,7 @@ module.exports = (robot) ->
             msg.send "[#{commit.login}] #{commit.contributions}"
             max_length -= 1
             return unless max_length
-              
+
   robot.respond /repo top-commiter (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           top_commiter = null
@@ -24,21 +25,11 @@ module.exports = (robot) ->
             top_commiter = commit if top_commiter == null
             top_commiter = commit if commit.contributions > top_commiter.contributions 
           msg.send "[#{top_commiter.login}] #{top_commiter.contributions} :trophy:"
-  
-  
-read_contributors = (msg, response_handler) ->
-    repo = msg.match[1].toLowerCase()
-    repo = "#{process.env.HUBOT_GITHUB_USER}/#{repo}" unless repo.indexOf("/") > -1
-    oauth_token = process.env.HUBOT_GITHUB_TOKEN
-    url = "https://api.github.com/repos/#{repo}/contributors"
-    
-    msg.http(url)
-      .headers(Authorization: "token #{oauth_token}", Accept: "application/json")
-      .get() (err, res, body) ->
-        if err
-          msg.send "GitHub says: #{err}"
-          return
-        commits = JSON.parse(body)
+
+  read_contributors = (msg, response_handler) ->
+      repo = github.qualified_repo msg.match[1]
+      url = "https://api.github.com/repos/#{repo}/contributors"
+      github.get url, (commits) ->
         if commits.message
           msg.send "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
         else if commits.length == 0
