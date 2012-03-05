@@ -6,7 +6,7 @@
 #                                                     *With optional notes
 # update <issue-id> with "<note>"  - Adds a note to the issue
 # add <hours> hours to <issue-id> ["comments"]  - Adds hours to the issue with the optional comments
-#
+
 # Note: <issue-id> can be formatted in the following ways:
 #       1234, #1234, issue 1234, issue #1234
 #
