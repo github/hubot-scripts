@@ -36,7 +36,8 @@
     "scribe-node": "0.0.24",
     "githubot": "0.1.3",
     "sandbox": "0.8.2",
-    "prowler": "0.0.3"
+    "prowler": "0.0.3",
+    "handlebars": ">= 1.0.5beta"
   },
 
   "directories":  {
