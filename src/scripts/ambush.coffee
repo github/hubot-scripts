@@ -22,6 +22,9 @@ module.exports = (robot) ->
       msg.send "Too many users like that"
     else
       msg.send "#{msg.match[1]}? Never heard of 'em"
+  
+  robot.hear /test/, (msg) ->
+    robot.testAmbush(msg)
 
   robot.hear /./i, (msg) ->
     if (ambushes = robot.brain.data.ambushes[msg.message.user.name])
@@ -29,3 +32,4 @@ module.exports = (robot) ->
       for ambush in ambushes
         msg.send ambush[0] + " says: " + ambush[1]
       msg.send "That's it. You were greatly missed."
+      delete robot.brain.data.ambushes[msg.message.user.name]
