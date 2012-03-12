@@ -3,6 +3,7 @@
 # sprintly [product_id] [status] [limit] - list items in status (default status is in-progress, other values: backlog, completed, accepted; default limit is 20)
 # sprintly [product_id] mine - list items assigned to me
 # sprintly [product_id] #42 - show item number 42
+# sprintly [product_id] #42 tasks - list unfinished subtasks of story number 42
 # sprintly token <email:apitoken> - set/update credentials for user (required for other commands to work)
 # sprintly default 1234 - set default product_id
 #
@@ -91,6 +92,11 @@ module.exports = (robot) ->
         else
           msg.send "Something came up: #{body}"
 
+  robot.respond /sprintly +(?:(\d+) +)?#(\d+) +tasks *$/, (msg) ->
+    sprintly(msg).product()
+      .scope("items/#{msg.match[2]}/children.json")
+      .get()(formatItems(msg, true))
+
 DummyClient = ->
 self = -> this
 for method in ['scope', 'query', 'product']
@@ -98,18 +104,23 @@ for method in ['scope', 'query', 'product']
 for method in ['get', 'post', 'put', 'delete']
   DummyClient::[method] = -> self
 
-itemSummary = (item) ->
-  summary = "##{item.number} (#{item.score}) "
-  summary += "#{item.type}: " if item.type isnt 'story'
-  summary += item.title
-  summary += " https://sprint.ly/#!/product/#{item.product.id}/item/#{item.number}"
-  summary
+itemSummary = (item, subtask=false) ->
+  parts = ["##{item.number}"]
+  parts.push "(#{item.score})" unless subtask
+  parts.push "#{item.type}:" if (not subtask and item.type isnt 'story') or (subtask and item.type isnt 'task')
+  parts.push item.title
+  parts.push "https://sprint.ly/#!/product/#{item.product.id}/item/#{item.number}"
+  parts.join(" ")
 
-formatItems = (msg) ->
+formatItems = (msg, subtasks=false) ->
+  no_items_msg = if subtasks then "No subtasks" else "No items"
   (err, res, body) ->
     if res.statusCode == 200
       payload = JSON.parse(body)
-      for item in payload
-        msg.send itemSummary(item)
+      if payload.length > 0
+        for item in payload when not subtasks or item.status in ['backlog', 'in-progress']
+          msg.send itemSummary(item, subtasks)
+      else
+        msg.send no_items_msg
     else
       msg.send "Something came up: #{body}"
