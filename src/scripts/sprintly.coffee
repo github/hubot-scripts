@@ -59,8 +59,11 @@ formatItems = (msg) ->
   (err, res, body) ->
     if res.statusCode == 200
       payload = JSON.parse(body)
-      items = payload.map (item) ->
-        "##{item.number} #{item.score} #{if item.type isnt 'story' then "#{item.type}: " else ""}#{item.title} https://sprint.ly/#!/product/#{item.product.id}/item/#{item.number}"
-      msg.send items.join("\n")
+      for item in payload
+        message = "##{item.number} (#{item.score}) "
+        message += "#{item.type}: " if item.type isnt 'story'
+        message += item.title
+        message += " https://sprint.ly/#!/product/#{item.product.id}/item/#{item.number}"
+        msg.send(message)
     else
       msg.send "Something came up: #{body}"
