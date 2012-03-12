@@ -10,7 +10,7 @@
 #
 # show me stories for <project> -- shows current stories being worked on
 module.exports = (robot) ->
-  robot.respond /show\s+(me\s+)?stories\s+(for\s+)?(.*)/i, (msg)->
+  robot.respond /show\s+(me\s+)?stories(\s+for\s+)?(.*)/i, (msg)->
     Parser = require("xml2js").Parser
     token = process.env.HUBOT_PIVOTAL_TOKEN
     project_name = msg.match[3]
