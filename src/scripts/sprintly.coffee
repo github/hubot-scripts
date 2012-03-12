@@ -1,16 +1,9 @@
 # List stories and other items in Sprint.ly and interact with them.
 #
-# sprintly [product_id] - list in-progress items
+# sprintly [product_id] [status] [limit] - list items in status (default status is in-progress, other values: backlog, completed, accepted; default limit is 20)
 # sprintly token <email:apitoken> - set/update credentials for user (required for other commands to work)
 # sprintly default 1234 - set default product_id
 #
-
-DummyClient = ->
-self = -> this
-for method in ['scope', 'query', 'product']
-  DummyClient::[method] = self
-for method in ['get', 'post', 'put', 'delete']
-  DummyClient::[method] = -> self
 
 module.exports = (robot) ->
 
@@ -47,15 +40,27 @@ module.exports = (robot) ->
     robot.brain.data.sprintly.product_id = msg.match[1]
     msg.send "Default Product ID set to #{msg.match[1]}"
 
-  robot.respond /sprintly *( +\d+)? *$/, (msg) ->
+  robot.respond /sprintly *(?: +(\d+))?(?: +(backlog|in-progress|completed|accepted))?(?: +(\d+))? *$/, (msg) ->
+    query = status: msg.match[2] ? 'in-progress'
+    query.limit = msg.match[3] if msg.match[3]
     sprintly(msg).product()
       .scope('items.json')
-      .query(status: 'in-progress')
-      .get() (err, res, body) ->
-        if res.statusCode == 200
-          payload = JSON.parse(body)
-          items = payload.map (item) ->
-            "##{item.number} #{item.score} #{if item.type isnt 'story' then "#{item.type}: " else ""}#{item.title} https://sprint.ly/#!/product/#{item.product.id}/item/#{item.number}"
-          msg.send items.join("\n")
-        else
-          msg.send "Something came up: #{body}"
+      .query(query)
+      .get()(formatItems(msg))
+
+DummyClient = ->
+self = -> this
+for method in ['scope', 'query', 'product']
+  DummyClient::[method] = self
+for method in ['get', 'post', 'put', 'delete']
+  DummyClient::[method] = -> self
+
+formatItems = (msg) ->
+  (err, res, body) ->
+    if res.statusCode == 200
+      payload = JSON.parse(body)
+      items = payload.map (item) ->
+        "##{item.number} #{item.score} #{if item.type isnt 'story' then "#{item.type}: " else ""}#{item.title} https://sprint.ly/#!/product/#{item.product.id}/item/#{item.number}"
+      msg.send items.join("\n")
+    else
+      msg.send "Something came up: #{body}"
