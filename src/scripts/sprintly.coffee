@@ -1,14 +1,19 @@
 # List stories and other items in Sprint.ly and interact with them.
 #
 # sprintly [product_id] [status] [limit] - list items in status (default status is in-progress, other values: backlog, completed, accepted; default limit is 20)
+# sprintly [product_id] mine - list items assigned to me
 # sprintly token <email:apitoken> - set/update credentials for user (required for other commands to work)
 # sprintly default 1234 - set default product_id
 #
 
 module.exports = (robot) ->
 
+  sprintlyUser = (msg) ->
+    robot.brain.data.sprintly ?= {}
+    robot.brain.data.sprintly[msg.message.user.id] ?= {}
+
   sprintly = (msg, auth) ->
-    if auth ?= robot.brain.data.sprintly?[msg.message.user.id]
+    if auth ?= sprintlyUser(msg).auth
       client = msg.http('https://sprint.ly')
         .header('accept', 'application/json')
         .header('authorization', "Basic #{new Buffer(auth).toString('base64')}")
@@ -29,8 +34,7 @@ module.exports = (robot) ->
       .scope('products.json')
       .get() (err, res, body) ->
         if res.statusCode < 400
-          robot.brain.data.sprintly ?= {}
-          robot.brain.data.sprintly[msg.message.user.id] = msg.match[1]
+          sprintlyUser(msg).auth = msg.match[1]
           msg.send "API token set"
         else
           msg.send "Unable to verify API token: #{body}"
@@ -47,6 +51,26 @@ module.exports = (robot) ->
       .scope('items.json')
       .query(query)
       .get()(formatItems(msg))
+
+  robot.respond /sprintly +(?:(\d+) +)?mine *$/, (msg) ->
+    client = sprintly(msg).product()
+    user = sprintlyUser(msg)
+
+    listMine = -> client.scope('items.json').query(assigned_to: user.user_id).get()(formatItems(msg))
+
+    if user.user_id
+      listMine()
+    else
+      client.scope('people.json').get() (err, res, body) ->
+        if res.statusCode == 200
+          payload = JSON.parse(body)
+          user_email = user.auth.split(':')[0]
+          for {id, email} in payload when email == user_email
+            user.user_id = id
+            listMine()
+            break
+        else
+          msg.send "Something came up: #{body}"
 
 DummyClient = ->
 self = -> this
