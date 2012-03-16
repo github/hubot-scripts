@@ -17,7 +17,7 @@ module.exports = (robot) ->
 
     msg.send theReply
 
-  robot.respond /i am ([a-z-]+)/i, (msg) ->
+  robot.respond /i am ([a-z0-9-]+)/i, (msg) ->
     githubLogin = msg.match[1]
     msg.message.user.githubLogin = githubLogin
     msg.send "Ok, you are " + githubLogin + " on GitHub"
