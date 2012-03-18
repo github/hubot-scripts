@@ -20,18 +20,18 @@ _          = require("underscore")
 
 module.exports = (robot) ->
 
-  robot.respond /archer$/i, (msg) ->
+  robot.respond /archer quote$/i, (msg) ->
     msg
-      .http("http://en.wikiquote.org/wiki/Archer_(TV_Series)")
+      .http("http://en.wikiquote.org/wiki/Archer_(TV_series)")
       .header("User-Agent: Archerbot for Hubot (+https://github.com/github/hubot-scripts)")
       .get() (err, res, body) ->
-        quotes = parse_html(body, "li")
+        quotes = parse_html(body, "dl")
         quote = get_quote msg, quotes
 
 get_quote = (msg, quotes) ->
 
   nodeChildren = _.flatten childern_of_type(quotes[Math.floor(Math.random() * quotes.length)])
-  quote = (textNode.data for textNode in nodeChildren).join ''
+  quote = (textNode.data for textNode in nodeChildren).join(' ').replace(/^\s+|\s+$/g, '')
 
   msg.send quote
 
