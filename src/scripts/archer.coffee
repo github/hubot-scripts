@@ -1,7 +1,11 @@
-# Allows Hubot to find an awesome Mitch Hedburg quotes
+# Make hubot fetch quotes pertaining to the world's best secret agent, Archer.
+# Hubot.
+# HUBOT.
+# HUBOT!!!!
+# WHAT?
+# DANGER ZONE.
 #
-# get mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org with filter
-# get dirty mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org without potty mouth filter
+# get archer
 
 # REQUIRED MODULES
 # sudo npm install htmlparser
@@ -16,12 +20,12 @@ _          = require("underscore")
 
 module.exports = (robot) ->
 
-  robot.respond /get mitch$/i, (msg) ->
+  robot.respond /archer$/i, (msg) ->
     msg
       .http("http://en.wikiquote.org/wiki/Archer_(TV_Series)")
       .header("User-Agent: Archerbot for Hubot (+https://github.com/github/hubot-scripts)")
       .get() (err, res, body) ->
-        quotes = parse_html(body, "dl")
+        quotes = parse_html(body, "li")
         quote = get_quote msg, quotes
 
 get_quote = (msg, quotes) ->
