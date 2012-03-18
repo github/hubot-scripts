@@ -3,7 +3,7 @@
 # fishpun - Get fishy.
 #
 module.exports = (robot) ->
-  robot.hear /^fishpun$/i, (msg) ->
+  robot.hear /fishpun/i, (msg) ->
     quotes = [
       "I caught an angelfish! It looks divine!",
       "I caught an arapaima! This thing is huge!",
