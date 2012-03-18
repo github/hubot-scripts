@@ -20,6 +20,9 @@ _          = require("underscore")
 
 module.exports = (robot) ->
 
+  robot.respond /benoit/i, (msg) ->
+    msg.send "balls"
+
   robot.respond /archer quote$/i, (msg) ->
     msg
       .http("http://en.wikiquote.org/wiki/Archer_(TV_series)")
