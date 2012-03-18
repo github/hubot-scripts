@@ -21,7 +21,7 @@ module.exports = (robot) ->
       .http("http://en.wikiquote.org/wiki/Archer_(TV_Series)")
       .header("User-Agent: Archerbot for Hubot (+https://github.com/github/hubot-scripts)")
       .get() (err, res, body) ->
-        quotes = parse_html(body, "li")
+        quotes = parse_html(body, "dl")
         quote = get_quote msg, quotes
 
 get_quote = (msg, quotes) ->
