@@ -20,6 +20,18 @@ _          = require("underscore")
 
 module.exports = (robot) ->
 
+  robot.hear /^benoit/i, (msg) ->
+    msg.send "balls"
+
+  robot.hear /^loggin/i, (msg) ->
+    msg.reply "call Kenny Loggins, 'cuz you're in the DANGER ZONE."
+
+  robot.hear /^sitting down/i, (msg) ->
+    msg.reply "What?! At the table? Look, he thinks he's people!"
+
+  robot.hear "I love that you know how to do that.", (msg) ->
+    msg.reply "And I love that I have an erection... that doesn't involve homeless people."
+
   robot.respond /archer quote$/i, (msg) ->
     msg
       .http("http://en.wikiquote.org/wiki/Archer_(TV_series)")
