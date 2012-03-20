@@ -32,7 +32,7 @@ module.exports = (robot) ->
   robot.hear "I love that you know how to do that.", (msg) ->
     msg.reply "And I love that I have an erection... that doesn't involve homeless people."
 
-  robot.respond /archer quote$/i, (msg) ->
+  robot.hear /archer/i, (msg) ->
     msg
       .http("http://en.wikiquote.org/wiki/Archer_(TV_series)")
       .header("User-Agent: Archerbot for Hubot (+https://github.com/github/hubot-scripts)")
