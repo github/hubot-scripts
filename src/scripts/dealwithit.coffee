@@ -13,12 +13,6 @@ deal = [
   "http://i.imgur.com/Wj3Do.gif"
 ]
 
-deal_with_it = (msg) ->
-  msg.send msg.random deal
-
 module.exports = (robot) ->
   robot.hear /deal with it/i, (msg)->
-    deal_with_it msg
-  
-  robot.respond /deal with it/i, (msg)->
-    deal_with_it msg
+    msg.send msg.random deal
