@@ -4,6 +4,13 @@
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
+JSDom      = require "jsdom"
+
+# Decode HTML entities
+unEntity = (str) ->
+    e = JSDom.jsdom().createElement("div")
+    e.innerHTML = str
+    if e.childNodes.length == 0 then "" else e.childNodes[0].nodeValue
 
 module.exports = (robot) ->
   robot.hear /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/i, (msg) ->
@@ -19,12 +26,14 @@ module.exports = (robot) ->
             parser  = new HtmlParser.Parser handler
             parser.parseComplete body
             results = (Select handler.dom, "head title")
+            processResult = (elem) ->
+                unEntity(elem.children[0].data.replace(/(\r\n|\n|\r)/gm,"").trim())
             if results[0]
-              msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"").trim()
+              msg.send processResult(results[0])
             else
               results = (Select handler.dom, "title")
               if results[0]
-                msg.send results[0].children[0].data.replace(/(\r\n|\n|\r)/gm,"").trim()
+                msg.send processResult(results[0])
           else
             msg.send "Error " + res.statusCode
 
