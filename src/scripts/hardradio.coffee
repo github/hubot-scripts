@@ -10,7 +10,6 @@ module.exports = (robot) ->
 
   robot.respond /hardradio song/i, (msg) ->
     msg.http('http://axl.hardradio.com/playnow.txt')
-    .query()
     .get() (err, res, body) ->
       body = body.replace(/song=/g, "Tearing your speakers right now: ")
       msg.send body
