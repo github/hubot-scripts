@@ -286,6 +286,7 @@ class Redmine
 
     options =
       "host"   : endpoint.hostname
+      "port"   : endpoint.port
       "path"   : "#{pathname}#{path}"
       "method" : method
       "headers": headers
