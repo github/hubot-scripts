@@ -46,6 +46,8 @@ class IssueFilter
 module.exports = (robot) ->
   filters = new IssueFilters robot
 
+  useV2 = process.env.HUBOT_JIRA_USE_V2 || false
+
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
     authdata = new Buffer(process.env.HUBOT_JIRA_USER+':'+process.env.HUBOT_JIRA_PASSWORD).toString('base64')
@@ -67,23 +69,40 @@ module.exports = (robot) ->
       if issues.errors?
         return
 
-      issue =
-        key: issues.key
-        summary: issues.fields.summary.value
-        assignee: ->
-          if issues.fields.assignee.value != undefined
-            issues.fields.assignee.value.displayName
-          else
-            "no assignee"
-        status: issues.fields.status.value.name
-        fixVersion: ->
-          if issues.fields.fixVersions? and issues.fields.fixVersions.value != undefined
-            issues.fields.fixVersions.value.map((fixVersion) -> return fixVersion.name).join(", ")
-          else
-            "no fix version"
-        url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
+      if useV2
+        issue =
+          key: issues.key
+          summary: issues.fields.summary
+          assignee: ->
+            if issues.fields.assignee != null
+              issues.fields.assignee.displayName
+            else
+              "no assignee"
+          status: issues.fields.status.name
+          fixVersion: ->
+            if issues.fields.fixVersions? and issues.fields.fixVersions.length > 0
+              issues.fields.fixVersions.map((fixVersion) -> return fixVersion.name).join(", ")
+            else
+              "no fix version"
+          url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
+      else
+        issue =
+          key: issues.key
+          summary: issues.fields.summary.value
+          assignee: ->
+            if issues.fields.assignee.value != undefined
+              issues.fields.assignee.value.displayName
+            else
+              "no assignee"
+          status: issues.fields.status.value.name
+          fixVersion: ->
+            if issues.fields.fixVersions? and issues.fields.fixVersions.value != undefined
+              issues.fields.fixVersions.value.map((fixVersion) -> return fixVersion.name).join(", ")
+            else
+              "no fix version"
+          url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
 
-      cb "[#{issue.key}] #{issue.summary}. #{issue.assignee()} / #{issue.status}, #{issue.fixVersion()} <#{issue.url}>"    
+      cb "[#{issue.key}] #{issue.summary}. #{issue.assignee()} / #{issue.status}, #{issue.fixVersion()} #{issue.url}"
       
   search = (msg, jql, cb) ->
     get msg, "search/?jql=#{escape(jql)}", (result) ->

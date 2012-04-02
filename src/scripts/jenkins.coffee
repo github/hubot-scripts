@@ -10,9 +10,8 @@
 # jenkins build <job> with <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
 # jenkins list - lists Jenkins jobs
 #
-module.exports = (robot) ->
-  robot.respond /jenkins build ([\w\.\-_]+)( with (.+))?/i, (msg) ->
 
+jenkinsBuild = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
     job = msg.match[1]
     params = msg.match[3]
@@ -34,9 +33,7 @@ module.exports = (robot) ->
         else
           msg.send "Jenkins says: #{body}"
 
-
-  robot.respond /jenkins list/i, (msg) ->
-
+jenkinsList = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
     job = msg.match[1]
     req = msg.http("#{url}/api/json")
@@ -58,3 +55,15 @@ module.exports = (robot) ->
             msg.send response
           catch error
             msg.send error
+
+module.exports = (robot) ->
+  robot.respond /jenkins build ([\w\.\-_]+)( with (.+))?/i, (msg) ->
+    jenkinsBuild(msg)
+
+  robot.respond /jenkins list/i, (msg) ->
+    jenkinsList(msg)
+
+  robot.jenkins = {
+    list: jenkinsList,
+    build: jenkinsBuild
+  }
