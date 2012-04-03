@@ -18,7 +18,7 @@ module.exports = (robot) ->
     core: if process.env.HUBOT_SOLR_CORE then process.env.HUBOT_SOLR_CORE else ''
     path: if process.env.HUBOT_SOLR_PATH then process.env.HUBOT_SOLR_PATH else '/solr'
 
-  client = solr.createClient(options)
+  client = solr.createClient options
   robot.hear /./, (msg) ->
     id = crypto.createHash('md5')
       .update(
