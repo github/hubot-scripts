@@ -13,10 +13,18 @@ class Factoids
   get: (key) ->
     @cache[key] or "No factoid for #{key}"
 
+  tell: (person, key) ->
+    factoid = this.get key
+    if @cache[key]
+      "#{person}, #{key} is #{factoid}"
+    else
+      factoid
 
   handleFactoid: (text) ->
     if match = /^~(.+) is (.+)/i.exec text
       this.add match[1], match[2]
+    else if match = /^~tell (.+) about (.+)/i.exec text
+      this.tell match[1], match[2]
     else if match = /^~(.+)/i.exec text
       this.get match[1]
 
