@@ -1,5 +1,12 @@
-class Factoids
+# javabot style factoid support for your hubot. Build a factoid library
+# and save yourself typing out answers to similar questions.
+#
+# ~<factoid> is <some phrase, link, whatever> - Creates or updates a factoid.
+# ~<factoid> - Prints the factoid, if it exists. Otherwise tells you there is no factoid.
+# ~tell <user> about <factoid> - Tells the user about a factoid, if it exists.
+# ~~<user> <factoid> - Same as ~tell, less typing.
 
+class Factoids
   constructor: (@robot) ->
     @robot.brain.on 'loaded', =>
       @cache = @robot.brain.data.factoids
