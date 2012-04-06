@@ -11,10 +11,8 @@ class Factoids
     "OK."
 
   get: (key) ->
-    if @cache[key]
-      @cache[key]
-    else
-      "No factoid for #{key}"
+    @cache[key] or "No factoid for #{key}"
+
 
   handleFactoid: (text) ->
     if match = /^~(.+) is (.+)/i.exec text
