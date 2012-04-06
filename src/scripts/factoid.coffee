@@ -23,7 +23,7 @@ class Factoids
   handleFactoid: (text) ->
     if match = /^~(.+) is (.+)/i.exec text
       this.add match[1], match[2]
-    else if match = /^~tell (.+) about (.+)/i.exec text
+    else if match = (/^~tell (.+) about (.+)/i.exec text) or (/^~~(.+) (.+)/.exec text)
       this.tell match[1], match[2]
     else if match = /^~(.+)/i.exec text
       this.get match[1]
