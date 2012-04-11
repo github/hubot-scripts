@@ -1,6 +1,6 @@
-# it was based on github-issues.coffee script
+# It was based on github-issues.coffee script
 # 
-# add "date-utils":">=1.2.5" in the hubot-scripts.json file
+# Add "date-utils":">=1.2.5" in the hubot-scripts.json file
 #
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
