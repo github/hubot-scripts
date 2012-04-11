@@ -85,8 +85,7 @@ module.exports = (robot) ->
       if statusCode == 201
         msg.reply body
       else
-        console.log body
-        response = "Error F7U12: Can't Setup."
+        msg.reply "Error F7U12: Can't Setup."
 
   robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     app    = msg.match[1]
