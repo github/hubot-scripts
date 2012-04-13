@@ -18,10 +18,18 @@
 #   heroku config:add HUBOT_REDMINE_BASE_URL="http://redmine.your-server.com"
 #   heroku config:add HUBOT_REDMINE_TOKEN="your api token here"
 #
+# If you are using redmine over HTTPS, add the following config option
+#
+#   heroku config:add HUBOT_REDMINE_SSL=1
+#
 # There may be issues if you have a lot of redmine users sharing a first name, but this can be avoided
 # by using redmine logins rather than firstnames
 #
-HTTP = require('http')
+if process.env.HUBOT_REDMINE_SSL?
+  HTTP = require('https')
+else
+  HTTP = require('http')
+
 URL = require('url')
 QUERY = require('querystring')
 
