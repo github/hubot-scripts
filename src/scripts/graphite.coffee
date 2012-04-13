@@ -3,11 +3,6 @@
 # hubot graphite search <string> - search for graph by name
 # hubot graphite show <graph.name> - output graph
 #
-# prerequisites:
-#  * have accounts on both mysqueezebox.com & pandora
-#  * have the pandora app installed on squeezebox
-#  * be signed into your pandora account on mysqueezebox.com
-#
 # set the env variables:
 #  * GRAPHITE_URL (e.g. https://graphite.example.com)
 #  * GRAPHITE_PORT (e.g. 8443)
