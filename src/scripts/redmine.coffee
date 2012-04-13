@@ -1,16 +1,19 @@
-# Showing of redmine issuess via the REST API.
-#
 # (redmine|show) me <issue-id>     - Show the issue status
 # show (my|user's) issues          - Show your issues or another user's issues
 # assign <issue-id> to <user-first-name> ["notes"]  - Assign the issue to the user (searches login or firstname)
 #                                                     *With optional notes
 # update <issue-id> with "<note>"  - Adds a note to the issue
 # add <hours> hours to <issue-id> ["comments"]  - Adds hours to the issue with the optional comments
-
+# link me <issue-id> - Returns a link to the redmine issue
+# set <issue-id> to <int>% ["comments"] - Updates an issue and sets the percent done
+#
+#
 # Note: <issue-id> can be formatted in the following ways:
 #       1234, #1234, issue 1234, issue #1234
 #
 #---
+#
+# Showing of redmine issuess via the REST API.
 #
 # To get set up refer to the guide http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication
 # After that, heroku needs the following config
@@ -18,19 +21,53 @@
 #   heroku config:add HUBOT_REDMINE_BASE_URL="http://redmine.your-server.com"
 #   heroku config:add HUBOT_REDMINE_TOKEN="your api token here"
 #
+# If you are using redmine over HTTPS, add the following config option
+#
+#   heroku config:add HUBOT_REDMINE_SSL=1
+#
 # There may be issues if you have a lot of redmine users sharing a first name, but this can be avoided
 # by using redmine logins rather than firstnames
 #
-HTTP = require('http')
+if process.env.HUBOT_REDMINE_SSL?
+  HTTP = require('https')
+else
+  HTTP = require('http')
+
 URL = require('url')
 QUERY = require('querystring')
 
 module.exports = (robot) ->
   redmine = new Redmine process.env.HUBOT_REDMINE_BASE_URL, process.env.HUBOT_REDMINE_TOKEN
 
+  # Robot link me <issue>
+  robot.respond /link me (?:issue )?(?:#)?(\d+)/i, (msg) ->
+    id = msg.match[1]
+    msg.reply "#{redmine.url}/issues/#{id}"
+
+  # Robot set <issue> to <percent>% ["comments"]
+  robot.respond /set (?:issue )?(?:#)?(\d+) to (\d{1,2})%?(?: "?([^"]+)"?)?/i, (msg) ->
+    [id, percent, notes] = msg.match[1..3]
+    percent = parseInt percent
+
+    if notes?
+      notes = "#{msg.message.user.name}: #{userComments}"
+    else
+      notes = "Ratio set by: #{msg.message.user.name}"
+
+    attributes =
+      "notes": notes
+      "done_ratio": percent
+
+    redmine.Issue(id).update attributes, (err, data, status) ->
+      if status == 200
+        msg.reply "Set ##{id} to #{percent}%"
+      else
+        msg.reply "Update failed! (#{err})"
+
   # Robot add <hours> hours to <issue_id> ["comments for the time tracking"]
   robot.respond /add (\d{1,2}) hours? to (?:issue )?(?:#)?(\d+)(?: "?([^"]+)"?)?/i, (msg) ->
     [hours, id, userComments] = msg.match[1..3]
+    hours = parseInt hours
 
     if userComments?
       comments = "#{msg.message.user.name}: #{userComments}"
@@ -42,7 +79,7 @@ module.exports = (robot) ->
       "hours": hours
       "comments": comments
 
-    redmine.TimeEntry(null).create attributes, (status,data) ->
+    redmine.TimeEntry(null).create attributes, (error, data, status) ->
       if status == 201
         msg.reply "Your time was logged"
       else
@@ -95,14 +132,35 @@ module.exports = (robot) ->
     attributes =
       "notes": "#{msg.message.user.name}: #{note}"
 
-    redmine.Issue(id).update attributes, (err, data) ->
-      if err?
-        if err == 404
+    redmine.Issue(id).update attributes, (err, data, status) ->
+      unless data?
+        if status == 404
           msg.reply "Issue ##{id} doesn't exist."
         else
           msg.reply "Couldn't update this issue, sorry :("
       else
         msg.reply "Done! Updated ##{id} with \"#{note}\""
+
+  # Robot add issue to "<project>" [traker <id>] with "<subject>"
+  robot.respond /add (?:issue )?(?:\s*to\s*)?(?:"?([^" ]+)"? )(?:tracker\s)?(\d+)?(?:\s*with\s*)("?([^"]+)"?)/i, (msg) ->
+    [project_id, tracker_id, subject] = msg.match[1..3]
+
+    attributes =
+      "project_id": "#{project_id}"
+      "subject": "#{subject}"
+
+    if tracker_id?
+      attributes =
+        "project_id": "#{project_id}"
+        "subject": "#{subject}"
+        "tracker_id": "#{tracker_id}"
+
+    redmine.Issue().add attributes, (err, data, status) ->
+      unless data?
+        if status == 404
+          msg.reply "Couldn't update this issue, #{status} :("
+      else
+        msg.reply "Done! Added issue #{data.id} with \"#{subject}\""
 
   # Robot assign <issue> to <user> ["note to add with the assignment]
   robot.respond /assign (?:issue )?(?:#)?(\d+) to (\w+)(?: "?([^"]+)"?)?/i, (msg) ->
@@ -123,14 +181,15 @@ module.exports = (robot) ->
       attributes["notes"] = "#{msg.message.user.name}: #{note}" if note?
 
       # get our issue
-      redmine.Issue(id).update attributes, (err, data) ->
-        if err?
-          if err == 404
+      redmine.Issue(id).update attributes, (err, data, status) ->
+        unless data?
+          if status == 404
             msg.reply "Issue ##{id} doesn't exist."
           else
             msg.reply "There was an error assigning this issue."
         else
           msg.reply "Assigned ##{id} to #{user.firstname}."
+          msg.send '/play trombone' if parseInt(id) == 3631
 
   # Robot redmine me <issue>
   robot.respond /(?:redmine|show)(?: me)? (?:issue )?(?:#)?(\d+)/i, (msg) ->
@@ -139,8 +198,8 @@ module.exports = (robot) ->
     params =
       "include": "journals"
 
-    redmine.Issue(id).show params, (err, data) ->
-      unless data?
+    redmine.Issue(id).show params, (err, data, status) ->
+      unless status == 200
         msg.reply "Issue ##{id} doesn't exist."
         return false
 
@@ -256,7 +315,10 @@ class Redmine
     update: (attributes, callback) =>
       @put "/issues/#{id}.json", {issue: attributes}, callback
 
-  TimeEntry: (id) ->
+    add: (attributes, callback) =>
+      @post "/issues.json", {issue: attributes}, callback
+
+  TimeEntry: (id = null) ->
 
     create: (attributes, callback) =>
       @post "/time_entries.json", {time_entry: attributes}, callback
@@ -307,18 +369,18 @@ class Redmine
         switch response.statusCode
           when 200
             try
-              callback null, JSON.parse(data)
+              callback null, JSON.parse(data), response.statusCode
             catch err
-              callback null, data or { }
+              callback null, (data or { }), response.statusCode
           when 401
             throw new Error "401: Authentication failed."
           else
             console.error "Code: #{response.statusCode}"
-            callback response.statusCode, null
+            callback null, null, response.statusCode
 
       response.on "error", (err) ->
         console.error "Redmine response error: #{err}"
-        callback err, null
+        callback err, null, response.statusCode
 
     if method in ["POST", "PUT"]
       request.end(body, 'binary')
@@ -327,4 +389,4 @@ class Redmine
 
     request.on "error", (err) ->
       console.error "Redmine request error: #{err}"
-      callback err, null
+      callback err, null, 0
