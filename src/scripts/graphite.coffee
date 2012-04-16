@@ -28,13 +28,7 @@ construct_url = (msg, graphUrl, cb) ->
   uri = graphUrl.match(graphRegex)[3]
   proto = process.env.GRAPHITE_URL.match(serverRegex)[1]
   server = process.env.GRAPHITE_URL.match(serverRegex)[2]
-  port = ':'
-  if process.env.GRAPHITE_PORT
-    port += process.env.GRAPHITE_PORT
-  else if process.env.GRAPHITE_URL.match(/https/)
-    port += 443
-  else
-    port += 80
+  port = construct_port()
   timestamp = '#' + new Date().getTime()
   suffix = '&png'
   newUrl = proto + process.env.GRAPHITE_AUTH + '@' + server + port + uri + timestamp + suffix
@@ -46,13 +40,7 @@ treeversal = (msg, cb, node="") ->
     prefix = "*"
   else
     prefix = node + ".*"
-  port = ':'
-  if process.env.GRAPHITE_PORT
-    port += process.env.GRAPHITE_PORT
-  else if process.env.GRAPHITE_URL.match(/https/)
-    port += 443
-  else
-    port += 80
+  port = construct_port()
   uri = "/browser/usergraph/?query=#{prefix}&format=treejson&contexts=1&path=#{node}&user=#{node}&node=#{node}"
   auth = 'Basic ' + new Buffer(process.env.GRAPHITE_AUTH).toString('base64') if process.env.GRAPHITE_AUTH
   msg
@@ -69,4 +57,14 @@ treeversal = (msg, cb, node="") ->
         else
           cb(nodes[i]) unless nodes[i].id == "no-click"
         i++
+
+construct_port = () ->
+  port = ':'
+  if process.env.GRAPHITE_PORT
+    port += process.env.GRAPHITE_PORT
+  else if process.env.GRAPHITE_URL.match(/https/)
+    port += 443
+  else
+    port += 80
+  port
 
