@@ -12,14 +12,14 @@
 
 module.exports = (robot) ->
   robot.hear /graphite search (\w+)/i, (msg) ->
-    regex = new RegExp(msg.match[1], "gi")
     treeversal msg, (data) ->
-      msg.send data.id unless data.id.search(regex) == -1
+      output = ""
+      output += metric.id + "\n" for metric in data
+      msg.send output
   robot.hear /graphite show (\S+)/i, (msg) ->
     treeversal msg, (data) ->
-      if data.id == msg.match[1]
-        construct_url msg, data.graphUrl, (url) ->
-          msg.send url
+      construct_url msg, data[0].graphUrl, (url) ->
+        msg.send url
 
 construct_url = (msg, graphUrl, cb) ->
   cb(graphUrl) unless process.env.GRAPHITE_AUTH
@@ -35,7 +35,7 @@ construct_url = (msg, graphUrl, cb) ->
   cb(newUrl)
 
 treeversal = (msg, cb, node="") ->
-  data = {}
+  data = []
   if node == ""
     prefix = "*"
   else
@@ -55,8 +55,12 @@ treeversal = (msg, cb, node="") ->
         if nodes[i].leaf == 0
           treeversal(msg, cb, nodes[i].id)
         else
-          cb(nodes[i]) unless nodes[i].id == "no-click"
+          regex = new RegExp(msg.match[1], "gi")
+          unless nodes[i].id.search(regex) == -1
+            unless nodes[i].id == "no-click"
+              data[data.length] = nodes[i]
         i++
+      cb(data) if data.length > 0
 
 construct_port = () ->
   port = ':'
