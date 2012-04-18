@@ -33,14 +33,14 @@ youTalkinToMe = (msg, robot) ->
   input.indexOf(name) != -1
 
 module.exports = (robot) ->
-  robot.respond /(thanks|thank you|cheers|nice one)/i, (msg) ->
+  robot.hear /(thanks|thank you|cheers|nice one)/i, (msg) ->
     msg.reply msg.random responses if youTalkinToMe(msg, robot)
 
-  robot.respond /(ty|thx)/i, (msg) ->
+  robot.hear /(ty|thx)/i, (msg) ->
     msg.reply msg.random shortResponses if youTalkinToMe(msg, robot)
 
-  robot.respond /(hello|hi|sup|howdy|good (morning|evening|afternoon))/i, (msg) ->
+  robot.hear /(hello|hi|sup|howdy|good (morning|evening|afternoon))/i, (msg) ->
     msg.reply "#{robot.name} at your service!" if youTalkinToMe(msg, robot)
     
-  robot.respond /(bye|night|goodbye|good night)/i, (msg) ->
+  robot.hear /(bye|night|goodbye|good night)/i, (msg) ->
     msg.reply msg.random farewellResponses if youTalkinToMe(msg, robot)
