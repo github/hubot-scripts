@@ -1,4 +1,4 @@
-# A way to interact with the Google Images API.
+# HOLY FUCKING MINDFUCK!
 #
 # buscemi me <url>   - Adds Steve Buscemi eyes to the specified URL.
 # buscemi me <query> - Searches Google Images for the specified query and
