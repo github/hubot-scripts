@@ -1,3 +1,5 @@
+# Serenity Now!!
+
 module.exports = (robot) ->
   robot.hear /serenity|serenity now/i, (msg) ->
     quotes = ["Serenity now...insanity later!",
