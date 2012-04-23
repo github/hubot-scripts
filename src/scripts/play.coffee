@@ -1,7 +1,7 @@
 # Play music. At your office. Like a boss.
 #
 # play.coffee uses play, an open source API to playing music:
-#   https://github.com/holman/play
+#   https://github.com/play/play
 #
 # You can watch the screencast at:
 #   http://zachholman.com/screencast/play/
