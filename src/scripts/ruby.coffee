@@ -18,4 +18,4 @@ module.exports = (robot) ->
             else
               msg.reply result.result
           else
-            msg.reply "Unable to evaludate script: #{script}. Request returned with the status code: #{res.statusCode}"
+            msg.reply "Unable to evaluate script: #{script}. Request returned with the status code: #{res.statusCode}"
