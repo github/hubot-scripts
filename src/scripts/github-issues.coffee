@@ -74,7 +74,7 @@ module.exports = (robot) ->
     query_params.labels = criteria.label if criteria.label?
     query_params.assignee = criteria.assignee if criteria.assignee?
 
-    github.get "https://api.github.com/repos/#{criteria.repo}/issues", (issues) ->
+    github.get "https://api.github.com/repos/#{criteria.repo}/issues", query_params, (issues) ->
       issues = filter_issues issues, criteria
 
       if _.isEmpty issues
