@@ -128,12 +128,13 @@ module.exports = (robot) ->
     search msg, msg.match[2], (text) ->
       msg.send "#{msg.message.user.id}: #{text}"
   
-  robot.hear /(\w+-[0-9]+)/i, (msg) ->
+  robot.hear /(\w+-[0-9]+)/ig, (msg) ->
     if msg.message.user.id is robot.name
       return
     
-    info msg, msg.match[0], (text) ->
-      msg.send text
+    for matched in msg.match
+      info msg, matched, (text) ->
+        msg.send text
 
   robot.respond /save filter (.*) as (.*)/i, (msg) ->
     filter = filters.get msg.match[2]
