@@ -1,11 +1,10 @@
 # Show the commiters from a repo
 #
-# You need to set the following variables:
-#   HUBOT_GITHUB_TOKEN ="<oauth token>"
-#
 # repo commiters <repo> - shows commiters of repository
 # repo top-commiters <repo> - shows top commiters of repository
-#
+
+# You need to set the following variables:
+#   HUBOT_GITHUB_TOKEN ="<oauth token>"
 
 module.exports = (robot) ->
   github = require("githubot")(robot)

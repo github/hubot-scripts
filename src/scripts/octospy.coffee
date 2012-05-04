@@ -5,6 +5,7 @@
 # octospy stop <repo> [event_type] - Stop watching events for the repo
 # octospying - Show what you're spying on
 # octospy events - List the events you can watch
+
 #
 # Environment Variables:
 #
