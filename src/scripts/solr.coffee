@@ -1,12 +1,3 @@
-# Index chat logs in Apache Solr
-#
-# You can set the following variables:
-#   HUBOT_SOLR_HOST = "127.0.0.1"
-#   HUBOT_SOLR_PORT = "8983"
-#   HUBOT_SOLR_CORE = "/hubot"
-#   HUBOT_SOLR_PATH = "/solr"
-#
-
 solr = require 'solr'
 crypto = require 'crypto'
 
