@@ -20,6 +20,8 @@
 # Not sure if <text> or <text> - Generates Futurama Fry
 #
 # Yo dawg <text> so <text> - Generates Yo Dawg
+#
+# ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -62,6 +64,10 @@ module.exports = (robot) ->
 
   robot.respond /(YO DAWG .*) (SO .*)/i, (msg) ->
 	  memeGenerator msg, 79, 108785, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(ALL YOUR .*) (ARE BELONG TO US)/i, (msg) ->
+	  memeGenerator msg, 349058, 2079825, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->

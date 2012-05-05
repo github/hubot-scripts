@@ -3,7 +3,7 @@
 # tell <username> <some message>
 module.exports = (robot) ->
    localstorage = {}
-   robot.respond /tell (\w*) (.*)/i, (msg) ->
+   robot.respond /tell ([\w.-]*) (.*)/i, (msg) ->
      datetime = new Date()
      tellmessage = msg.match[1] + ": " + msg.message.user.name + " @ " + datetime.toTimeString() + " said: " + msg.match[2] + "\r\n"
      if localstorage[msg.match[1]] == undefined
