@@ -17,27 +17,7 @@
   "dependencies": {
     "hubot": ">= 2.0.4",
     "optparse": "1.0.3",
-    "redis": "0.6.7",
-    "jsdom": "==0.2.0",
-    "xml2js": "0.1.x",
-    "soupselect": "0.2.0",
-    "htmlparser": "1.7.x",
-    "sprintf": "0.1.1",
-    "wwwdude": "0.1.0",
-    "pypi": "0.1.0",
-    "underscore": ">= 1.2.1",
-    "underscore.string": ">= 1.1.6",
-    "cradle": "0.5.7",
-    "clark": ">= 0.0.3",
-    "bang": "0.2.x",
-    "shellwords": "0.0.x",
-    "nodepie": "0.4.0",
-    "mailer": "0.6.7",
-    "scribe-node": "0.0.24",
-    "githubot": "0.1.4",
-    "sandbox": "0.8.2",
-    "prowler": "0.0.3",
-    "handlebars": ">= 1.0.5beta"
+    "redis": "0.6.7"
   },
 
   "directories":  {

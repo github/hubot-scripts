@@ -6,8 +6,9 @@ These are a collection of community scripts for
 ## Installing
 
 Once you have Hubot installed, you can drop new scripts from this repository
-right into your generated Hubot installation. Just put them in `scripts`, add the new scripts to the `hubot-scripts.json` file, 
-restart your robot, and you're good to go.
+right into your generated Hubot installation. Just put them in `scripts`, add
+the new scripts to the `hubot-scripts.json` file, restart your robot, and
+you're good to go.
 
 All the scripts in this repository are located in
 [`src/scripts`](https://github.com/github/hubot-scripts/tree/master/src/scripts).
@@ -26,6 +27,10 @@ Additionally, it's extremely helpful to add [TomDoc](http://tomdoc.org) to the
 top of each file. (Check out [an example](https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5)).
 We'll pull out the commands from those lines and display them in the generic,
 robot-wide `hubot help` command.
+
+Please note we're no longer including external dependencies in the
+`package.json`, so should you wish to include them please include the package
+name and required version in the TomDoc comments at the top of your script.
 
 ## Discovering
 
