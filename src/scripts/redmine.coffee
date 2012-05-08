@@ -45,7 +45,7 @@ module.exports = (robot) ->
     msg.reply "#{redmine.url}/issues/#{id}"
 
   # Robot set <issue> to <percent>% ["comments"]
-  robot.respond /set (?:issue )?(?:#)?(\d+) to (\d{1,2})%?(?: "?([^"]+)"?)?/i, (msg) ->
+  robot.respond /set (?:issue )?(?:#)?(\d+) to (\d{1,3})%?(?: "?([^"]+)"?)?/i, (msg) ->
     [id, percent, notes] = msg.match[1..3]
     percent = parseInt percent
 
