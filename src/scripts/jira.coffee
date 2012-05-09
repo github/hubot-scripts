@@ -119,14 +119,14 @@ module.exports = (robot) ->
       return
 
     watchers msg, msg.match[3], (text) ->
-      msg.send text
+      msg.reply text
   
   robot.respond /search (for )?(.*)/i, (msg) ->
     if msg.message.user.id is robot.name
       return
       
     search msg, msg.match[2], (text) ->
-      msg.send "#{msg.message.user.id}: #{text}"
+      msg.reply text
   
   robot.hear /(\w+-[0-9]+)/ig, (msg) ->
     if msg.message.user.id is robot.name
@@ -141,7 +141,7 @@ module.exports = (robot) ->
 
     if filter
       filters.delete filter.name
-      msg.send "Updated filter #{filter.name} for you"
+      msg.reply "Updated filter #{filter.name} for you"
 
     filter = new IssueFilter msg.match[2], msg.match[1]
     filters.add filter
@@ -154,17 +154,17 @@ module.exports = (robot) ->
     filter  = filters.get name
 
     search msg, filter.jql, (text) ->
-      msg.send text
+      msg.reply text
 
   robot.respond /(show )?filter(s)? ?(.*)?/i, (msg) ->
     if filters.all().length == 0
-      msg.send "Sorry, I don't remember any filters."
+      msg.reply "Sorry, I don't remember any filters."
       return
 
     if msg.match[3] == undefined
-      msg.send "I remember #{filters.all().length} filters"
+      msg.reply "I remember #{filters.all().length} filters"
       filters.all().forEach (filter) ->
-        msg.send "#{filter.name}: #{filter.jql}"
+        msg.reply "#{filter.name}: #{filter.jql}"
     else
       filter = filters.get msg.match[3]
-      msg.send "#{filter.name}: #{filter.jql}"
+      msg.reply "#{filter.name}: #{filter.jql}"
