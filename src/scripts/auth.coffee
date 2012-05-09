@@ -1,20 +1,21 @@
 # Auth allows you to assign roles to users which can be used by other scripts to restrict access to Hubot commands
 #
-# Environment variables:
-#   HUBOT_AUTH_ADMIN   - the user(s) who can assign roles to other users, comma-separated
-#
-# Use in your script
-#   - Call the method: robot.Auth.hasRole('<user>','<role>')
-#   - returns bool true or false
-#
-# Notes:
-#   - the 'admin' role can only be assigned through the environment variable
-#   - roles are all transformed to lower case
-#
 # <user> has <role> role - Assigns a role to a user
 # <user> doesn't have <role> role - Removes a role from a user
 # what role does <user> have - Find out what roles are assigned to a specific user
 # who has admin role - Find out who's an admin and can assign roles
+#
+# Environment variables:
+#   * HUBOT_AUTH_ADMIN
+#
+# Use in your script:
+#   * Call the method: robot.Auth.hasRole('<user>','<role>')
+#   * returns bool true or false
+#
+# Notes:
+#   * the 'admin' role can only be assigned through the environment variable
+#   * roles are all transformed to lower case
+#
 
 # hubot alex has role op
 
