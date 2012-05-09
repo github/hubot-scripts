@@ -138,3 +138,7 @@ module.exports = (robot) ->
         response += "\n" if count > 1
 
       msg.send response
+
+  robot.router.post "/janky", (req, res) ->
+    robot.messageRoom req.body.room, req.body.message
+    res.end "ok"
