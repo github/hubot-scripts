@@ -109,10 +109,15 @@ module.exports = (robot) ->
       if result.errors?
         return
       
-      cb "I found #{result.total} issues for your search"
-      result.issues.forEach (issue) ->
-        info msg, issue.key, (info) ->
-          cb info
+      resultText = "I found #{result.total} issues for your search. #{process.env.HUBOT_JIRA_URL}/secure/IssueNavigator.jspa?reset=true&jqlQuery=#{escape(jql)}"
+      max = if process.env.HUBOT_JIRA_LISTMAX? then process.env.HUBOT_JIRA_LISTMAX else 10
+      if result.issues.length <= max
+        cb resultText
+        result.issues.forEach (issue) ->
+          info msg, issue.key, (info) ->
+            cb info
+      else
+        cb resultText + " (too many to list)"
   
   robot.respond /(show )?watchers (for )?(\w+-[0-9]+)/i, (msg) ->
     if msg.message.user.id is robot.name
