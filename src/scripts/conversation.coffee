@@ -17,7 +17,7 @@ module.exports = (robot) ->
   # Change default receive command, addind processing of eatListeners
   robot.origReceive = robot.receive
   robot.receive = (message) ->
-    if robot.eatListeners[message.user.id]?
+    if message.user? and robot.eatListeners[message.user.id]?
       lst = robot.eatListeners[message.user.id]
       delete robot.eatListeners[message.user.id]
 

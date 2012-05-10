@@ -6,7 +6,7 @@
 # set the env variables:
 #  * GRAPHITE_URL (e.g. https://graphite.example.com)
 #  * GRAPHITE_PORT (e.g. 8443)
-#  * GRAPHITE_AUTH (e.g. user:port for Basic Auth)
+#  * GRAPHITE_AUTH (e.g. user:password for Basic Auth)
 #
 # tested against Graphite 0.9.9 with Basic Auth enabled
 

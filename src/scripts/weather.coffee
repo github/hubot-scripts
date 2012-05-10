@@ -53,7 +53,7 @@ module.exports = (robot) ->
       else
         temp = body.getElementsByTagName("current_conditions")[0].getElementsByTagName("temp_f")[0].getAttribute("data") + "ºF"
       
-      msg.send "Currently in #{city} it is #{conditions} and #{temp} with a humidity of #{humidity}.\n"
+      msg.send "Currently in #{city} it is #{conditions} and #{temp} with a humidity of #{humidity}."
 
   getDom = (xml) ->
     body = jsdom.jsdom(xml)
