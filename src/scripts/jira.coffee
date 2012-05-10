@@ -43,10 +43,39 @@ class IssueFilter
   constructor: (@name, @jql) ->
     return {name: @name, jql: @jql}
 
+
+# keeps track of recently displayed issues, to prevent spamming
+class RecentIssues
+  constructor: (@maxage) ->
+    @issues = []
+
+  cleanup: ->
+    for issue,time of @issues
+      age = Math.round(((new Date()).getTime() - time) / 1000)
+      if age > @maxage
+        #console.log 'removing old issue', issue
+        delete @issues[issue]
+    0
+
+  contains: (issue) ->
+    @cleanup()
+    @issues[issue]?
+
+  add: (issue,time) ->
+    time = time || (new Date()).getTime()
+    @issues[issue] = time
+
+
+
 module.exports = (robot) ->
   filters = new IssueFilters robot
 
+  # which version of the API being used
   useV2 = process.env.HUBOT_JIRA_USE_V2 || false
+  # max number of issues to list during a search
+  maxlist = process.env.HUBOT_JIRA_MAXLIST || 10
+  # how long (seconds) to wait between repeating the same JIRA issue link
+  issuedelay = process.env.HUBOT_JIRA_ISSUEDELAY || 30
 
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
@@ -109,38 +138,45 @@ module.exports = (robot) ->
       if result.errors?
         return
       
-      cb "I found #{result.total} issues for your search"
-      result.issues.forEach (issue) ->
-        info msg, issue.key, (info) ->
-          cb info
+      resultText = "I found #{result.total} issues for your search. #{process.env.HUBOT_JIRA_URL}/secure/IssueNavigator.jspa?reset=true&jqlQuery=#{escape(jql)}"
+      if result.issues.length <= maxlist
+        cb resultText
+        result.issues.forEach (issue) ->
+          info msg, issue.key, (info) ->
+            cb info
+      else
+        cb resultText + " (too many to list)"
   
   robot.respond /(show )?watchers (for )?(\w+-[0-9]+)/i, (msg) ->
     if msg.message.user.id is robot.name
       return
 
     watchers msg, msg.match[3], (text) ->
-      msg.send text
+      msg.reply text
   
   robot.respond /search (for )?(.*)/i, (msg) ->
     if msg.message.user.id is robot.name
       return
       
     search msg, msg.match[2], (text) ->
-      msg.send "#{msg.message.user.id}: #{text}"
+      msg.reply text
   
-  robot.hear /(\w+-[0-9]+)/i, (msg) ->
+  robot.hear /(\w+-[0-9]+)/ig, (msg) ->
     if msg.message.user.id is robot.name
       return
     
-    info msg, msg.match[0], (text) ->
-      msg.send text
+    for matched in msg.match
+      if !recentissues.contains msg.message.user.room+matched
+        info msg, matched, (text) ->
+          msg.send text
+        recentissues.add msg.message.user.room+matched
 
   robot.respond /save filter (.*) as (.*)/i, (msg) ->
     filter = filters.get msg.match[2]
 
     if filter
       filters.delete filter.name
-      msg.send "Updated filter #{filter.name} for you"
+      msg.reply "Updated filter #{filter.name} for you"
 
     filter = new IssueFilter msg.match[2], msg.match[1]
     filters.add filter
@@ -153,17 +189,17 @@ module.exports = (robot) ->
     filter  = filters.get name
 
     search msg, filter.jql, (text) ->
-      msg.send text
+      msg.reply text
 
   robot.respond /(show )?filter(s)? ?(.*)?/i, (msg) ->
     if filters.all().length == 0
-      msg.send "Sorry, I don't remember any filters."
+      msg.reply "Sorry, I don't remember any filters."
       return
 
     if msg.match[3] == undefined
-      msg.send "I remember #{filters.all().length} filters"
+      msg.reply "I remember #{filters.all().length} filters"
       filters.all().forEach (filter) ->
-        msg.send "#{filter.name}: #{filter.jql}"
+        msg.reply "#{filter.name}: #{filter.jql}"
     else
       filter = filters.get msg.match[3]
-      msg.send "#{filter.name}: #{filter.jql}"
+      msg.reply "#{filter.name}: #{filter.jql}"

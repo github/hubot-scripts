@@ -3,191 +3,177 @@
 # play.coffee uses play, an open source API to playing music:
 #   https://github.com/play/play
 #
-# You can watch the screencast at:
-#   http://zachholman.com/screencast/play/
-#
 # Make sure you set up your HUBOT_PLAY_URL environment variable with the URL to
 # your company's play.
 #
 # play - Plays music.
-# stop - Stops the music.
 # play next - Plays the next song.
+# play previous - Plays the previous song.
 # what's playing - Returns the currently-played song.
 # I want this song - Returns a download link for the current song.
 # I want this album - Returns a download link for the current album.
 # play <artist> - Queue up ten songs from a given artist.
-# play <name> by <artist> - Queues up a song by an artist.
-# play album <album> - Queues up an album.
-# list songs by <artist> - Lists the songs by the artist String.
+# play <album> - Queue up an entire album.
+# play <song> - Queue up a particular song. This grabs the first song by playcount.
+# play <something> right [fucking] now - Play this shit right now.
 # where's play - Gives you the URL to the web app.
-# volume [0-10] - Adjust the volume of play.
+# volume? - Returns the current volume level.
+# volume [0-100] - Sets the volume.
 # be quiet - Mute play.
 # say <message> - `say` your message over your speakers.
-# play stats - Show some play stats.
+# clear play - Clears the Play queue.
 
-URL = "#{process.env.HUBOT_PLAY_URL}/api"
+URL = "#{process.env.HUBOT_PLAY_URL}"
+
+authedRequest = (message, path, action, options, callback) ->
+  message.http("#{URL}#{path}")
+    .query(login: message.message.user.githubLogin, token: process.env.HUBOT_PLAY_TOKEN)
+    .header('Content-Length', 0)
+    .query(options)[action]() (err, res, body) ->
+      callback(err,res,body)
 
 module.exports = (robot) ->
   robot.respond /where'?s play/i, (message) ->
-    message.send("play's at #{process.env.HUBOT_PLAY_URL}")
+    message.finish()
+    authedRequest message, '/stream_url', 'get', {}, (err, res, body) ->
+      message.send("play's at #{URL} and you can stream from #{body}")
 
   robot.respond /what'?s playing/i, (message) ->
-    message.http("#{URL}/now_playing").get() (err, res, body) ->
+    authedRequest message, '/now_playing', 'get', {}, (err, res, body) ->
       json = JSON.parse(body)
-      str = "\"" + json.song_title + "\" by " +
-            json.artist_name + ", from \"" + json.album_name + "\"."
+      str = "\"#{json.name}\" by #{json.artist}, from \"#{json.album}\"."
+      message.send("#{URL}/images/art/#{json.id}.png?login=HOTFIX#.jpg")
       message.send("Now playing " + str)
 
   robot.respond /say (.*)/i, (message) ->
-    message.http("#{URL}/say")
-      .query(message: message.match[1])
-      .get() (err, res, body) ->
-        message.send(message.match[1])
-
-  robot.respond /play stats/i, (message) ->
-    message.http("#{URL}/stats")
-      .get() (err, res, body) ->
-        json = JSON.parse(body)
-        message.send(json.message)
-
-  robot.respond /who'?s online/i, (message) ->
-    message.http("#{URL}/online")
-      .get() (err, res, body) ->
-        json = JSON.parse(body)
-        users = json.users
-        last_user = users.pop()
-
-        str = []
-        str.push users.join(", ")
-        str.push "and" if str.length
-        str.push last_user
-        str.push (if users.length then "are" else "is")
-        str.push "online"
-
-        message.send(str.join(" "))
-
-  robot.respond /volume (.*)/i, (message) ->
-    message.http("#{URL}/volume")
-      .query(level: message.match[1])
-      .header('Content-Length', 0)
-      .post({}) (err, res, body) ->
-        console.log body
-        json = JSON.parse(body)
-        if json.success == true
-          message.send("Bumped the volume for ya.")
-        else
-          message.send("Whoa, can't change the volume. Weird.")
-
-  robot.respond /volume$/i, (message) ->
-    message.http("#{URL}/volume")
-      .get() (err, res, body) ->
-        json = JSON.parse(body)
-        message.send("#{json.volume}")
-
-  robot.respond /quiet/i, (message) ->
-    message.http("#{URL}/volume")
-      .query(level: 1)
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        if json.success == true
-          message.send("Running silent.")
-        else
-          message.send("Whoa, can't change the volume. Weird.")
-
-  robot.respond /(un)?pause( play)?/i, (message) ->
-    message.http("#{URL}/pause")
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        if json.success == true
-          message.send("Fine, fine.")
-        else
-          message.send("Nope, can't. You're on your own.")
+    authedRequest message, '/say', 'post', {message: message.match[1]}, (err, res, body) ->
+      message.send(message.match[1])
 
   robot.respond /play next/i, (message) ->
-    message.http("#{URL}/next")
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        if json.success == true
-          message.send("On to the next one.")
-        else
-          message.send("hwhoops")
+    message.finish()
+    authedRequest message, '/next', 'put', {}, (err, res, body) ->
+      json = JSON.parse(body)
+      message.send("On to the next one (which conveniently is #{json.artist}'s \"#{json.name}\")")
 
-  robot.respond /play ["']?(.+)["']?/i, (message) ->
-    return if message.match[1].match(' by ')
-    return if message.match[1] == 'next'
-    return if message.match[1] == 'stats'
-    return if message.match[1].split(' ')[0] == 'song'
-    return if message.match[1].split(' ')[0] == 'album'
-    return if message.match[1].split(' ')[0] == 'something'
-    message.http("#{URL}/add_artist")
-      .query(user_login: message.message.user.githubLogin, artist_name: message.match[1])
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        if json.error
-          message.send(json.error)
-        else
-          message.send("Queued up 10 " + json.artist_name + " tracks.")
 
-  robot.respond /play album ["']?(.+)["']?/i, (message) ->
-    message.http("#{URL}/add_album")
-      .query(user_login: message.message.user.githubLogin, name: message.match[1])
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        if json.error
-          message.send(json.error)
-        else
-          str = json.album_name + " by " + json.artist_name + "."
-          message.reply("Queued up " + str)
+  #
+  # VOLUME
+  #
 
-  robot.respond /play ["']?(.+)["']? by ["']?(.+)["']?/i, (message) ->
-    message.http("#{URL}/add_song")
-      .query(user_login: message.message.user.githubLogin, artist_name: message.match[2], song_title: message.match[1])
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        if json.song_title
-          str = "\"" + json.song_title + "\" by " +
-                json.artist_name + ", from \"" + json.album_name + "\"."
-          message.send("Queued up " + str)
-        else
-          message.send("Never heard of it.")
+  robot.respond /app volume\?/i, (message) ->
+    message.finish()
+    authedRequest message, '/app-volume', 'get', {}, (err, res, body) ->
+      message.send("Yo :#{message.message.user.name}:, the volume is #{body} :mega:")
 
-  robot.respond /(I like|star|I love) this song/i, (message) ->
-    message.http("#{URL}/star_now_playing")
-      .query(user_login: message.message.user.githubLogin)
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        message.send("You have a weird taste in music, but I'll remember it.")
+  robot.respond /app volume (.*)/i, (message) ->
+    params = {volume: message.match[1]}
+    authedRequest message, '/app-volume', 'put', params, (err, res, body) ->
+      message.send("Bumped the volume to #{body}, :#{message.message.user.name}:")
 
-  robot.respond /play something i('d)? like/i, (message) ->
-    message.http("#{URL}/play_stars")
-      .query(user_login: message.message.user.githubLogin)
-      .header('Content-Length', 0)
-      .post() (err, res, body) ->
-        json = JSON.parse(body)
-        message.send("Queued up " + json.song_title + " by " + json.artist_name)
+  robot.respond /volume\?/i, (message) ->
+    message.finish()
+    authedRequest message, '/system-volume', 'get', {}, (err, res, body) ->
+      message.send("Yo :#{message.message.user.name}:, the volume is #{body} :mega:")
+
+  robot.respond /volume ([+-])?(.*)/i, (message) ->
+    if message.match[1]
+      multiplier = if message.match[1][0] == '+' then 1 else -1
+
+      authedRequest message, '/system-volume', 'get', {}, (err, res, body) ->
+        newVolume = parseInt(body) + parseInt(message.match[2]) * multiplier
+
+        params = {volume: newVolume}
+        authedRequest message, '/system-volume', 'put', params, (err, res, body) ->
+          message.send("Bumped the volume to #{body}, :#{message.message.user.name}:")
+    else
+      params = {volume: message.match[2]}
+      authedRequest message, '/system-volume', 'put', params, (err, res, body) ->
+        message.send("Bumped the volume to #{body}, :#{message.message.user.name}:")
+
+  robot.respond /pause|(pause play)|(play pause)/i, (message) ->
+    message.finish()
+    params = {volume: 0}
+    authedRequest message, '/system-volume', 'put', params, (err, res, body) ->
+      message.send("The office is now quiet. (But the stream lives on!)")
+
+  robot.respond /(unpause play)|(play unpause)/i, (message) ->
+    message.finish()
+    params = {volume: 50}
+    authedRequest message, '/system-volume', 'put', params, (err, res, body) ->
+      message.send("The office is now rockin' at half-volume.")
+
+  robot.respond /start play/i, (message) ->
+    message.finish()
+    authedRequest message, '/play', 'put', {}, (err, res, body) ->
+      json = JSON.parse(body)
+      message.send("Okay! :)")
+
+  robot.respond /stop play/i, (message) ->
+    message.finish()
+    authedRequest message, '/pause', 'put', {}, (err, res, body) ->
+      json = JSON.parse(body)
+      message.send("Okay. :(")
+
+
+  #
+  # STARS
+  #
 
   robot.respond /I want this song/i, (message) ->
-    message.http("#{URL}/now_playing").get() (err, res, body) ->
+    authedRequest message, '/now_playing', 'get', {}, (err, res, body) ->
       json = JSON.parse(body)
-      message.send("Cool! Me too. You can snag it at: #{process.env.HUBOT_PLAY_URL}#{json.song_download_path}")
+      url  = "#{URL}/song/#{json.id}/download"
+      message.send("Pretty rad, innit? Grab it for yourself: #{url}")
 
   robot.respond /I want this album/i, (message) ->
-    message.http("#{URL}/now_playing").get() (err, res, body) ->
+    authedRequest message, '/now_playing', 'get', {}, (err, res, body) ->
       json = JSON.parse(body)
-      message.send("Cool! Me too. You can snag it at: #{process.env.HUBOT_PLAY_URL}#{json.album_download_path}")
+      url  = "#{URL}/artist/#{escape json.artist}/album/#{escape json.album}/download"
+      message.send("you fucking stealer: #{url}")
 
-  robot.respond /list songs by ["']?(.+)["']?/i, (message) ->
-    artist = message.match[1]
-    message.http("#{URL}/search")
-      .query(facet: 'artist', q: artist)
-      .get() (err, res, body) ->
-        json  = JSON.parse(body)
-        songs = json.song_titles.join("\n ")
-        message.send("Songs by " + artist + ":\n  " + songs)
+  robot.respond /(play something i('d)? like)|(play the good shit)/i, (message) ->
+    message.finish()
+    authedRequest message, '/queue/stars', 'post', {}, (err, res, body) ->
+      json = JSON.parse(body)
+
+      str = json.songs.map (song) ->
+        "\"#{song.name} by #{song.artist}\""
+      str.join(', ')
+
+      message.send("NOW HEAR THIS: You will soon listen to #{str}")
+
+  robot.respond /I (like|star|love|dig) this( song)?/i, (message) ->
+    authedRequest message, '/now_playing', 'post', {}, (err, res, body) ->
+      json = JSON.parse(body)
+      message.send("It's certainly not a pedestrian song, is it. I'll make a "+
+                   "note that you like #{json.artist}'s \"#{json.name}\".")
+
+  #
+  # PLAYING
+  #
+
+  robot.respond /play (.*)/i, (message) ->
+    params = {subject: message.match[1]}
+    authedRequest message, '/freeform', 'post', params, (err, res, body) ->
+      if body.length == 0
+        return message.send("That doesn't exist in Play. Or anywhere, probably. If it's not"+
+               " in Play the shit don't exist. I'm a total hipstser.")
+
+      json = JSON.parse(body)
+      str = json.songs.map (song) ->
+        "\"#{song.name}\" by #{song.artist}"
+      str.join(', ')
+
+      message.send("Queued up #{str}")
+
+  robot.respond /clear play/i, (message) ->
+    authedRequest message, '/queue/all', 'delete', {}, (err, res, body) ->
+      message.send(":fire: :bomb:")
+
+  robot.respond /spin (it|that shit)/i, (message) ->
+    authedRequest message, '/dj', 'post', {}, (err, res, body) ->
+      message.send(":mega: :cd: :dvd: :cd: :dvd: :cd: :dvd: :speaker:")
+
+  robot.respond /stop (spinning|dj)/i, (message) ->
+    authedRequest message, '/dj', 'delete', {note: "github-dj-#{message.message.user.githubLogin}"}, (err, res, body) ->
+      message.send("Nice work. You really did a great job. Your session has been saved and added to Play as: #{body}")
