@@ -6,4 +6,4 @@ module.exports = (robot) ->
 
 			tweet = JSON.parse(body)
 
-			msg.send "@#{tweet.user.name}: #{tweet.text}"
+			msg.send "@#{tweet.user.screen_name}: #{tweet.text}"
