@@ -43,10 +43,39 @@ class IssueFilter
   constructor: (@name, @jql) ->
     return {name: @name, jql: @jql}
 
+
+# keeps track of recently displayed issues, to prevent spamming
+class RecentIssues
+  constructor: (@maxage) ->
+    @issues = []
+
+  cleanup: ->
+    for issue,time of @issues
+      age = Math.round(((new Date()).getTime() - time) / 1000)
+      if age > @maxage
+        #console.log 'removing old issue', issue
+        delete @issues[issue]
+    0
+
+  contains: (issue) ->
+    @cleanup()
+    @issues[issue]?
+
+  add: (issue,time) ->
+    time = time || (new Date()).getTime()
+    @issues[issue] = time
+
+
+
 module.exports = (robot) ->
   filters = new IssueFilters robot
 
+  # which version of the API being used
   useV2 = process.env.HUBOT_JIRA_USE_V2 || false
+  # max number of issues to list during a search
+  maxlist = process.env.HUBOT_JIRA_MAXLIST || 10
+  # how long (seconds) to wait between repeating the same JIRA issue link
+  issuedelay = process.env.HUBOT_JIRA_ISSUEDELAY || 30
 
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
@@ -110,8 +139,7 @@ module.exports = (robot) ->
         return
       
       resultText = "I found #{result.total} issues for your search. #{process.env.HUBOT_JIRA_URL}/secure/IssueNavigator.jspa?reset=true&jqlQuery=#{escape(jql)}"
-      max = if process.env.HUBOT_JIRA_LISTMAX? then process.env.HUBOT_JIRA_LISTMAX else 10
-      if result.issues.length <= max
+      if result.issues.length <= maxlist
         cb resultText
         result.issues.forEach (issue) ->
           info msg, issue.key, (info) ->
@@ -138,8 +166,10 @@ module.exports = (robot) ->
       return
     
     for matched in msg.match
-      info msg, matched, (text) ->
-        msg.send text
+      if !recentissues.contains msg.message.user.room+matched
+        info msg, matched, (text) ->
+          msg.send text
+        recentissues.add msg.message.user.room+matched
 
   robot.respond /save filter (.*) as (.*)/i, (msg) ->
     filter = filters.get msg.match[2]
