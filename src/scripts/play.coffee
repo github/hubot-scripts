@@ -27,7 +27,7 @@ URL = "#{process.env.HUBOT_PLAY_URL}"
 
 authedRequest = (message, path, action, options, callback) ->
   message.http("#{URL}#{path}")
-    .query(login: message.message.user.githubLogin, token: process.env.HUBOT_PLAY_TOKEN)
+    .query(login: message.message.user.githubLogin, token: "#{process.env.HUBOT_PLAY_TOKEN}")
     .header('Content-Length', 0)
     .query(options)[action]() (err, res, body) ->
       callback(err,res,body)
