@@ -8,8 +8,14 @@ module.exports = (robot) ->
         try
           data = JSON.parse body
           children = data.data.children
-          joke = msg.random(children).data.selftext
-          msg.send joke
+          joke = msg.random(children).data
+
+          if joke.selftext.match /^\.\.\./
+            joketext = joke.title.replace(/\*\.\.\.$/,'') + ' ' + joke.selftext.replace(/^\.\.\.\s*/, '')
+          else
+            joketext = joke.selftext
+
+          msg.send joketext.trim()
 
         catch ex
           msg.send "Erm, something went EXTREMELY wrong - #{ex}"
