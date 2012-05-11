@@ -163,7 +163,7 @@ module.exports = (robot) ->
         msg.send line for line in message.split("\n")
 
   # listen for ticket links
-  robot.hear /([^\w]|^)\#(\d+)/ig, (msg) ->
+  robot.hear /([^\w]|^)\#(\d+)(?=[^\w]|$)/ig, (msg) ->
     if (ignoredusers.some (user) -> user == msg.message.user.name)
       console.log 'ignoring user due to blacklist:', msg.message.user.name
       return
@@ -203,6 +203,8 @@ module.exports = (robot) ->
         else
           msg.send "Trac r#{revision}: #{process.env.HUBOT_TRAC_URL}/changeset/#{revision}"
 
-  robot.hear /([^\w]|^)r(\d+)/ig, handleChangeset
-  robot.hear /([^\w]|^)\[(\d+)\]/ig, handleChangeset
+  # trigger on "r123"
+  robot.hear /([^\w]|^)r(\d+)(?=[^\w]|$)/ig, handleChangeset
+  # trigger on [123]
+  robot.hear /([^\w]|^)\[(\d+)\](?=[^\w]|$)/ig, handleChangeset
   
