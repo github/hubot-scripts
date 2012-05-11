@@ -8,6 +8,20 @@
 # show filter(s)                - Show all filters
 # show filter <name>            - Show a specific filter
 
+# Required environment variables:
+# * HUBOT_JIRA_URL: Base URL to JIRA instance, without trailing slash eg: https://myserver.com/jira 
+# * HUBOT_JIRA_USER: JIRA username
+# * HUBOT_JIRA_PASSWORD: JIRA password
+# Optional environment variables:
+# * HUBOT_JIRA_USE_V2: "true" to use v2 of the JIRA REST API, defaults to "false" (v1)
+# * HUBOT_JIRA_MAXLIST: maximum number of items to show for a JQL query, defaults to 10
+# * HUBOT_JIRA_ISSUEDELAY: number of seconds to not show a ticket for again after it's been 
+#                          mentioned once. This helps to cut down on noise from the bot.
+#                          Defaults to 30.
+# * HUBOT_JIRA_IGNOREUSERS: Comma-seperated list of users to ignore "hearing" issues from.
+#                           This works well with other bots or API calls that post to the room.
+#                           Example: "Subversion,TeamCity,John Doe"
+
 class IssueFilters
   constructor: (@robot) ->
     @cache = []
@@ -48,11 +62,11 @@ class IssueFilter
 class RecentIssues
   constructor: (@maxage) ->
     @issues = []
-
+  
   cleanup: ->
     for issue,time of @issues
       age = Math.round(((new Date()).getTime() - time) / 1000)
-      if age > @maxage
+      if age > @maxage 
         #console.log 'removing old issue', issue
         delete @issues[issue]
     0
@@ -62,20 +76,22 @@ class RecentIssues
     @issues[issue]?
 
   add: (issue,time) ->
-    time = time || (new Date()).getTime()
+    time = time || (new Date()).getTime() 
     @issues[issue] = time
-
 
 
 module.exports = (robot) ->
   filters = new IssueFilters robot
 
-  # which version of the API being used
   useV2 = process.env.HUBOT_JIRA_USE_V2 || false
   # max number of issues to list during a search
   maxlist = process.env.HUBOT_JIRA_MAXLIST || 10
   # how long (seconds) to wait between repeating the same JIRA issue link
   issuedelay = process.env.HUBOT_JIRA_ISSUEDELAY || 30
+  # array of users that are ignored
+  ignoredusers = (process.env.HUBOT_JIRA_IGNOREUSERS.split(',') if process.env.HUBOT_JIRA_IGNOREUSERS?) || []
+
+  recentissues = new RecentIssues issuedelay
 
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
@@ -146,13 +162,13 @@ module.exports = (robot) ->
             cb info
       else
         cb resultText + " (too many to list)"
-  
+
   robot.respond /(show )?watchers (for )?(\w+-[0-9]+)/i, (msg) ->
     if msg.message.user.id is robot.name
       return
 
     watchers msg, msg.match[3], (text) ->
-      msg.reply text
+      msg.send text
   
   robot.respond /search (for )?(.*)/i, (msg) ->
     if msg.message.user.id is robot.name
@@ -161,15 +177,20 @@ module.exports = (robot) ->
     search msg, msg.match[2], (text) ->
       msg.reply text
   
-  robot.hear /(\w+-[0-9]+)/ig, (msg) ->
+  robot.hear /([^\w\-]|^)(\w+-[0-9]+)(?=[^\w]|$)/ig, (msg) ->
     if msg.message.user.id is robot.name
       return
-    
+
+    if (ignoredusers.some (user) -> user == msg.message.user.name)
+      console.log 'ignoring user due to blacklist:', msg.message.user.name
+      return
+   
     for matched in msg.match
-      if !recentissues.contains msg.message.user.room+matched
-        info msg, matched, (text) ->
+      ticket = (matched.match /(\w+-[0-9]+)/)[0]
+      if !recentissues.contains msg.message.user.room+ticket
+        info msg, ticket, (text) ->
           msg.send text
-        recentissues.add msg.message.user.room+matched
+        recentissues.add msg.message.user.room+ticket
 
   robot.respond /save filter (.*) as (.*)/i, (msg) ->
     filter = filters.get msg.match[2]
