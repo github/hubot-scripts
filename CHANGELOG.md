@@ -1,3 +1,15 @@
+v2.0.6
+======
+There is a ton of new functionality. The Second laziest changelog entry in a while.
+
+https://github.com/github/hubot-scripts/compare/v2.0.5...v2.0.6
+
+v2.0.5
+======
+There is a ton of new functionality. Laziest changelog entry in a while.
+
+https://github.com/github/hubot-scripts/compare/v2.0.4...v2.0.5
+
 v2.0.4
 ======
 There is a ton of new functionality.
