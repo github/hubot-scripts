@@ -1,16 +1,23 @@
 # FogBugz hubot helper.
 #
-# Set HUBOT_FOGBUGZ_HOST as your FogBugz hostname (eg, yourco.fogbugz.com)
-# Set HUBOT_FOGBUGZ_TOKEN to a token for a user that can access all your cases.
+# Set your FogBugz hostname
+#
+#   HUBOT_FOGBUGZ_HOST = "yourcompany.fogbugz.com"
+#
+# Set your FogBugz token for a user that can access all your cases.
+#
+#   HUBOT_FOGBUGZ_TOKEN = "my_token"
 #
 # To get a FogBugz token, do this:
-# $ curl 'https://$HUBOT_FOGBUGZ_HOST/api.asp' -F'cmd=logon' # -F'email=$EMAIL' -F'password=$PASSWORD'
-# and copy the data inside the CDATA[...] block.
+#
+#   curl 'https://HUBOT_FOGBUGZ_HOST/api.asp' -F'cmd=logon' # -F'email=EMAIL' -F'password=PASSWORD'
+#   and copy the data inside the CDATA[...] block.
 #
 # Tokens only expire if you explicitly log them out, so you should be able to
 # use this token forever without problems.
-
-# (bug|case) <number> - provide helpful information about a FogBugz case
+#
+# bug <number> - provide helpful information about a FogBugz case
+# case <number> - provide helpful information about a FogBugz case
 
 Parser = require('xml2js').Parser
 env = process.env

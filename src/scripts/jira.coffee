@@ -8,6 +8,20 @@
 # show filter(s)                - Show all filters
 # show filter <name>            - Show a specific filter
 
+# Required environment variables:
+# * HUBOT_JIRA_URL: Base URL to JIRA instance, without trailing slash eg: https://myserver.com/jira 
+# * HUBOT_JIRA_USER: JIRA username
+# * HUBOT_JIRA_PASSWORD: JIRA password
+# Optional environment variables:
+# * HUBOT_JIRA_USE_V2: "true" to use v2 of the JIRA REST API, defaults to "false" (v1)
+# * HUBOT_JIRA_MAXLIST: maximum number of items to show for a JQL query, defaults to 10
+# * HUBOT_JIRA_ISSUEDELAY: number of seconds to not show a ticket for again after it's been 
+#                          mentioned once. This helps to cut down on noise from the bot.
+#                          Defaults to 30.
+# * HUBOT_JIRA_IGNOREUSERS: Comma-seperated list of users to ignore "hearing" issues from.
+#                           This works well with other bots or API calls that post to the room.
+#                           Example: "Subversion,TeamCity,John Doe"
+
 class IssueFilters
   constructor: (@robot) ->
     @cache = []
@@ -43,8 +57,41 @@ class IssueFilter
   constructor: (@name, @jql) ->
     return {name: @name, jql: @jql}
 
+
+# keeps track of recently displayed issues, to prevent spamming
+class RecentIssues
+  constructor: (@maxage) ->
+    @issues = []
+  
+  cleanup: ->
+    for issue,time of @issues
+      age = Math.round(((new Date()).getTime() - time) / 1000)
+      if age > @maxage 
+        #console.log 'removing old issue', issue
+        delete @issues[issue]
+    0
+
+  contains: (issue) ->
+    @cleanup()
+    @issues[issue]?
+
+  add: (issue,time) ->
+    time = time || (new Date()).getTime() 
+    @issues[issue] = time
+
+
 module.exports = (robot) ->
   filters = new IssueFilters robot
+
+  useV2 = process.env.HUBOT_JIRA_USE_V2 || false
+  # max number of issues to list during a search
+  maxlist = process.env.HUBOT_JIRA_MAXLIST || 10
+  # how long (seconds) to wait between repeating the same JIRA issue link
+  issuedelay = process.env.HUBOT_JIRA_ISSUEDELAY || 30
+  # array of users that are ignored
+  ignoredusers = (process.env.HUBOT_JIRA_IGNOREUSERS.split(',') if process.env.HUBOT_JIRA_IGNOREUSERS?) || []
+
+  recentissues = new RecentIssues issuedelay
 
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
@@ -67,34 +114,55 @@ module.exports = (robot) ->
       if issues.errors?
         return
 
-      issue =
-        key: issues.key
-        summary: issues.fields.summary.value
-        assignee: ->
-          if issues.fields.assignee.value != undefined
-            issues.fields.assignee.value.displayName
-          else
-            "no assignee"
-        status: issues.fields.status.value.name
-        fixVersion: ->
-          if issues.fields.fixVersions? and issues.fields.fixVersions.value != undefined
-            issues.fields.fixVersions.value.map((fixVersion) -> return fixVersion.name).join(", ")
-          else
-            "no fix version"
-        url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
+      if useV2
+        issue =
+          key: issues.key
+          summary: issues.fields.summary
+          assignee: ->
+            if issues.fields.assignee != null
+              issues.fields.assignee.displayName
+            else
+              "no assignee"
+          status: issues.fields.status.name
+          fixVersion: ->
+            if issues.fields.fixVersions? and issues.fields.fixVersions.length > 0
+              issues.fields.fixVersions.map((fixVersion) -> return fixVersion.name).join(", ")
+            else
+              "no fix version"
+          url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
+      else
+        issue =
+          key: issues.key
+          summary: issues.fields.summary.value
+          assignee: ->
+            if issues.fields.assignee.value != undefined
+              issues.fields.assignee.value.displayName
+            else
+              "no assignee"
+          status: issues.fields.status.value.name
+          fixVersion: ->
+            if issues.fields.fixVersions? and issues.fields.fixVersions.value != undefined
+              issues.fields.fixVersions.value.map((fixVersion) -> return fixVersion.name).join(", ")
+            else
+              "no fix version"
+          url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
 
-      cb "[#{issue.key}] #{issue.summary}. #{issue.assignee()} / #{issue.status}, #{issue.fixVersion()} <#{issue.url}>"    
+      cb "[#{issue.key}] #{issue.summary}. #{issue.assignee()} / #{issue.status}, #{issue.fixVersion()} #{issue.url}"
       
   search = (msg, jql, cb) ->
     get msg, "search/?jql=#{escape(jql)}", (result) ->
       if result.errors?
         return
       
-      cb "I found #{result.total} issues for your search"
-      result.issues.forEach (issue) ->
-        info msg, issue.key, (info) ->
-          cb info
-  
+      resultText = "I found #{result.total} issues for your search. #{process.env.HUBOT_JIRA_URL}/secure/IssueNavigator.jspa?reset=true&jqlQuery=#{escape(jql)}"
+      if result.issues.length <= maxlist
+        cb resultText
+        result.issues.forEach (issue) ->
+          info msg, issue.key, (info) ->
+            cb info
+      else
+        cb resultText + " (too many to list)"
+
   robot.respond /(show )?watchers (for )?(\w+-[0-9]+)/i, (msg) ->
     if msg.message.user.id is robot.name
       return
@@ -107,21 +175,29 @@ module.exports = (robot) ->
       return
       
     search msg, msg.match[2], (text) ->
-      msg.send "#{msg.message.user.id}: #{text}"
+      msg.reply text
   
-  robot.hear /(\w+-[0-9]+)/i, (msg) ->
+  robot.respond /([^\w\-]|^)(\w+-[0-9]+)(?=[^\w]|$)/ig, (msg) ->
     if msg.message.user.id is robot.name
       return
-    
-    info msg, msg.match[0], (text) ->
-      msg.send text
+
+    if (ignoredusers.some (user) -> user == msg.message.user.name)
+      console.log 'ignoring user due to blacklist:', msg.message.user.name
+      return
+   
+    for matched in msg.match
+      ticket = (matched.match /(\w+-[0-9]+)/)[0]
+      if !recentissues.contains msg.message.user.room+ticket
+        info msg, ticket, (text) ->
+          msg.send text
+        recentissues.add msg.message.user.room+ticket
 
   robot.respond /save filter (.*) as (.*)/i, (msg) ->
     filter = filters.get msg.match[2]
 
     if filter
       filters.delete filter.name
-      msg.send "Updated filter #{filter.name} for you"
+      msg.reply "Updated filter #{filter.name} for you"
 
     filter = new IssueFilter msg.match[2], msg.match[1]
     filters.add filter
@@ -134,17 +210,17 @@ module.exports = (robot) ->
     filter  = filters.get name
 
     search msg, filter.jql, (text) ->
-      msg.send text
+      msg.reply text
 
   robot.respond /(show )?filter(s)? ?(.*)?/i, (msg) ->
     if filters.all().length == 0
-      msg.send "Sorry, I don't remember any filters."
+      msg.reply "Sorry, I don't remember any filters."
       return
 
     if msg.match[3] == undefined
-      msg.send "I remember #{filters.all().length} filters"
+      msg.reply "I remember #{filters.all().length} filters"
       filters.all().forEach (filter) ->
-        msg.send "#{filter.name}: #{filter.jql}"
+        msg.reply "#{filter.name}: #{filter.jql}"
     else
       filter = filters.get msg.match[3]
-      msg.send "#{filter.name}: #{filter.jql}"
+      msg.reply "#{filter.name}: #{filter.jql}"

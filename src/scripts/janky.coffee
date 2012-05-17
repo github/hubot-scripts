@@ -85,7 +85,7 @@ module.exports = (robot) ->
       if statusCode == 201
         msg.reply body
       else
-        msg.reply body
+        msg.reply "Error F7U12: Can't Setup."
 
   robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     app    = msg.match[1]
@@ -138,3 +138,7 @@ module.exports = (robot) ->
         response += "\n" if count > 1
 
       msg.send response
+
+  robot.router.post "/janky", (req, res) ->
+    robot.messageRoom req.body.room, req.body.message
+    res.end "ok"
