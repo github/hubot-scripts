@@ -1,6 +1,6 @@
 # Searches Urbandictionary
 #
-# urban <word> Searches Urbandictionary
+# urban (me) <word>            - Searches UrbanDictionary
 
 module.exports = (robot) ->
   robot.respond /urban( me)? (.*)$/i, (msg) ->
