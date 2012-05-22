@@ -3,8 +3,7 @@
 # <user> disapproves - Disapprove of something
 # <user> approves - Approve of something
 #
-# Developed # Developed by One Mighty Roar (http://github.com/onemightyroar)
- One Mighty Roar - http://github.com/onemightyroar
+# Developed by One Mighty Roar (http://github.com/onemightyroar)
 
 module.exports = (robot) ->
   robot.respond /@?([\w .-_]+) disapproves/i, (msg) ->
