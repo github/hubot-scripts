@@ -2,7 +2,7 @@
 #
 # pokefact - get a random pokefact!
 #
-# Developed by One Mighty Roar - http://github.com/onemightyroar
+# Developed by One Mighty Roar (http://github.com/onemightyroar)
 
 module.exports = (robot) ->
 

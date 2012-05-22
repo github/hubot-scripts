@@ -2,7 +2,7 @@
 #
 # stock <info|quote|price> for <ticker> - Get a stock price
 #
-# Developed by One Mighty Roar - http://github.com/onemightyroar
+# Developed by One Mighty Roar (http://github.com/onemightyroar)
 
 module.exports = (robot) ->
   robot.respond /stock (info|price|quote) for @?([\w .-_]+)/i, (msg) ->
