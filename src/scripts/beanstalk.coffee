@@ -10,7 +10,7 @@
 # beanstalk users - List beanstalk users
 # beanstalk deployments - List beanstalk recent deployments
 #
-# Developed by One Mighty Roar - http://github.com/onemightyroar
+# Developed by One Mighty Roar (http://github.com/onemightyroar)
 
 module.exports = (robot) ->
 
