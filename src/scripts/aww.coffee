@@ -2,7 +2,7 @@
 #
 # aww - aww
 #
-# Developed by One Mighty Roar - http://github.com/onemightyroar
+# Developed by One Mighty Roar (http://github.com/onemightyroar)
 
 module.exports = (robot) ->
   robot.respond /aww/i, (msg) ->
