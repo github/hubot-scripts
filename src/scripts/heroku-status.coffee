@@ -3,7 +3,7 @@
 # heroku status - Returns the current Heroku status for app operations and tools
 
 module.exports = (robot) ->
-  robot.respond /heroku status/, (msg) ->
+  robot.respond /heroku status/i, (msg) ->
     msg.http("https://status.heroku.com/status.json")
       .get() (err, res, body) ->
         try
