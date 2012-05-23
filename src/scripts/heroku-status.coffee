@@ -48,6 +48,6 @@ statusIssue = (msg, id) ->
                  "Resolved: #{json['resolved']}\n" +
                  "Created:  #{json['created_at']}\n" +
                  "Updated:  #{json['updated_at']}\n" +
-                 "URL:      #{json['href']}\n"
+                 "URL:      https://status.heroku.com/incidents/#{id}\n"
       catch error
         msg.send "Uh oh, I had trouble figuring out what the Heroku cloud is up to."
