@@ -1,4 +1,4 @@
-# Show current Heroku status
+# Show current Heroku status and issues
 #
 # heroku status - Returns the current Heroku status for app operations and tools
 # heroku status issues <limit> - Returns a list of recent <limit> issues (default limit is 5)
