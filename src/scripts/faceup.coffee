@@ -1,9 +1,9 @@
 # Overlay funny things on people's faces
 #
-# hipster me <img> - Overlay hipster glasses on a face.
-# clown me <img>   - Overlay a clown nose on a face.
-# scumbag me <img> - Overlay a scumbag on a face.
-# jason me <img> - Overlay a jason on a face.
+# hubot hipster me <img> - Overlay hipster glasses on a face.
+# hubot clown me <img> - Overlay a clown nose on a face.
+# hubot scumbag me <img> - Overlay a scumbag on a face.
+# hubot jason me <img> - Overlay a jason on a face.
 
 module.exports = (robot) ->
   robot.respond /(hipster|clown|scumbag|rohan|jason)( me)? (.*)/i, (msg) ->

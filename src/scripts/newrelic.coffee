@@ -17,7 +17,7 @@
 #  - Allow you to specify the name of the app to fetch metrics for:
 #    hubot newrelic me "My App Name"
 #
-# hubot <newrelic me> - Returns summary application stats from New Relic
+# hubot newrelic me - Returns summary application stats from New Relic
 module.exports = (robot) ->
   robot.respond /newrelic me/i, (msg) ->
     accountId = process.env.HUBOT_NEWRELIC_ACCOUNT_ID

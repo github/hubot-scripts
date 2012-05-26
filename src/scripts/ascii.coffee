@@ -1,6 +1,6 @@
 # ASCII art.
 #
-# ascii me <text> - Show text in ascii art.
+# hubot ascii me <text> - Show text in ascii art.
 
 module.exports = (robot) ->
   robot.respond /ascii( me)? (.+)/i, (msg) ->

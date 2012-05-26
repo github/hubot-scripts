@@ -1,6 +1,6 @@
 # Janky API integration. https://github.com/github/janky
 #
-# ci - show usage
+# hubot ci - show usage
 
 URL  = require "url"
 url  = URL.parse(process.env.HUBOT_JANKY_URL)

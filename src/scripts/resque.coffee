@@ -1,6 +1,6 @@
 # Shows the status of resque queues
 #
-# resque - Lists the queues with pending jobs
+# hubot resque - Lists the queues with pending jobs
 
 module.exports = (robot) ->
   url = process.env.RESQUE_WEB_URL || 'http://localhost:5678'

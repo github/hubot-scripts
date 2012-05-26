@@ -1,6 +1,6 @@
 # Search for a job and profit!
 #
-# find me a <technology> job in <location>
+# hubot find me a <technology> job in <location>
 
 module.exports = (robot) ->
   robot.respond /find me a (.* )?job( in (.+))?/i, (msg) ->

@@ -1,8 +1,8 @@
 # Load scripts from the hubot scripts directory on the fly for testing purposes.
 #
-# script load <script> - Load a script
-# script list [-l]     - List all availiable scripts (optional -l for list mode)
-# script info <script> - Print script help
+# hubot script load <script> - Load a script
+# hubot script list [-l]     - List all availiable scripts (optional -l for list mode)
+# hubot script info <script> - Print script help
 
 # Examples
 #

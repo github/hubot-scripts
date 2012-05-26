@@ -11,11 +11,11 @@
 #   HUBOT_WUNDERLIST_SMTP_AUTH_NAME      - username for authentication
 #   HUBOT_WUNDERLIST_SMTP_AUTH_PASSWORD  - password for authentication
 #
-# wunderlist all the users       - display all users which have registered
-# wunderlist add me with <email> - add <email> as wunderlist login
-# wunderlist my login            - display your wunderlist email
-# wunderlist forget me           - remove the wunderlist login
-# wunderlist me <a todo>         - adds the todo to your wunderlist Inbox
+# hubot wunderlist all the users       - display all users which have registered
+# hubot wunderlist add me with <email> - add <email> as wunderlist login
+# hubot wunderlist my login            - display your wunderlist email
+# hubot wunderlist forget me           - remove the wunderlist login
+# hubot wunderlist me <a todo>         - adds the todo to your wunderlist Inbox
 #
 
 mail = require 'mailer'

@@ -3,9 +3,9 @@
 # Set HUBOT_SENDGRID_USER to your SendGrid username (the same as you use to log in to sendgrid.com)
 # Set HUBOT_SENDGRID_KEY to your SendGrid password (the same as you use to log in to sendgrid.com)
 #
-# sendgrid total - total sendgrid usage for the account
-# sendgrid today - Total usage for today
-# sendgrid c[ategory] <category> - Today's usage for the given category
+# hubot sendgrid total - total sendgrid usage for the account
+# hubot sendgrid today - Total usage for today
+# hubot sendgrid c[ategory] <category> - Today's usage for the given category
 
 env = process.env
   

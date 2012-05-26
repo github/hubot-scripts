@@ -6,12 +6,12 @@
 #   DELICIOUS_USER = <Your Delicious username>
 #   DELICIOUS_PASSWORD = <Your Delicious password>
 #
-# bookmark <url> as <description> - add a url to your delicious feed
-# link <url> as <description> - add a url to the robot brain
-# link me for <description> - find a link by description
-# list bookmarks - get a list of the 15 most recent bookmarks
-# list links - List all of the links that are being tracked
-# feed me - get the URL to subscribe to your bookmark rss
+# hubot bookmark <url> as <description> - add a url to your delicious feed
+# hubot link <url> as <description> - add a url to the robot brain
+# hubot link me for <description> - find a link by description
+# hubot list bookmarks - get a list of the 15 most recent bookmarks
+# hubot list links - List all of the links that are being tracked
+# hubot feed me - get the URL to subscribe to your bookmark rss
 #
 
 module.exports = (robot) ->

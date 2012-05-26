@@ -1,7 +1,7 @@
 # Show the commiters from a repo
 #
-# repo commiters <repo> - shows commiters of repository
-# repo top-commiters <repo> - shows top commiters of repository
+# hubot repo commiters <repo> - shows commiters of repository
+# hubot repo top-commiters <repo> - shows top commiters of repository
 
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"

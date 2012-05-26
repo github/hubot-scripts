@@ -2,7 +2,7 @@
 #
 # Set the HUBOT_WOLFRAM_APPID environment var to your AppID
 #
-# question <question> - Searches Wolfram Alpha for the answer to the question.
+# hubot question <question> - Searches Wolfram Alpha for the answer to the question.
 
 Wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 

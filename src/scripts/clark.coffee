@@ -1,4 +1,4 @@
-# clark - build sparklines out of data
+# hubot clark - build sparklines out of data
 
 clark = require('clark').clark
 

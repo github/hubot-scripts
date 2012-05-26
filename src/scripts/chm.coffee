@@ -1,6 +1,6 @@
 # Shows a short history lesson of the day from the Computer History Museum.
 #
-# today in computer history|tdih|chm - Displays the content from the This Day in History page on the Computer History Museum site.
+# hubot today in computer history|tdih|chm - Displays the content from the This Day in History page on the Computer History Museum site.
 #
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

@@ -1,4 +1,4 @@
-# <name> y u no <action>   - U NO WHAT IT DOES.
+# <name> y u no <action> - U NO WHAT IT DOES.
 # Get image generation script at https://github.com/alexdean/yuno
 
 module.exports = (robot) ->

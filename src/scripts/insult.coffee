@@ -1,4 +1,4 @@
-# insult <name> - give <name> the what-for
+# hubot insult <name> - give <name> the what-for
 
 module.exports = (robot) ->
   robot.respond /insult (.*)/i, (msg) ->

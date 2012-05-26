@@ -5,8 +5,8 @@
 #
 # If HUBOT_HISTORY_LINES is not set, 10 lines will be kept by default.
 #
-# show [<lines> lines of] history -- Shows <lines> of history, otherwise all history.
-# clear history -- Clears the history
+# hubot show [<lines> lines of] history -- Shows <lines> of history, otherwise all history.
+# hubot clear history -- Clears the history
 
 class History
   constructor: (@robot, @keep) ->

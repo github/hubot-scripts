@@ -1,6 +1,6 @@
 # Evaluate one line of Clojure script.
 #
-# clojure|clj <script> - Evaluate one line of Clojure script
+# hubot clojure|clj <script> - Evaluate one line of Clojure script
 module.exports = (robot) ->
   robot.respond /(clojure|clj)\s+(.*)/i, (msg)->
     script = encodeURIComponent(msg.match[2])

@@ -1,6 +1,6 @@
 # evaluate code.
 #
-# eval me <lang> <code> - evaluate <code> and show the result.
+# hubot eval me <lang> <code> - evaluate <code> and show the result.
 
 module.exports = (robot) ->
   robot.respond /eval( me)? ([^ ]+) (.+)/i, (msg) ->

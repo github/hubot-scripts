@@ -1,7 +1,7 @@
 # Show random filewise invisible
 #
-# filmwise me - a randomly selected filmwise invisible
-# filmwise bomb me <number> - filmwise invisible explosion!
+# hubot filmwise me - a randomly selected filmwise invisible
+# hubot filmwise bomb me <number> - filmwise invisible explosion!
 
 module.exports = (robot) ->
   robot.respond /filmwise\s*(?:me)?$/i, (msg) ->

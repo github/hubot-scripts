@@ -1,7 +1,7 @@
 # Pulls a movie gif from the best tumblog
 # Requires HUBOT_TUMBLR_API_KEY
 #
-# movie me - Displays a moving still from IWDRM
+# hubot movie me - Displays a moving still from IWDRM
 
 module.exports = (robot) ->
   robot.respond /(movie|iwdrm)( me)?( .*)/i, (msg) ->

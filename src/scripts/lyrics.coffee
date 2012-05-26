@@ -1,7 +1,7 @@
 # Grabs snippets of song lyrics.
 # Limited to snippets due to copyright stuff.
 #
-# lyrics for <song> by <artist> - returns snippet of lyrics for this song
+# hubot lyrics for <song> by <artist> - returns snippet of lyrics for this song
 #
 # Example: lyrics for purple haze by jimi hendrix
 module.exports = (robot) ->

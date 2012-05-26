@@ -1,6 +1,6 @@
 # Dilbert
 #
-# show me dilbert - gets the daily dilbert
+# hubot show me dilbert - gets the daily dilbert
 
 htmlparser = require "htmlparser"
 

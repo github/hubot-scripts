@@ -2,9 +2,9 @@
 #
 # you need to set HUBOT_46ELKS_USERNAME and HUBOT_46ELKS_PASSWORD
 #
-# sms <user> <message> - Sends <message> to the number <to>.
-# <user> has phone number <phone> - Sets the phone number of <user> to <phone>.
-# give me the phone number to <user> - Gets the phone number of <user>.e
+# hubot sms <user> <message> - Sends <message> to the number <to>.
+# hubot <user> has phone number <phone> - Sets the phone number of <user> to <phone>.
+# hubot give me the phone number to <user> - Gets the phone number of <user>.e
 
 QS      = require "querystring"
 module.exports = (robot) ->

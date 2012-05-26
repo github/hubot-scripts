@@ -1,7 +1,7 @@
 #
 # See the status of NYC subways
 #
-# mta me <train> - the status of a nyc subway line
+# hubot mta me <train> - the status of a nyc subway line
 #
 
 xml2js = require('xml2js')

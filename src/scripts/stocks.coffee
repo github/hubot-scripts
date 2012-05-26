@@ -1,7 +1,7 @@
 # Finance charts.
 #
-# stock me <ticker> - show today's stock chart for <ticker>
-# stock me -(5d|2w|2mon|1y) <ticker> - show stock chart for <ticker>
+# hubot stock me <ticker> - show today's stock chart for <ticker>
+# hubot stock me -(5d|2w|2mon|1y) <ticker> - show stock chart for <ticker>
 
 module.exports = (robot) ->
 

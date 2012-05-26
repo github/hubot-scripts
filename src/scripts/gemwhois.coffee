@@ -1,6 +1,6 @@
 # Whois for gems, because gem names are like domains in the 90's
 #
-# gem whois <gemname> - returns gem details if it exists
+# hubot gem whois <gemname> - returns gem details if it exists
 #
 
 module.exports = (robot) ->

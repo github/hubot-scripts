@@ -1,6 +1,6 @@
 # Bees are insane
 #
-# bees - Oprah at her finest, or a good way to turn the fans on coworkers machines
+# hubot bees - Oprah at her finest, or a good way to turn the fans on coworkers machines
 
 module.exports = (robot) ->
   robot.respond /bees/i, (message) ->

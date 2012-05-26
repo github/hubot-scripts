@@ -1,8 +1,8 @@
 # Display a random quote or one from a specific person
 #
-# enlighten - random quote
-# quote     - random quote
-# quote from <person>
+# hubot enlighten - random quote
+# hubot quote     - random quote
+# hubot quote from <person>
 #
 # Optionally set HUBOT_QUOTE_MAX_LINES to limit how long a quote
 # is. Default is 4
