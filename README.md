@@ -7,8 +7,12 @@ These are a collection of community scripts for
 
 Once you have Hubot installed, you can drop new scripts from this repository
 right into your generated Hubot installation. Just put them in `scripts`, add
-the new scripts to the `hubot-scripts.json` file, restart your robot, and
-you're good to go.
+the new scripts to the `hubot-scripts.json` file.
+
+Any third-party dependencies for scripts need adding your your `package.json`
+otherwise a lot of errors will be thrown during the start up of your hubot.
+
+Restart your robot, and you're good to go.
 
 All the scripts in this repository are located in
 [`src/scripts`](https://github.com/github/hubot-scripts/tree/master/src/scripts).
