@@ -1,6 +1,6 @@
 # Find the build status of an open-source project on Travis
 #
-# <travis me> sferik/rails_admin - Returns the build status of https://github.com/sferik/rails_admin
+# hubot travis me <user>/<repo> - Returns the build status of https://github.com/<user>/<repo>
 #
 
 module.exports = (robot) ->

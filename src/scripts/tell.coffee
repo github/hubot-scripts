@@ -1,6 +1,6 @@
 # Tell Hubot to send a user a message when present in the room
 #
-# tell <username> <some message>
+# hubot tell <username> <some message>
 module.exports = (robot) ->
    localstorage = {}
    robot.respond /tell ([\w.-]*) (.*)/i, (msg) ->

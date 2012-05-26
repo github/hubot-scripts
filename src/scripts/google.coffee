@@ -1,6 +1,6 @@
 # Returns the URL of the first google hit for a query
 #
-# google me <query>   - Googles <query> & returns 1st result's URL
+# hubot google me <query> - Googles <query> & returns 1st result's URL
 
 module.exports = (robot) ->
   robot.respond /(google)( me)? (.*)/i, (msg) ->

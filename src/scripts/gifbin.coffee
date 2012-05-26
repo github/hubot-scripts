@@ -1,7 +1,7 @@
-# gifbin me - Return random gif from gifbin.com
+# hubot gifbin me - Return random gif from gifbin.com
 
 # Random gif from gifbin.com
-# Enrique Vidal - enrique@cloverinteractive.com
+# Enrique Vidal, enrique@cloverinteractive.com
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"

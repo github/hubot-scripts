@@ -4,14 +4,14 @@
 #
 # Get rollout_rest_api here: https://github.com/jamesgolick/rollout_rest_api
 #
-# rollout list - Returns a list of available features.
-# rollout show <feature> - Shows the current rollout of `feature`.
-# rollout activate_user <feature> <user_id> - Activate `feature` for `user_id`.
-# rollout deactivate_user <feature> <user_id> - Deactivate `feature` for `user_id`.
-# rollout activate_group <feature> <group> - Activate `feature` for `group_id`.
-# rollout deactivate_group <feature> <group> - Deactivate `feature` for `group_id`.
-# rollout activate_percentage <feature> <percentage> - Activate `feature` for `percentage`% of users.
-# rollout deactivate <feature> - Deactivate `feature` all users.
+# hubot rollout list - Returns a list of available features.
+# hubot rollout show <feature> - Shows the current rollout of `feature`.
+# hubot rollout activate_user <feature> <user_id> - Activate `feature` for `user_id`.
+# hubot rollout deactivate_user <feature> <user_id> - Deactivate `feature` for `user_id`.
+# hubot rollout activate_group <feature> <group> - Activate `feature` for `group_id`.
+# hubot rollout deactivate_group <feature> <group> - Deactivate `feature` for `group_id`.
+# hubot rollout activate_percentage <feature> <percentage> - Activate `feature` for `percentage`% of users.
+# hubot rollout deactivate <feature> - Deactivate `feature` all users.
 
 endpoint = process.env.HUBOT_ROLLOUT_API_URL + '/'
 

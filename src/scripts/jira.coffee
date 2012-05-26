@@ -1,12 +1,12 @@
 # Messing with the JIRA REST API
 #
 # <Project Key>-<Issue ID>      - Displays information about the ticket (if it exists)
-# show watchers for <Issue Key> - Shows watchers for the given issue
-# search for <JQL>              - Search JIRA with JQL
-# save filter <JQL> as <name>   - Save JQL as filter in the brain
-# use filter                    - Use a filter from the brain
-# show filter(s)                - Show all filters
-# show filter <name>            - Show a specific filter
+# hubot show watchers for <Issue Key> - Shows watchers for the given issue
+# hubot search for <JQL>              - Search JIRA with JQL
+# hubot save filter <JQL> as <name>   - Save JQL as filter in the brain
+# hubot use filter                    - Use a filter from the brain
+# hubot show filter(s)                - Show all filters
+# hubot show filter <name>            - Show a specific filter
 
 # Required environment variables:
 # * HUBOT_JIRA_URL: Base URL to JIRA instance, without trailing slash eg: https://myserver.com/jira 

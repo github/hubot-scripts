@@ -1,4 +1,4 @@
-# joke me - Pull a random joke from /r/jokes
+# hubot joke me - Pull a random joke from /r/jokes
 
 module.exports = (robot) ->
 

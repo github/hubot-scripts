@@ -5,7 +5,7 @@
 #
 # Limits for free version is 100 queries per day per API key.
 #
-# (google|search)( me) <query> - returns URL's and Title's for 5 first results from custom search#
+# hubot (google|search)( me) <query> - returns URL's and Title's for 5 first results from custom search#
 #
 module.exports = (robot) ->
   robot.respond /(google|search)( me)? (.*)/i, (msg) ->

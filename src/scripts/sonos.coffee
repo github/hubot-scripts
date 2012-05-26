@@ -1,5 +1,5 @@
 #
-# what's playing - show what's playing on the office Sonos
+# hubot what's playing - show what's playing on the office Sonos
 #
 xml2js = require 'xml2js'
 util = require 'util'

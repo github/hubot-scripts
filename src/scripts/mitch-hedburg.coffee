@@ -1,7 +1,7 @@
 # Allows Hubot to find an awesome Mitch Hedburg quotes
 #
-# get mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org with filter
-# get dirty mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org without potty mouth filter
+# hubot get mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org with filter
+# hubot get dirty mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org without potty mouth filter
 
 # REQUIRED MODULES
 # sudo npm install htmlparser

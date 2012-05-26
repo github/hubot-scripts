@@ -1,11 +1,11 @@
-# (redmine|show) me <issue-id>     - Show the issue status
-# show (my|user's) issues          - Show your issues or another user's issues
-# assign <issue-id> to <user-first-name> ["notes"]  - Assign the issue to the user (searches login or firstname)
-#                                                     *With optional notes
-# update <issue-id> with "<note>"  - Adds a note to the issue
-# add <hours> hours to <issue-id> ["comments"]  - Adds hours to the issue with the optional comments
-# link me <issue-id> - Returns a link to the redmine issue
-# set <issue-id> to <int>% ["comments"] - Updates an issue and sets the percent done
+# hubot (redmine|show) me <issue-id>     - Show the issue status
+# hubot show (my|user's) issues          - Show your issues or another user's issues
+# hubot assign <issue-id> to <user-first-name> ["notes"]  - Assign the issue to the user (searches login or firstname)
+# hubot                                                     *With optional notes
+# hubot update <issue-id> with "<note>"  - Adds a note to the issue
+# hubot add <hours> hours to <issue-id> ["comments"]  - Adds hours to the issue with the optional comments
+# hubot link me <issue-id> - Returns a link to the redmine issue
+# hubot set <issue-id> to <int>% ["comments"] - Updates an issue and sets the percent done
 #
 #
 # Note: <issue-id> can be formatted in the following ways:

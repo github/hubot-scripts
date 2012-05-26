@@ -1,5 +1,5 @@
 #
-# nettipot - Send scarring, horrifying image of a nettipot in use.
+# hubot nettipot - Send scarring, horrifying image of a nettipot in use.
 # Written by @alexpgates
 #
 

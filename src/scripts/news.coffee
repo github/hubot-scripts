@@ -1,7 +1,7 @@
 # Returns the latest news headlines from Google
 #
-# news - Get the latest headlines
-# news <topic> - Get the latest headlines for a specific topic
+# hubot news - Get the latest headlines
+# hubot news <topic> - Get the latest headlines for a specific topic
 
 module.exports = (robot) ->
   robot.respond /news(?: me| on)?\s?(.*)/, (msg) ->

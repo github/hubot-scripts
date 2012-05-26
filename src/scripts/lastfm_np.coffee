@@ -1,6 +1,6 @@
 # Last (or current) played song by a user in Last.fm
 #
-# hubot <what's playing> someone - Returns song name and artist
+# hubot what's playing <last FM user> - Returns song name and artist
 #
 
 module.exports = (robot) ->

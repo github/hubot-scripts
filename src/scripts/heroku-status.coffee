@@ -1,8 +1,8 @@
 # Show current Heroku status and issues
 #
-# heroku status - Returns the current Heroku status for app operations and tools
-# heroku status issues <limit> - Returns a list of recent <limit> issues (default limit is 5)
-# heroku status issue <id> - Returns a single issue by ID number
+# hubot heroku status - Returns the current Heroku status for app operations and tools
+# hubot heroku status issues <limit> - Returns a list of recent <limit> issues (default limit is 5)
+# hubot heroku status issue <id> - Returns a single issue by ID number
 
 module.exports = (robot) ->
   robot.respond /heroku status$/i, (msg) ->

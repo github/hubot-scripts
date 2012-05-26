@@ -1,7 +1,7 @@
 #
 # Insert Pictures of Magic: The Gathering Cards
 #
-# cast <card name> - a picture of the named magic card
+# hubot cast <card name> - a picture of the named magic card
 
 querystring = require 'querystring';
 

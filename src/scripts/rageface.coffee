@@ -1,6 +1,6 @@
 # Rage face script
 #
-# rage (tag) - Send a rageface for a given tag, if no tag is given, one will be chosen at random
+# hubot rage <tag> - Send a rageface for a given tag, if no tag is given, one will be chosen at random
 #
 
 Array::shuffle = -> @sort -> 0.5 - Math.random()

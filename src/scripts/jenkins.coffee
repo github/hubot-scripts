@@ -6,10 +6,9 @@
 # The following variables are optional
 #   HUBOT_JENKINS_AUTH: for authenticating the trigger request (user:password)
 #
-# jenkins build <job> - builds the specified Jenkins job
-# jenkins build <job>,  <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
-# jenkins list - lists Jenkins jobs
-#
+# hubot jenkins build <job> - builds the specified Jenkins job
+# hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
+# hubot jenkins list - lists Jenkins jobs
 
 querystring = require 'querystring'
 

@@ -1,7 +1,7 @@
 # Show random octocat
 #
-# octocat me - a randomly selected octocat
-# octocat bomb me <number> - octocat-splosion!
+# hubot octocat me - a randomly selected octocat
+# hubot octocat bomb me <number> - octocat-splosion!
 
 xml2js = require('xml2js')
 

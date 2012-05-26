@@ -1,4 +1,4 @@
-# lulz - BRING THE LOLZ from bukk.it
+# hubot lulz - BRING THE LOLZ from bukk.it
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

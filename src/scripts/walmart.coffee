@@ -1,7 +1,7 @@
 # Show a random image from peopleofwalmart.com
 #
-# walmart me - Show random Walmart image
-# mart me - Show random Walmart image
+# hubot walmart me - Show random Walmart image
+# hubot mart me - Show random Walmart image
 #     
 module.exports = (robot) ->
   robot.respond /(wal)?mart( me)?/i, (msg) ->

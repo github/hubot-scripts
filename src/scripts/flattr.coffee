@@ -1,8 +1,8 @@
 # Interact with the Flattr API.
 #
 # thing me <id> - Returns information about a flattr thing
-# user me <username> - Returns information about a flattr user
-# search things <query> - Search flattrs things
+# hubot user me <username> - Returns information about a flattr user
+# hubot search things <query> - Search flattrs things
 #
 
 module.exports = (robot) ->

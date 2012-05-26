@@ -1,10 +1,10 @@
-# weather me <location> - short-term forecast
+# hubot weather me <location> - short-term forecast
 #
-# radar me <location> - recent radar image
+# hubot radar me <location> - recent radar image
 #
-# satellite me <location> - get a recent satellite image
+# hubot satellite me <location> - get a recent satellite image
 #
-# weathercam me <location> - get a weather webcam image near location
+# hubot weathercam me <location> - get a weather webcam image near location
 #
 # location can be zip code, ICAO/IATA airport code, state/city (CA/San_Franciso).
 

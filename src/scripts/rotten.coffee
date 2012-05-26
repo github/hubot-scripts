@@ -3,8 +3,8 @@
 # rotten me <movie>
 # 
 # Examples:
-# rotten me inception
-# rotten me the good, the bad, and the ugly
+# hubot rotten me inception
+# hubot rotten me the good, the bad, and the ugly
 module.exports = (robot) ->
   robot.respond /rotten me (.*)$/i, (msg) ->
     api_key = process.env.HUBOT_ROTTEN_TOMATOES_API_KEY

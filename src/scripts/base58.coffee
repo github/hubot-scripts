@@ -1,6 +1,6 @@
 # Base58 encoding and decoding.
 #
-# base58 encode|decode <query> - Base58 encode or decode <query>
+# hubot base58 encode|decode <query> - Base58 encode or decode <query>
 
 module.exports = (robot) ->
   robot.respond /base58 encode( me)? (.*)/i, (msg) ->
