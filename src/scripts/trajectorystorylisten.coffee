@@ -1,6 +1,6 @@
 # Listens for Trajectory story links.
 #
-# paste a Trajectory story URL - sends back some story details
+# <a Trajectory story URL> - sends back some story details
 #
 # You need to set the following variables:
 #   HUBOT_TRAJECTORY_APIKEY: your Trajectory API key

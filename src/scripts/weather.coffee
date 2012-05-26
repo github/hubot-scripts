@@ -1,7 +1,7 @@
 # Returns weather information from Google
 #
-# weather <city> - Get the weather for a location
-# forecast <city> - Get the forecast for a location
+# hubot weather <city> - Get the weather for a location
+# hubot forecast <city> - Get the forecast for a location
 jsdom = require 'jsdom'
 env = process.env
 

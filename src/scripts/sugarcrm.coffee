@@ -1,6 +1,6 @@
 # Can output total amount in your sales pipeline, as specified in a report from SugarCRM
 #
-# pipeline me - Gives the total amount in sales pipeline
+# hubot pipeline me - Gives the total amount in sales pipeline
 
 module.exports = (robot) ->
   robot.respond /pipeline( me)?/i, (msg) ->

@@ -1,27 +1,26 @@
 # Integrates with memegenerator.net
 #
-# Y U NO <text>              - Generates the Y U NO GUY with the bottom caption
-#                              of <text>
+# hubot Y U NO <text>              - Generates the Y U NO GUY with the bottom caption of <text>
 #
-# I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
+# hubot I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
 #
-# <text> ORLY?               - Generates the ORLY? owl with the top caption of <text>
+# hubot <text> ORLY?               - Generates the ORLY? owl with the top caption of <text>
 #
-# <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
+# hubot <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
 #
-# <text> ALL the <things>    - Generates ALL THE THINGS
+# hubot <text> ALL the <things>    - Generates ALL THE THINGS
 #
-# <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
+# hubot <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
 #
 # Good news everyone! <news> - Generates Professor Farnsworth
 #
-# khanify <text> - TEEEEEEEEEEEEEEEEEXT!
+# hubot khanify <text> - TEEEEEEEEEEEEEEEEEXT!
 #
-# Not sure if <text> or <text> - Generates Futurama Fry
+# hubot Not sure if <text> or <text> - Generates Futurama Fry
 #
-# Yo dawg <text> so <text> - Generates Yo Dawg
+# hubot Yo dawg <text> so <text> - Generates Yo Dawg
 #
-# ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
+# hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->

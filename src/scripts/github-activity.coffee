@@ -1,6 +1,6 @@
 # It was based on github-issues.coffee script
 #
-# repo show <repo> - shows activity of repository
+# hubot repo show <repo> - shows activity of repository
 
 # Add "date-utils":">=1.2.5" in the hubot-scripts.json file
 #

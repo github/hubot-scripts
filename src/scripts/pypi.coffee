@@ -2,8 +2,8 @@
 #
 # Set HUBOT_PYPI_URL to custom PyPI server if you like. Defaults to http://pypi.python.org/pypi.
 #
-# show latest from pypi for <package> - Shows latest version of Python package registered at PyPI
-# show total downloads from pypi for <package> - Shows total number of downloads accross all versions of Python package registered at PyPI
+# hubot show latest from pypi for <package> - Shows latest version of Python package registered at PyPI
+# hubot show total downloads from pypi for <package> - Shows total number of downloads accross all versions of Python package registered at PyPI
 
 pypi = require "pypi"
 

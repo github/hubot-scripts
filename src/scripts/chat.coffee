@@ -1,6 +1,7 @@
 # Start up some wonderful chats with conversation starters
 #
-# chat - Tell hubot to make something fun to chat about
+# hubot chat - Tell hubot to make something fun to chat about
+#
 # Conversation starters graciously provided by http://Chatoms.com
 
 module.exports = (robot) ->

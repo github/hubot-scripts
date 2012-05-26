@@ -1,6 +1,4 @@
-# Returns a random Yo Mama joke
-#
-# yo mama joke me
+# hubot yo mama joke me - Returns a random Yo Mama joke
 
 module.exports = (robot) ->
   robot.respond /(yo\s?mama( joke)?)( me)?/i, (msg) ->

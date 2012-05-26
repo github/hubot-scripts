@@ -1,7 +1,7 @@
 # Prank text a friend (or enemy)
 #
-# drunk-text <number> - send a text to <number>
-# prank-text <number> - send a text to <number>
+# hubot drunk-text <number> - send a text to <number>
+# hubot prank-text <number> - send a text to <number>
 #
 
 HTMLParser = require("htmlparser")

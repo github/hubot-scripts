@@ -10,7 +10,7 @@
 # You can further filter pull request title by providing a reguar expression. For exmaple,
 # `show me hubot pulls with awesome fix`.
 #
-# show me <user/repo> pulls [with <regular expression>] - Shows open pull requests for that project by filtering pull request's title.
+# hubot show me <user/repo> pulls [with <regular expression>] - Shows open pull requests for that project by filtering pull request's title.
 module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i, (msg)->

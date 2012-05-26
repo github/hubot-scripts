@@ -1,6 +1,6 @@
 # Various hashing algorithms.
 #
-# md5|sha|sha1|sha256|sha512|rmd160 me <string> - Generate hash of <string>
+# hubot md5|sha|sha1|sha256|sha512|rmd160 me <string> - Generate hash of <string>
 
 crypto = require 'crypto'
 

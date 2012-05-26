@@ -1,6 +1,6 @@
 # Shorten URLs with bit.ly
 #
-# (bitly|shorten) (me) <url> - Shorten the URL using bit.ly
+# hubot (bitly|shorten) (me) <url> - Shorten the URL using bit.ly
 
 module.exports = (robot) ->
   robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/, (msg) ->

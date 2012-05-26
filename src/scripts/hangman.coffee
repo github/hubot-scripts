@@ -1,8 +1,8 @@
 # The game of Hangman.
 # Words and definitions are sourced via the Wordnik API. You'll need an API key from http://developer.wordnik.com/
 #
-# hangman - Display the state of the current game.
-# hangman <letterOrWord> - Make a guess.
+# hubot hangman - Display the state of the current game.
+# hubot hangman <letterOrWord> - Make a guess.
 
 class Game
 

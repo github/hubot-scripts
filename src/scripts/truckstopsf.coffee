@@ -2,9 +2,9 @@
 # See http://truckstopsf.com
 #
 # Examples:
-#   truckstopsf - get just the names of the food trucks today
-#   truckstopsf details|deets - get food truck names and details
-#   truckstopsf! - get food truck names and details
+# hubot truckstopsf - get just the names of the food trucks today
+# hubot truckstopsf details|deets - get food truck names and details
+# hubot truckstopsf! - get food truck names and details
 #
 module.exports = (robot) ->
   robot.respond /truckstopsf\s?(!|details|deets)?/i, (res) ->

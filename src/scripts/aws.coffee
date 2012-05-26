@@ -1,6 +1,6 @@
 # Queries for the status of AWS services
 #
-# sqs status - Returns the status of SQS queues.
+# hubot sqs status - Returns the status of SQS queues.
 #
 
 # Environment variables:

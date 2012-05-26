@@ -1,6 +1,6 @@
 # Allows Hubot to pull down images from clamingmanatee.com
 #
-# manatee - outputs a random manatee
+# hubot manatee - outputs a random manatee
 #
 #
 

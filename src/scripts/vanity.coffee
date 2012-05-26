@@ -11,7 +11,7 @@
 #
 # HUBOT_VANITY_TWITTER_ACCOUNT
 #
-# vanity me - list peeps ordered by twitter followers
+# hubot vanity me - list peeps ordered by twitter followers
 #
 
 Path     = require "path"

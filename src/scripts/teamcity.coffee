@@ -5,7 +5,7 @@
 # HUBOT_TEAMCITY_PASSWORD = <password>
 # HUBOT_TEAMCITY_HOSTNAME = <host : port>
 #
-# show me builds -- Show status of currently running builds
+# hubot show me builds - Show status of currently running builds
 module.exports = (robot) ->
   robot.respond /show (me )?builds/i, (msg) ->
     username = process.env.HUBOT_TEAMCITY_USERNAME

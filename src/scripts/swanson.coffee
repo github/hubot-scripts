@@ -1,6 +1,6 @@
 # Motivation from Ron Swanson
 #
-# swanson me          - Motivates you to be more awesome.
+# hubot swanson me          - Motivates you to be more awesome.
 
 module.exports = (robot) ->
   robot.respond /swanson me$/i, (msg) ->

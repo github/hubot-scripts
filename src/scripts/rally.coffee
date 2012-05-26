@@ -1,6 +1,6 @@
 # Rally information for bugs, stories, and users
 #
-# rally me <defect id | task id | story id> - Lookup a task, story or defect from Rally
+# hubot rally me <defect id | task id | story id> - Lookup a task, story or defect from Rally
 #
 # ENV Variables Required:
 # HUBOT_RALLY_USERNAME : username that hubot will use to login to Rally

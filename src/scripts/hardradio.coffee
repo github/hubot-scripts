@@ -1,7 +1,7 @@
 # See what's playing on the Heavy Metal Supersite
 #
-# hardradio song - Display the song that's rocking on air
-# hardradio listen - Displays a link to play the radio
+# hubot hardradio song - Display the song that's rocking on air
+# hubot hardradio listen - Displays a link to play the radio
 #
 
 module.exports = (robot) ->

@@ -1,4 +1,4 @@
-# !! - Repeat the last command directed at hubot
+# hubot !! - Repeat the last command directed at hubot
 module.exports = (robot) ->
   robot.respond /(.+)/i, (msg) ->
     store msg

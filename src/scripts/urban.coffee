@@ -1,6 +1,6 @@
 # Searches Urbandictionary
 #
-# urban (me) <word>            - Searches UrbanDictionary
+# hubot urban (me) <word> - Searches Urban Dictionary for definition of <word>
 
 module.exports = (robot) ->
   robot.respond /urban( me)? (.*)$/i, (msg) ->

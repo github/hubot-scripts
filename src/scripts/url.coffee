@@ -1,7 +1,7 @@
 # URL encoding and decoding.
 #
-# url encode|decode <query> - URL encode or decode <string>
-# url form encode|decode <query> - URL form-data encode or decode <string>
+# hubot url encode|decode <query> - URL encode or decode <string>
+# hubot url form encode|decode <query> - URL form-data encode or decode <string>
 
 module.exports = (robot) ->
   robot.respond /URL encode( me)? (.*)/i, (msg) ->

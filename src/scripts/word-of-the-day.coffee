@@ -5,8 +5,8 @@
 #
 # Set the env variable WOTD_PROVIDER to 'wordnik' or 'dictionary'.
 #
-# wotd (me) (short) - Returns the word of the day.
-# word of the day (me) (short) - Returns the word of the day.
+# hubot wotd (me) (short) - Returns the word of the day.
+# hubot word of the day (me) (short) - Returns the word of the day.
 Parser = require("xml2js").Parser
 
 module.exports = (robot) ->

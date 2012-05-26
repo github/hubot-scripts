@@ -1,7 +1,7 @@
 # Respond to custom answers
-# - say something about <topic> - will say something he knows about the subject
-# - when asked <regexp_of_question> answer <response> - teach your bot to answer to <regexp_of_question> with <response>
-# - forget answers - remove every teached answer from bot brain
+# hubot say something about <topic> - will say something he knows about the subject
+# hubot when asked <regexp_of_question> answer <response> - teach your bot to answer to <regexp_of_question> with <response>
+# hubot forget answers - remove every teached answer from bot brain
 #
 # requires redis-brain
 

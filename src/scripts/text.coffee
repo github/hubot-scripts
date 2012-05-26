@@ -1,6 +1,6 @@
 # Allows Hubot to send text messages using SMSified API.
 #
-# text <phonenumber> <message> - Sends <message> to <phonenumber>.
+# hubot text <phonenumber> <message> - Sends <message> to <phonenumber>.
 # 
 # test curl: curl -v "https://username:password@api.smsified.com/v1/smsmessaging/outbound/{senderAddress}/requests" -X POST  -d "address={phonenumber}&message={hello%0Aworld}"
 
