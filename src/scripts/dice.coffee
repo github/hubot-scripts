@@ -1,8 +1,8 @@
 # Allows Hubot to roll dice.
 #
-# roll dice - Roll two six-sided dice.
+# hubot roll dice - Roll two six-sided dice.
 #
-# roll <x>d<y> - roll x dice, each of which has y sides.
+# hubot roll <x>d<y> - roll x dice, each of which has y sides.
 
 module.exports = (robot) ->
   robot.respond /roll dice/i, (msg) ->

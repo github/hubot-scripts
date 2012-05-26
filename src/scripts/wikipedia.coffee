@@ -1,4 +1,4 @@
-# wiki me <query> - Searches for <query> on Wikipedia.
+# hubot wiki me <query> - Searches for <query> on Wikipedia.
 
 # Original Author: Brad Fults (h3h.net) - 2011-11-09
 # 

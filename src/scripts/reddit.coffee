@@ -1,4 +1,4 @@
-# reddit (me) <reddit> [limit] - Lookup reddit topic
+# hubot reddit (me) <reddit> [limit] - Lookup reddit topic
 
 # Topic lookup from reddit
 # Enrique Vidal - enrique@cloverinteractive.com

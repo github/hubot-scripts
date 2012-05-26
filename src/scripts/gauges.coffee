@@ -1,8 +1,8 @@
 # Allows Hubot to fetch statistics from Gaug.es
 #
-# gauges for (today|yesterday) - Get views/people from today or yesterday.
+# hubot gauges for (today|yesterday) - Get views/people from today or yesterday.
 #
-# gauges for YYYY-MM-DD - Get views/people for the specified date.
+# hubot gauges for YYYY-MM-DD - Get views/people for the specified date.
 #
 
 class Gauges

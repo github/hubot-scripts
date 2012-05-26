@@ -2,9 +2,9 @@
 #
 # To configure, add HUBOT_NS_API_EMAIL and HUBOT_NS_API_PASSWORD to your Heroku config with "heroku config:add"
 #
-# train disruptions <station> - Retrieve the list of disruptions near <station>.
-#                               Please note: <station> can be a station code (e.g. 'asd')
-#                               or (part of) a station name (e.g. 'Amsterdam Centraal')
+# hubot train disruptions <station> - Retrieve the list of disruptions near <station>.
+#                                     Please note: <station> can be a station code (e.g. 'asd')
+#                                     or (part of) a station name (e.g. 'Amsterdam Centraal')
 #
 xml2js = require 'xml2js'
 

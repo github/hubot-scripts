@@ -1,8 +1,7 @@
 # HOLY FUCKING MINDFUCK!
 #
-# buscemi me <url>   - Adds Steve Buscemi eyes to the specified URL.
-# buscemi me <query> - Searches Google Images for the specified query and
-#                       buscemi's it.
+# hubot buscemi me <url>   - Adds Steve Buscemi eyes to the specified URL.
+# hubot buscemi me <query> - Searches Google Images for the specified query and buscemi's it.
 module.exports = (robot) ->
   robot.respond /buscemi?(?: me)? (.*)/i, (msg) ->
     buscemi = "http://buscemi.heroku.com?src="

@@ -1,9 +1,9 @@
 # Tracks when stuff is due.
 #
-# deadlines - List what you have due
-# add deadline 2011-10-30 Thing - Add a deadline for October 10, 2011
-# remove deadline Thing - Remove a deadline named "Thing"
-# clear deadlines - Remove all the deadlines
+# hubot deadlines - List what you have due
+# hubot add deadline 2011-10-30 Thing - Add a deadline for October 10, 2011
+# hubot remove deadline Thing - Remove a deadline named "Thing"
+# hubot clear deadlines - Remove all the deadlines
 #
 # Written by @jmhobbs
 

@@ -1,8 +1,8 @@
 # Allows tasks (TODOs) to be added to Hubot
 #
-# task add <task> - Add a task
-# task list tasks - List the tasks
-# task delete <task number> - Delete a task
+# hubot task add <task> - Add a task
+# hubot task list tasks - List the tasks
+# hubot task delete <task number> - Delete a task
 #
 
 class Tasks

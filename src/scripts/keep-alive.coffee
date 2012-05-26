@@ -1,9 +1,9 @@
 # keep-alive pings each url in the array every minute.
 # This is specifically to keep certain heroku apps from going to sleep
 #
-# keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
-# don't keep `http://ninjas-20.herokuapp.com` alive - Remove inputted url to the collection of urls set to be pinged
-# what are you keeping alive - Show list of urls being kept alive
+# hubot keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
+# hubot don't keep `http://ninjas-20.herokuapp.com` alive - Remove inputted url to the collection of urls set to be pinged
+# hubot what are you keeping alive - Show list of urls being kept alive
 
 
 HTTP = require "http"

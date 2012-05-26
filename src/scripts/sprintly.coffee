@@ -1,12 +1,12 @@
 # List stories and other items in Sprint.ly and interact with them.
 #
-# sprintly [product_id] [status] [limit] - list items in status (default status is in-progress, other values: backlog, completed, accepted; default limit is 20)
-# sprintly [product_id] mine - list items assigned to me
-# sprintly [product_id] #42 - show item #42
-# sprintly [product_id] #42 tasks - list unfinished subtasks of story #42
-# sprintly [product_id] <action> #42 - carry out action on item #42 (available actions: start, stop, finish, accept, reject, delete)
-# sprintly token <email:apitoken> - set/update credentials for user (required for other commands to work)
-# sprintly default 1234 - set default product_id
+# hubot sprintly [product_id] [status] [limit] - list items in status (default status is in-progress, other values: backlog, completed, accepted; default limit is 20)
+# hubot sprintly [product_id] mine - list items assigned to me
+# hubot sprintly [product_id] #42 - show item #42
+# hubot sprintly [product_id] #42 tasks - list unfinished subtasks of story #42
+# hubot sprintly [product_id] <action> #42 - carry out action on item #42 (available actions: start, stop, finish, accept, reject, delete)
+# hubot sprintly token <email:apitoken> - set/update credentials for user (required for other commands to work)
+# hubot sprintly default 1234 - set default product_id
 #
 
 qs = require 'querystring'

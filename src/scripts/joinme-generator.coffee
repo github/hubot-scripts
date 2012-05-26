@@ -1,7 +1,6 @@
 # Integrates with join.me 
 #
-# joinme              - Generates a new join.me 9-digit code and outputs a presenter link (download)
-#                       and a participant link (to view the session)
+# hubot joinme - Generates a new join.me 9-digit code and outputs a presenter link (download) and a participant link (to view the session)
 #
 
 module.exports = (robot) ->

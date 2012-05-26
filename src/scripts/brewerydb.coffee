@@ -1,6 +1,6 @@
 # BreweryDB API
 # 
-# beer me <beer name> - Information about a beer
+# hubot beer me <beer name> - Information about a beer
 
 module.exports = (robot) ->
   robot.respond /beer me (.*)/i, (msg) ->

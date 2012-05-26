@@ -1,6 +1,6 @@
 # Get directions between two locations
 #
-# get directions "<origin>" "<destination>" -- Shows directions between these locations.
+# hubot get directions "<origin>" "<destination>" -- Shows directions between these locations.
 
 parse_directions = (body) ->
   directions = JSON.parse body

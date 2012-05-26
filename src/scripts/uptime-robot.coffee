@@ -3,8 +3,8 @@
 # You need to set the following variables:
 # HUBOT_UPTIMEROBOT_APIKEY = <apikey>
 #
-# what is the uptime of the monitored sites? -- Show the status of the monitored sites
-# start monitoring the http uptime of <url> -- Instructs uptime robot to monitor the <url>
+# hubot what is the uptime of the monitored sites? -- Show the status of the monitored sites
+# hubot start monitoring the http uptime of <url> -- Instructs uptime robot to monitor the <url>
 
 module.exports = (robot) ->
   apikey = process.env.HUBOT_UPTIMEROBOT_APIKEY

@@ -1,4 +1,4 @@
-# erl <expr> - Evaluate an Erlang Expression on tryerlang.org and return the result
+# hubot erl <expr> - Evaluate an Erlang Expression on tryerlang.org and return the result
 #
 # By Roberto Aloi (@robertoaloi)
 

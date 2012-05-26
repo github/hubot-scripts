@@ -1,6 +1,6 @@
 # Feeling depressed?
 #
-# cheer me up - A little pick me up
+# hubot cheer me up - A little pick me up
 module.exports = (robot) ->
   robot.respond /cheer me up/i, (msg) ->
     aww msg
