@@ -1,8 +1,8 @@
 # Find a Drupal module using modulepuppy.heroku.com
 #
-# <there's a module for> that
+# hubot there's a module for <that>
 # or
-# <module me> something - Returns links to modules or themes on drupal.org
+# hubot module me <something> - Returns links to modules or themes on drupal.org
 
 module.exports = (robot) ->
   robot.hear /there's a module for (.*)/i, (msg) ->

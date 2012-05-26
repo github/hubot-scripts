@@ -1,6 +1,6 @@
 # Send messages to users the next time they speak
 #
-# ambush <user name>: <message>
+# hubot ambush <user name>: <message>
 
 appendAmbush = (data, toUser, fromUser, message) ->
   if data[toUser.name]

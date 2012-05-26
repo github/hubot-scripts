@@ -1,6 +1,6 @@
 # Evaluate one line of Ruby script.
 #
-# ruby|rb <script> - Evaluate one line of Ruby script
+# hubot ruby|rb <script> - Evaluate one line of Ruby script
 module.exports = (robot) ->
   robot.respond /(ruby|rb)\s+(.*)/i, (msg)->
     script = msg.match[2]

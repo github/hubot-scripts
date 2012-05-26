@@ -1,6 +1,6 @@
 # Is it the day ?
 #
-# is it <action> day ? - Returns if it's the day for your action.
+# hubot is it <action> day ? - Returns if it's the day for your action.
 #                      
 module.exports = (robot) ->
   robot.respond /is it (\w+) day \?/i, (msg) ->

@@ -1,10 +1,10 @@
 # Octospy GitHub events, watch what's happening with your projects
 # Powered by http://developer.github.com/v3/repos/hooks/
 #
-# octospy <repo> [event_type] - Start watching events for the repo, default push
-# octospy stop <repo> [event_type] - Stop watching events for the repo
-# octospying - Show what you're spying on
-# octospy events - List the events you can watch
+# hubot octospy <repo> [event_type] - Start watching events for the repo, default push
+# hubot octospy stop <repo> [event_type] - Stop watching events for the repo
+# hubot octospying - Show what you're spying on
+# hubot octospy events - List the events you can watch
 
 #
 # Environment Variables:

@@ -1,6 +1,6 @@
 # Get a random WAT image - warning, this includes NSFW content!
 #
-# wat - Random WAT
+# hubot wat - Random WAT
 
 module.exports = (robot) ->
 

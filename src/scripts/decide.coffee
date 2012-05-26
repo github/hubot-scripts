@@ -1,7 +1,6 @@
 # Allows Hubot to help you decide between multiple options.
 #
-# decide "<option1>" "<option2>" "<optionx>" - Randomly picks an option.
-#                                        More fun than using a coin.
+# hubot decide "<option1>" "<option2>" "<optionx>" - Randomly picks an option. More fun than using a coin.
 #
 # Examples:
 #

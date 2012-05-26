@@ -1,6 +1,6 @@
 # Messing around with the Coderwall API.
 #
-# coderwall <coderwall username> - Returns coder achievements from coderwall.com
+# hubot coderwall <coderwall username> - Returns coder achievements from coderwall.com
 #                      
 module.exports = (robot) ->
   robot.respond /(coderwall)( me)? (.*)/i, (msg) ->

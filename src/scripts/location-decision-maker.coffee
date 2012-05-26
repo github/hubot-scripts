@@ -1,12 +1,10 @@
 # Decides where you should go.
 #
-# These commands are grabbed from comment blocks at the top of each file.
-#
-# remember <location> as a <group> location - Remembers the location for the group.
-# forget <location> as a <group> location - Forgets the location from the group.
-# forget all locations for <group> - Forgets all the locations for the group.
-# where can we go for <group>? - Returns a list of places that exist for the group.
-# where should we go for <group>? - Returns a randomly selected location for the group.
+# hubot remember <location> as a <group> location - Remembers the location for the group.
+# hubot forget <location> as a <group> location - Forgets the location from the group.
+# hubot forget all locations for <group> - Forgets all the locations for the group.
+# hubot where can we go for <group>? - Returns a list of places that exist for the group.
+# hubot where should we go for <group>? - Returns a randomly selected location for the group.
 
 class Locations
   constructor: (@robot) ->

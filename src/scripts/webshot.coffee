@@ -1,6 +1,6 @@
 # Capture a webpage as an image using the bluga.net Easythumb API. API user and key needed from http://webthumb.bluga.net/api
 #
-# webshot me <url> - Captures the given url as an image.
+# hubot webshot me <url> - Captures the given url as an image.
 
 hashlib=require('hashlib')
 

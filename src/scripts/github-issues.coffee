@@ -18,7 +18,7 @@
 # 'johndoe1', you can ask `show john's issues` instead of `show johndoe1's
 # issues`. This is useful for mapping chat handles to GitHub logins.
 #
-# show [me] [<limit> [of]] [<assignee>'s|my] [<label>] issues [for <user/repo>] [about <query>] -- Shows open GitHub issues for repo.
+# hubot show [me] [<limit> [of]] [<assignee>'s|my] [<label>] issues [for <user/repo>] [about <query>] -- Shows open GitHub issues for repo.
 
 _  = require("underscore")
 _s = require("underscore.string")

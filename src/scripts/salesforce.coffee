@@ -7,8 +7,8 @@
 #	SF_USERNAME = a valid salesforce login
 #	SF_PASSWORD = password and security token mashed together
 #
-# salesforce account <accountname> - searches for the account by name in Salesforce and displays all matches
-# salesforce query <query> - runs an arbitrary SOQL query and outputs the results
+# hubot salesforce account <accountname> - searches for the account by name in Salesforce and displays all matches
+# hubot salesforce query <query> - runs an arbitrary SOQL query and outputs the results
 sf_instance = process.env.SF_INSTANCE_URL
 sf_consumer_key = process.env.SF_CONSUMER_KEY
 sf_consumer_secret = process.env.SF_CONSUMER_SECRET

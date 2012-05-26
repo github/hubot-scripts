@@ -1,4 +1,4 @@
-#get last color from http://www.cheerlights.com
+# hubot cheerlights - get last color from http://www.cheerlights.com
 module.exports = (robot) ->
   robot.respond /cheerlights/i, (msg) ->
    msg.http("http://api.thingspeak.com/channels/1417/field/1/last.json")

@@ -1,6 +1,6 @@
 # Get a fortune
 #
-# fortune me - Displays a super true fortune
+# hubot fortune me - Displays a super true fortune
 
 module.exports = (robot) ->
   robot.respond /(fortune)( me)?/i, (msg) ->

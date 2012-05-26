@@ -1,6 +1,6 @@
 # Return random animated GIFs from giftv.
 #
-# giftv me            - Returns a random animated GIF.
+# hubot giftv me - Returns a random animated GIF.
 module.exports = (robot) ->
   robot.respond /giftv( me)?$/i, (msg) ->
     msg

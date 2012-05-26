@@ -1,4 +1,4 @@
-# `hubot bang [--help|--list|--delete] <key> [value]` - Store and retrieve text snippets.
+# hubot bang [--help|--list|--delete] <key> [value] - Store and retrieve text snippets.
 
 # A Hubot interface for Bang, a key-value store for text snippets
 # http://git.io/bang

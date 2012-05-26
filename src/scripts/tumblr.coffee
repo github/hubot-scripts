@@ -5,7 +5,7 @@
 #  HUBOT_TUMBLR_BLOG_NAME
 #  HUBOT_TUMBLR_API_KEY
 #
-# show me tumblr <count> - Shows the latest <count> tumblr photos (default is 1)
+# hubot show me tumblr <count> - Shows the latest <count> tumblr photos (default is 1)
 module.exports = (robot) ->
 
   blog_name = process.env.HUBOT_TUMBLR_BLOG_NAME
