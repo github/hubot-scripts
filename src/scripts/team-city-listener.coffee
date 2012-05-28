@@ -3,6 +3,10 @@
 # environment variable and Bob's your uncle you'll get build status messages from Hubot in your chat rooms.
 # All the properties aviable on the build object can be found at the properties list at the top of this file:
 # http://sourceforge.net/apps/trac/tcplugins/browser/tcWebHooks/trunk/src/main/java/webhook/teamcity/payload/format/WebHookPayloadJsonContent.java
+# THIS SCRIPT ASSUMES IT IS RUNNING FROM THE SCRIPTS DIRECTORY AT THE ROOT OF YOUR HUBOT INSTALL
+# If it's not, you'll need to adjust the path to the robot.coffee file right below
+
+Robot = require '../node_modules/hubot/src/robot.coffee'
 
 room = process.env.HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
 unless room
