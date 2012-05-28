@@ -1,9 +1,9 @@
 # Interact with Gerrit. (http://code.google.com/p/gerrit/)
 # Hubot has to be running as a user who has registered a SSH key with Gerrit.
 #
-# gerrit search <query> - Search Gerrit for changes - the query should follow the normal Gerrit query rules.
-# gerrit ignore events for <project> - Don't spam about events happening for the specified project.
-# gerrit report events for <project> - Reset Hubot to spam about events happening for the specified project.
+# hubot gerrit search <query> - Search Gerrit for changes - the query should follow the normal Gerrit query rules.
+# hubot gerrit ignore events for <project> - Don't spam about events happening for the specified project.
+# hubot gerrit report events for <project> - Reset Hubot to spam about events happening for the specified project.
 #
 
 cp = require "child_process"
@@ -35,8 +35,8 @@ module.exports = (robot) ->
     robot.logger.error "Gerrit commands inactive because HUBOT_GERRIT_SSH_URL=#{gerrit.href} is not a valid SSH URL"
   else
     eventStreamMe robot, gerrit
-    robot.hear /^(?:hubot )?gerrit (?:search|query)(?: me)? (.+)/i, searchMe robot, gerrit
-    robot.hear /^(?:hubot )?gerrit (ignore|report)(?: me)? events for (.+)/i, ignoreOrReportEventsMe robot, gerrit
+    robot.respond /gerrit (?:search|query)(?: me)? (.+)/i, searchMe robot, gerrit
+    robot.respond /gerrit (ignore|report)(?: me)? events for (.+)/i, ignoreOrReportEventsMe robot, gerrit
 
 searchMe = (robot, gerrit) -> (msg) ->
   cp.exec "ssh #{gerrit.hostname} -p #{gerrit.port} gerrit query --format=JSON #{msg.match[1]}", (err, stdout, stderr) ->
