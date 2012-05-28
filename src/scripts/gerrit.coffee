@@ -91,10 +91,10 @@ eventStreamMe = (robot, gerrit) ->
 
 # So this is kind of terrible - not sure of a better way to do this for now
 robotRooms = (robot) ->
-  if process.env.HUBOT_IRC_ROOMS
-    process.env.HUBOT_IRC_ROOMS.split(",")
-  else if process.env.HUBOT_CAMPFIRE_ROOMS
-    process.env.HUBOT_CAMPFIRE_ROOMS.split(",")
+  roomlistish = /^HUBOT_.+_ROOMS/i
+  roomlists = (v for k,v of process.env when roomlistish.exec(k) isnt null)
+  if roomlists.length != 0
+    roomlists[0].split(",")
   else
     robot.logger.error "Gerrit stream-events: Unable to determine the list of rooms"
     [ "dummy" ]
