@@ -11,5 +11,5 @@ googleMe = (msg, query, cb) ->
   msg.http('http://www.google.com/search')
     .query(q: query)
     .get() (err, res, body) ->
-      cb body.match(/<a href="([^"]*)" class=l>/)?[1] || "Sorry, Google had zero results for '#{query}'"
+      cb body.match(/class="r"><a href="\/url\?q=([^"]*)(&amp;sa.*)">/)?[1] || "Sorry, Google had zero results for '#{query}'"
 
