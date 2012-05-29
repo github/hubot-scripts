@@ -3,10 +3,8 @@
 # environment variable and Bob's your uncle you'll get build status messages from Hubot in your chat rooms.
 # All the properties aviable on the build object can be found at the properties list at the top of this file:
 # http://sourceforge.net/apps/trac/tcplugins/browser/tcWebHooks/trunk/src/main/java/webhook/teamcity/payload/format/WebHookPayloadJsonContent.java
-# THIS SCRIPT ASSUMES IT IS RUNNING FROM THE SCRIPTS DIRECTORY AT THE ROOT OF YOUR HUBOT INSTALL
-# If it's not, you'll need to adjust the path to the robot.coffee file right below
 
-Robot = require '../node_modules/hubot/src/robot.coffee'
+Robot = require('hubot').robot()
 
 room = process.env.HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
 unless room
@@ -18,6 +16,8 @@ module.exports = (robot)->
     user.type = 'groupchat'
     build = req.body.build
 
+    robot.send user, "#{build.message} and ran on agent:#{build.agentName}"
+
     soundToPlay = 'http://soundfxnow.com/soundfx/Human-Cheer-SmallCrowd01.mp3'
 
     if build.buildResult == 'failure'
@@ -27,7 +27,5 @@ module.exports = (robot)->
       robot.receive new Robot.TextMessage user, message
 
     robot.receive new Robot.TextMessage user, "hubot sound #{soundToPlay}"
-
-    robot.send user, "#{build.message} and ran on agent:#{build.agentName}"
 
     res.end "that tickles:" + process.env.PORT
