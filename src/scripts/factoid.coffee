@@ -6,6 +6,7 @@
 # ~<factoid> - Prints the factoid, if it exists. Otherwise tells you there is no factoid.
 # ~tell <user> about <factoid> - Tells the user about a factoid, if it exists.
 # ~~<user> <factoid> - Same as ~tell, less typing.
+# <factoid>? - Same as ~<factiod> except for there is no response if not found.
 
 class Factoids
   constructor: (@robot) ->
@@ -29,8 +30,11 @@ class Factoids
     else 
       "No factoid for #{key}. It can't also be #{val} if it isn't already something."
 
-  get: (key) ->
+  niceGet: (key) ->
     @cache[key] or "No factoid for #{key}"
+
+  get: (key) ->
+    @cache[key]
 
   tell: (person, key) ->
     factoid = this.get key
@@ -47,7 +51,7 @@ class Factoids
     else if match = (/^~tell (.+) about (.+)/i.exec text) or (/^~~(.+) (.+)/.exec text)
       this.tell match[1], match[2]
     else if match = /^~(.+)/i.exec text
-      this.get match[1]
+      this.niceGet match[1]
 
 module.exports = (robot) ->
   factoids = new Factoids robot
@@ -57,3 +61,8 @@ module.exports = (robot) ->
       msg.send factoids.handleFactoid msg.message.text
     else
       msg.reply factoids.handleFactoid msg.message.text 
+
+  robot.hear /(.+)\?/i, (msg) ->
+    factoid = factoids.get msg.match[1]
+    if factoid
+      msg.reply msg.match[1] + " is " + factoid
