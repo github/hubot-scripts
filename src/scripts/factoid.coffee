@@ -15,7 +15,7 @@ class Factoids
   add: (key, val) ->
     @cache[key] = val
     @robot.brain.data.factoids = @cache
-    "OK."
+    "OK. #{key} is #{val} "
 
   get: (key) ->
     @cache[key] or "No factoid for #{key}"
@@ -39,4 +39,7 @@ module.exports = (robot) ->
   factoids = new Factoids robot
 
   robot.hear /^~(.+)/i, (msg) ->
-    msg.reply factoids.handleFactoid msg.message.text
+    if match = (/^~tell (.+) about (.+)/i) or (/^~~(.+) (.+)/)
+      msg.send factoids.handleFactoid msg.message.text
+    else
+      msg.reply factoids.handleFactoid msg.message.text 
