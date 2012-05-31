@@ -29,7 +29,7 @@ ways_to_say_good_night = [
 #
 # hubot good night - Make sure hubot replies
 module.exports = (robot) ->
-  robot.respond /(good night|bye|nighty night)/i, (msg) ->
+  robot.hear /(good night|bye|nighty night)/i, (msg) ->
     randomNumber = Math.ceil Math.random() * ways_to_say_good_night.length
     msg.send ways_to_say_good_night[randomNumber]
 
