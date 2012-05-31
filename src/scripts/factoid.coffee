@@ -35,7 +35,7 @@ class Factoids
     "OK. #{key} is #{val} "
 
   niceGet: (key) ->
-    this.get key or "No factoid for #{key}"
+    @cache[key] or "No factoid for #{key}"
 
   get: (key) ->
     @cache[key]
