@@ -12,7 +12,7 @@ url = require "url"
 # Format JSON query result (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#change)
 formatQueryResult = (r) ->
   updated = new Date(r.lastUpdated * 1000).toDateString()
-  "'#{r.subject}' for #{r.project}/#{r.branch} by #{r.owner.name} on #{updated}: #{r.url}"
+  "'#{r.subject}' for #{r.project}/#{r.branch} by #{nameOf r.owner} on #{updated}: #{r.url}"
 
 # Format JSON event data (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/cmd-stream-events.html)
 formatEvent = (e) ->
@@ -26,7 +26,10 @@ formatEvent = (e) ->
     else null
 
 formatPatchsetEvent = (type, change, who) ->
-  "#{type} - '#{change.subject}' for #{change.project}/#{change.branch} by #{who.name}: #{change.url}"
+  "#{type} - '#{change.subject}' for #{change.project}/#{change.branch} by #{nameOf who}: #{change.url}"
+
+# Format name given best available data (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#account)
+nameOf = (account) -> account?.name || account?.email || "Gerrit"
 
 module.exports = (robot) ->
   gerrit = url.parse process.env.HUBOT_GERRIT_SSH_URL || ""
