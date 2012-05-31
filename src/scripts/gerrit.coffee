@@ -2,8 +2,7 @@
 # Hubot has to be running as a user who has registered a SSH key with Gerrit.
 #
 # hubot gerrit search <query> - Search Gerrit for changes - the query should follow the normal Gerrit query rules.
-# hubot gerrit ignore events for <project> - Don't spam about events happening for the specified project.
-# hubot gerrit report events for <project> - Reset Hubot to spam about events happening for the specified project.
+# hubot gerrit (ignore|report) events for (project|user|event) <thing> - Tell Hubot how to report Gerrit events.
 #
 
 # Required - The SSH URL for your Gerrit server.
@@ -20,24 +19,32 @@ url = require "url"
 # Format JSON query result (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#change)
 formatQueryResult = (r) ->
   updated = new Date(r.lastUpdated * 1000).toDateString()
-  "'#{r.subject}' for #{r.project}/#{r.branch} by #{nameOf r.owner} on #{updated}: #{r.url}"
+  "'#{r.subject}' for #{r.project}/#{r.branch} by #{extractName r} on #{updated}: #{r.url}"
 
 # Format JSON event data (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/cmd-stream-events.html)
 formatEvent = (e) ->
   switch e.type
-    when "patchset-created" then formatPatchsetEvent "New patchset", e.change, e.uploader
-    when "change-abandoned" then formatPatchsetEvent "Patchset abandoned", e.change, e.abandoner
-    when "change-restored"  then formatPatchsetEvent "Patchset restored", e.change, e.restorer
-    when "change-merged"    then formatPatchsetEvent "Patchset merged", e.change, e.submitter
-    when "comment-added"    then formatPatchsetEvent "New comments", e.change, e.author
-    when "ref-updated"      then "Ref updated - #{e.refUpdate.project}/#{e.refUpdate.refName} by #{e.submitter.name}"
+    when "patchset-created" then formatPatchsetEvent "New patchset", e
+    when "change-abandoned" then formatPatchsetEvent "Patchset abandoned", e
+    when "change-restored"  then formatPatchsetEvent "Patchset restored", e
+    when "change-merged"    then formatPatchsetEvent "Patchset merged", e
+    when "comment-added"    then formatPatchsetEvent "New comments", e
+    when "ref-updated"      then "Ref updated - #{extractProject e}/#{e.refUpdate.refName} by #{extractName e}"
     else null
 
-formatPatchsetEvent = (type, change, who) ->
-  "#{type} - '#{change.subject}' for #{change.project}/#{change.branch} by #{nameOf who}: #{change.url}"
+formatPatchsetEvent = (type, e) ->
+  "#{type} - '#{e.change.subject}' for #{extractProject e}/#{e.change.branch} by #{extractName e}: #{e.change.url}"
 
-# Format name given best available data (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#account)
-nameOf = (account) -> account?.name || account?.email || "Gerrit"
+# Format name given best available data. This tries to find an 'account' object
+# given either a 'change' object or a gerrit event-stream object. See...
+# - http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#account
+# - http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#change
+# - http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/cmd-stream-events.html
+extractName = (json) ->
+  account = json.uploader || json.abandoner || json.restorer || json.submitter || json.author || json.owner
+  account?.name || account?.email || "Gerrit"
+
+extractProject = (json) -> (json.change || json.refUpdate).project
 
 module.exports = (robot) ->
   gerrit = url.parse sshUrl
@@ -47,7 +54,7 @@ module.exports = (robot) ->
   else
     eventStreamMe robot, gerrit unless eventStreamRooms == "disabled"
     robot.respond /gerrit (?:search|query)(?: me)? (.+)/i, searchMe robot, gerrit
-    robot.respond /gerrit (ignore|report)(?: me)? events for (.+)/i, ignoreOrReportEventsMe robot, gerrit
+    robot.respond /gerrit (ignore|report)(?: me)? events for (project|user|event) (.+)/i, ignoreOrReportEventsMe robot, gerrit
 
 searchMe = (robot, gerrit) -> (msg) ->
   cp.exec "ssh #{gerrit.hostname} -p #{gerrit.port} gerrit query --format=JSON #{msg.match[1]}", (err, stdout, stderr) ->
@@ -64,14 +71,16 @@ searchMe = (robot, gerrit) -> (msg) ->
         msg.send formatQueryResult r for r in results when r.id
 
 ignoreOrReportEventsMe = (robot, gerrit) -> (msg) ->
-  project = msg.match[2]
-  ignoredProjects = (p for p in (robot.brain.data.gerrit?.eventStream?.ignoredProjects || []) when p isnt project)
-  ignoredProjects.push project if msg.match[1] == "ignore"
+  type = msg.match[2].toLowerCase()
+  thing = msg.match[3]
+  ignores = (t for t in ignoresOfType robot, type when t isnt thing)
+  ignores.push thing if msg.match[1] == "ignore"
 
   robot.brain.data.gerrit ?= { }
   robot.brain.data.gerrit.eventStream ?= { }
-  robot.brain.data.gerrit.eventStream.ignoredProjects = ignoredProjects
-  msg.send "Got it, the updated list of Gerrit projects to ignore is #{ignoredProjects.join(', ') || 'empty'}"
+  robot.brain.data.gerrit.eventStream.ignores ?= { }
+  robot.brain.data.gerrit.eventStream.ignores[type] = ignores
+  msg.send "Got it, the updated list of Gerrit #{type}s to ignore is #{ignores.join(', ') || 'empty'}"
 
 eventStreamMe = (robot, gerrit) ->
   robot.logger.info "Gerrit stream-events: Starting connection"
@@ -87,8 +96,11 @@ eventStreamMe = (robot, gerrit) ->
     robot.logger.info "Gerrit stream-events: Connection lost (rc=#{code})"
     reconnect = setTimeout (-> eventStreamMe robot, gerrit), 10 * 1000 unless done
 
-  projectFor = (json) -> (json.change || json.refUpdate).project
-  isWanted = (project) -> (p for p in (robot.brain.data.gerrit?.eventStream?.ignoredProjects || []) when p is project).length == 0
+  isIgnored = (type, thing) -> (t for t in ignoresOfType robot, type when t is thing).length != 0
+  isWanted = (event) -> !(
+    isIgnored("project", extractProject event) ||
+    isIgnored("user", extractName event) ||
+    isIgnored("event", event.type))
 
   streamEvents.stderr.on "data", (data) ->
     robot.logger.info "Gerrit stream-events: #{data}"
@@ -97,10 +109,12 @@ eventStreamMe = (robot, gerrit) ->
     msg = formatEvent json
     if msg == null
       robot.logger.info "Gerrit stream-events: Unrecognized event #{data}"
-    else if msg && isWanted projectFor json
+    else if msg && isWanted json
       # Bug in messageRoom? Doesn't work with multiple rooms
       #robot.messageRoom room, "Gerrit: #{msg}" for room in robotRooms robot
       robot.send room: room, "Gerrit: #{msg}" for room in robotRooms robot
+
+ignoresOfType = (robot, type) -> robot.brain.data.gerrit?.eventStream?.ignores?[type] || []
 
 robotRooms = (robot) ->
   roomlists =
