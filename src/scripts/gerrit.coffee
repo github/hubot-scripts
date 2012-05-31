@@ -6,6 +6,14 @@
 # hubot gerrit report events for <project> - Reset Hubot to spam about events happening for the specified project.
 #
 
+# Required - The SSH URL for your Gerrit server.
+sshUrl = process.env.HUBOT_GERRIT_SSH_URL || ""
+
+# Optional - A comma separated list of rooms to receive spam about Gerrit events.
+#   If not set, messages will be sent to all room of which Hubot is a member.
+#   To disable event stream spam, use the value "disabled"
+eventStreamRooms = process.env.HUBOT_GERRIT_EVENTSTREAM_ROOMS
+
 cp = require "child_process"
 url = require "url"
 
@@ -32,12 +40,12 @@ formatPatchsetEvent = (type, change, who) ->
 nameOf = (account) -> account?.name || account?.email || "Gerrit"
 
 module.exports = (robot) ->
-  gerrit = url.parse process.env.HUBOT_GERRIT_SSH_URL || ""
+  gerrit = url.parse sshUrl
   gerrit.port = 22 unless gerrit.port
   if gerrit.protocol != "ssh:" || gerrit.hostname == ""
     robot.logger.error "Gerrit commands inactive because HUBOT_GERRIT_SSH_URL=#{gerrit.href} is not a valid SSH URL"
   else
-    eventStreamMe robot, gerrit
+    eventStreamMe robot, gerrit unless eventStreamRooms == "disabled"
     robot.respond /gerrit (?:search|query)(?: me)? (.+)/i, searchMe robot, gerrit
     robot.respond /gerrit (ignore|report)(?: me)? events for (.+)/i, ignoreOrReportEventsMe robot, gerrit
 
@@ -90,14 +98,15 @@ eventStreamMe = (robot, gerrit) ->
     if msg == null
       robot.logger.info "Gerrit stream-events: Unrecognized event #{data}"
     else if msg && isWanted projectFor json
-      robot.messageRoom room, "Gerrit: #{msg}" for room in robotRooms robot
+      # Bug in messageRoom? Doesn't work with multiple rooms
+      #robot.messageRoom room, "Gerrit: #{msg}" for room in robotRooms robot
+      robot.send room: room, "Gerrit: #{msg}" for room in robotRooms robot
 
-# So this is kind of terrible - not sure of a better way to do this for now
 robotRooms = (robot) ->
-  roomlistish = /^HUBOT_.+_ROOMS/i
-  roomlists = (v for k,v of process.env when roomlistish.exec(k) isnt null)
-  if roomlists.length != 0
-    roomlists[0].split(",")
-  else
-    robot.logger.error "Gerrit stream-events: Unable to determine the list of rooms"
-    [ "dummy" ]
+  roomlists =
+    if eventStreamRooms
+      [ eventStreamRooms ]
+    else
+      v for k,v of process.env when /^HUBOT_.+_ROOMS/i.exec(k) isnt null
+  robot.logger.error "Gerrit stream-events: Unable to determine the list of rooms" if roomlists.length == 0
+  r for r in (roomlists[0] || "").split "," when r isnt ""
