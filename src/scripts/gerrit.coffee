@@ -5,6 +5,9 @@
 # hubot gerrit (ignore|report) events for (project|user|event) <thing> - Tell Hubot how to report Gerrit events.
 #
 
+cp = require "child_process"
+url = require "url"
+
 # Required - The SSH URL for your Gerrit server.
 sshUrl = process.env.HUBOT_GERRIT_SSH_URL || ""
 
@@ -13,38 +16,26 @@ sshUrl = process.env.HUBOT_GERRIT_SSH_URL || ""
 #   To disable event stream spam, use the value "disabled"
 eventStreamRooms = process.env.HUBOT_GERRIT_EVENTSTREAM_ROOMS
 
-cp = require "child_process"
-url = require "url"
+# TODO: Make these template driven with env-var overrides possible.
+# See the following for descriptions of the input JSON data:
+# http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html
+# http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/cmd-stream-events.html
+formatters =
+  queryResult:          (json) -> "'#{json.change.subject}' for #{json.change.project}/#{json.change.branch} by #{extractName json.change} on #{formatDate json.change.lastUpdated}: #{json.change.url}"
+  events:
+    "patchset-created": (json) -> "#{extractName json} uploaded patchset #{json.patchSet.number} of '#{json.change.subject}' for #{json.change.project}/#{json.change.branch}: #{json.change.url}"
+    "change-abandoned": (json) -> "#{extractName json} abandoned '#{json.change.subject}' for #{json.change.project}/#{json.change.branch}: #{json.change.url}"
+    "change-restored":  (json) -> "#{extractName json} restored '#{json.change.subject}' for #{json.change.project}/#{json.change.branch}: #{json.change.url}"
+    "change-merged":    (json) -> "#{extractName json} merged patchset #{json.patchSet.number} of '#{json.change.subject}' for #{json.change.project}/#{json.change.branch}: #{json.change.url}"
+    "comment-added":    (json) -> "#{extractName json} reviewed patchset #{json.patchSet.number} (#{extractReviews json}) of '#{json.change.subject}' for #{json.change.project}/#{json.change.branch}: #{json.change.url}"
+    "ref-updated":      (json) -> "#{extractName json} updated reference #{json.refUpdate.project}/#{json.refUpdate.refName}"
 
-# Format JSON query result (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#change)
-formatQueryResult = (r) ->
-  updated = new Date(r.lastUpdated * 1000).toDateString()
-  "'#{r.subject}' for #{r.project}/#{r.branch} by #{extractName r} on #{updated}: #{r.url}"
-
-# Format JSON event data (see http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/cmd-stream-events.html)
-formatEvent = (e) ->
-  switch e.type
-    when "patchset-created" then formatPatchsetEvent "New patchset", e
-    when "change-abandoned" then formatPatchsetEvent "Patchset abandoned", e
-    when "change-restored"  then formatPatchsetEvent "Patchset restored", e
-    when "change-merged"    then formatPatchsetEvent "Patchset merged", e
-    when "comment-added"    then formatPatchsetEvent "New comments", e
-    when "ref-updated"      then "Ref updated - #{extractProject e}/#{e.refUpdate.refName} by #{extractName e}"
-    else null
-
-formatPatchsetEvent = (type, e) ->
-  "#{type} - '#{e.change.subject}' for #{extractProject e}/#{e.change.branch} by #{extractName e}: #{e.change.url}"
-
-# Format name given best available data. This tries to find an 'account' object
-# given either a 'change' object or a gerrit event-stream object. See...
-# - http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#account
-# - http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/json.html#change
-# - http://gerrit-documentation.googlecode.com/svn/Documentation/2.4/cmd-stream-events.html
+formatDate = (seconds) -> new Date(seconds * 1000).toDateString()
 extractName = (json) ->
   account = json.uploader || json.abandoner || json.restorer || json.submitter || json.author || json.owner
   account?.name || account?.email || "Gerrit"
-
-extractProject = (json) -> (json.change || json.refUpdate).project
+extractReviews = (json) ->
+  ("#{a.description}=#{a.value}" for a in json.approvals).join ","
 
 module.exports = (robot) ->
   gerrit = url.parse sshUrl
@@ -68,7 +59,7 @@ searchMe = (robot, gerrit) -> (msg) ->
       else if status.rowCount == 0
         msg.send "Gerrit didn't find anything matching your query"
       else
-        msg.send formatQueryResult r for r in results when r.id
+        msg.send formatters.queryResult change: r for r in results when r.id
 
 ignoreOrReportEventsMe = (robot, gerrit) -> (msg) ->
   type = msg.match[2].toLowerCase()
@@ -98,16 +89,27 @@ eventStreamMe = (robot, gerrit) ->
 
   isIgnored = (type, thing) -> (t for t in ignoresOfType robot, type when t is thing).length != 0
   isWanted = (event) -> !(
-    isIgnored("project", extractProject event) ||
+    isIgnored("project", (event.change || event.refUpdate).project) ||
     isIgnored("user", extractName event) ||
     isIgnored("event", event.type))
 
   streamEvents.stderr.on "data", (data) ->
     robot.logger.info "Gerrit stream-events: #{data}"
   streamEvents.stdout.on "data", (data) ->
-    json = JSON.parse data
-    msg = formatEvent json
-    if msg == null
+    robot.logger.debug "Gerrit stream-events: #{data}"
+    json = try
+      JSON.parse data
+    catch error
+      robot.logger.error "Gerrit stream-events: Error parsing Gerrit JSON. Error=#{error}, Event=#{data}"
+      null
+    return unless json
+    formatter = formatters.events[json.type]
+    msg = try
+      formatter json if formatter
+    catch error
+      robot.logger.error "Gerrit stream-events: Error formatting event. Error=#{error}, Event=#{data}"
+      null
+    if formatter == null
       robot.logger.info "Gerrit stream-events: Unrecognized event #{data}"
     else if msg && isWanted json
       # Bug in messageRoom? Doesn't work with multiple rooms
