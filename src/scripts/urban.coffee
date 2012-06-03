@@ -1,21 +1,22 @@
-# Searches Urbandictionary
+# Define terms via Urban Dictionary
 #
-# hubot urban (me) <word> - Searches Urban Dictionary for definition of <word>
+# — Travis Jeffery (@travisjeffery)
+#
+# urban me <term>         - Searches Urban Dictionary and returns definition
+# urban define me <term>  - Searches Urban Dictionary and returns definition
+# urban example me <term> - Searches Urban Dictionary and returns example 
+
 
 module.exports = (robot) ->
-  robot.respond /urban( me)? (.*)$/i, (msg) ->
-   word = msg.match[2]
-   console.log word
-   msg.http("http://www.urbandictionary.com/iphone/search/define?term=#{escape(word)}")
-    .get() (err, res, body) ->
-      response = JSON.parse body
-      result = response.list
-      if response.result_type is ("exact" or "fulltext")
-        msg.send (word.definition) for word in result
+  robot.respond /(urban)( define)?( example)?( me)? (.*)/i, (msg) ->
+    urbanDict msg, msg.match[5], (entry) ->
+      if msg.match[3]
+        msg.send "#{entry.example}"
       else
-        i = 0
-        while i < result.length
-          word = result[i]
-          message = "Not found. Maybe you mean " + result[i-1].term + " or " + result[i+1].term + "?"  if word.type is "undefined"
-          i++
-	      msg.send message
+        msg.send "#{entry.definition}"
+
+urbanDict = (msg, query, callback) ->
+  msg.http("http://urbandict.me/api/#{escape(query)}")
+    .get() (err, res, body) ->
+      callback(JSON.parse(body).entries[0])
+
