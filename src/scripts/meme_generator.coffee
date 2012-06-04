@@ -21,6 +21,8 @@
 # hubot Yo dawg <text> so <text> - Generates Yo Dawg
 #
 # hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
+#
+# hubot If <text>, <word that can start a question> <text>? - Generates Philosoraptor
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -50,7 +52,7 @@ module.exports = (robot) ->
       msg.send url
 
   robot.respond /(GOOD NEWS EVERYONE[,.!]?) (.*)/i, (msg) ->
-    memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
+    memeGenerator msg, 79, 108785, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
   robot.respond /khanify (.*)/i, (msg) ->
@@ -62,11 +64,15 @@ module.exports = (robot) ->
       msg.send url
 
   robot.respond /(YO DAWG .*) (SO .*)/i, (msg) ->
-	  memeGenerator msg, 79, 108785, msg.match[1], msg.match[2], (url) ->
+    memeGenerator msg, 79, 108785, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
   robot.respond /(ALL YOUR .*) (ARE BELONG TO US)/i, (msg) ->
-	  memeGenerator msg, 349058, 2079825, msg.match[1], msg.match[2], (url) ->
+    memeGenerator msg, 349058, 2079825, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(IF .*), ((ARE|CAN|DO|DOES|HOW|IS|MAY|MIGHT|SHOULD|THEN|WHAT|WHEN|WHERE|WHICH|WHO|WHY|WILL|WON\'T|WOULD)[ \'N].*)/i, (msg) ->
+    memeGenerator msg, 17, 984, msg.match[1], msg.match[2] + (if msg.match[2].search(/\?$/)==(-1) then '?' else ''), (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
