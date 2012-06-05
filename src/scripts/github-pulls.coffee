@@ -3,9 +3,12 @@
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
 #   HUBOT_GITHUB_USER ="<user name>"
+#   HUBOT_GITHUB_URL = "https://custom.url.com/api/"
 #
 # HUBOT_GITHUB_USER is optional, but if you set it, you can ask `show me hubot pulls`
 # instead of `show me github/hubot pulls`.
+#
+# HUBOT_GITHUB_URL allows you to set a custom URL path (for Github enterprise users)
 #
 # You can further filter pull request title by providing a reguar expression. For exmaple,
 # `show me hubot pulls with awesome fix`.
