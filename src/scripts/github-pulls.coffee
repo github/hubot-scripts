@@ -16,8 +16,10 @@ module.exports = (robot) ->
   robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i, (msg)->
     repo = github.qualified_repo msg.match[2]
     filter_reg_exp = new RegExp(msg.match[4], "i") if msg.match[3]
+    unless (url_api_base = process.env.HUBOT_GITHUB_URL)?
+        url_api_base = "https://api.github.com"                                                                                  
 
-    github.get "https://api.github.com/repos/#{repo}/pulls", (pulls) ->
+    github.get "#{url_api_base}/repos/#{repo}/pulls", (pulls) ->
       if pulls.length == 0
           msg.send "Achievement unlocked: open pull requests zero!"
       else
