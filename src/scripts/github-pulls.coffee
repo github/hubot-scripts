@@ -3,12 +3,12 @@
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
 #   HUBOT_GITHUB_USER ="<user name>"
-#   HUBOT_GITHUB_URL = "https://custom.url.com/api/"
+#   HUBOT_GITHUB_API = "https://custom.url.com/api/"
 #
 # HUBOT_GITHUB_USER is optional, but if you set it, you can ask `show me hubot pulls`
 # instead of `show me github/hubot pulls`.
 #
-# HUBOT_GITHUB_URL allows you to set a custom URL path (for Github enterprise users)
+# HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
 #
 # You can further filter pull request title by providing a reguar expression. For exmaple,
 # `show me hubot pulls with awesome fix`.
@@ -19,7 +19,7 @@ module.exports = (robot) ->
   robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i, (msg)->
     repo = github.qualified_repo msg.match[2]
     filter_reg_exp = new RegExp(msg.match[4], "i") if msg.match[3]
-    unless (url_api_base = process.env.HUBOT_GITHUB_URL)?
+    unless (url_api_base = process.env.HUBOT_GITHUB_API)?
         url_api_base = "https://api.github.com"                                                                                  
 
     github.get "#{url_api_base}/repos/#{repo}/pulls", (pulls) ->
