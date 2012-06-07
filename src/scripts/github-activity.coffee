@@ -2,7 +2,8 @@
 #
 # hubot repo show <repo> - shows activity of repository
 
-# Add "date-utils":">=1.2.5" in the hubot-scripts.json file
+# Add "date-utils":">=1.2.5" in your hubot-scripts.json file
+# Add "githubot":"0.2.0" in your hubot-scripts.json file
 #
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
