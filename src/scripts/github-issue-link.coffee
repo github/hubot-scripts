@@ -2,6 +2,8 @@
 # Requires vars HUBOT_GITHUB_REPO, and HUBOT_GITHUB_TOKEN to be set.
 #
 # Listens for #nnn and links to the issue for your default repo on github
+#
+# Add in "githubot":"0.2.0" to your package.json file.
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
