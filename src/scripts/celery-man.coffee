@@ -1,4 +1,18 @@
-# Loads up Celery Man
+#
+# Description:
+#   Loads up Celery Man
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   danryan
+#
 
 module.exports = (robot) ->
   robot.respond /.*celery\s?man/i, (msg) ->
