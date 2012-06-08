@@ -1,4 +1,18 @@
-# Watch your language!
+#
+# Description:
+#   Watch your language!
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   whitman
+#
 
 module.exports = (robot) ->
 

@@ -1,6 +1,19 @@
-# Dilbert
 #
-# hubot show me dilbert - gets the daily dilbert
+# Description:
+#   Dilbert
+#
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot show me dilbert - gets the daily dilbert
+#
+# Author:
+#   evilmarty
+#
 
 htmlparser = require "htmlparser"
 

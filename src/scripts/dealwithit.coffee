@@ -1,7 +1,18 @@
-# Display a "deal with it" gif
 #
-# deal with it - display a "deal with it" gif
+# Description:
+#   Display a "deal with it" gif
 #
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   deal with it - display a "deal with it" gif
+#
+# Author:
+#   brianstanwyck
 #
 
 deal = [
