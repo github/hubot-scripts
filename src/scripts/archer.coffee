@@ -3,7 +3,7 @@
 #   Make hubot fetch quotes pertaining to the world's best secret agent, Archer.
 #
 # Dependencies:
-#   "scraper": ""
+#   "scraper": "0.0.9"
 #
 # Configuration:
 #   None
