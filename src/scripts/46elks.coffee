@@ -1,10 +1,21 @@
-# Allows Hubot to send text messages using 46elks.com API.
 #
-# you need to set HUBOT_46ELKS_USERNAME and HUBOT_46ELKS_PASSWORD
+# Description:
+#   Allows Hubot to send text messages using 46elks.com API.
 #
-# hubot sms <user> <message> - Sends <message> to the number <to>.
-# hubot <user> has phone number <phone> - Sets the phone number of <user> to <phone>.
-# hubot give me the phone number to <user> - Gets the phone number of <user>.e
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_46ELKS_USERNAME
+#   HUBOT_46ELKS_PASSWORD
+#
+# Commands:
+#   hubot sms <user> <message> - Sends <message> to the number <to>
+#   hubot <user> has phone number <phone> - Sets the phone number of <user> to <phone>
+#   hubot give me the phone number to <user> - Gets the phone number of <user>
+#
+# Author:
+#   kimf
 
 QS      = require "querystring"
 module.exports = (robot) ->

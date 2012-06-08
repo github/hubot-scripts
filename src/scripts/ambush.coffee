@@ -1,6 +1,19 @@
-# Send messages to users the next time they speak
 #
-# hubot ambush <user name>: <message>
+# Description:
+#   Send messages to users the next time they speak
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot ambush <user name>: <message>
+#
+# Author:
+#   jmoses
+#
 
 appendAmbush = (data, toUser, fromUser, message) ->
   if data[toUser.name]

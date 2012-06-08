@@ -1,14 +1,18 @@
-# Make hubot fetch quotes pertaining to the world's best secret agent, Archer.
-# Hubot.
-# HUBOT.
-# HUBOT!!!!
-# WHAT?
-# DANGER ZONE.
 #
-# get archer
-
-# REQUIRED MODULES
-# npm install scraper
+# Description:
+#   Make hubot fetch quotes pertaining to the world's best secret agent, Archer.
+#
+# Dependencies:
+#   "scraper": ""
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   rrix
+#
 
 scraper = require 'scraper'
 
@@ -29,7 +33,7 @@ module.exports = (robot) ->
   robot.hear /archer/i, (msg) ->
 
     options = {
-       'uri': 'http://en.wikiquote.org/wiki/Archer_(TV_series)', 
+       'uri': 'http://en.wikiquote.org/wiki/Archer_(TV_series)',
        'headers': {
          'User-Agent': 'User-Agent: Archerbot for Hubot (+https://github.com/github/hubot-scripts)'
        }
@@ -42,4 +46,3 @@ module.exports = (robot) ->
       quote = quotes[Math.floor(Math.random()*quotes.length)]
       dialog += jQuery(quote).text().trim() + "\n"
       msg.send dialog
-    

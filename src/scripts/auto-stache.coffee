@@ -1,4 +1,18 @@
-# Automatically add mustaches to any images it can
+#
+# Description:
+#   Automatically add mustaches to any images it can
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   None
+#
+# Author:
+#   atmos
 #
 
 module.exports = (robot) ->
