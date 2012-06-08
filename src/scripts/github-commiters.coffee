@@ -5,6 +5,7 @@
 
 # You need to set the following variables:
 #   HUBOT_GITHUB_TOKEN ="<oauth token>"
+# Add in "githubot":"0.2.0" to your package.json file.
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
