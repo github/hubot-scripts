@@ -1,4 +1,18 @@
-# Display a hyperbole and a half image if anyone says "like an adult"
+#
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   like an adult - Display a hyperbole and a half image
+#
+# Author:
+#   atmos
 #
 
 images = [
@@ -15,7 +29,3 @@ images = [
 module.exports = (robot) ->
   robot.hear /like an adult/i, (msg) ->
     msg.send msg.random images
-
-# Be an adult
-# This is Why I'll Never be an Adult:
-# Taken from: http://hyperboleandahalf.blogspot.com/2010/06/this-is-why-ill-never-be-adult.html

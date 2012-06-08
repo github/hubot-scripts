@@ -1,6 +1,20 @@
 #
-# hubot achievement get <achievement> [achiever's gravatar email] - life goals are in reach.
+# Description:
+#   None
 #
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot achievement get <achievement> [achiever's gravatar email] - life goals are in reach
+#
+# Author:
+#   Chris
+#
+
 module.exports = (robot) ->
   robot.hear /achievement (get|unlock(ed)?) (.+?)(\s*[^@\s]+@[^@\s]+)?\s*$/i, (msg) ->
     caption = msg.match[3]

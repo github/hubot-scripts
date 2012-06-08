@@ -1,6 +1,18 @@
-# It's a trap
 #
-# trap - Display an Admiral Ackbar piece of wonder
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   trap - Display an Admiral Ackbar piece of wonder
+#
+# Author:
+#   brilliantfantastic
 #
 
 ackbars = [
