@@ -8,7 +8,7 @@
 #   HUBOT_AWS_SECRET_ACCESS_KEY - The Amazon secret key for the given id
 #
 #
-# package.json needs to have "aws2js":"0.6.12"
+# package.json needs to have "aws2js":"0.6.12" and "moment":"1.6.2"
 #
 # It's highly recommended to use a read-only IAM account for this purpose
 # https://console.aws.amazon.com/iam/home?#
@@ -18,9 +18,11 @@
 key = process.env.HUBOT_AWS_ACCESS_KEY_ID
 secret = process.env.HUBOT_AWS_SECRET_ACCESS_KEY
 
-sqs = (require 'aws2js')
-  .load('sqs')
-  .setCredentials key, secret
+moment = require 'moment'
+aws = require 'aws2js'
+sqs = aws
+  .load('sqs', key, secret)
+  .setApiVersion('2011-10-01')
 
 module.exports = (robot) ->
   robot.respond /(^|\W)sqs status(\z|\W|$)/i, (msg) ->
@@ -71,8 +73,9 @@ module.exports = (robot) ->
               if sqsmsg? and sqsmsg.Attribute?
                 timestamp = (att for att in sqsmsg.Attribute \
                   when att.Name == 'SentTimestamp')
-                timestamp = new Date(parseFloat(timestamp[0].Value))
+                timestamp = (moment parseFloat timestamp[0].Value)
+                  .format 'ddd, L LT'
               else
                 timestamp = 'none available'
 
-            msg.send "#{queueDesc} / oldest msg ~[#{timestamp}]", url
+            msg.send "#{queueDesc} / oldest msg ~[#{timestamp}] / #{url}"
