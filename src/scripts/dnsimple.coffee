@@ -1,7 +1,19 @@
-# Domain availability via DNSimple, requires you set
-# DNSIMPLE_USERNAME & DNSIMPLE_PASSWORD environment variables
 #
-# check domain <domainname> - returns whether a domain is available
+# Description:
+#   Domain availability via DNSimple
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   DNSIMPLE_USERNAME
+#   DNSIMPLE_PASSWORD
+#
+# Commands:
+#   check domain <domainname> - returns whether a domain is available
+#
+# Author:
+#   jonmagic
 #
 
 module.exports = (robot) ->
