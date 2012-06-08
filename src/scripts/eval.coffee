@@ -1,6 +1,19 @@
-# evaluate code.
 #
-# hubot eval me <lang> <code> - evaluate <code> and show the result.
+# Description:
+#   evaluate code
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot eval me <lang> <code> - evaluate <code> and show the result
+#
+# Author:
+#   aanoaa
+#
 
 module.exports = (robot) ->
   robot.respond /eval( me)? ([^ ]+) (.+)/i, (msg) ->
