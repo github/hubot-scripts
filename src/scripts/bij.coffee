@@ -1,4 +1,17 @@
-# EXPERIENCE BIJ
+#
+# Description:
+#   EXPERIENCE BIJ
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   mrtazz
 #
 
 module.exports = (robot) ->

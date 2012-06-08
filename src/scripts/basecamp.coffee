@@ -1,10 +1,19 @@
-# Some interaction with basecamp
 #
-# set the HUBOT_BASECAMP_KEY
-# set the HUBOT_BASECAMP_URL -> this is your company Name  in basecamp url company_name.basecamphq.com
-# gives the right permissions to see the content in basecamp.
-
-# developed by http://github.com/fellix - Crafters Software Studio
+# Description:
+#   Some interaction with basecamp
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_BASECAMP_KEY
+#   HUBOT_BASECAMP_URL
+#
+# Commands:
+#
+# Author:
+#   fellix
+#
 
 module.exports = (robot) ->
   robot.hear /^basecamp calendar( (.*))?$/i, (msg) ->
@@ -28,7 +37,6 @@ print_calendar = (msg, project, searching) ->
         responsability = "None"
         responsability = milestone.responsibleParty.name if milestone.responsibleParty
         msg.send "[#{project.name}] #{milestone.title} -> #{milestone.status}: #{milestone.deadline}, Responsible: #{responsability}"
-          
           
 basecamp_request = (msg, url, handler) ->
   basecamp_key = "#{process.env.HUBOT_BASECAMP_KEY}"

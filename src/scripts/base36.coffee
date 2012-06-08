@@ -1,6 +1,19 @@
-# Base36 encoding and decoding.
 #
-# hubot base36 e(ncode)|d(ecode) <query> - Base36 encode or decode <query>
+# Description:
+#   Base36 encoding and decoding
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot base36 e(ncode)|d(ecode) <query> - Base36 encode or decode <query>
+#
+# Author:
+#   plytro
+#
 
 module.exports = (robot) ->
   robot.hear /base36 e(ncode)?( me)? (.*)/i, (msg) ->
@@ -16,7 +29,6 @@ module.exports = (robot) ->
     catch e
       throw e unless e.message == 'Value passed is not a valid Base36 string.'
       msg.send "Not a valid base36 encoded string."
-
 
 class Base36Builder
   constructor: ->
@@ -40,6 +52,5 @@ class Base36Builder
         throw new Error('Value passed is not a valid Base36 string.')
       num += char_index * Math.pow(@base, index)
     num
-
 
 Base36 = new Base36Builder()

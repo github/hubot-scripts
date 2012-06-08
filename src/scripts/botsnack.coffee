@@ -1,6 +1,18 @@
-# Hubot enjoys delicious snacks
 #
-# botsnack - give the boot a food
+# Description:
+#   Hubot enjoys delicious snacks
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   botsnack - give the boot a food
+#
+# Author:
+#   richo
 
 module.exports = (robot) ->
   robot.hear /^botsnack/i, (msg) ->
