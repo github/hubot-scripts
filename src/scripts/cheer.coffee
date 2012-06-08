@@ -1,6 +1,20 @@
-# Feeling depressed?
 #
-# hubot cheer me up - A little pick me up
+# Description:
+#   Feeling depressed?
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot cheer me up - A little pick me up
+#
+# Author:
+#   carllerche
+#
+
 module.exports = (robot) ->
   robot.respond /cheer me up/i, (msg) ->
     aww msg

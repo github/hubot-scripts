@@ -1,7 +1,20 @@
-# Corgime
 #
-# hubot corgi me - Receive a corgi
-# hubot corgi bomb N - get N corgis
+# Description:
+#   Corgime
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot corgi me - Receive a corgi
+#   hubot corgi bomb N - get N corgis
+#
+# Author:
+#   alexgodin
+#
 
 module.exports = (robot) ->
 

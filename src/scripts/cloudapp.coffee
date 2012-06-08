@@ -1,6 +1,19 @@
-# Allow Hubot to show what's lurking behind a CloudApp link.
 #
-# http://cl.ly/* - Detects the drop's type and displays it or prints its content if it's an image or text file respectively.
+# Description:
+#   Allow Hubot to show what's lurking behind a CloudApp link
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+# 
+# Commands:
+#   http://cl.ly/* - Detects the drop's type and displays it or prints its content if it's an image or text file respectively
+#
+# Author:
+#   lmarburger
+#
 
 module.exports = (robot) ->
   robot.hear /(https?:\/\/cl.ly\/[A-Za-z0-9]+)(\/[^\/]+)?/i, (msg) ->

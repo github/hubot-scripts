@@ -1,8 +1,19 @@
-# Start up some wonderful chats with conversation starters
 #
-# hubot chat - Tell hubot to make something fun to chat about
+# Description:
+#   Start up some wonderful chats with conversation starters
 #
-# Conversation starters graciously provided by http://Chatoms.com
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot chat - Tell hubot to make something fun to chat about
+#
+# Author:
+#   GantMan
+#
 
 module.exports = (robot) ->
   robot.respond /chat/i, (msg) ->

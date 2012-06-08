@@ -1,7 +1,20 @@
-# Messing around with the Coderwall API.
 #
-# hubot coderwall <coderwall username> - Returns coder achievements from coderwall.com
-#                      
+# Description:
+#   Messing around with the Coderwall API
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot coderwall <coderwall username> - Returns coder achievements from coderwall.com
+#
+# Author:
+#   mexitek
+#
+
 module.exports = (robot) ->
   robot.respond /(coderwall)( me)? (.*)/i, (msg) ->
     user = msg.match[3]
