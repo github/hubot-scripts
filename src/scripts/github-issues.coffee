@@ -8,6 +8,8 @@
 #   HUBOT_GITHUB_REPO = "<default repo>"
 #   HUBOT_GITHUB_USER_(.*) = "<GitHub username for matching chat handle>"
 #
+# Add in "githubot":"0.2.0" to your package.json file.
+#
 # If HUBOT_GITHUB_USER is set, you can ask `show me issues for hubot` instead
 # of `show me issues for github/hubot`.
 #
