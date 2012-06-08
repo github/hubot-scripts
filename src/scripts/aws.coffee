@@ -4,6 +4,8 @@
 #
 # Dependencies:
 #   "aws2js": "0.6.12"
+#   "underscore": "1.3.3"
+#   "moment": "1.6.2"
 #
 # Configuration:
 #   HUBOT_AWS_ACCESS_KEY_ID
