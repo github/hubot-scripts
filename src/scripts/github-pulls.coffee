@@ -10,6 +10,8 @@
 #
 # HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
 #
+# Add in "githubot":"0.2.0" to your package.json file.
+#
 # You can further filter pull request title by providing a reguar expression. For exmaple,
 # `show me hubot pulls with awesome fix`.
 #
