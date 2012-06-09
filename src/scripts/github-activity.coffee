@@ -1,12 +1,20 @@
-# It was based on github-issues.coffee script
 #
-# hubot repo show <repo> - shows activity of repository
-
-# Add "date-utils":">=1.2.5" in your hubot-scripts.json file
-# Add "githubot":"0.2.0" in your hubot-scripts.json file
+# Description:
+#   None
 #
-# You need to set the following variables:
-#   HUBOT_GITHUB_TOKEN ="<oauth token>"
+# Dependencies:
+#   "date-utils": ">=1.2.5"
+#   "githubot": "0.2.0"
+# 
+# Configuration:
+#   HUBOT_GITHUB_TOKEN
+#
+# Commands:
+#   hubot repo show <repo> - shows activity of repository
+#
+# Author:
+#   vquaiato
+#
 
 require('date-utils')
 

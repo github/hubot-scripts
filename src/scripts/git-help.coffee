@@ -1,12 +1,19 @@
-# Show some help to git noobies
 #
-# use it as:
-# git help <topic>
+# Description:
+#   Show some help to git noobies
 #
-# <topic> can be one of: 
-# create|clone|add|remove|commit|synchronize|branch|merge|tag|restore
+# Dependencies:
+#   None
 #
-# developed by http://github.com/vquaiato - Crafters Software Studio
+# Configuration:
+#   None
+#
+# Commands:
+#   git help <topic>
+#
+# Author:
+#   vquaiato
+#
 
 module.exports = (robot) ->
 	git_help = new Array()

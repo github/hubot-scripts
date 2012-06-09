@@ -1,6 +1,19 @@
-# Search for a job and profit!
 #
-# hubot find me a <technology> job in <location>
+# Description:
+#   Search for a job and profit!
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_AUTHENTIC_JOBS_API_KEY
+#
+# Commands:
+#   hubot find me a <technology> job in <location>
+#
+# Author:
+#   sleekslush
+#
 
 module.exports = (robot) ->
   robot.respond /find me a (.* )?job( in (.+))?/i, (msg) ->

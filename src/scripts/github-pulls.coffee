@@ -1,21 +1,30 @@
-# Show open pull requests from a Github repository.
 #
-# You need to set the following variables:
-#   HUBOT_GITHUB_TOKEN ="<oauth token>"
-#   HUBOT_GITHUB_USER ="<user name>"
-#   HUBOT_GITHUB_API = "https://custom.url.com/api/"
+# Description:
+#   Show open pull requests from a Github repository
 #
-# HUBOT_GITHUB_USER is optional, but if you set it, you can ask `show me hubot pulls`
-# instead of `show me github/hubot pulls`.
+# Dependencies:
+#   "githubot": "0.2.0"
 #
-# HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
+# Configuration:
+#   HUBOT_GITHUB_TOKEN
+#   HUBOT_GITHUB_USER
+#   HUBOT_GITHUB_API
 #
-# Add in "githubot":"0.2.0" to your package.json file.
+# Commands:
+#   HUBOT_GITHUB_USER is optional, but if you set it, you can ask `show me hubot pulls`
+#   instead of `show me github/hubot pulls`.
 #
-# You can further filter pull request title by providing a reguar expression. For exmaple,
-# `show me hubot pulls with awesome fix`.
+#   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
 #
-# hubot show me <user/repo> pulls [with <regular expression>] - Shows open pull requests for that project by filtering pull request's title.
+#   hubot show me <user/repo> pulls [with <regular expression>] - Shows open pull requests for that project by filtering pull request's title.
+#
+#   You can further filter pull request title by providing a reguar expression.
+#   For example, `show me hubot pulls with awesome fix`.
+#
+# Author:
+#   jingweno
+#
+
 module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i, (msg)->

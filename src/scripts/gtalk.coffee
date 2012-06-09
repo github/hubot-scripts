@@ -1,9 +1,25 @@
-# Send gtalk messages to channels via hubot
-
-# Setup instructions:
 #
-# Add to packages.json
-#    "node-xmpp": "0.3.2"
+# Description:
+#   Send gtalk messages to channels via hubot
+#
+# Dependencies:
+#   "node-xmpp": "0.3.2"
+#
+# Configuration
+#   GTALK_ID
+#   GTALK_PASSWORD
+#   GTALK_ONLINE_ANNOUNCE
+#   GTALK_PRESENCE
+#   GTALK_SERVER
+#   GTALK_PORT
+#   GTALK_ROOM
+#
+# Commands:
+#   None
+#
+# Author:
+#   gstark
+#
 
 module.exports = (robot) ->
   jid             = process.env.GTALK_ID
@@ -16,11 +32,9 @@ module.exports = (robot) ->
 
   xmpp = require 'node-xmpp'
 
-  # Establish a connection
   xmpp_client = new xmpp.Client({jid: jid, password: password, host: server, port: port });
 
   message_handler = (stanza) ->
-    # Important: never reply to errors!
     if stanza.is('message') and stanza.attrs.type != 'error'
       message_body_element = stanza.getChild('body');
       if message_body_element
