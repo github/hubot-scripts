@@ -1,36 +1,26 @@
-# Is it iced coffee weather?
-# ===========================
 #
-# It's very important to know the cutoff date for switching from hot coffee to iced coffee. This script does just that.
+# Description:
+#   It's very important to know the cutoff date for switching from hot
+#   coffee to iced coffee. This script does just that.
 #
-# Usage
-# -----
+# Dependencies:
+#   "cheerio": "0.7.0"
 #
-# hubot is it iced coffee weather? - Display whether or not it's a good time for iced coffee
+# Configuration:
+#   HUBOT_ICED_COFFEE_WEATHER_ID
 #
-# Setup
-# -----
+# Commands:
+#   hubot is it iced coffee weather? - Display whether or not it's a good time for iced coffee
 #
-# You need to set the following environment variables:
+# Notes:
+#   Go to http://isiticedcoffeeweather.com/
+#   Allow it to detect your location, or enter it yourself
+#   Look at the URL, ie http://isiticedcoffeeweather.com/XXXXXXXX
+#     XXXXXXXX is the id
 #
-#  HUBOT_ICED_COFFEE_WEATHER_ID="id from isiticedcoffeeweather.com"
+# Author:
+#   technicalpickles
 #
-# How to find this:
-#
-# * Go to http://isiticedcoffeeweather.com/
-# * Allow it to detect your location, or enter it yourself
-# * Look at the URL, ie http://isiticedcoffeeweather.com/XXXXXXXX
-#   * XXXXXXXX is the id
-#
-# And you need the following dependency in package.json:
-#
-#    "cheerio": "0.7.0"
-#
-# TODO / WISHLIST
-# ---------------
-#
-# * user-specific location
-# * move parsing location to an API endpoint
 
 cheerio = require('cheerio')
 
