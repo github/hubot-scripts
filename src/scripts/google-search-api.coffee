@@ -1,12 +1,24 @@
-# A way to interact with the Google Custom Search API.
-# This script reqire to env variables to be set:
-# HUBOT_GOOGLE_SEARCH_KEY: Google Custom Search API Key from https://code.google.com/apis/console/
-# HUBOT_GOOGLE_SEARCH_CX: Google Custom Search Engine ID from http://www.google.com/cse/manage/all
 #
-# Limits for free version is 100 queries per day per API key.
+# Description:
+#   A way to interact with the Google Custom Search API
 #
-# hubot (google|search)( me) <query> - returns URL's and Title's for 5 first results from custom search#
+# Dependencies:
+#   None
 #
+# Configuration:
+#   HUBOT_GOOGLE_SEARCH_KEY
+#   HUBOT_GOOGLE_SEARCH_CX
+#
+# Commands:
+#   hubot (google|search)( me) <query> - returns URL's and Title's for 5 first results from custom search
+#
+# Notes:
+#   Limits for free version is 100 queries per day per API key
+#
+# Author:
+#   Airborn
+#
+
 module.exports = (robot) ->
   robot.respond /(google|search)( me)? (.*)/i, (msg) ->
     msg

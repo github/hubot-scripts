@@ -1,14 +1,22 @@
-# Allows Hubot to search a Graphite server for saved graphs
 #
-# hubot graphite search <string> - search for graph by name
-# hubot graphite show <graph.name> - output graph
+# Description:
+#   Allows Hubot to search a Graphite server for saved graphs
 #
-# set the env variables:
-#  * GRAPHITE_URL (e.g. https://graphite.example.com)
-#  * GRAPHITE_PORT (e.g. 8443)
-#  * GRAPHITE_AUTH (e.g. user:password for Basic Auth)
+# Dependencies:
+#   None
 #
-# tested against Graphite 0.9.9 with Basic Auth enabled
+# Configuration
+#   GRAPHITE_URL (e.g. https://graphite.example.com)
+#   GRAPHITE_PORT (e.g. 8443)
+#   GRAPHITE_AUTH (e.g. user:password for Basic Auth)
+#
+# Commands:
+#   hubot graphite search <string> - search for graph by name
+#   hubot graphite show <graph.name> - output graph
+#
+# Author:
+#   obfuscurity
+#
 
 module.exports = (robot) ->
   robot.hear /graphite search (\w+)/i, (msg) ->
@@ -71,4 +79,3 @@ construct_port = () ->
   else
     port += 80
   port
-
