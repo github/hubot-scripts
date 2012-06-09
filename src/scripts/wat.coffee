@@ -1,6 +1,17 @@
-# Get a random WAT image - warning, this includes NSFW content!
+# Description:
+#   Get a random WAT image - warning, this includes NSFW content!
 #
-# hubot wat - Random WAT
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot wat - Random WAT
+#
+# Author:
+#   john-griffin
 
 module.exports = (robot) ->
 

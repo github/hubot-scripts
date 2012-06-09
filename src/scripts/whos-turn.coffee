@@ -1,7 +1,18 @@
-# Who's turn to do something ?
+# Description:
+#   Who's turn to do something?
 #
-# hubot who <does something> ? - Returns who does !
-#                      
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot who <does something>? - Returns who does !
+#
+# Author:
+#   KuiKui
+
 module.exports = (robot) ->
   robot.respond /(who|qui) (.+)\?/i, (msg) ->
     users = []
