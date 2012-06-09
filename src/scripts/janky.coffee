@@ -1,6 +1,19 @@
-# Janky API integration. https://github.com/github/janky
 #
-# hubot ci - show usage
+# Description:
+#   Janky API integration. https://github.com/github/janky
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_JANKY_URL
+#
+# Commands:
+#   hubot ci - show usage
+#
+# Author:
+#   sr
+#
 
 URL  = require "url"
 url  = URL.parse(process.env.HUBOT_JANKY_URL)
