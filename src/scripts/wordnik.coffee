@@ -12,13 +12,13 @@
 #   hubot pronounce me <word> - Links to a pronunciation of a word.
 #   hubot spell me <word> - Suggests correct spellings of a possible word.
 #
-# Author:
-#   Aupajo
-#   markpasc
-#
 # Notes:
 #   You'll need an API key from http://developer.wordnik.com/
 #   FIXME This should be merged with word-of-the-day.coffee
+#
+# Author:
+#   Aupajo
+#   markpasc
 
 module.exports = (robot) ->
   # Word definition

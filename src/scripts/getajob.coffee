@@ -1,4 +1,3 @@
-#
 # Description:
 #   Search for a job and profit!
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   sleekslush
-#
 
 module.exports = (robot) ->
   robot.respond /find me a (.* )?job( in (.+))?/i, (msg) ->

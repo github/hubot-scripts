@@ -1,4 +1,3 @@
-#
 # Description:
 #   See what's playing on the Heavy Metal Supersite
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   teo-sk
-#
 
 module.exports = (robot) ->
   robot.respond /hardradio listen/i, (msg) ->

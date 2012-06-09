@@ -1,4 +1,3 @@
-//
 // Description:
 //   xmas detector script
 //
@@ -14,7 +13,6 @@
 //
 // Author:
 //   Johnny G. Halife
-//
 
 module.exports = function(robot) {
 	robot.respond(/is it (xmas|christmas)\s?\?/i, function(msg){

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Spin & spun text formatter script
 #
@@ -17,7 +16,6 @@
 #
 # Author:
 #   mmstud
-#
 
 crypto = require 'crypto'
 env = process.env

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get connected to the Salesforce.com REST API and do something fun!
 #
@@ -18,7 +17,6 @@
 #
 # Author:
 #   lnediger
-#
 
 sf_instance = process.env.SF_INSTANCE_URL
 sf_consumer_key = process.env.SF_CONSUMER_KEY

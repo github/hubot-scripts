@@ -1,4 +1,3 @@
-#
 # Description:
 #   Grabs snippets of song lyrics
 #   Limited to snippets due to copyright stuff
@@ -14,7 +13,6 @@
 #
 # Author:
 #   mportiz08
-#
 
 module.exports = (robot) ->
   robot.respond /lyrics for (.*) by (.*)/i, (msg) ->

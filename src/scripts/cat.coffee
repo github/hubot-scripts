@@ -1,4 +1,3 @@
-#
 # Description:
 #   Send messages to channels via hubot
 #
@@ -17,7 +16,6 @@
 #
 # Author:
 #   simon
-#
 
 dgram = require "dgram"
 server = dgram.createSocket "udp4"

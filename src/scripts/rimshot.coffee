@@ -1,4 +1,3 @@
-#
 # Description:
 #   Emphasize a joke
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   mrtazz
-#
 
 shots = [
     'http://www.youtube.com/watch?v=DH5p5iMEbrE',

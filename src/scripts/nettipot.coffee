@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author
 #   alexpgates
-#
 
 nettipot = "http://i.imgur.com/EIqdZ.gif"
 

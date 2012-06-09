@@ -1,4 +1,3 @@
-#
 # Description:
 #   Interact with your Jenkins CI server
 #
@@ -16,7 +15,6 @@
 #
 # Author:
 #   dougcole
-#
 
 querystring = require 'querystring'
 

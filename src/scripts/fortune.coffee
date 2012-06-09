@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get a fortune
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   mrtazz
-#
 
 module.exports = (robot) ->
   robot.respond /(fortune)( me)?/i, (msg) ->

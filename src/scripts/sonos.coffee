@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   berg
-#
 
 xml2js = require 'xml2js'
 util = require 'util'

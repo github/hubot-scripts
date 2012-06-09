@@ -1,4 +1,3 @@
-#
 # Description:
 #   Fuck it, we'll do it live!
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   stewart
-#
 
 module.exports = (robot) ->
   robot.hear /do it live/i, (msg) ->

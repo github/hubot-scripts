@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to send text messages using 46elks.com API.
 #

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to control pandora on a squeezebox music player
 #
@@ -21,7 +20,6 @@
 #
 # Author:
 #   kylefritz
-#
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"

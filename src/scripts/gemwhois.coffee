@@ -1,4 +1,3 @@
-#
 # Description:
 #   Whois for gems, because gem names are like domains in the 90's
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jonmagic
-#
 
 module.exports = (robot) ->
   robot.respond /gem whois (.*)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   The game of Hangman.
 #   Words and definitions are sourced via the Wordnik API. You'll need an API
@@ -16,7 +15,6 @@
 #
 # Author:
 #   harukizaemon
-#
 
 class Game
 

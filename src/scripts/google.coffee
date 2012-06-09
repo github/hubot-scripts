@@ -1,4 +1,3 @@
-#
 # Description:
 #   Returns the URL of the first google hit for a query
 # 
@@ -13,7 +12,6 @@
 #
 # Author:
 #   searls
-#
 
 module.exports = (robot) ->
   robot.respond /(google)( me)? (.*)/i, (msg) ->

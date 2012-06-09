@@ -1,4 +1,3 @@
-#
 # Description:
 #   Clearly illustrate with an image what people mean whenever they say "facepalm"
 #
@@ -12,7 +11,6 @@
 # 
 # Authors:
 #   jimeh
-#
 
 module.exports = (robot) ->
   robot.hear /facepalm/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Notifies you by Prowl or NotifyMyAndroid when you're mentioned
 #
@@ -13,6 +12,8 @@
 #   hubot notify me by nma with YOUR_NMA_API_KEY
 #   hubot list notifiers
 #
+# Author:
+#   marten
 
 Prowl = require "prowler"
 QS = require "querystring"

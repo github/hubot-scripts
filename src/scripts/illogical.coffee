@@ -1,4 +1,3 @@
-#
 # Description:
 #   Highly illogical
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   arbales
-#
 
 vulcans = [
   "http://www.katzy.dsl.pipex.com/Smileys/illogical.gif",

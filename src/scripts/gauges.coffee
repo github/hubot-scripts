@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to fetch statistics from Gaug.es
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   tombell
-#
 
 class Gauges
   constructor: (@robot, @token) ->

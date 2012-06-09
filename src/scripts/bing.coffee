@@ -1,4 +1,3 @@
-#
 # Description:
 #   Returns the URL of the first bing hit for a query
 #
@@ -10,6 +9,9 @@
 #
 # Commands:
 #   hubot bing me <query> - Bings <query> & returns 1st result's URL
+#
+# Author:
+#   Brandon Satrom
 
 module.exports = (robot) ->
   robot.respond /(bing)( me)? (.*)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Messing with the JIRA REST API
 #
@@ -26,7 +25,6 @@
 #
 # Author:
 #   codec
-#
 
 class IssueFilters
   constructor: (@robot) ->

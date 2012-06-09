@@ -1,4 +1,3 @@
-#
 # Description:
 #   List stories and other items in Sprint.ly and interact with them
 #
@@ -19,7 +18,6 @@
 #
 # Author:
 #   lackac
-#
 
 qs = require 'querystring'
 

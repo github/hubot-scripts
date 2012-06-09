@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows good and bad things to be added to Hubot for sprint retrospective
 # 
@@ -16,7 +15,6 @@
 #
 # Author:
 #   gabeguz
-#
 
 class GoodBad
   constructor: (@robot) ->

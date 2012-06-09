@@ -1,4 +1,3 @@
-#
 # Description:
 #   Calculate the nth fibonacci number. #webscale
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   ckdake
-#
 
 fib_bits = (n) ->
   # Represent an integer as an array of binary digits.

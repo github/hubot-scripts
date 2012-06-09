@@ -1,4 +1,3 @@
-#
 # Description:
 #   Base36 encoding and decoding
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   plytro
-#
 
 module.exports = (robot) ->
   robot.hear /base36 e(ncode)?( me)? (.*)/i, (msg) ->

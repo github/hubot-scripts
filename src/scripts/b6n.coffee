@@ -1,4 +1,3 @@
-#
 # Description:
 #   SHIT BEN BLACK SAYS 
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #  chids
-#
 
 module.exports = (robot) ->
     robot.hear /ask b6n/i, (msg) ->

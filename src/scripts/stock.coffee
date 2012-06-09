@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get a stock price
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   eliperkins
-#
 
 module.exports = (robot) ->
   robot.respond /stock (info|price|quote) for @?([\w .-_]+)/i, (msg) ->

@@ -14,7 +14,7 @@
 #   hubot truckstopsf! - get food truck names and details
 #
 # Author:
-#   None
+#   chris
 
 module.exports = (robot) ->
   robot.respond /truckstopsf\s?(!|details|deets)?/i, (res) ->

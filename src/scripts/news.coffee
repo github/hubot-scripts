@@ -1,4 +1,3 @@
-#
 # Description:
 #   Returns the latest news headlines from Google
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   Matt McCormick
-#
 
 module.exports = (robot) ->
   robot.respond /news(?: me| on)?\s?(.*)/, (msg) ->

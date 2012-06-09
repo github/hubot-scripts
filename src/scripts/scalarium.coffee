@@ -1,4 +1,3 @@
-#
 # Description:
 #   Interact with Scalarium cloud hosting
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   nesQuick
-#
 
 https = require 'https'
 token = process.env.HUBOT_SCALARIUM_TOKEN

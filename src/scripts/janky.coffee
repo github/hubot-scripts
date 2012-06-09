@@ -1,4 +1,3 @@
-#
 # Description:
 #   Janky API integration. https://github.com/github/janky
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   sr
-#
 
 URL  = require "url"
 url  = URL.parse(process.env.HUBOT_JANKY_URL)

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display a random 'Your Argument is Invalid' image
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   alexdean
-#
 
 invalids = [
   "http://s3.amazonaws.com/kym-assets/photos/images/newsfeed/000/007/517/my_hat_is_made_of_eggs.jpg",

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to store a recent chat history for services like IRC that
 #   won't do it for you.
@@ -15,7 +14,6 @@
 #
 # Author:
 #   wubr
-#
 
 class History
   constructor: (@robot, @keep) ->

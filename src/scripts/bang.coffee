@@ -1,4 +1,3 @@
-#
 # Description:
 #   A hubot interface for Bang, a key-value store for text snippets
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   jimmycuadra
-#
 
 Bang  = require "bang"
 {split} = require "shellwords"

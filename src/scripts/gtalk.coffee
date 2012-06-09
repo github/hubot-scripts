@@ -1,4 +1,3 @@
-#
 # Description:
 #   Send gtalk messages to channels via hubot
 #
@@ -19,7 +18,6 @@
 #
 # Author:
 #   gstark
-#
 
 module.exports = (robot) ->
   jid             = process.env.GTALK_ID

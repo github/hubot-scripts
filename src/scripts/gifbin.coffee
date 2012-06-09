@@ -1,4 +1,3 @@
-#
 # Description:
 #   Random gif from gifbin.com
 #

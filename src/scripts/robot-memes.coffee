@@ -1,4 +1,3 @@
-#
 # Description:
 #   Robot Memes
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jrob00
-#
 
 robot_memes = [
 	"http://troll.me/images/ancient-aliens-guy/but-you-see-steve-is-a-alien-robot-thumb.jpg",

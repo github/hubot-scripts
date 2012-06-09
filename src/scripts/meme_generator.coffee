@@ -1,4 +1,3 @@
-#
 # Description:
 #   Integrates with memegenerator.net
 #
@@ -26,7 +25,6 @@
 #
 # Author:
 #   skalnik
-#
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->

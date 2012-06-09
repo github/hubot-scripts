@@ -1,4 +1,3 @@
-#
 # Description:
 #   Make hubot fetch quotes pertaining to the world's best secret agent, Archer.
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   rrix
-#
 
 scraper = require 'scraper'
 

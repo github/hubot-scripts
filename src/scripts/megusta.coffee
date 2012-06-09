@@ -1,4 +1,3 @@
-#
 # Description:
 #   Happiness in image form
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   phyreman
-#
 
 module.exports = (robot) ->
   robot.hear /me gusta/i, (msg) ->

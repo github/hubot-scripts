@@ -1,4 +1,3 @@
-#
 # Description:
 #   It's very important to know the cutoff date for switching from hot
 #   coffee to iced coffee. This script does just that.
@@ -20,7 +19,6 @@
 #
 # Author:
 #   technicalpickles
-#
 
 cheerio = require('cheerio')
 

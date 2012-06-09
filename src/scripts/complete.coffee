@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hubot, you complete me
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   aroben
-#
 
 XMLJS = require("xml2js")
 

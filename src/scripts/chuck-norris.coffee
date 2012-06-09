@@ -1,4 +1,3 @@
-#
 # Description:
 #   Chuck Norris awesomeness
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   dlinsin
-#
 
 module.exports = (robot) ->
 

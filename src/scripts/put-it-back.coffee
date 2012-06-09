@@ -1,4 +1,3 @@
-#
 # Description:
 #   put back the table
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   ajacksified
-#
 
 module.exports = (robot) ->
   robot.hear /（╯°□°）╯︵ ┻━┻/i, (msg) ->

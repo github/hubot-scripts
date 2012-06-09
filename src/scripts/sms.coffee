@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to send text messages using Twilio API
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   caleywoods
-#
 
 QS = require "querystring"
 

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display current app performance stats from New Relic
 #
@@ -22,7 +21,6 @@
 # 
 # Author:
 #   briandoll
-#
 
 module.exports = (robot) ->
   robot.respond /newrelic me/i, (msg) ->

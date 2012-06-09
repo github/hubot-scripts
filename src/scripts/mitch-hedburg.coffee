@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to find an awesome Mitch Hedburg quotes
 #

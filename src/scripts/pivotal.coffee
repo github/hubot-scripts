@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get current stories from PivotalTracker
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   assaf
-#
 
 module.exports = (robot) ->
   robot.respond /show\s+(me\s+)?stories(\s+for\s+)?(.*)/i, (msg)->

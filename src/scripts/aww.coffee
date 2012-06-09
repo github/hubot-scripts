@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hubot delivers a pic from Reddit's /r/aww frontpage
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   eliperkins
-#
 
 module.exports = (robot) ->
   robot.respond /aww/i, (msg) ->

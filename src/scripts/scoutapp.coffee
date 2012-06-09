@@ -1,4 +1,3 @@
-#
 # Description:
 #   Announce Scout notifications to a room sepecified by the URL.
 #
@@ -19,7 +18,6 @@
 #
 # Author:
 #   gstark
-#
 
 module.exports = (robot) ->
   robot.router.post '/hubot/scoutapp/:room', (req, res) ->

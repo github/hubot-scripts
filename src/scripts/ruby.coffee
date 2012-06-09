@@ -1,4 +1,3 @@
-#
 # Description:
 #   Evaluate one line of Ruby script
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jingweno
-#
 
 module.exports = (robot) ->
   robot.respond /(ruby|rb)\s+(.*)/i, (msg)->

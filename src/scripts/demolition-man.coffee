@@ -1,4 +1,3 @@
-#
 # Description:
 #   Watch your language!
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   whitman
-#
 
 module.exports = (robot) ->
 

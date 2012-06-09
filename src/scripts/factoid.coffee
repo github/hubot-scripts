@@ -1,4 +1,3 @@
-#
 # Description:
 #   javabot style factoid support for your hubot. Build a factoid library
 #   and save yourself typing out answers to similar questions
@@ -20,7 +19,6 @@
 #
 # Author:
 #   arthurkalm
-#
 
 class Factoids
   constructor: (@robot) ->

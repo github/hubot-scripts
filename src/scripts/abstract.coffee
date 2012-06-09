@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   tantalor
-#
 
 module.exports = (robot) ->
   robot.respond /(abs|abstract) (.+)/i, (res) ->

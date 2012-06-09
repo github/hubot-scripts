@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   marciotoshio
-#
 
 module.exports = (robot) ->
   robot.respond /cheerlights/i, (msg) ->

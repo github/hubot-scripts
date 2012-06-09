@@ -1,4 +1,3 @@
-#
 # Description:
 #   Loads images from Dribbble URL's
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   mattgraham
-#
 
 requestImage = (msg, url) ->
   msg.http(url).get() (err, res, body) ->

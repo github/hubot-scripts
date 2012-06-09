@@ -10,11 +10,11 @@
 # Commands:
 #   hubot question <question> - Searches Wolfram Alpha for the answer to the question
 #
-# Author:
-#   dhorrigan
-#
 # Notes:
 #   This may not work with node 0.6.x
+#
+# Author:
+#   dhorrigan
 
 Wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 

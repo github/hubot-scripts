@@ -1,4 +1,3 @@
-#
 # Description:
 #   Tell Hubot to send a user a link to lmgtfy.com
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   phlipper
-#
 
 module.exports = (robot) ->
    robot.respond /lmgtfy?\s?(?:@(\w*))? (.*)/i, (msg) ->

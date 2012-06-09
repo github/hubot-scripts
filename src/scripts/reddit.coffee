@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   EnriqueVidal
-#
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"

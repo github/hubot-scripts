@@ -1,4 +1,3 @@
-#
 # Description:
 #   keep-alive pings each url in the array every minute.
 #   This is specifically to keep certain heroku apps from going to sleep
@@ -16,7 +15,6 @@
 #
 # Author:
 #   maddox
-#
 
 HTTP = require "http"
 URL  = require "url"

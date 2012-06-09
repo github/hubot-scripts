@@ -1,4 +1,3 @@
-#
 # Description:
 #   Stagehand manages who is currently using your team's staging server
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   tinifni
-#
 
 bookStaging = (data, user, minutes) ->
   return false if data.user != user && new Date() < data.expires

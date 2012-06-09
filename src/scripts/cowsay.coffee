@@ -1,4 +1,3 @@
-#
 # Description:
 #   Cowsay.
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   brettbuddin
-#
 
 module.exports = (robot) ->
   robot.respond /cowsay( me)? (.*)/i, (msg) ->

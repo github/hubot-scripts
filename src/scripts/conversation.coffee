@@ -1,4 +1,3 @@
-#
 # Description:
 #   Extends robot adding conversation features
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   Iristyle
-#
 
 module.exports = (robot) ->
   robot.eatListeners = {}

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Decides where you should go
 #
@@ -17,7 +16,6 @@
 #
 # Authors:
 #   lukesmith
-#
 
 class Locations
   constructor: (@robot) ->

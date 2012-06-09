@@ -1,4 +1,3 @@
-#
 # Description:
 #   Bees are insane
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   atmos
-#
 
 module.exports = (robot) ->
   robot.respond /bees/i, (message) ->

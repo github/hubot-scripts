@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to roll dice
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   ab9
-#
 
 module.exports = (robot) ->
   robot.respond /roll dice/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Kittens!
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   dstrelau
-#
 
 module.exports = (robot) ->
   robot.respond /kittens?(?: me)?$/i, (msg) ->

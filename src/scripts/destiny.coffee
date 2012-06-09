@@ -1,4 +1,3 @@
-#
 # Description:
 #   Is it the day?
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   KuiKui
-#
              
 module.exports = (robot) ->
   robot.respond /is it (\w+) day \?/i, (msg) ->

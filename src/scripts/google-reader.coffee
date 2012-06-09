@@ -1,4 +1,3 @@
-#
 # Description:
 #   Subscribe to a feed in Google Reader
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   benubois
-#
 
 module.exports = (robot) ->
   robot.hear /subscribe (.*)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Find a Drupal module using modulepuppy.heroku.com
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   henrrrik
-#
 
 module.exports = (robot) ->
   robot.hear /there's a module for (.*)/i, (msg) ->

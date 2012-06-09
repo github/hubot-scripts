@@ -1,4 +1,3 @@
-#
 # Description:
 #   Manage your links and bookmarks. Links get stored in the robot brain while
 #   bookmarks get stored at delicious.com. Also keeps a history of all URLs in
@@ -21,7 +20,6 @@
 #
 # Author
 #   mm53bar
-#
 
 module.exports = (robot) ->
   robot.respond /feed me/i, (msg) ->

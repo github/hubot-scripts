@@ -1,4 +1,3 @@
-#
 # Description:
 #   Tracks when stuff is due
 #
@@ -16,7 +15,6 @@
 #
 # Author:
 #   jmhobbs
-#
 
 module.exports = (robot) ->
 

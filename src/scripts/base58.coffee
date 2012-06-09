@@ -1,4 +1,3 @@
-#
 # Description:
 #   Base58 encoding and decoding
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jimeh
-#
 
 module.exports = (robot) ->
   robot.respond /base58 encode( me)? (.*)/i, (msg) ->

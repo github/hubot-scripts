@@ -1,4 +1,3 @@
-#
 # Description:
 #   Grab XKCD comic image urls
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   twe4ked
-#
 
 module.exports = (robot) ->
   robot.respond /xkcd\s?(\d+)?/i, (msg) ->

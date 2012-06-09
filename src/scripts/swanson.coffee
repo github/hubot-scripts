@@ -1,4 +1,3 @@
-#
 # Description:
 #   Motivation from Ron Swanson
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   danielmurphy
-#
 
 module.exports = (robot) ->
   robot.respond /swanson me$/i, (msg) ->

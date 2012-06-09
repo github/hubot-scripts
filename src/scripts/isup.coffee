@@ -1,4 +1,3 @@
-#
 # Description:
 #   Uses downforeveryoneorjustme.com to check if a site is up
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jmhobbs
-#
 
 module.exports = (robot) ->
   robot.respond /is (.*?) (up|down)(\?)?/i, (msg) ->

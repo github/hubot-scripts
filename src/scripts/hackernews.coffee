@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hacker News
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   skimbrel
-#
 
 NodePie = require("nodepie")
 

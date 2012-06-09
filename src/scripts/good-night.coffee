@@ -1,4 +1,3 @@
-#
 # Description:
 #   GOOD Night
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   noahhendrix
-#
 
 ways_to_say_good_night = [
   "Good night, baby.",

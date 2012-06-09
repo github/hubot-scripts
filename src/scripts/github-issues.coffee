@@ -1,4 +1,3 @@
-#
 # Description:
 #   Show open issues from a Github repository
 #
@@ -28,7 +27,6 @@
 #
 # Author:
 #   davidsiegel
-#
 
 _  = require("underscore")
 _s = require("underscore.string")

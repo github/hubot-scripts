@@ -14,12 +14,12 @@
 # Commands:
 #   None
 #
-# Author:
-#   cubanx 
-#
 # Notes:
 #   All the properties aviable on the build object can be found at the properties list at the top of this file:
 #   http://sourceforge.net/apps/trac/tcplugins/browser/tcWebHooks/trunk/src/main/java/webhook/teamcity/payload/format/WebHookPayloadJsonContent.java
+#
+# Author:
+#   cubanx 
 
 Robot = require('hubot').robot()
 

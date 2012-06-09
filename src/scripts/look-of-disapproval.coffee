@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to give a look of disapproval
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   ajacksified
-#
 
 module.exports = (robot) ->
   robot.respond /lod\s?(.*)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   BreweryDB API
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   greggroth
-#
 
 module.exports = (robot) ->
   robot.respond /beer me (.*)/i, (msg) ->

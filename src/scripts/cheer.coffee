@@ -1,4 +1,3 @@
-#
 # Description:
 #   Feeling depressed?
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   carllerche
-#
 
 module.exports = (robot) ->
   robot.respond /cheer me up/i, (msg) ->

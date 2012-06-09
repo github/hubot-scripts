@@ -1,4 +1,3 @@
-#
 # Description:
 #   Listens for "good" but with 3 or more "o"s
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   tbwIII
-#
 
 darths = [
   "http://images4.wikia.nocookie.net/__cb20080808031313/starwars/images/thumb/d/d4/Palpycropped.jpg/250px-Palpycropped.jpg",

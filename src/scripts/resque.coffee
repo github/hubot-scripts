@@ -1,4 +1,3 @@
-#
 # Description:
 #   Shows the status of resque queues
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   joshuaflanagan
-#
 
 module.exports = (robot) ->
   url = process.env.RESQUE_WEB_URL || 'http://localhost:5678'

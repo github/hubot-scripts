@@ -1,4 +1,3 @@
-#
 # Description:
 #   Polite.
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   dannymcc
-#
 
 responses = [
   "You're welcome.",

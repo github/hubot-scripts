@@ -12,11 +12,11 @@
 #   hubot wotd (me) (short) - Returns the word of the day.
 #   hubot word of the day (me) (short) - Returns the word of the day.
 #
-# Author:
-#   tapichu
-#
 # Notes:
 #   FIXME This should be merged with wordnik.coffee
+#
+# Author:
+#   tapichu
 
 # FIXME use JSON, to avoid a dependency
 Parser = require("xml2js").Parser

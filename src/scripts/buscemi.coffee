@@ -1,4 +1,3 @@
-#
 # Description:
 #   HOLY FUCKING MINDFUCK!
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   dylanegan
-#
 
 module.exports = (robot) ->
   robot.respond /buscemi?(?: me)? (.*)/i, (msg) ->

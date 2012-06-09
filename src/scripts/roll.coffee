@@ -1,4 +1,3 @@
-#
 # Description:
 #   Roll a dice!
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   jkongie
-#
 
 module.exports = (robot) ->
   robot.respond /(roll)\s?(\d+)?-?(\d+)?/i, (msg) ->

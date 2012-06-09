@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   vquaiato
-#
 
 module.exports = (robot) ->
 	robot.hear /^yoda quote$/i, (msg) ->

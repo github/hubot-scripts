@@ -1,4 +1,3 @@
-#
 # Description:
 #   Make hubot fetch quotes pertaining The IT Crowd
 #
@@ -15,7 +14,6 @@
 # 
 # Author:
 #   rrix
-#
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

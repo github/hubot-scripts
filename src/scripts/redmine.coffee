@@ -1,4 +1,3 @@
-#
 # Description:
 #   Showing of redmine issue via the REST API
 #
@@ -25,7 +24,6 @@
 #
 # Author:
 #   robhurring
-#
 
 if process.env.HUBOT_REDMINE_SSL?
   HTTP = require('https')

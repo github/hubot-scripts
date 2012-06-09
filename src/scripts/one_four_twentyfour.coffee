@@ -1,4 +1,3 @@
-#
 # Description:
 #   A drunkly coded, ASCII version of the famous game.
 #   Sort of assumes Campfire
@@ -17,7 +16,6 @@
 #
 # Author:
 #   zbowling
-#
 
 dieMap = ['A','B','C','D','E','F']
 

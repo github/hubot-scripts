@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display a picture of Jeremy Lin if anyone invokes "linsanity" or
 #   says "linspire". Cause Lin is Linspiring!
@@ -13,7 +12,6 @@
 # 
 # Author:
 #   zackyap
-#
 
 images = [
   "http://i.i.com.com/cnwk.1d/i/tim/2012/02/16/Jeremy_Lin_139046190_620x350.jpg"
