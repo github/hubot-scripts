@@ -10,7 +10,9 @@ right into your generated Hubot installation. Just put them in `scripts`, add
 the new scripts to the `hubot-scripts.json` file.
 
 Any third-party dependencies for scripts need adding your your `package.json`
-otherwise a lot of errors will be thrown during the start up of your hubot.
+otherwise a lot of errors will be thrown during the start up of your hubot. You
+can find a list of dependencies for a script in the documentation header at the
+top of the script.
 
 Restart your robot, and you're good to go.
 
@@ -35,6 +37,36 @@ robot-wide `hubot help` command.
 Please note we're no longer including external dependencies in the
 `package.json`, so should you wish to include them please include the package
 name and required version in the TomDoc comments at the top of your script.
+
+## Documentation
+
+We're now requiring all scripts in hubot-scripts to contain a documentation
+header so people know every thing about the script.
+
+```coffeescript
+# Description
+#   <description of the scripts functionality>
+#
+# Dependencies:
+#   "<module name>": "<module version>"
+#
+# Configuration:
+#   LIST_OF_ENV_VARS_TO_SET
+#
+# Commands:
+#   hubot <trigger> - <what the respond trigger does>
+#   <trigger> - <what the hear trigger does>
+#
+# Notes:
+#   <optional notes required for the script>
+#
+# Author:
+#   <github username of the original script author>
+```
+
+If you have nothing to fill in for a section you should include `None` in that
+section. A script will be required to fill out the documentation before being
+merged into the repository.
 
 ## Discovering
 
