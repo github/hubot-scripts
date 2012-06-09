@@ -1,8 +1,23 @@
-# Prank text a friend (or enemy)
 #
-# hubot drunk-text <number> - send a text to <number>
-# hubot prank-text <number> - send a text to <number>
+# Description:
+#   Prank text a friend (or enemy)
 #
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
+#
+# Configuration:
+#   SMS_USERNAME
+#   SMS_PASSWORD
+#   SMS_FROM
+#
+# Commands:
+#   hubot drunk-text <number> - send a text to <number>
+#   hubot prank-text <number> - send a text to <number>
+#
+# Author:
+#   vanetix
+#   
 
 HTMLParser = require("htmlparser")
 Select = require("soupselect").select
