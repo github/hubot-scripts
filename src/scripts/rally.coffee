@@ -1,20 +1,27 @@
-# Rally information for bugs, stories, and users
 #
-# hubot rally me <defect id | task id | story id> - Lookup a task, story or defect from Rally
+# Description:
+#   Rally information for bugs, stories, and users
 #
-# ENV Variables Required:
-# HUBOT_RALLY_USERNAME : username that hubot will use to login to Rally
-# HUBOT_RALLY_PASSWORD : password that hubot will use to login to Rally
+# Dependencies:
+#   None
 #
-# Add to heroku:
-# % heroku config:add HUBOT_RALLY_USERNAME="..."
-# % heroku config:add HUBOT_RALLY_PASSWORD="..."
+# Configuration:
+#   HUBOT_RALLY_USERNAME
+#   HUBOT_RALLY_PASSWORD
 #
-# PRETTY PRINTING SUPPORT
-#  Since Rally supports rich text for description fields, it will come back as HTML
-# to pretty print this we can run it through lynx. Make sure you have lynx installed
-# and PATH accessible, otherwise we will degrade to just showing the html description.
+# Commands:
+#   hubot rally me <defect id | task id | story id> - Lookup a task, story or defect from Rally
 #
+# Notes:
+#   Since Rally supports rich text for description fields, it will come back as HTML
+#   to pretty print this we can run it through lynx. Make sure you have lynx installed
+#   and PATH accessible, otherwise we will degrade to just showing the html description.
+#   ENV Variables Required:
+#
+# Author:
+#   brianmichel
+#
+
 exec = require('child_process').exec
 
 user = process.env.HUBOT_RALLY_USERNAME
@@ -123,4 +130,3 @@ prettifyDescription = (html_description, cb) ->
 		if !error
 		  return_text = stdout
 		cb return_text
-		
