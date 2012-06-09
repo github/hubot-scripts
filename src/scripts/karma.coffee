@@ -1,11 +1,25 @@
-# Track arbitrary karma
 #
-# <thing>++ - give thing some karma
-# <thing>-- - take away some of thing's karma
-# hubot karma <thing> - check thing's karma (if <thing> is omitted, show the top 5)
-# hubot karma empty <thing> - empty a thing's karma
-# hubot karma best - show the top 5
-# hubot karma worst - show the bottom 5
+# Description:
+#   Track arbitrary karma
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   <thing>++ - give thing some karma
+#   <thing>-- - take away some of thing's karma
+#   hubot karma <thing> - check thing's karma (if <thing> is omitted, show the top 5)
+#   hubot karma empty <thing> - empty a thing's karma
+#   hubot karma best - show the top 5
+#   hubot karma worst - show the bottom 5
+#
+# Author:
+#   stuartf
+#
+
 class Karma
   
   constructor: (@robot) ->
