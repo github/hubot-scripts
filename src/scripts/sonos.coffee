@@ -1,6 +1,20 @@
 #
-# hubot what's playing - show what's playing on the office Sonos
+# Description:
+#   None
 #
+# Dependencies:
+#   "xml2js": "0.1.14"
+#
+# Configuration:
+#   HUBOT_SONOS_HOST
+#
+# Commands:
+#   hubot what's playing - show what's playing on the office Sonos
+#
+# Author:
+#   berg
+#
+
 xml2js = require 'xml2js'
 util = require 'util'
 

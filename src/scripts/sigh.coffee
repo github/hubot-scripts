@@ -1,4 +1,18 @@
-# http://xkcd.com/1009/
+#
+# Description:
+#   http://xkcd.com/1009/
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   eighnjel
+#
 
 module.exports = (robot) ->
   sigh_counter = 0

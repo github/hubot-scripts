@@ -1,6 +1,24 @@
-# Can output total amount in your sales pipeline, as specified in a report from SugarCRM
 #
-# hubot pipeline me - Gives the total amount in sales pipeline
+# Description:
+#   Can output total amount in your sales pipeline, as specified in a
+#   report from SugarCRM
+# 
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_SUGARCRM_URL
+#   HUBOT_SUGARCRM_USERNAME
+#   HUBOT_SUGARCRM_PASSWORD
+#   HUBOT_SUGARCRM_REPORT_ID
+#   HUBOT_SUGARCRM_REPORT_FIELD
+#
+# Commands:
+#   hubot pipeline me - Gives the total amount in sales pipeline
+#
+# Author:
+#   skalnik
+#
 
 module.exports = (robot) ->
   robot.respond /pipeline( me)?/i, (msg) ->
