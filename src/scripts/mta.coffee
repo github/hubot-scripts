@@ -1,7 +1,18 @@
 #
-# See the status of NYC subways
+# Description:
+#   See the status of NYC subways
 #
-# hubot mta me <train> - the status of a nyc subway line
+# Dependencies:
+#   "xml2js": "0.1.14"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot mta me <train> - the status of a nyc subway line
+#
+# Author:
+#   jgv
 #
 
 xml2js = require('xml2js')

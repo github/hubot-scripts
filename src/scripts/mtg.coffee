@@ -1,7 +1,19 @@
 #
-# Insert Pictures of Magic: The Gathering Cards
+# Description:
+#   Insert Pictures of Magic: The Gathering Cards
 #
-# hubot cast <card name> - a picture of the named magic card
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot cast <card name> - a picture of the named magic card
+#
+# Author:
+#   djljr
+#
 
 querystring = require 'querystring';
 
