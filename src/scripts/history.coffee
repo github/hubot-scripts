@@ -1,12 +1,21 @@
-# Allows Hubot to store a recent chat history for services like IRC that won't do it for you.
 #
-# You may optionally set the following environment variables:
-#   HUBOT_HISTORY_LINES = <number of lines to save in history>
+# Description:
+#   Allows Hubot to store a recent chat history for services like IRC that
+#   won't do it for you.
 #
-# If HUBOT_HISTORY_LINES is not set, 10 lines will be kept by default.
+# Dependencies:
+#   None
 #
-# hubot show [<lines> lines of] history -- Shows <lines> of history, otherwise all history.
-# hubot clear history -- Clears the history
+# Configuration:
+#   HUBOT_HISTORY_LINES
+#
+# Commands:
+#   hubot show [<lines> lines of] history - Shows <lines> of history, otherwise all history
+#   hubot clear history - Clears the history
+#
+# Author:
+#   wubr
+#
 
 class History
   constructor: (@robot, @keep) ->

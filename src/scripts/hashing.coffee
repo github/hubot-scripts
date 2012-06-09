@@ -1,6 +1,19 @@
-# Various hashing algorithms.
 #
-# hubot md5|sha|sha1|sha256|sha512|rmd160 me <string> - Generate hash of <string>
+# Description:
+#   Various hashing algorithms.
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot md5|sha|sha1|sha256|sha512|rmd160 me <string> - Generate hash of <string>
+#
+# Author:
+#   jimeh
+#
 
 crypto = require 'crypto'
 
