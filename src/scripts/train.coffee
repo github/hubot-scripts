@@ -1,11 +1,19 @@
-# A way to interact with the NS (Dutch Railways) API
+# Description:
+#   A way to interact with the NS (Dutch Railways) API
 #
-# To configure, add HUBOT_NS_API_EMAIL and HUBOT_NS_API_PASSWORD to your Heroku config with "heroku config:add"
+# Dependencies:
+#   "xml2js": "0.1.14"
 #
-# hubot train disruptions <station> - Retrieve the list of disruptions near <station>.
-#                                     Please note: <station> can be a station code (e.g. 'asd')
-#                                     or (part of) a station name (e.g. 'Amsterdam Centraal')
+# Configuration:
+#   HUBOT_NS_API_EMAIL
+#   HUBOT_NS_API_PASSWORD
 #
+# Commands:
+#   hubot train disruptions <station> - Retrieve the list of disruptions near <station>. <station> can be a station code (e.g. 'asd') or (part of) a station name (e.g. 'Amsterdam Centraal')
+#
+# Author:
+#   marceldegraaf
+
 xml2js = require 'xml2js'
 
 disruptionApiUrl = 'http://webservices.ns.nl/ns-api-storingen'

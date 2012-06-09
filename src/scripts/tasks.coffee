@@ -1,9 +1,19 @@
-# Allows tasks (TODOs) to be added to Hubot
+# Description:
+#   Allows tasks (TODOs) to be added to Hubot
 #
-# hubot task add <task> - Add a task
-# hubot task list tasks - List the tasks
-# hubot task delete <task number> - Delete a task
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot task add <task> - Add a task
+#   hubot task list tasks - List the tasks
+#   hubot task delete <task number> - Delete a task
+#
+# Author:
+#   Crofty
 
 class Tasks
   constructor: (@robot) ->

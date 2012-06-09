@@ -1,8 +1,17 @@
-# Display "The Battle" image
+# Description:
+#   Display "The Battle" image
 #
-# knowing is half the battle - display "The Battle" image
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
 #
+# Commands:
+#   knowing is half the battle - display "The Battle" image
+#
+# Author:
+#   coyled
 
 thebattle = [
     "http://static2.nerduo.com/thebattle_zoom.png",
