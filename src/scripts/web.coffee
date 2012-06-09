@@ -1,6 +1,20 @@
-# Webutility
+# Description:
+#   Webutility returns title of urls
 #
-# returns title of urls
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
+#   "jsdom": "0.2.14"
+#
+# Configuration:
+#   HUBOT_BITLY_USERNAME
+#   HUBOT_BITLY_API_KEY
+#
+# Commands:
+#   None
+#
+# Author:
+#   KevinTraver
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

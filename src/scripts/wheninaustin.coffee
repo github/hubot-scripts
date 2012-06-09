@@ -1,4 +1,17 @@
-# When in Austin.
+# Description:
+#   When in Austin
+#
+# Dependencies:
+#   "jsdom": "0.2.14"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot when in austin - Pull a random entry from wheninatx.tumblr.com
+#
+# Author:
+#   elliotttf
 
 http = require 'http'
 jsdom = require 'jsdom'

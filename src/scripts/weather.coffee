@@ -1,7 +1,20 @@
-# Returns weather information from Google
+# Description:
+#   Returns weather information from Google
 #
-# hubot weather <city> - Get the weather for a location
-# hubot forecast <city> - Get the forecast for a location
+# Dependencies:
+#   "jsdom": "0.2.14"
+#
+# Configuration:
+#   HUBOT_WEATHER_CELSIUS - Display in celsius
+#
+# Commands:
+#   hubot weather <city> - Get the weather for a location
+#   hubot forecast <city> - Get the forecast for a location
+#
+# Author:
+#   markstory
+#   mbmccormick
+
 jsdom = require 'jsdom'
 env = process.env
 
