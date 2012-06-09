@@ -1,4 +1,17 @@
-# LIKE A BOSS
+#
+# Description:
+#   LIKE A BOSS
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   jrgifford
 #
 
 images = [

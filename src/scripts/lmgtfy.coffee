@@ -1,12 +1,20 @@
-# Tell Hubot to send a user a link to lmgtfy.com
 #
-# lmgtfy <optional @username> <some query>
+# Description:
+#   Tell Hubot to send a user a link to lmgtfy.com
 #
-# Examples
+# Dependencies:
+#   None
 #
-#   lmgtfy trollface zomg
-#   lmgtf @Tyler font kerning
+# Configuration:
+#   None
 #
+# Commands:
+#   hubot lmgtfy <optional @username> <some query>
+#
+# Author:
+#   phlipper
+#
+
 module.exports = (robot) ->
    robot.respond /lmgtfy?\s?(?:@(\w*))? (.*)/i, (msg) ->
      link = ""
