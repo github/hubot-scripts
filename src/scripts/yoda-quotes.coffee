@@ -1,3 +1,20 @@
+#
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   yoda quote - Returns a random yoda quote
+#
+# Author:
+#   vquaiato
+#
+
 module.exports = (robot) ->
 	robot.hear /^yoda quote$/i, (msg) ->
 		quotes = ["Agree with you, the council does. Your apprentice, Skywalker will be.",
