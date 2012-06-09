@@ -1,8 +1,19 @@
-# Calculate the nth fibonacci number. #webscale.
 #
-# From https://gist.github.com/1032685
+# Description:
+#   Calculate the nth fibonacci number. #webscale
 #
-# fibonacci me <integer> - Calculate Nth Fibonacci number
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   fibonacci me <integer> - Calculate Nth Fibonacci number
+#
+# Author:
+#   ckdake
+#
 
 fib_bits = (n) ->
   # Represent an integer as an array of binary digits.

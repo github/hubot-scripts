@@ -1,8 +1,20 @@
-# Interact with the Flattr API.
 #
-# thing me <id> - Returns information about a flattr thing
-# hubot user me <username> - Returns information about a flattr user
-# hubot search things <query> - Search flattrs things
+# Description:
+#   Interact with the Flattr API
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   thing me <id> - Returns information about a flattr thing
+#   hubot user me <username> - Returns information about a flattr user
+#   hubot search things <query> - Search flattrs things
+#
+# Author:
+#   simon
 #
 
 module.exports = (robot) ->
