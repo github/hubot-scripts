@@ -1,14 +1,21 @@
-# Get current stories from PivotalTracker
 #
-# You need to set the following variables:
-#   HUBOT_PIVOTAL_TOKEN = <API token>
+# Description:
+#   Get current stories from PivotalTracker
 #
-# If you're working on a single project, you can set it once:
-#   HUBOT_PIVOTAL_PROJECT = <project name>
+# Dependencies:
+#   None
 #
-# Otherwise, include the project name in your message to Hubot.
+# Configuration:
+#   HUBOT_PIVOTAL_TOKEN
+#   HUBOT_PIVOTAL_PROJECT
 #
-# show me stories for <project> -- shows current stories being worked on
+# Commands:
+#   show me stories for <project> - shows current stories being worked on
+#
+# Author:
+#   assaf
+#
+
 module.exports = (robot) ->
   robot.respond /show\s+(me\s+)?stories(\s+for\s+)?(.*)/i, (msg)->
     Parser = require("xml2js").Parser

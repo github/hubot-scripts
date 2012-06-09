@@ -1,7 +1,21 @@
-# Who doesnt love Penny Arcade?
 #
-# hubot pa - The latest Penny Arcade comic
-# hubot pa <date> - Penny Arcade comic from <date> - mm/dd/yyyy format
+# Description:
+#   Who doesnt love Penny Arcade?
+#
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
+# 
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot pa - The latest Penny Arcade comic
+#   hubot pa <date> - Penny Arcade comic from <date> - mm/dd/yyyy format
+#
+# Author:
+#   apblardo
+#   
 
 htmlparser = require "htmlparser"
 Select     = require("soupselect").select
