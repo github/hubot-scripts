@@ -1,6 +1,19 @@
-# Shows the status of resque queues
 #
-# hubot resque - Lists the queues with pending jobs
+# Description:
+#   Shows the status of resque queues
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   RESQUE_WEB_URL
+#
+# Commands:
+#   hubot resque - Lists the queues with pending jobs
+#
+# Author:
+#   joshuaflanagan
+#
 
 module.exports = (robot) ->
   url = process.env.RESQUE_WEB_URL || 'http://localhost:5678'

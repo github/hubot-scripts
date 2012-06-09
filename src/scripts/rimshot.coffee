@@ -1,6 +1,18 @@
-# Emphasize a joke
 #
-# rimshot - Link to a short video of a rimshot
+# Description:
+#   Emphasize a joke
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   rimshot - Link to a short video of a rimshot
+#
+# Author:
+#   mrtazz
 #
 
 shots = [

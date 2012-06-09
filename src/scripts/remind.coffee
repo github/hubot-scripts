@@ -1,6 +1,19 @@
-# Forgetful? Add reminders.
 #
-# hubot remind me in <time> to <action> - Set a reminder in <time> to do an <action> <time> is in the format 1 day, 2 hours, 5 minutes etc. Time segments are optional, as are commas
+# Description:
+#   Forgetful? Add reminders
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot remind me in <time> to <action> - Set a reminder in <time> to do an <action> <time> is in the format 1 day, 2 hours, 5 minutes etc. Time segments are optional, as are commas
+#
+# Authors:
+#   whitman
+#
 
 class Reminders
   constructor: (@robot) ->
