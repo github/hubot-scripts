@@ -8,7 +8,6 @@
 #   HUBOT_SMSIFIED_USERNAME
 #   HUBOT_SMSIFIED_PASSWORD
 #   HUBOT_SMSIFIED_SENDERADDRESS
-#   None
 #
 # Commands:
 #   hubot text <phonenumber> <message> - Sends <message> to <phonenumber>.
