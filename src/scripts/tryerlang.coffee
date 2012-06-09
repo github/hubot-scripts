@@ -1,6 +1,17 @@
-# hubot erl <expr> - Evaluate an Erlang Expression on tryerlang.org and return the result
+# Description:
+#   None
 #
-# By Roberto Aloi (@robertoaloi)
+# Dependencies:
+#   "querystring": "0.1.0"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot erl <expr> - Evaluate an Erlang Expression on tryerlang.org and return the result
+#
+# Author:
+#   Roberto Aloi (@robertoaloi)
 
 QS = require "querystring"
 

@@ -1,11 +1,19 @@
-# Display photos from a Tumblr blog
+# Description:
+#   Display photos from a Tumblr blog
 #
-# Environment variables:
+# Dependencies:
+#   None
 #
-#  HUBOT_TUMBLR_BLOG_NAME
-#  HUBOT_TUMBLR_API_KEY
+# Configuration:
+#   HUBOT_TUMBLR_BLOG_NAME
+#   HUBOT_TUMBLR_API_KEY
 #
-# hubot show me tumblr <count> - Shows the latest <count> tumblr photos (default is 1)
+# Commands:
+#   hubot show me tumblr <count> - Shows the latest <count> tumblr photos (default is 1)
+#
+# Author:
+#   pgieser
+
 module.exports = (robot) ->
 
   blog_name = process.env.HUBOT_TUMBLR_BLOG_NAME

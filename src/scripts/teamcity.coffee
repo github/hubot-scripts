@@ -1,11 +1,20 @@
-# Show status of 3 most recent builds.
+# Description:
+#   Show status of 3 most recent builds.
 #
-# You need to set the following variables:
-# HUBOT_TEAMCITY_USERNAME = <user name>
-# HUBOT_TEAMCITY_PASSWORD = <password>
-# HUBOT_TEAMCITY_HOSTNAME = <host : port>
+# Dependencies:
+#   None
 #
-# hubot show me builds - Show status of currently running builds
+# Configuration:
+#   HUBOT_TEAMCITY_USERNAME = <user name>
+#   HUBOT_TEAMCITY_PASSWORD = <password>
+#   HUBOT_TEAMCITY_HOSTNAME = <host : port>
+#
+# Commands:
+#   hubot show me builds - Show status of currently running builds
+#
+# Author:
+#   assaf
+
 module.exports = (robot) ->
   robot.respond /show (me )?builds/i, (msg) ->
     username = process.env.HUBOT_TEAMCITY_USERNAME

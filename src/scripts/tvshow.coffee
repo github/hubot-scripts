@@ -1,3 +1,18 @@
+# Description:
+#   None
+#
+# Dependencies:
+#   "xml2js": "0.1.14"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot tvshow me <show> - Show info about <show>
+#
+# Author:
+#   victorbutler
+
 xml2js = require "xml2js"
 module.exports = (robot) ->
   robot.respond /tvshow(?: me)? (.*)/i, (msg) ->

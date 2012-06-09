@@ -1,10 +1,19 @@
-﻿# Return trollicon images
+﻿# Description:
+#   Return trollicon images
+#   used resources from : https://github.com/sagargp/trollicons Adium extension
 #
-# :<trollicon>: - outputs trollicon image
-# :isee: what you did there, and :megusta: - is a valid example of multiple trollicons
+# Dependencies:
+#   None
 #
-# by Adan Alvarado and Enrique Vidal
-# used resources from : https://github.com/sagargp/trollicons Adium extension
+# Configuration:
+#   None
+#
+# Commands:
+#   :<trollicon>: - outputs <trollicon> image
+#   :isee: what you did there, and :megusta: - is a valid example of multiple trollicons
+#
+# Author:
+#   Adan Alvarado and Enrique Vidal
 
 trollicons = {
   'gasp'            : 'http://i.imgur.com/tYmuZ.png',
