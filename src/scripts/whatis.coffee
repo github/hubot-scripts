@@ -1,5 +1,17 @@
-# 
-# whatis <term> - search the term on urbandictionary.com and get a random popular definition for the term.
+# Description:
+#   None
+#
+# Dependencies:
+#   "jsdom": "0.2.14"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot whatis <term> - search the term on urbandictionary.com and get a random popular definition for the term.
+#
+# Author:
+#   Kevin Qiu
 
 jsdom = require('jsdom').jsdom
 
