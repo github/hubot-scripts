@@ -1,7 +1,19 @@
-# Show random octocat
 #
-# hubot octocat me - a randomly selected octocat
-# hubot octocat bomb me <number> - octocat-splosion!
+# Description:
+#   Show random octocat
+#
+# Dependencies:
+#   "xml2js": "0.1.14"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot octocat me - a randomly selected octocat
+#   hubot octocat bomb me <number> - octocat-splosion!
+#
+# Author:
+#   joshuaflanagan
 
 xml2js = require('xml2js')
 
