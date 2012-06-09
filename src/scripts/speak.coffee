@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to speak many languages
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   atmos
-#
 
 module.exports = (robot) ->
   robot.hear /(speak)( me)? (.*)/i, (msg) ->

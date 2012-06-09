@@ -1,4 +1,3 @@
-#
 # Description:
 #   LIKE A BOSS
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   jrgifford
-#
 
 images = [
   "http://s3.amazonaws.com/kym-assets/photos/images/original/000/114/151/14185212UtNF3Va6.gif?1302832919",

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get a snow report from onthesnow.com
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   rwc9u
-#
 
 xml2js = require('xml2js')
 

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Fill your chat with some kindness
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   nesQuick
-#
 
 hugs = [
   "You are awesome!",

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Play music. At your office. Like a boss. https://github.com/play/play
 #
@@ -27,9 +26,8 @@
 #   hubot say <message> - `say` your message over your speakers.
 #   hubot clear play - Clears the Play queue.
 #
-# Authors:
+# Author:
 #   holman
-#
 
 URL = "#{process.env.HUBOT_PLAY_URL}"
 

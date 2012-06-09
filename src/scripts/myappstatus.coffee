@@ -1,4 +1,3 @@
-#
 # Description:
 #   This is script is a copy of the Scout WebHook hubot script Tweaked
 #   for My App Status (http://myappstat.us)
@@ -16,7 +15,6 @@
 #
 # Author:
 #   bricooke
-#
 
 module.exports = (robot) ->
   robot.router.post '/hubot/myappstatus/:room', (req, res) ->

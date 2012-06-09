@@ -1,4 +1,3 @@
-#
 # Description:
 #   Carlton Celebration
 #

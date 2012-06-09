@@ -1,4 +1,3 @@
-#
 # Description:
 #   Pokemon fun!
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   eliperkins
-#
 
 module.exports = (robot) ->
 

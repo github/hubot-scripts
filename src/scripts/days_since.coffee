@@ -1,7 +1,18 @@
-# Generates commands to track days since an event
+# Description:
+#   Generates commands to track days since an event
 #
-# hubot it's been <number> days since <event> - Set the day when the event happened
-# hubot how long since <event>? - Display the number of days since the event
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot it's been <number> days since <event> - Set the day when the event happened
+#   hubot how long since <event>? - Display the number of days since the event
+#
+# Author:
+#   zenhob
 
 module.exports = (robot) ->
   robot.respond /it's been (\d+) days since\s+(.*?)[.?!]?$/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hubot enjoys delicious snacks
 #

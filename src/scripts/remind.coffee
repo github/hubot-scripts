@@ -1,4 +1,3 @@
-#
 # Description:
 #   Forgetful? Add reminders
 #
@@ -13,7 +12,6 @@
 #
 # Authors:
 #   whitman
-#
 
 class Reminders
   constructor: (@robot) ->

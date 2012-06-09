@@ -1,4 +1,3 @@
-#
 # Description:
 #   Horrible Animal Crossing fish puns
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   BM5k
-#
 
 module.exports = (robot) ->
   robot.hear /fish/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display cricket scores for current live games
 #

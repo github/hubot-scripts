@@ -1,4 +1,3 @@
-#
 # Description:
 #   Show the commiters from a repo
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   vquaiato
-#
 
 module.exports = (robot) ->
   github = require("githubot")(robot)

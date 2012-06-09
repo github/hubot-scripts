@@ -1,4 +1,3 @@
-#
 # Description:
 #   Because animals are animals.
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   unsay
-#
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

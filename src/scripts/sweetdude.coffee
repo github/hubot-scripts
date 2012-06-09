@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -12,7 +11,6 @@
 # 
 # Author:
 #   cgarvis
-#
 
 module.exports = (robot) ->
   robot.hear /^(sweet|dude)!/i, (msg) ->

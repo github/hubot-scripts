@@ -1,4 +1,3 @@
-#
 # Description:
 #   http://xkcd.com/1009/
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   eighnjel
-#
 
 module.exports = (robot) ->
   sigh_counter = 0

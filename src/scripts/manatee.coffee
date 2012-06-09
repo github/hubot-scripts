@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to pull down images from clamingmanatee.com
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   Danny Lockard
-#
 
 Select = require( "soupselect" ).select
 HTMLParser = require "htmlparser"

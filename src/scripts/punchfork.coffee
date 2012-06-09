@@ -1,4 +1,3 @@
-#
 # Description:
 #   Grab a Punchform recipe - http://punchfork.com/api
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   adamstrawson
-#
 
 module.exports = (robot) ->
   robot.respond /cook (.*)$/i, (msg) ->

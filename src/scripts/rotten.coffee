@@ -1,4 +1,3 @@
-#
 # Description:
 #   Grabs movie scores from Rotten Tomatoes
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   mportiz08
-#
 
 module.exports = (robot) ->
   robot.respond /rotten me (.*)$/i, (msg) ->

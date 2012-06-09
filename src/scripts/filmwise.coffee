@@ -1,4 +1,3 @@
-#
 # Description:
 #   Show random filewise invisible
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   mwongatemma
-#
 
 module.exports = (robot) ->
   robot.respond /filmwise\s*(?:me)?$/i, (msg) ->

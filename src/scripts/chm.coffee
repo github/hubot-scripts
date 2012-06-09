@@ -1,4 +1,3 @@
-#
 # Description:
 #   Shows a short history lesson of the day from the Computer History Museum
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   facto
-#
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

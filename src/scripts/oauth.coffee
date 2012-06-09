@@ -1,4 +1,3 @@
-#
 # Description:
 #   This is a basic OAuth authentication bot which is meant to be used with
 #   other scripts to interact and get data via signed API requests. Script

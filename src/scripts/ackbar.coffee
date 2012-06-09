@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   brilliantfantastic
-#
 
 ackbars = [
   "http://dayofthejedi.com/wp-content/uploads/2011/03/171.jpg",

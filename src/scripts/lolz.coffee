@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #

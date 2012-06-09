@@ -1,4 +1,3 @@
-#
 # Description:
 #   Github Credentials allows you to map your user against your GitHub user.
 #   This is specifically in order to work with apps that have GitHub Oauth users.
@@ -17,7 +16,6 @@
 #
 # Author:
 #   maddox
-#
 
 module.exports = (robot) ->
 

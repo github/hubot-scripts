@@ -1,4 +1,3 @@
-#
 # Description:
 #   Find a rubygem from rubygems.org
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   sferik
-#
 
 module.exports = (robot) ->
   robot.respond /there's a gem for (.*)/i, (msg) ->

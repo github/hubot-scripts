@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   artfuldodger
-#
 
 module.exports = (robot) ->
   robot.respond /fml/i, (msg) ->

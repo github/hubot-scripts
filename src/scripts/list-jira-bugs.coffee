@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get all bugs from JIRA assigned to user
 #
@@ -20,7 +19,6 @@
 #
 # Author:
 #   crcastle
-#
 
 # e.g. "bug|task|sub task|support ticket|new feature|epic"
 issueTypes = process.env.HUBOT_JIRA_ISSUE_TYPES

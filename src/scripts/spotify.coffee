@@ -1,4 +1,3 @@
-#
 # Description:
 #   Metadata lookup for spotify links
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jacobk
-#
 
 module.exports = (robot) ->
   robot.hear spotify.link, (msg) ->

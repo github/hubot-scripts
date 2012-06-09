@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to translate text into various dialects
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   facto
-#
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

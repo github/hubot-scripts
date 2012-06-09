@@ -1,4 +1,3 @@
-#
 # Description:
 #   Queries for the status of AWS services
 #
@@ -25,7 +24,6 @@
 #
 # Author:
 #   Ethan J. Brown
-#
 
 key = process.env.HUBOT_AWS_ACCESS_KEY_ID
 secret = process.env.HUBOT_AWS_SECRET_ACCESS_KEY

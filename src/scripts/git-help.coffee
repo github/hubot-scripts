@@ -1,4 +1,3 @@
-#
 # Description:
 #   Show some help to git noobies
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   vquaiato
-#
 
 module.exports = (robot) ->
 	git_help = new Array()

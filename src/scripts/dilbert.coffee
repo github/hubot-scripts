@@ -1,4 +1,3 @@
-#
 # Description:
 #   Dilbert
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   evilmarty
-#
 
 htmlparser = require "htmlparser"
 

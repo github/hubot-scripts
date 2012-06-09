@@ -1,4 +1,3 @@
-#
 # Description:
 #   evaluate code
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   aanoaa
-#
 
 module.exports = (robot) ->
   robot.respond /eval( me)? ([^ ]+) (.+)/i, (msg) ->

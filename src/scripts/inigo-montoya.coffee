@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -9,11 +8,9 @@
 #   None
 #
 # Commands:
-#   None
 #
 # Author:
 #   harukizaemon
-#
 
 module.exports = (robot) ->
   robot.hear /inconceivable/i, (msg) ->

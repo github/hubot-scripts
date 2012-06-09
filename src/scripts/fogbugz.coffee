@@ -1,4 +1,3 @@
-#
 # Description:
 #   FogBugz hubot helper
 #
@@ -23,7 +22,6 @@
 #
 # Author:
 #   dstrelau
-#
 
 Parser = require('xml2js').Parser
 env = process.env

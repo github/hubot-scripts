@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display a random "haters gonna hate" image
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   atmos
-#
 
 haters = [
   "http://www.hatersgoingtohate.com/wp-content/uploads/2010/06/haters-gonna-hate-rubberband-ball.jpg"

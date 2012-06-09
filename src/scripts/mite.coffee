@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to start and stop project time in mite.yo.lk
 #

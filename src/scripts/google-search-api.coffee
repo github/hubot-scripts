@@ -1,4 +1,3 @@
-#
 # Description:
 #   A way to interact with the Google Custom Search API
 #
@@ -17,7 +16,6 @@
 #
 # Author:
 #   Airborn
-#
 
 module.exports = (robot) ->
   robot.respond /(google|search)( me)? (.*)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Interact with Gerrit. (http://code.google.com/p/gerrit/)
 #
@@ -17,7 +16,6 @@
 #
 # Author:
 #   nparry
-#
 
 cp = require "child_process"
 url = require "url"

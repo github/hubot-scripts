@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   listrophy
-#
 
 module.exports = (robot) ->
   robot.hear /disassemble/i, (msg) ->

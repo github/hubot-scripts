@@ -1,4 +1,3 @@
-#
 # Description:
 #   Approve or disapprove of something
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   eliperkins
-#
 
 module.exports = (robot) ->
   robot.respond /@?([\w .-_]+) disapproves/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   ASCII art
 #

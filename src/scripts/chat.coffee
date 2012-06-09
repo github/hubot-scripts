@@ -1,4 +1,3 @@
-#
 # Description:
 #   Start up some wonderful chats with conversation starters
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   GantMan
-#
 
 module.exports = (robot) ->
   robot.respond /chat/i, (msg) ->

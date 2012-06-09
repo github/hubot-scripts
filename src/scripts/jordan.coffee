@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display a picture of Michael Jordan if anyone invokes "jordan" or says "23"
 #   Cause Jordan is God. So much more than Steve Jobs :D
@@ -13,7 +12,6 @@
 #
 # Author:
 #   KuiKui
-#
 
 images = [
   "http://pictureloaders.com/images/pictures-of-michael-jordan18.jpg"

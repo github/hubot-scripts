@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows you to send links to the RssToDoList service
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   athieriot
-#
 
 module.exports = (robot) ->
   robot.respond /rtdl (add|show) ([^ ]*)( .*)?/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   A way to add tasks to Asana
 #
@@ -14,7 +13,6 @@
 # 
 # Author:
 #   idpro
-#
 
 url  = 'https://app.asana.com/api/1.0'
 

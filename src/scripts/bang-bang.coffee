@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   None
-#
 
 module.exports = (robot) ->
   robot.respond /(.+)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -17,7 +16,6 @@
 #
 # Author:
 #   alexdean
-#
 
 module.exports = (robot) ->
   robot.hear /(.*) y u no (.*)/i, (msg) ->

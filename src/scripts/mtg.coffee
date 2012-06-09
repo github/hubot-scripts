@@ -1,4 +1,3 @@
-#
 # Description:
 #   Insert Pictures of Magic: The Gathering Cards
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   djljr
-#
 
 querystring = require 'querystring';
 

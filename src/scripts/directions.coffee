@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get directions between two locations
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   sleekslush
-#
 
 parse_directions = (body) ->
   directions = JSON.parse body

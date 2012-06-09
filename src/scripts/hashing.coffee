@@ -1,4 +1,3 @@
-#
 # Description:
 #   Various hashing algorithms.
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jimeh
-#
 
 crypto = require 'crypto'
 

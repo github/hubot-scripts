@@ -1,4 +1,3 @@
-#
 # Description:
 #   Evaluate one line of Clojure script
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jingweno
-#
 
 module.exports = (robot) ->
   robot.respond /(clojure|clj)\s+(.*)/i, (msg)->

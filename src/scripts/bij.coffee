@@ -1,4 +1,3 @@
-#
 # Description:
 #   EXPERIENCE BIJ
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   mrtazz
-#
 
 module.exports = (robot) ->
   robot.hear /bij/i, (msg) ->

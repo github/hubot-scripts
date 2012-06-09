@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display a random quote or one from a specific person
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   cldwalker
-#
 
 module.exports = (robot) ->
   robot.respond /enlighten|quote from (.*)|quote/i, (msg) ->

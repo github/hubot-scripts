@@ -1,4 +1,3 @@
-#
 # Description:
 #   Rollout REST API interface
 #
@@ -20,7 +19,6 @@
 #
 # Author:
 #   James Golick
-#
 
 endpoint = process.env.HUBOT_ROLLOUT_API_URL + '/'
 

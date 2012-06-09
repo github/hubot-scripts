@@ -1,4 +1,3 @@
-#
 # Description:
 #   Finance charts
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   maddox
-#
 
 module.exports = (robot) ->
 

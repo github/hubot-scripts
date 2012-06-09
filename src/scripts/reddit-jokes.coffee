@@ -1,4 +1,3 @@
-#
 # Description:
 #   Random jokes from /r/jokes
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   tombell
-#
 
 module.exports = (robot) ->
 

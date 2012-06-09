@@ -1,4 +1,3 @@
-#
 # Description:
 #   Base64 encoding and decoding
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jimeh
-#
 
 module.exports = (robot) ->
   robot.respond /base64 encode( me)? (.*)/i, (msg) ->

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Track arbitrary karma
 #
@@ -18,7 +17,6 @@
 #
 # Author:
 #   stuartf
-#
 
 class Karma
   

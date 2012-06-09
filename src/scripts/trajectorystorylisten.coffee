@@ -13,6 +13,7 @@
 #
 # Author:
 #   galfert
+
 module.exports = (robot) ->
   robot.hear /apptrajectory\.com\/\w+\/(\w+)\/stories\/(\d+)/i, (msg) ->
     apiKey  = process.env.HUBOT_TRAJECTORY_APIKEY

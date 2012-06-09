@@ -1,4 +1,3 @@
-#
 # Description:
 #   Prank text a friend (or enemy)
 #
@@ -17,7 +16,6 @@
 #
 # Author:
 #   vanetix
-#   
 
 HTMLParser = require("htmlparser")
 Select = require("soupselect").select

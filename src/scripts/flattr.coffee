@@ -1,4 +1,3 @@
-#
 # Description:
 #   Interact with the Flattr API
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   simon
-#
 
 module.exports = (robot) ->
 

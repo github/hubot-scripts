@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hubot's pomodoro timer
 #
@@ -15,9 +14,8 @@
 #   hubot pomodoro? - shows the details of the current pomodoro
 #   hubot total pomodoros - shows the number of the total completed pomodoros
 #
-# Authors:
+# Author:
 #   mcollina
-#
 
 currentPomodoro = null
 defaultLength = 25

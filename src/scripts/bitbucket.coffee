@@ -1,4 +1,3 @@
-#
 # Description:
 #   Announce changes to BitBucket repositories using BitBucket's POST service
 #   to a room sepecified by the URL.
@@ -13,7 +12,6 @@
 #
 # Author:
 #   JRusbatch
-#
 
 module.exports = (robot) ->
   robot.router.post '/hubot/bitbucket/:room', (req, res) ->

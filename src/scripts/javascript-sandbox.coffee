@@ -1,4 +1,3 @@
-#
 # Description:
 #   sandbox - run javascript in a sandbox!
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   ajacksified
-#
 
 Sandbox = require('Sandbox')
 

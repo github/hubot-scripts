@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   lavelle
-#
 
 module.exports = (robot) ->
     robot.respond /horse/i, (msg) ->

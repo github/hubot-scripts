@@ -1,4 +1,3 @@
-#
 # Description:
 #   Overlay funny things on people's faces
 #
@@ -16,7 +15,6 @@
 #
 # Author:
 #   kneath
-#
 
 module.exports = (robot) ->
   robot.respond /(hipster|clown|scumbag|rohan|jason)( me)? (.*)/i, (msg) ->

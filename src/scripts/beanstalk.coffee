@@ -1,4 +1,3 @@
-#
 # Description:
 #   Beanstalk tools
 #
@@ -18,7 +17,6 @@
 #
 # Author:
 #   eliperkins
-#
 
 module.exports = (robot) ->
 

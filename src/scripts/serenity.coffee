@@ -1,4 +1,3 @@
-#
 # Description:
 #   Serenity Now!!
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   madtimber
-#
 
 module.exports = (robot) ->
   robot.hear /serenity|serenity now/i, (msg) ->

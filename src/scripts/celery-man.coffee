@@ -1,4 +1,3 @@
-#
 # Description:
 #   Loads up Celery Man
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   danryan
-#
 
 module.exports = (robot) ->
   robot.respond /.*celery\s?man/i, (msg) ->

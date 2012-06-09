@@ -1,4 +1,3 @@
-#
 # Description:
 #   See the status of NYC subways
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jgv
-#
 
 xml2js = require('xml2js')
 

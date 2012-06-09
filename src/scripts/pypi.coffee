@@ -1,4 +1,3 @@
-#
 # Description:
 #   Simple Python Package Index querying using XMLRPC API.
 #
@@ -14,10 +13,8 @@
 #
 # Author:
 #   lukaszb
-#
 
 pypi = require "pypi"
-
 
 createClient = ->
     return new pypi.Client process.env.HUBOT_PYPI_URL or "http://pypi.python.org/pypi"

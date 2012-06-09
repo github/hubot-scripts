@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hubot has feelings too, you know
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   iangreenleaf
-#
 
 messages = [
   "Hey, that stings."

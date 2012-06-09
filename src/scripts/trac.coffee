@@ -25,13 +25,14 @@
 #   r123 - Show details about a commit
 #   [123] - Show details about a commit
 #
+# Notes: 
+#   Tickets pull from jsonrpc (if enabled), then scraping (if enabled), and otherwise just put a link
+#   Revisions pull from scraping (if enabled), and otherwise just post a link. (There are no xmlrpc methods
+#   for changeset data).
+#
 # Author:
 #   gregmac
 
-# Notes: 
-# * Tickets pull from jsonrpc (if enabled), then scraping (if enabled), and otherwise just put a link
-# * Revisions pull from scraping (if enabled), and otherwise just post a link. (There are no xmlrpc methods
-#   for changeset data).
 
 jsdom = require 'jsdom'
 #fs = require 'fs'  #todo: load jquery from filesystem

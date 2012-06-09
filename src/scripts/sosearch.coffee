@@ -1,4 +1,3 @@
-#
 # Description:
 #   Search stack overflow and provide links to the first 5 questions
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   carsonmcdonald
-#
 
 wwwdude = require("wwwdude")
 

@@ -1,4 +1,3 @@
-#
 # Description:
 #   Who doesnt love Penny Arcade?
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   apblardo
-#   
 
 htmlparser = require "htmlparser"
 Select     = require("soupselect").select

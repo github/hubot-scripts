@@ -1,4 +1,3 @@
-#
 # Description:
 #   Antoine Dodson's greatest hits... errr... only hit 
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   Joseph Huttner
-#
 
 module.exports = (robot) ->
   robot.hear /hide ya kids/i, (msg) ->

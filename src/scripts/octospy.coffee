@@ -1,4 +1,3 @@
-#
 # Description:
 #   Octospy GitHub events, watch what's happening with your projects
 #   Powered by http://developer.github.com/v3/repos/hooks/
@@ -19,6 +18,9 @@
 #   hubot octospy stop <repo> [event_type] - Stop watching events for the repo
 #   hubot octospying - Show what you're spying on
 #   hubot octospy events - List the events you can watch
+#
+# Author:
+#   rcs
 
 _ = require 'underscore'
 QS = require 'querystring'

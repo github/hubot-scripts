@@ -1,4 +1,3 @@
-#
 # Description:
 #   Domain availability via DNSimple
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   jonmagic
-#
 
 module.exports = (robot) ->
   robot.hear /check domain (.*)/i, (msg) ->

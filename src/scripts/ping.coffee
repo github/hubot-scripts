@@ -1,4 +1,3 @@
-#
 # Description:
 #   Hubot is very attentive (ping hubot)
 #
@@ -12,7 +11,6 @@
 #
 # Author:
 #   tapichu
-#
 
 phrases = [
   "Yes, master?"

@@ -20,11 +20,11 @@
 #   hubot wunderlist forget me           - remove the wunderlist login
 #   hubot wunderlist me <a todo>         - adds the todo to your wunderlist Inbox
 #
-# Author:
-#   mrtazz
-#
 # Notes:
 #   Currently all todos are added to the Inbox.
+#
+# Author:
+#   mrtazz
 
 mail = require 'mailer'
 

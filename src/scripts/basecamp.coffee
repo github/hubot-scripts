@@ -1,4 +1,3 @@
-#
 # Description:
 #   Some interaction with basecamp
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   fellix
-#
 
 module.exports = (robot) ->
   robot.hear /^basecamp calendar( (.*))?$/i, (msg) ->

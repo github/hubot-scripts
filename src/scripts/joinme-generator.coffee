@@ -1,4 +1,3 @@
-#
 # Description:
 #   Integrates with join.me 
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   webandtech
-#
 
 module.exports = (robot) ->
   robot.respond /joinme$/i, (msg) ->

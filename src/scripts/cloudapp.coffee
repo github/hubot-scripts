@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allow Hubot to show what's lurking behind a CloudApp link
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   lmarburger
-#
 
 module.exports = (robot) ->
   robot.hear /(https?:\/\/cl.ly\/[A-Za-z0-9]+)(\/[^\/]+)?/i, (msg) ->

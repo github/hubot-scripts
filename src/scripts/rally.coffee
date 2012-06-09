@@ -1,4 +1,3 @@
-#
 # Description:
 #   Rally information for bugs, stories, and users
 #
@@ -20,7 +19,6 @@
 #
 # Author:
 #   brianmichel
-#
 
 exec = require('child_process').exec
 

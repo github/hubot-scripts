@@ -1,4 +1,3 @@
-#
 # Description:
 #   Return random animated GIFs from giftv
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   brettbuddin
-#
 
 module.exports = (robot) ->
   robot.respond /giftv( me)?$/i, (msg) ->

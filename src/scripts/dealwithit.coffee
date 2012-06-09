@@ -1,4 +1,3 @@
-#
 # Description:
 #   Display a "deal with it" gif
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   brianstanwyck
-#
 
 deal = [
   "http://i.imgur.com/ykDuU.gif",

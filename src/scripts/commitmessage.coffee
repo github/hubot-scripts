@@ -1,4 +1,3 @@
-#
 # Description:
 #   Get a random commit message
 #

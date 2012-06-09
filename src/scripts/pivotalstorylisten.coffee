@@ -1,4 +1,3 @@
-#
 # Description:
 #   Listen for a specific story from PivotalTracker
 #
@@ -13,7 +12,6 @@
 #
 # Authors:
 #   christianchristensen
-#
 
 module.exports = (robot) ->
    robot.hear /(sid-|SID-|pivotaltracker.com\/story\/show)/i, (msg) ->

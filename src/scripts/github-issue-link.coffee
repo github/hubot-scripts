@@ -1,4 +1,3 @@
-#
 # Description:
 #   Github issue link looks for #nnn and links to that issue for your default
 #   repo. Eg. "Hey guys check out #273"
@@ -15,7 +14,6 @@
 #
 # Author:
 #   tenfef
-#
 
 module.exports = (robot) ->
   github = require("githubot")(robot)

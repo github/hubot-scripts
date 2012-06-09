@@ -1,4 +1,3 @@
-#
 # Description:
 #   Basic SendGrid statistics
 #
@@ -16,7 +15,6 @@
 #
 # Author:
 #   sixfeetover
-#
 
 env = process.env
   

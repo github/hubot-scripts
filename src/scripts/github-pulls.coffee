@@ -1,4 +1,3 @@
-#
 # Description:
 #   Show open pull requests from a Github repository
 #
@@ -23,7 +22,6 @@
 #
 # Author:
 #   jingweno
-#
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
@@ -31,7 +29,7 @@ module.exports = (robot) ->
     repo = github.qualified_repo msg.match[2]
     filter_reg_exp = new RegExp(msg.match[4], "i") if msg.match[3]
     unless (url_api_base = process.env.HUBOT_GITHUB_API)?
-        url_api_base = "https://api.github.com"                                                                                  
+        url_api_base = "https://api.github.com"
 
     github.get "#{url_api_base}/repos/#{repo}/pulls", (pulls) ->
       if pulls.length == 0

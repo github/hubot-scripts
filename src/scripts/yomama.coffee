@@ -1,4 +1,3 @@
-#
 # Description:
 #   None
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   victorbutler
-# 
 
 module.exports = (robot) ->
   robot.respond /(yo\s?mama( joke)?)( me)?/i, (msg) ->

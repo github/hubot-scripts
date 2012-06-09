@@ -1,4 +1,3 @@
-#
 # Description:
 #   Corgime
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   alexgodin
-#
 
 module.exports = (robot) ->
 

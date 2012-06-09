@@ -1,4 +1,3 @@
-#
 # Description:
 #   Messing around with the Coderwall API
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   mexitek
-#
 
 module.exports = (robot) ->
   robot.respond /(coderwall)( me)? (.*)/i, (msg) ->

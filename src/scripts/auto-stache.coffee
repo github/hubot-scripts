@@ -1,4 +1,3 @@
-#
 # Description:
 #   Automatically add mustaches to any images it can
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   atmos
-#
 
 module.exports = (robot) ->
   robot.hear /^(https?:\/\/[^ #]+\.(?:png|jpg|jpeg))(?:[#]\.png)?$/i, (msg) ->

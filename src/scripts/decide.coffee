@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to help you decide between multiple options
 #
@@ -13,7 +12,6 @@
 #
 # Authors:
 #   logikal
-#
 
 module.exports = (robot) ->
   robot.respond /decide "(.*)"/i, (msg) ->

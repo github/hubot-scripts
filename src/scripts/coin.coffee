@@ -1,4 +1,3 @@
-#
 # Description:
 #   Help decide between two things
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   mrtazz
-#
 
 thecoin = ["heads", "tails"]
 

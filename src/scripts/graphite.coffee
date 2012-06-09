@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allows Hubot to search a Graphite server for saved graphs
 #
@@ -16,7 +15,6 @@
 #
 # Author:
 #   obfuscurity
-#
 
 module.exports = (robot) ->
   robot.hear /graphite search (\w+)/i, (msg) ->

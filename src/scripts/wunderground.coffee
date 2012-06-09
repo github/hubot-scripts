@@ -13,11 +13,11 @@
 #   hubot satellite me <location> - get a recent satellite image
 #   hubot weathercam me <location> - get a weather webcam image near location
 #
-# Author:
-#   alexdean
-#
 # Notes:
 #   location can be zip code, ICAO/IATA airport code, state/city (CA/San_Franciso).
+#
+# Author:
+#   alexdean
 
 module.exports = (robot) ->
   robot.respond /weather (me|at|for|in)? ?(.*)$/i, (msg) ->

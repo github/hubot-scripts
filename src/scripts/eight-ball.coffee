@@ -1,4 +1,3 @@
-#
 # Description:
 #   The Magic Eight ball
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   ryanatwork
-#
 
 ball = [
   "It is certain",

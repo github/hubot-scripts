@@ -1,4 +1,3 @@
-#
 # Description:
 #   Send messages to users the next time they speak
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   jmoses
-#
 
 appendAmbush = (data, toUser, fromUser, message) ->
   if data[toUser.name]

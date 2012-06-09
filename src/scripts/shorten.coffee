@@ -1,4 +1,3 @@
-#
 # Description:
 #   Shorten URLs with bit.ly
 #
@@ -14,7 +13,6 @@
 #
 # Author:
 #   sleekslush
-#
 
 module.exports = (robot) ->
   robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/, (msg) ->

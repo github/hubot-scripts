@@ -1,4 +1,3 @@
-#
 # Description:
 #   Load scripts from the hubot scripts directory on the fly for testing purposes
 #
@@ -15,7 +14,6 @@
 #
 # Author:
 #   unitio
-#
 
 Path = require 'path'
 Fs   = require 'fs'

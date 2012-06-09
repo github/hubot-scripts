@@ -1,4 +1,3 @@
-#
 # Description:
 #   Allow Hubot to show the image from a quickmeme link, as dragging
 #   from their site is a pain.
@@ -14,7 +13,6 @@
 #
 # Author:
 #   chrisdrackett
-#
 
 module.exports = (robot) ->
   robot.hear /https?:\/\/www\.quickmeme\.com\/\w+\/(\w+)\//i, (msg) ->

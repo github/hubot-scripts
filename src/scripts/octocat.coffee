@@ -1,4 +1,3 @@
-#
 # Description:
 #   Show random octocat
 #

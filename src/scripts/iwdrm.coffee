@@ -1,4 +1,3 @@
-#
 # Description:
 #   Pulls a movie gif from the best tumblog
 #
@@ -13,7 +12,6 @@
 #
 # Author:
 #   iangreenleaf
-#
 
 module.exports = (robot) ->
   robot.respond /(movie|iwdrm)( me)?( .*)/i, (msg) ->
