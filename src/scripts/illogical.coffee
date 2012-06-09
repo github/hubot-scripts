@@ -1,6 +1,18 @@
-# Highly illogical.
 #
-# illogical - Display an example of illogicality.
+# Description:
+#   Highly illogical
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   illogical - Display an example of illogicality
+#
+# Author:
+#   arbales
 #
 
 vulcans = [

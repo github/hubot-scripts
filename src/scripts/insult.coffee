@@ -1,4 +1,19 @@
-# hubot insult <name> - give <name> the what-for
+#
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot insult <name> - give <name> the what-for
+#
+# Author:
+#   ajacksified
+#
 
 module.exports = (robot) ->
   robot.respond /insult (.*)/i, (msg) ->

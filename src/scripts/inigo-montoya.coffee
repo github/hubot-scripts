@@ -1,3 +1,20 @@
+#
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   None
+#
+# Author:
+#   harukizaemon
+#
+
 module.exports = (robot) ->
   robot.hear /inconceivable/i, (msg) ->
     msg.reply "You keep using that word. I do not think it means what you think it means."
