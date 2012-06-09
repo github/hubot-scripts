@@ -1,6 +1,18 @@
-# Rodent Motivation
 #
-# ship it - Display a motivation squirrel
+# Description:
+#   Rodent Motivation
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   ship it - Display a motivation squirrel
+#
+# Author:
+#   maddox
 #
 
 squirrels = [

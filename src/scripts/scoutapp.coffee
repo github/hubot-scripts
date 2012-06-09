@@ -1,15 +1,25 @@
-# Announce Scout notifications to a room sepecified by the URL.
-
-# Scout is a hosted server cluster monitoring tool: http://scoutapp.com
-# This plugin is to be used with their webhook notification system.
 #
-# To use:
-#   setup http://hostname/hubot/scoutapp/ROOMNUMBER as
-#   your notification webook. If on Heroku lookup the hostname where
-#   the hubot server is running. (e.g. my-hubot.herokuapp.com)
+# Description:
+#   Announce Scout notifications to a room sepecified by the URL.
 #
-#   Check you are using a recent version of hubot in packages.json
-#   to ensure the robot.router is available
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   None
+#
+# Notes:
+#   To use:
+#     setup http://hostname/hubot/scoutapp/ROOMNUMBER as
+#     your notification webook. If on Heroku lookup the hostname where
+#     the hubot server is running. (e.g. my-hubot.herokuapp.com)
+#
+# Author:
+#   gstark
+#
 
 module.exports = (robot) ->
   robot.router.post '/hubot/scoutapp/:room', (req, res) ->

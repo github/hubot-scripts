@@ -1,3 +1,20 @@
+#
+# Description:
+#   None
+#
+# Dependencies:
+#   "cradle": "0.6.3"
+#
+# Configuration:
+#   HUBOT_COUCHDB_URL
+#
+# Commands:
+#   None
+#
+# Author:
+#   Vrtak-CZ
+#
+
 Url    = require "url"
 cradle = require "cradle"
 

@@ -1,4 +1,18 @@
-# Hubot has feelings too, you know
+#
+# Description:
+#   Hubot has feelings too, you know
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   iangreenleaf
+#
 
 messages = [
   "Hey, that stings."
