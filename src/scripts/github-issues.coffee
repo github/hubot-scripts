@@ -3,7 +3,7 @@
 #
 # Dependencies:
 #   "underscore": "1.3.3"
-#   "underscore": "2.1.1"
+#   "underscore.string": "2.1.1"
 #   "githubot": "0.2.0"
 #
 # Configuration:
