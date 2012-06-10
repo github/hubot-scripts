@@ -14,6 +14,7 @@
 #
 # Commands:
 #   hubot sqs status - Returns the status of SQS queues
+#   hubot ec2 status - Returns the status of EC2 instances
 #
 # Notes:
 #   It's highly recommended to use a read-only IAM account for this purpose

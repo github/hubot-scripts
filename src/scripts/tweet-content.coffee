@@ -1,5 +1,5 @@
 # Description:
-#   None
+#   Detect tweet URL and send tweet content
 #
 # Dependencies:
 #   None
