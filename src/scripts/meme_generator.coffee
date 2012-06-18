@@ -23,6 +23,8 @@
 # hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
 #
 # hubot If <text>, <word that can start a question> <text>? - Generates Philosoraptor
+#
+# hubot <text> FUCK YOU - Angry Linus
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
@@ -73,6 +75,10 @@ module.exports = (robot) ->
 
   robot.respond /(IF .*), ((ARE|CAN|DO|DOES|HOW|IS|MAY|MIGHT|SHOULD|THEN|WHAT|WHEN|WHERE|WHICH|WHO|WHY|WILL|WON\'T|WOULD)[ \'N].*)/i, (msg) ->
     memeGenerator msg, 17, 984, msg.match[1], msg.match[2] + (if msg.match[2].search(/\?$/)==(-1) then '?' else ''), (url) ->
+      msg.send url
+
+  robot.respond /(.*) FUCK YOU/i, (msg) ->
+    memeGenerator msg, 1189472, 5044147, msg.match[1], 'FUCK YOU', (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
