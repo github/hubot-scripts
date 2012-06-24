@@ -66,8 +66,9 @@ module.exports = (robot) ->
     app     = msg.match[1]
     branch  = msg.match[3] || "master"
     room_id = msg.message.user.room
+    user    = msg.message.user.name
 
-    post "#{app}/#{branch}?room_id=#{room_id}", {}, (err, statusCode, body) ->
+    post "#{app}/#{branch}?room_id=#{room_id}&user=#{user}", {}, (err, statusCode, body) ->
       if statusCode == 201 or statusCode == 404
         response = body
       else
