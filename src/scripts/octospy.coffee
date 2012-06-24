@@ -1,25 +1,26 @@
-# Octospy GitHub events, watch what's happening with your projects
-# Powered by http://developer.github.com/v3/repos/hooks/
+# Description:
+#   Octospy GitHub events, watch what's happening with your projects
+#   Powered by http://developer.github.com/v3/repos/hooks/
 #
-# hubot octospy <repo> [event_type] - Start watching events for the repo, default push
-# hubot octospy stop <repo> [event_type] - Stop watching events for the repo
-# hubot octospying - Show what you're spying on
-# hubot octospy events - List the events you can watch
-
+# Dependencies:
+#   "underscore": "1.3.3"
+#   "handlebars": "1.0.5beta"
 #
-# Environment Variables:
+# Configuration:
+#   HUBOT_URL
+#   HUBOT_GITHUB_USER
+#   HUBOT_GITHUB_PASSWORD
+#   or
+#   HUBOT_GITHUB_TOKEN
 #
-# HUBOT_URL             : Where this hubot is mounted (ex "http//hubot.example.com"
-# HUBOT_GITHUB_USER     - The github user to use for the API
-# HUBOT_GITHUB_PASSWORD - The password to use for the API
-#  -- OR __
-# HUBOT_GITHUB_TOKEN    - GH OAuth2 Token, generate with: curl -u 'user:pass' https://api.github.com/authorizations -d '{"scopes":["repo"],"note":"Hubot Octospy"}'
+# Commands:
+#   hubot octospy <repo> [event_type] - Start watching events for the repo, default push
+#   hubot octospy stop <repo> [event_type] - Stop watching events for the repo
+#   hubot octospying - Show what you're spying on
+#   hubot octospy events - List the events you can watch
 #
-
-# TODO:
-# Add commit_comment support -- requires a round-trip to github to get the commit
-# Credentials for github.com and GitHub:FI
-# Add middleware before bodyParser to check X-Hub-Signature
+# Author:
+#   rcs
 
 _ = require 'underscore'
 QS = require 'querystring'

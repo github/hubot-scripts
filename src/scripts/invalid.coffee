@@ -1,7 +1,18 @@
-# Display a random 'Your Argument is Invalid' image.
+# Description:
+#   Display a random 'Your Argument is Invalid' image
 #
-# invalid arg - supply an important counter-point to questionable arguments
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   invalid arg - supply an important counter-point to questionable arguments
+#
+# Author:
+#   alexdean
+
 invalids = [
   "http://s3.amazonaws.com/kym-assets/photos/images/newsfeed/000/007/517/my_hat_is_made_of_eggs.jpg",
   "http://s3.amazonaws.com/kym-assets/photos/images/newsfeed/000/019/719/NO5E65R2PRHVF7WAVBJNK7YHIYXLJEEJ.jpeg",

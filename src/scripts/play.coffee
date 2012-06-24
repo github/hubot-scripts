@@ -1,27 +1,33 @@
-# Play music. At your office. Like a boss.
+# Description:
+#   Play music. At your office. Like a boss. https://github.com/play/play
 #
-# play.coffee uses play, an open source API to playing music:
-#   https://github.com/play/play
+# Dependencies:
+#   None
 #
-# Make sure you set up your HUBOT_PLAY_URL environment variable with the URL to
-# your company's play.
+# Configuration:
+#   HUBOT_PLAY_URL
+#   HUBOT_PLAY_TOKEN
 #
-# play - Plays music.
-# play next - Plays the next song.
-# play previous - Plays the previous song.
-# what's playing - Returns the currently-played song.
-# I want this song - Returns a download link for the current song.
-# I want this album - Returns a download link for the current album.
-# play <artist> - Queue up ten songs from a given artist.
-# play <album> - Queue up an entire album.
-# play <song> - Queue up a particular song. This grabs the first song by playcount.
-# play <something> right [fucking] now - Play this shit right now.
-# where's play - Gives you the URL to the web app.
-# volume? - Returns the current volume level.
-# volume [0-100] - Sets the volume.
-# be quiet - Mute play.
-# say <message> - `say` your message over your speakers.
-# clear play - Clears the Play queue.
+# Commands:
+#   hubot play - Plays music.
+#   hubot play next - Plays the next song.
+#   hubot play previous - Plays the previous song.
+#   hubot what's playing - Returns the currently-played song.
+#   hubot I want this song - Returns a download link for the current song.
+#   hubot I want this album - Returns a download link for the current album.
+#   hubot play <artist> - Queue up ten songs from a given artist.
+#   hubot play <album> - Queue up an entire album.
+#   hubot play <song> - Queue up a particular song. This grabs the first song by playcount.
+#   hubot play <something> right [fucking] now - Play this shit right now.
+#   hubot where's play - Gives you the URL to the web app.
+#   hubot volume? - Returns the current volume level.
+#   hubot volume [0-100] - Sets the volume.
+#   hubot be quiet - Mute play.
+#   hubot say <message> - `say` your message over your speakers.
+#   hubot clear play - Clears the Play queue.
+#
+# Author:
+#   holman
 
 URL = "#{process.env.HUBOT_PLAY_URL}"
 

@@ -1,6 +1,16 @@
-# Polite.
+# Description:
+#   Polite.
 #
-# Say thanks to your robot.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   dannymcc
 
 responses = [
   "You're welcome.",

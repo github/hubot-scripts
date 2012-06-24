@@ -1,4 +1,17 @@
-# hubot clark - build sparklines out of data
+# Description:
+#   None
+#
+# Dependencies:
+#   "clark": "0.0.5"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot clark <data> - build sparklines out of data
+#
+# Author:
+#   ajacksified
 
 clark = require('clark').clark
 

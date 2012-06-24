@@ -1,9 +1,17 @@
-# Announce changes to BitBucket repositories using BitBucket's POST service
-# to a room sepecified by the URL.
+# Description:
+#   Announce changes to BitBucket repositories using BitBucket's POST service
+#   to a room sepecified by the URL.
 # 
-# For instructions on how to set up BitBucket's POST service for your repositories,
-# visit: http://confluence.atlassian.com/display/BITBUCKET/Setting+Up+the+bitbucket+POST+Service
+# Dependencies:
+#   None
 #
+# Configuration:
+#   For instructions on how to set up BitBucket's POST service for your
+#   repositories, visit:
+#   http://confluence.atlassian.com/display/BITBUCKET/Setting+Up+the+bitbucket+POST+Service
+#
+# Author:
+#   JRusbatch
 
 module.exports = (robot) ->
   robot.router.post '/hubot/bitbucket/:room', (req, res) ->

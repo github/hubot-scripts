@@ -1,6 +1,18 @@
-# Evaluate one line of Clojure script.
+# Description:
+#   Evaluate one line of Clojure script
 #
-# hubot clojure|clj <script> - Evaluate one line of Clojure script
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot clojure|clj <script> - Evaluate one line of Clojure script
+#
+# Author:
+#   jingweno
+
 module.exports = (robot) ->
   robot.respond /(clojure|clj)\s+(.*)/i, (msg)->
     script = encodeURIComponent(msg.match[2])
@@ -18,4 +30,4 @@ module.exports = (robot) ->
               for output in outputs
                 msg.reply output
           else
-            msg.reply "Unable to evaludate script: #{script}. Request returned with the status code: #{res.statusCode}"
+            msg.reply "Unable to evaluate script: #{script}. Request returned with the status code: #{res.statusCode}"

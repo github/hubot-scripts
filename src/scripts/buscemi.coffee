@@ -1,7 +1,19 @@
-# HOLY FUCKING MINDFUCK!
+# Description:
+#   HOLY FUCKING MINDFUCK!
 #
-# hubot buscemi me <url>   - Adds Steve Buscemi eyes to the specified URL.
-# hubot buscemi me <query> - Searches Google Images for the specified query and buscemi's it.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot buscemi me <url> - Adds Steve Buscemi eyes to the specified URL
+#   hubot buscemi me <query> - Searches Google Images for the specified query and buscemi's it
+#
+# Author:
+#   dylanegan
+
 module.exports = (robot) ->
   robot.respond /buscemi?(?: me)? (.*)/i, (msg) ->
     buscemi = "http://buscemi.heroku.com?src="

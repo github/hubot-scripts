@@ -1,7 +1,18 @@
-# hubot 9gag me - Returns a random meme image.
-
-# Random meme from 9gag
-# Rewrite by Enrique Vidal
+# Description:
+#   None
+#
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot 9gag me - Returns a random meme image
+#
+# Author:
+#   EnriqueVidal 
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"

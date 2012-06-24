@@ -1,11 +1,21 @@
-# Find out what food trucks are at Truck Stop SF today
-# See http://truckstopsf.com
+# Description:
+#   Find out what food trucks are at Truck Stop SF today
+#   See http://truckstopsf.com
 #
-# Examples:
-# hubot truckstopsf - get just the names of the food trucks today
-# hubot truckstopsf details|deets - get food truck names and details
-# hubot truckstopsf! - get food truck names and details
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot truckstopsf - get just the names of the food trucks today
+#   hubot truckstopsf details|deets - get food truck names and details
+#   hubot truckstopsf! - get food truck names and details
+#
+# Author:
+#   chris
+
 module.exports = (robot) ->
   robot.respond /truckstopsf\s?(!|details|deets)?/i, (res) ->
     d = new Date()

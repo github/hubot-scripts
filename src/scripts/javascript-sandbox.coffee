@@ -1,4 +1,17 @@
-# sandbox - run javascript in a sandbox!. Usage: /run <javascript> or /sandbox <javascript> 
+# Description:
+#   sandbox - run javascript in a sandbox!
+#
+# Dependencies:
+#   "sandbox": "0.8.3"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot (run|sandbox) <javascript> - Execute the javascript code
+#
+# Author:
+#   ajacksified
 
 Sandbox = require('Sandbox')
 

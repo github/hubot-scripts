@@ -1,13 +1,21 @@
-# Allows Hubot to find an awesome Mitch Hedburg quotes
+# Description:
+#   Allows Hubot to find an awesome Mitch Hedburg quotes
 #
-# hubot get mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org with filter
-# hubot get dirty mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org without potty mouth filter
-
-# REQUIRED MODULES
-# sudo npm install htmlparser
-# sudo npm install soupselect
-# sudo npm install jsdom
-# sudo npm install underscore
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
+#   "jsdom": "0.2.14"
+#   "underscore": "1.3.3"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot get mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org with filter
+#   hubot get dirty mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org without potty mouth filter
+#
+# Author:
+#   nickfloyd
 
 Select     	= require("soupselect").select
 HtmlParser 	= require "htmlparser"

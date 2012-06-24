@@ -1,4 +1,17 @@
-# hubot joke me - Pull a random joke from /r/jokes
+# Description:
+#   Random jokes from /r/jokes
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot joke me - Pull a random joke from /r/jokes
+#
+# Author:
+#   tombell
 
 module.exports = (robot) ->
 

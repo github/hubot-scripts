@@ -1,7 +1,17 @@
-# Robot Memes
+# Description:
+#   Robot Memes
 #
-# hubot robot - mention the word robot to hubot
-#               and he responds with a robot-oriented meme
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot robot - mention the word robot to hubot and he responds with a robot-oriented meme
+#
+# Author:
+#   jrob00
 
 robot_memes = [
 	"http://troll.me/images/ancient-aliens-guy/but-you-see-steve-is-a-alien-robot-thumb.jpg",

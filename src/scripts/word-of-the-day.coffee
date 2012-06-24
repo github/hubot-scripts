@@ -1,17 +1,30 @@
-# Return the word of the day.
+# Description:
+#   Return the word of the day.
 #
-# You'll need an API key from http://developer.wordnik.com/ or from
-# http://developer.dictionary.com/
+# Dependencies:
+#   "xml2js": "0.1.14"
 #
-# Set the env variable WOTD_PROVIDER to 'wordnik' or 'dictionary'.
+# Configuration:
+#   WOTD_PROVIDER - to 'wordnik' or 'dictionary'
+#   WORDNIK_API_KEY - API key from http://developer.wordnik.com/ or http://developer.dictionary.com/
 #
-# hubot wotd (me) (short) - Returns the word of the day.
-# hubot word of the day (me) (short) - Returns the word of the day.
+# Commands:
+#   hubot wotd (me) (short) - Returns the word of the day.
+#   hubot word of the day (me) (short) - Returns the word of the day.
+#
+# Notes:
+#   FIXME This should be merged with wordnik.coffee
+#
+# Author:
+#   tapichu
+
+# FIXME use JSON, to avoid a dependency
 Parser = require("xml2js").Parser
 
 module.exports = (robot) ->
 
   robot.respond /(word of the day|wotd)\s?(me)?\s?(short)?(.*)$/i, (msg) ->
+    # FIXME prefix WOTD_PROVIDER and DICTIONARY_API_KEY with HUBOT_ for consistency
     if process.env.WOTD_PROVIDER is "wordnik" and process.env.WORDNIK_API_KEY?
       wotd_wordnik msg, msg.match[3]?
     else if process.env.WOTD_PROVIDER is "dictionary" and process.env.DICTIONARY_API_KEY?

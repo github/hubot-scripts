@@ -1,7 +1,22 @@
-# Send messages to channels via hubot
+# Description:
+#   Send messages to channels via hubot
 #
-# $ echo "#channel|hello everyone" | nc -u -w1 bot_hostname bot_port
-# $ echo "nickname|hello mister" | nc -u -w1 bot_hostname bot_port
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_CAT_PORT
+#
+# Commands:
+#   None
+#
+# Notes:
+#   $ echo "#channel|hello everyone" | nc -u -w1 bot_hostname bot_port
+#   $ echo "nickname|hello mister" | nc -u -w1 bot_hostname bot_port
+#
+# Author:
+#   simon
+
 dgram = require "dgram"
 server = dgram.createSocket "udp4"
 

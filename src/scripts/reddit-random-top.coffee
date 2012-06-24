@@ -1,4 +1,18 @@
-# hubot a reddit <subreddit> - A random top (today) post from the specified subreddit. Tries to find a picture if possible.
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot a reddit <subreddit> - A random top (today) post from the specified subreddit. Tries to find a picture if possible
+#
+# Author:
+#   artfuldodger
+
 module.exports = (robot) ->
   robot.respond /a reddit( .+)*/i, (msg) ->
     reddit msg, msg.match[1]?.trim()

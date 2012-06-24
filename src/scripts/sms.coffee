@@ -1,6 +1,19 @@
-# Allows Hubot to send text messages using Twilio API.
+# Description:
+#   Allows Hubot to send text messages using Twilio API
 #
-# hubot sms <to> <message> - Sends <message> to the number <to>.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_SMS_SID
+#   HUBOT_SMS_TOKEN
+#   HUBOT_SMS_FROM
+#
+# Commands:
+#   hubot sms <to> <message> - Sends <message> to the number <to>
+#
+# Author:
+#   caleywoods
 
 QS = require "querystring"
 

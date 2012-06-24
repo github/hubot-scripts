@@ -1,10 +1,21 @@
-# Hubot's pomodoro timer
+# Description:
+#   Hubot's pomodoro timer
 #
-# start pomodoro - start a new pomodoro
-# start pomodoro <time> - start a new pomodoro with a duration of <time> minutes
-# stop pomodoro - stop a pomodoro
-# pomodoro? - shows the details of the current pomodoro
-# total pomodoros - shows the number of the total completed pomodoros
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot start pomodoro - start a new pomodoro
+#   hubot start pomodoro <time> - start a new pomodoro with a duration of <time> minutes
+#   hubot stop pomodoro - stop a pomodoro
+#   hubot pomodoro? - shows the details of the current pomodoro
+#   hubot total pomodoros - shows the number of the total completed pomodoros
+#
+# Author:
+#   mcollina
 
 currentPomodoro = null
 defaultLength = 25

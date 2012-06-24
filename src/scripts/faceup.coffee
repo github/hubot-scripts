@@ -1,9 +1,20 @@
-# Overlay funny things on people's faces
+# Description:
+#   Overlay funny things on people's faces
 #
-# hubot hipster me <img> - Overlay hipster glasses on a face.
-# hubot clown me <img> - Overlay a clown nose on a face.
-# hubot scumbag me <img> - Overlay a scumbag on a face.
-# hubot jason me <img> - Overlay a jason on a face.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot hipster me <img> - Overlay hipster glasses on a face
+#   hubot clown me <img> - Overlay a clown nose on a face
+#   hubot scumbag me <img> - Overlay a scumbag on a face
+#   hubot jason me <img> - Overlay a jason on a face
+#
+# Author:
+#   kneath
 
 module.exports = (robot) ->
   robot.respond /(hipster|clown|scumbag|rohan|jason)( me)? (.*)/i, (msg) ->

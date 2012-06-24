@@ -1,8 +1,24 @@
-# Dictionary definitions with the Wordnik API. You'll need an API key from http://developer.wordnik.com/
+# Description:
+#   Dictionary definitions with the Wordnik API. 
 #
-# hubot define me <word> - Grabs a dictionary definition of a word.
-# hubot pronounce me <word> - Links to a pronunciation of a word.
-# hubot spell me <word> - Suggests correct spellings of a possible word.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   WORDNIK_API_KEY
+#
+# Commands:
+#   hubot define me <word> - Grabs a dictionary definition of a word.
+#   hubot pronounce me <word> - Links to a pronunciation of a word.
+#   hubot spell me <word> - Suggests correct spellings of a possible word.
+#
+# Notes:
+#   You'll need an API key from http://developer.wordnik.com/
+#   FIXME This should be merged with word-of-the-day.coffee
+#
+# Author:
+#   Aupajo
+#   markpasc
 
 module.exports = (robot) ->
   # Word definition
@@ -58,6 +74,7 @@ module.exports = (robot) ->
         msg.send "Suggestions for \"#{word}\": #{list}"
 
 fetch_wordnik_resource = (msg, word, resource, query, callback) ->
+  # FIXME prefix with HUBOT_ for
   if process.env.WORDNIK_API_KEY == undefined
     msg.send "Missing WORDNIK_API_KEY env variable."
     return

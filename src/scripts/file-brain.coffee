@@ -1,8 +1,21 @@
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   FILE_BRAIN_PATH
+#
+# Commands:
+#   None
+#
+# Author:
+#   dustyburwell
+
 fs   = require 'fs'
 path = require 'path'
 
-
-# sets up hooks to persist the brain into file.
 module.exports = (robot) ->
   brainPath = process.env.FILE_BRAIN_PATH or '/var/hubot'
   brainPath = path.join brainPath, 'brain-dump.json'

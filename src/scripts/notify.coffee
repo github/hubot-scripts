@@ -1,19 +1,19 @@
-# Notifies you by Prowl or NotifyMyAndroid when you're mentioned
+# Description:
+#   Notifies you by Prowl or NotifyMyAndroid when you're mentioned
 #
-# To setup your username for notification:
+# Dependencies:
+#   "prowler": "0.0.3"
 #
+# Configuration:
+#   None
+#
+# Commands:
 #   hubot notify me by prowl with YOUR_PROWL_API_KEY
 #   hubot notify me by nma with YOUR_NMA_API_KEY
 #   hubot list notifiers
 #
-# Then when this happens in the chat, you'll be notified (assuming
-# your name is jim):
-#
-#   Hey @jim, how's it going.
-#   Congrats @everyone on this cool new thing we deployed.
-#
-# TODO Hear multiple highlights?
-# TODO Hear highlights without @
+# Author:
+#   marten
 
 Prowl = require "prowler"
 QS = require "querystring"

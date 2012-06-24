@@ -1,7 +1,19 @@
-# Because animals are animals.
+# Description:
+#   Because animals are animals.
 #
-# hubot animal me - Grab a random gif from http://animalsbeingdicks.com/
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot animal me - Grab a random gif from http://animalsbeingdicks.com/
+#
+# Author:
+#   unsay
+
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
 

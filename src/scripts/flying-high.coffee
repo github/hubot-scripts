@@ -1,3 +1,17 @@
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   harukizaemon
+
 module.exports = (robot) ->
 
   robot.hear /surely you/i, (msg) ->

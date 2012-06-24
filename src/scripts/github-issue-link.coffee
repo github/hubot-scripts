@@ -1,9 +1,19 @@
-# Github issue link looks for #nnn and links to that issue for your default repo. Eg. "Hey guys check out #273"
-# Requires vars HUBOT_GITHUB_REPO, and HUBOT_GITHUB_TOKEN to be set.
+# Description:
+#   Github issue link looks for #nnn and links to that issue for your default
+#   repo. Eg. "Hey guys check out #273"
 #
-# Listens for #nnn and links to the issue for your default repo on github
+# Dependencies:
+#   "githubot": "0.2.0"
 #
-# Add in "githubot":"0.2.0" to your package.json file.
+# Configuration:
+#   HUBOT_GITHUB_REPO
+#   HUBOT_GITHUB_TOKEN
+#
+# Commands:
+#   Listens for #nnn and links to the issue for your default repo on github
+#
+# Author:
+#   tenfef
 
 module.exports = (robot) ->
   github = require("githubot")(robot)

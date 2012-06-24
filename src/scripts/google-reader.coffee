@@ -1,8 +1,18 @@
-# Subscribe to a feed in Google Reader, requires you set
-# GOOGLE_USERNAME & GOOGLE_PASSWORD environment variables
+# Description:
+#   Subscribe to a feed in Google Reader
 #
-# hubot subscribe <domainname> - returns whether you've subscribed succesfully
+# Dependencies:
+#   None
 #
+# Configuration:
+#   GOOGLE_USERNAME
+#   GOOGLE_PASSWORD
+#
+# Commands:
+#   hubot subscribe <domainname> - returns whether you've subscribed succesfully
+#
+# Author:
+#   benubois
 
 module.exports = (robot) ->
   robot.hear /subscribe (.*)/i, (msg) ->

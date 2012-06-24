@@ -1,12 +1,23 @@
-# hubot weather me <location> - short-term forecast
+# Description:
+#   None
 #
-# hubot radar me <location> - recent radar image
+# Dependencies:
+#   None
 #
-# hubot satellite me <location> - get a recent satellite image
+# Configuration:
+#   None
 #
-# hubot weathercam me <location> - get a weather webcam image near location
+# Commands:
+#   hubot weather me <location> - short-term forecast
+#   hubot radar me <location> - recent radar image
+#   hubot satellite me <location> - get a recent satellite image
+#   hubot weathercam me <location> - get a weather webcam image near location
 #
-# location can be zip code, ICAO/IATA airport code, state/city (CA/San_Franciso).
+# Notes:
+#   location can be zip code, ICAO/IATA airport code, state/city (CA/San_Franciso).
+#
+# Author:
+#   alexdean
 
 module.exports = (robot) ->
   robot.respond /weather (me|at|for|in)? ?(.*)$/i, (msg) ->

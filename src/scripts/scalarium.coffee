@@ -1,16 +1,18 @@
-# Interact with Scalarium cloud hosting
+# Description:
+#   Interact with Scalarium cloud hosting
 #
-# The following variables are requiered
+# Dependencies:
+#   None
+#
+# Configuration:
 #   HUBOT_SCALARIUM_TOKEN: for authenticating the requests (see https://manage.scalarium.com/users/<user-id>/api)
 #
-# hubot scalarium list (apps|clouds) - Lists all applications/clouds on scalarium.
-# hubot scalarium deploy <app id> <message> - Triggers an deployment of *app id* with *message*.
-
-###
-Written by Ole 'nesQuick' Michaelis (Ole.Michaelis@googlemail.com)
-Follow me on Twitter (@CodeStars)
-Digital Pioneers N.V. - WE ARE HIRING (http://digitalpioneers.de/jobs)
-###
+# Commands:
+#   hubot scalarium list (apps|clouds) - Lists all applications/clouds on scalarium
+#   hubot scalarium deploy <app id> <message> - Triggers an deployment of *app id* with *message*
+#
+# Author:
+#   nesQuick
 
 https = require 'https'
 token = process.env.HUBOT_SCALARIUM_TOKEN

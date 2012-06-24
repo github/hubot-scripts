@@ -1,7 +1,17 @@
-# The Magic Eight ball
+# Description:
+#   The Magic Eight ball
 #
-# hubot eightball <query> - Ask the magic eight ball a question
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot eightball <query> - Ask the magic eight ball a question
+#
+# Author:
+#   ryanatwork
 
 ball = [
   "It is certain",
@@ -29,5 +39,3 @@ ball = [
 module.exports = (robot) ->
   robot.respond /(eightball|8ball)(.*)/i, (msg) ->
     msg.reply msg.random ball
-
-

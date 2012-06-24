@@ -1,6 +1,17 @@
-# Allows Hubot to give a look of disapproval. 
+# Description:
+#   Allows Hubot to give a look of disapproval
 #
-# hubot lod <name> - gives back the character for the look of disapproval, optionally @name.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot lod <name> - gives back the character for the look of disapproval, optionally @name
+#
+# Author:
+#   ajacksified
 
 module.exports = (robot) ->
   robot.respond /lod\s?(.*)/i, (msg) ->
@@ -10,4 +21,3 @@ module.exports = (robot) ->
     response += " @" + name if name != ""
 
     msg.send(response)
-

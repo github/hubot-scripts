@@ -1,17 +1,24 @@
-# Get all bugs from JIRA assigned to user
+# Description:
+#   Get all bugs from JIRA assigned to user
 #
-# To configure, export the following shell variables
-# HUBOT_JIRA_DOMAIN
-# HUBOT_JIRA_USER
-# HUBOT_JIRA_PASSWORD
-# HUBOT_JIRA_ISSUE_TYPES
-# HUBOT_JIRA_ISSUE_PRIORITIES
+# Dependencies:
+#   None
 #
-# hubot list my bugs - Retrieve the list of all a user's bugs from JIRA ('my' is optional)
-# hubot list my bugs about <searchterm> - Retrieve list of all a user's bugs from JIRA where the summary or description field contains <phrase> ('my' is optional)
-# hubot list my <priority> priority bugs  - Retrieve the list of a user's <priority> priority bugs from JIRA ('my' is optional)
-# hubot list my <priority> priority bugs about <phrase> - Retrieve list of all a user's <priority> priority bugs from JIRA where the summary or description field contains <phrase> ('my' is optional)
+# Configuration:
+#   HUBOT_JIRA_DOMAIN
+#   HUBOT_JIRA_USER
+#   HUBOT_JIRA_PASSWORD
+#   HUBOT_JIRA_ISSUE_TYPES
+#   HUBOT_JIRA_ISSUE_PRIORITIES
 #
+# Commands:
+#   hubot list my bugs - Retrieve the list of all a user's bugs from JIRA ('my' is optional)
+#   hubot list my bugs about <searchterm> - Retrieve list of all a user's bugs from JIRA where the summary or description field contains <phrase> ('my' is optional)
+#   hubot list my <priority> priority bugs  - Retrieve the list of a user's <priority> priority bugs from JIRA ('my' is optional)
+#   hubot list my <priority> priority bugs about <phrase> - Retrieve list of all a user's <priority> priority bugs from JIRA where the summary or description field contains <phrase> ('my' is optional)
+#
+# Author:
+#   crcastle
 
 # e.g. "bug|task|sub task|support ticket|new feature|epic"
 issueTypes = process.env.HUBOT_JIRA_ISSUE_TYPES

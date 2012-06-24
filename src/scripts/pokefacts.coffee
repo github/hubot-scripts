@@ -1,8 +1,17 @@
-# Pokemon fun!
+# Description:
+#   Pokemon fun!
 #
-# pokefact - get a random pokefact!
+# Dependencies:
+#   None
 #
-# Developed by One Mighty Roar (http://github.com/onemightyroar)
+# Configuration:
+#   None
+#
+# Commands:
+#   pokefact - get a random pokefact!
+#
+# Author:
+#   eliperkins
 
 module.exports = (robot) ->
 

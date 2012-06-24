@@ -1,11 +1,22 @@
-# BreweryDB API
-# 
-# hubot beer me <beer name> - Information about a beer
+# Description:
+#   BreweryDB API
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   BREWERYDB_API_KEY
+#
+# Commands:
+#   hubot beer me <beer name> - Information about a beer
+#
+# Author:
+#   greggroth
 
 module.exports = (robot) ->
   robot.respond /beer me (.*)/i, (msg) ->
     unless process.env.BREWERYDB_API_KEY?
-      msg.send "Please sepcify your BreweyDB API key in BREWERYDB_API_KEY" 
+      msg.send "Please sepcify your BreweyDB API key in BREWERYDB_API_KEY"
       return
     msg.http("http://api.brewerydb.com/v2/search")
       .query
@@ -14,7 +25,6 @@ module.exports = (robot) ->
         key: process.env.BREWERYDB_API_KEY
         q: msg.match[1].replace(" ", "+")
       .get() (err, res, body) ->
-        # Picks first beer from the list of returned beers
           data = JSON.parse(body)['data']
           if data
             beer = data[0]
@@ -28,7 +38,7 @@ module.exports = (robot) ->
           if beer['style']?
             response += "\n#{beer['style']['name']}"
           if beer['abv']?
-            response += "\nABV:  #{beer['abv']}%" 
+            response += "\nABV:  #{beer['abv']}%"
           if beer['ibu']?
             response += "\nIBU:  #{beer['ibu']}"
           msg.send response

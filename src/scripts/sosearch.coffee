@@ -1,8 +1,18 @@
-# Search stack overflow and provide links to the first 5 questions.
+# Description:
+#   Search stack overflow and provide links to the first 5 questions
 #
-# sosearch me <query> - Search for the query
-# or
-# sosearch me <query> with tags <tag list sperated by ,> - Search for the query limit to given tags
+# Dependencies:
+#   "wwwdude": "0.1.0"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   sosearch me <query> - Search for the query
+#   sosearch me <query> with tags <tag list sperated by ,> - Search for the query limit to given tags
+#
+# Author:
+#   carsonmcdonald
 
 wwwdude = require("wwwdude")
 

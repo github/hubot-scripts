@@ -1,9 +1,21 @@
-# Interact with Gerrit. (http://code.google.com/p/gerrit/)
-# Hubot has to be running as a user who has registered a SSH key with Gerrit.
+# Description:
+#   Interact with Gerrit. (http://code.google.com/p/gerrit/)
 #
-# hubot gerrit search <query> - Search Gerrit for changes - the query should follow the normal Gerrit query rules.
-# hubot gerrit (ignore|report) events for (project|user|event) <thing> - Tell Hubot how to report Gerrit events.
+# Dependencies:
 #
+# Configuration:
+#   HUBOT_GERRIT_SSH_URL
+#   HUBOT_GERRIT_EVENTSTREAM_ROOMS
+#
+# Commands:
+#   hubot gerrit search <query> - Search Gerrit for changes - the query should follow the normal Gerrit query rules
+#   hubot gerrit (ignore|report) events for (project|user|event) <thing> - Tell Hubot how to report Gerrit events
+#
+# Notes:
+#   Hubot has to be running as a user who has registered a SSH key with Gerrit
+#
+# Author:
+#   nparry
 
 cp = require "child_process"
 url = require "url"

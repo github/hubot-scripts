@@ -1,7 +1,17 @@
-# Rage face script
+# Description:
+#   Rage face script
 #
-# hubot rage <tag> - Send a rageface for a given tag, if no tag is given, one will be chosen at random
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot rage <tag> - Send a rageface for a given tag, if no tag is given, one will be chosen at random
+#
+# Author:
+#   brianmichel
 
 Array::shuffle = -> @sort -> 0.5 - Math.random()
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""

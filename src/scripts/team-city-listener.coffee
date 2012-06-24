@@ -1,8 +1,25 @@
-# This script used in conjunction with tcWebHooks: http://tcplugins.sourceforge.net/info/tcWebHooks will give Hubot the ability to send you build status messages.
-# Install web hooks, set this sucker up with Hubot, make sure you have a port configured for him, set the HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
-# environment variable and Bob's your uncle you'll get build status messages from Hubot in your chat rooms.
-# All the properties aviable on the build object can be found at the properties list at the top of this file:
-# http://sourceforge.net/apps/trac/tcplugins/browser/tcWebHooks/trunk/src/main/java/webhook/teamcity/payload/format/WebHookPayloadJsonContent.java
+# Description:
+#   Post
+#   This script used in conjunction with tcWebHooks: http://tcplugins.sourceforge.net/info/tcWebHooks makes Hubot to send you build status messages.
+#
+#   Install web hooks, set this sucker up with Hubot, make sure you have a port configured for him, and set the HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
+#   environment variable and Bob's your uncle you'll get build status messages from Hubot in your chat rooms.
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
+#
+# Commands:
+#   None
+#
+# Notes:
+#   All the properties aviable on the build object can be found at the properties list at the top of this file:
+#   http://sourceforge.net/apps/trac/tcplugins/browser/tcWebHooks/trunk/src/main/java/webhook/teamcity/payload/format/WebHookPayloadJsonContent.java
+#
+# Author:
+#   cubanx 
 
 Robot = require('hubot').robot()
 

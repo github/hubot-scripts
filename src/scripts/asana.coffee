@@ -1,12 +1,18 @@
-# A way to add tasks to Asana
+# Description:
+#   A way to add tasks to Asana
 #
-# todo: @name? <task directive> - public message starting with todo: will
-#                                 add task, optional @name to assign task
-# @bot todo users               - Message the bot directly to list all 
-#                                 available users in the workspace
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   todo: @name? <task directive> - public message starting with todo: will add task, optional @name to assign task
+#   hubot todo users - Message the bot directly to list all available users in the workspace
 # 
-# Written by @idPro
-
+# Author:
+#   idpro
 
 url  = 'https://app.asana.com/api/1.0'
 

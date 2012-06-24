@@ -1,11 +1,21 @@
-# Define terms via Urban Dictionary
+# Description:
+#   Define terms via Urban Dictionary
 #
-# — Travis Jeffery (@travisjeffery)
+# Dependencies:
+#   None
 #
-# urban me <term>         - Searches Urban Dictionary and returns definition
-# urban define me <term>  - Searches Urban Dictionary and returns definition
-# urban example me <term> - Searches Urban Dictionary and returns example 
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot urban me <term>         - Searches Urban Dictionary and returns definition
+#   hubot urban define me <term>  - Searches Urban Dictionary and returns definition
+#   hubot urban example me <term> - Searches Urban Dictionary and returns example 
+#
+# Author:
+#   Travis Jeffery (@travisjeffery)
 
+# FIXME merge with whatis.coffee
 
 module.exports = (robot) ->
   robot.respond /(urban)( define)?( example)?( me)? (.*)/i, (msg) ->

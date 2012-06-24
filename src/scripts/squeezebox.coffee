@@ -1,23 +1,25 @@
-# Allows Hubot to control pandora on a squeezebox music player
+# Description:
+#   Allows Hubot to control pandora on a squeezebox music player
 #
-# hubot pandorame <artist, song, etc> - plays on pandora
-# hubot pause|play
-# hubot vol <positive or negative #> - changes volume
-# hubot crankit|indoor voices - volume presets
-# hubot who's playing? - lists station, artist, song
-# hubot thumbsup|thumbsdown - relay preferences to pandora
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
 #
-# prerequisites:
-#  * have accounts on both mysqueezebox.com & pandora
-#  * have the pandora app installed on squeezebox
-#  * be signed into your pandora account on mysqueezebox.com
+# Configuration:
+#   SQUEEZE_BOX_EMAIL
+#   SQUEEZE_BOX_PASSWORD
+#   SQUEEZE_BOX_PLAYER_ID
 #
-# set the env variables:
-#  * SQUEEZE_BOX_EMAIL (for mysqueezebox.com)
-#  * SQUEEZE_BOX_PASSWORD
-#  * SQUEEZE_BOX_PLAYER_ID (MAC address)
+# Commands:
+#   hubot pandorame <artist, song, etc> - plays on pandora
+#   hubot pause|play
+#   hubot vol <positive or negative #> - changes volume
+#   hubot crankit|indoor voices - volume presets
+#   hubot who's playing? - lists station, artist, song
+#   hubot thumbsup|thumbsdown - relay preferences to pandora
 #
-# tested on both Squeezebox Boom and Squeezebox Radio
+# Author:
+#   kylefritz
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"

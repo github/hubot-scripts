@@ -1,9 +1,19 @@
-# Grabs snippets of song lyrics.
-# Limited to snippets due to copyright stuff.
+# Description:
+#   Grabs snippets of song lyrics
+#   Limited to snippets due to copyright stuff
 #
-# hubot lyrics for <song> by <artist> - returns snippet of lyrics for this song
+# Dependencies:
+#   None
 #
-# Example: lyrics for purple haze by jimi hendrix
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot lyrics for <song> by <artist> - returns snippet of lyrics for this song
+#
+# Author:
+#   mportiz08
+
 module.exports = (robot) ->
   robot.respond /lyrics for (.*) by (.*)/i, (msg) ->
     song = msg.match[1]

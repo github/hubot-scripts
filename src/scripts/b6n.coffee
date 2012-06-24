@@ -1,8 +1,18 @@
-# SHIT BEN BLACK SAYS 
-# A footnote to "Distributed Systems: A Compendium of Problems Enumerated by Benjamin Black."
-# http://b6n.tumblr.com/
+# Description:
+#   SHIT BEN BLACK SAYS 
 #
-# ask b6n - Answer with random wizdom from Benjamin Black
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   ask b6n - Answer with random wizdom from Benjamin Black
+#
+# Author:
+#  chids
+
 module.exports = (robot) ->
     robot.hear /ask b6n/i, (msg) ->
         quotes = ["reading is fundamental",

@@ -1,7 +1,18 @@
-# Is it the day ?
+# Description:
+#   Is it the day?
 #
-# hubot is it <action> day ? - Returns if it's the day for your action.
-#                      
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot is it <action> day ? - Returns if it's the day for your action
+#
+# Author:
+#   KuiKui
+             
 module.exports = (robot) ->
   robot.respond /is it (\w+) day \?/i, (msg) ->
     action = msg.match[1]

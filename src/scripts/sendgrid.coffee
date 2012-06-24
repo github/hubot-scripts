@@ -1,11 +1,20 @@
-# Basic SendGrid statistics.
+# Description:
+#   Basic SendGrid statistics
 #
-# Set HUBOT_SENDGRID_USER to your SendGrid username (the same as you use to log in to sendgrid.com)
-# Set HUBOT_SENDGRID_KEY to your SendGrid password (the same as you use to log in to sendgrid.com)
+# Dependencies:
+#   None
 #
-# hubot sendgrid total - total sendgrid usage for the account
-# hubot sendgrid today - Total usage for today
-# hubot sendgrid c[ategory] <category> - Today's usage for the given category
+# Configuration:
+#   HUBOT_SENDGRID_USER to your SendGrid username (the same as you use to log in to sendgrid.com)
+#   HUBOT_SENDGRID_KEY to your SendGrid password (the same as you use to log in to sendgrid.com)
+#
+# Commands:
+#   hubot sendgrid total - total sendgrid usage for the account
+#   hubot sendgrid today - Total usage for today
+#   hubot sendgrid c[ategory] <category> - Today's usage for the given category
+#
+# Author:
+#   sixfeetover
 
 env = process.env
   
@@ -28,7 +37,7 @@ module.exports = (robot) ->
       msg.send "Category: #{category}"
       opts =
         days: 0
-        category: [category] 
+        category: [category]
       query msg, opts, (json) ->
         msg.send formatResponse(json[0])
   
@@ -40,7 +49,7 @@ query = (msg, opts, callback) ->
     .get() (err, res, body) ->
       callback JSON.parse(body)
 
-stats = 
+stats =
   requests: 'Requests'
   delivered: 'Delivered'
 
@@ -62,7 +71,7 @@ stats =
   spam_drop: 'Spam Drop'
   
   spamreports: 'Spam Reports'
-  repeat_spamreports: 'Repeat Spam Reports'      
+  repeat_spamreports: 'Repeat Spam Reports'
 
 formatResponse = (json) =>
   details = for stat, description of stats

@@ -1,11 +1,17 @@
-# Queries Bing and returns a random image from the top 50 images found using Bing API.
-# Why use this over Google? I can return more than 8 images...MOAR VARIETY!
-# Also, I like hearing "You use BING?!?"
-# Sign up for the Account Key here: https://datamarket.azure.com/account/keys
-# API usage found here: http://msdn.microsoft.com/en-us/library/dd251056.aspx
-# Feel free to ping me if you need help
+# Description:
+#   Queries Bing and returns a random image from the top 50 images found using Bing API
 #
-# bing image <query>   - Queries Bing Images for <query> & returns a random result from top 50
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_BING_ACCOUNT_KEY
+#
+# Commands:
+#   bing image <query> - Queries Bing Images for <query> & returns a random result from top 50
+#
+# Author:
+#   Brandon Satrom
 
 bingAccountKey = process.env.HUBOT_BING_ACCOUNT_KEY
 unless bingAccountKey

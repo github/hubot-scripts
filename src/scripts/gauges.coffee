@@ -1,9 +1,18 @@
-# Allows Hubot to fetch statistics from Gaug.es
+# Description:
+#   Allows Hubot to fetch statistics from Gaug.es
 #
-# hubot gauges for (today|yesterday) - Get views/people from today or yesterday.
+# Dependencies:
+#   None
 #
-# hubot gauges for YYYY-MM-DD - Get views/people for the specified date.
+# Configuration:
+#   HUBOT_GAUGES_TOKEN
 #
+# Commands:
+#   hubot gauges for (today|yesterday) - Get views/people from today or yesterday
+#   hubot gauges for YYYY-MM-DD - Get views/people for the specified date
+#
+# Author:
+#   tombell
 
 class Gauges
   constructor: (@robot, @token) ->

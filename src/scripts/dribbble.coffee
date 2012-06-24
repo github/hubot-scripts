@@ -1,6 +1,18 @@
-# Loads images from Dribbble URL's 
-# /(depress|dribbble|inspire) me - brings up popular images
-# [dribbble URL] - brings up image from the URL
+# Description:
+#   Loads images from Dribbble URL's
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot (depress|dribbble|inspire) me - brings up popular images
+#   [dribbble URL] - brings up image from the URL
+#
+# Author:
+#   mattgraham
 
 requestImage = (msg, url) ->
   msg.http(url).get() (err, res, body) ->

@@ -1,17 +1,24 @@
-# Rollout REST API interface.
+# Description:
+#   Rollout REST API interface
 #
-# Requires rollout_rest_api endpoint configured in the HUBOT_ROLLOUT_API_URL env var.
+# Dependencies:
+#   None
 #
-# Get rollout_rest_api here: https://github.com/jamesgolick/rollout_rest_api
+# Configuration:
+#   HUBOT_ROLLOUT_API_URL
 #
-# hubot rollout list - Returns a list of available features.
-# hubot rollout show <feature> - Shows the current rollout of `feature`.
-# hubot rollout activate_user <feature> <user_id> - Activate `feature` for `user_id`.
-# hubot rollout deactivate_user <feature> <user_id> - Deactivate `feature` for `user_id`.
-# hubot rollout activate_group <feature> <group> - Activate `feature` for `group_id`.
-# hubot rollout deactivate_group <feature> <group> - Deactivate `feature` for `group_id`.
-# hubot rollout activate_percentage <feature> <percentage> - Activate `feature` for `percentage`% of users.
-# hubot rollout deactivate <feature> - Deactivate `feature` all users.
+# Commands:
+#   hubot rollout list - Returns a list of available features
+#   hubot rollout show <feature> - Shows the current rollout of `feature`
+#   hubot rollout activate_user <feature> <user_id> - Activate `feature` for `user_id`
+#   hubot rollout deactivate_user <feature> <user_id> - Deactivate `feature` for `user_id`
+#   hubot rollout activate_group <feature> <group> - Activate `feature` for `group_id`
+#   hubot rollout deactivate_group <feature> <group> - Deactivate `feature` for `group_id`
+#   hubot rollout activate_percentage <feature> <percentage> - Activate `feature` for `percentage`% of users
+#   hubot rollout deactivate <feature> - Deactivate `feature` all users
+#
+# Author:
+#   James Golick
 
 endpoint = process.env.HUBOT_ROLLOUT_API_URL + '/'
 

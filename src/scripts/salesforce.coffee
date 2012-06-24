@@ -1,14 +1,23 @@
-# Get connected to the Salesforce.com REST API and do something fun!
+# Description:
+#   Get connected to the Salesforce.com REST API and do something fun!
 #
-# You need to set the following variables
-# 	SF_INSTANCE_URL = url of your salesforce instance eg. https://na2.salesforce.com
+# Dependencies:
+#   None
+#
+# Configuration:
+#   SF_INSTANCE_URL = url of your salesforce instance eg. https://na2.salesforce.com
 #	SF_CONSUMER_KEY = consumer key from the Remote Access Setup page in Salesforce
 #	SF_CONSUMER_SECRET = consumer secret from the Remote Access Setup page in Salesforce
 #	SF_USERNAME = a valid salesforce login
 #	SF_PASSWORD = password and security token mashed together
 #
-# hubot salesforce account <accountname> - searches for the account by name in Salesforce and displays all matches
-# hubot salesforce query <query> - runs an arbitrary SOQL query and outputs the results
+# Commands:
+#   hubot salesforce account <accountname> - searches for the account by name in Salesforce and displays all matches
+#   hubot salesforce query <query> - runs an arbitrary SOQL query and outputs the results
+#
+# Author:
+#   lnediger
+
 sf_instance = process.env.SF_INSTANCE_URL
 sf_consumer_key = process.env.SF_CONSUMER_KEY
 sf_consumer_secret = process.env.SF_CONSUMER_SECRET

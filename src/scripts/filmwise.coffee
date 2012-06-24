@@ -1,7 +1,18 @@
-# Show random filewise invisible
+# Description:
+#   Show random filewise invisible
 #
-# hubot filmwise me - a randomly selected filmwise invisible
-# hubot filmwise bomb me <number> - filmwise invisible explosion!
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot filmwise me - a randomly selected filmwise invisible
+#   hubot filmwise bomb me <number> - filmwise invisible explosion
+#
+# Author:
+#   mwongatemma
 
 module.exports = (robot) ->
   robot.respond /filmwise\s*(?:me)?$/i, (msg) ->

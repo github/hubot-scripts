@@ -1,6 +1,17 @@
-# Base58 encoding and decoding.
+# Description:
+#   Base58 encoding and decoding
 #
-# hubot base58 encode|decode <query> - Base58 encode or decode <query>
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot base58 encode|decode <query> - Base58 encode or decode <query>
+#
+# Author:
+#   jimeh
 
 module.exports = (robot) ->
   robot.respond /base58 encode( me)? (.*)/i, (msg) ->
@@ -17,8 +28,6 @@ module.exports = (robot) ->
       throw e unless e.message == 'Value passed is not a valid Base58 string.'
       msg.send "Not a valid base58 encoded string."
 
-
-# ripped from base58 npm package to avoid external dependencies
 class Base58Builder
   constructor: ->
     @alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
@@ -41,6 +50,5 @@ class Base58Builder
         throw new Error('Value passed is not a valid Base58 string.')
       num += char_index * Math.pow(@base, index)
     num
-
 
 Base58 = new Base58Builder()

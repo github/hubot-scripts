@@ -1,6 +1,17 @@
-# ASCII art.
+# Description:
+#   ASCII art
 #
-# hubot ascii me <text> - Show text in ascii art.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot ascii me <text> - Show text in ascii art
+#
+# Author:
+#   atmos
 
 module.exports = (robot) ->
   robot.respond /ascii( me)? (.+)/i, (msg) ->

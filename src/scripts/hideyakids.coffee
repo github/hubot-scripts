@@ -1,7 +1,17 @@
-# Antoine Dodson's greatest hits... errr... only hit 
+# Description:
+#   Antoine Dodson's greatest hits... errr... only hit 
 #
-# hide ya kids - Hide `em!
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hide ya kids - Hide `em!
+#
+# Author:
+#   Joseph Huttner
 
 module.exports = (robot) ->
   robot.hear /hide ya kids/i, (msg) ->

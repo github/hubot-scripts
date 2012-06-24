@@ -1,9 +1,18 @@
-# Approve or disapprove of something
+# Description:
+#   Approve or disapprove of something
 #
-# <user> disapproves - Disapprove of something
-# <user> approves - Approve of something
+# Dependencies:
+#   None
 #
-# Developed by One Mighty Roar (http://github.com/onemightyroar)
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot <user> disapproves - Disapprove of something
+#   hubot <user> approves - Approve of something
+#
+# Author:
+#   eliperkins
 
 module.exports = (robot) ->
   robot.respond /@?([\w .-_]+) disapproves/i, (msg) ->
@@ -24,4 +33,3 @@ module.exports = (robot) ->
       msg.send "http://i1.kym-cdn.com/photos/images/newsfeed/000/254/655/849.gif"
     else
       msg.send firstname + ", stop pretending to be " + name
-  	

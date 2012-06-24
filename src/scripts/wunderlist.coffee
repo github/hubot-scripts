@@ -1,22 +1,30 @@
-# wunderlist allows you to add todos to your wunderlist directly from hubot
+# Description:
+#   wunderlist allows you to add todos to your wunderlist directly from hubot
 #
-# Currently all todos are added to the Inbox.
+# Dependencies:
+#   "mailer": "0.6.7"
 #
-# Environment variables:
-#   HUBOT_WUNDERLIST_SMTP_HOST           - your smtp host e.g. smtp.gmail.com
-#   HUBOT_WUNDERLIST_SMTP_PORT           - the port to connect to
-#   HUBOT_WUNDERLIST_SMTP_USESSL         - wether you want to connect via SSL
-#   HUBOT_WUNDERLIST_SMTP_SENDDOMAIN     - the domain from which to send
-#   HUBOT_WUNDERLIST_SMTP_USEAUTH        - BOOL: authentication required
-#   HUBOT_WUNDERLIST_SMTP_AUTH_NAME      - username for authentication
+# Configuration:
+#   HUBOT_WUNDERLIST_SMTP_HOST - your smtp host e.g. smtp.gmail.com
+#   HUBOT_WUNDERLIST_SMTP_PORT - the port to connect to
+#   HUBOT_WUNDERLIST_SMTP_USESSL - wether you want to connect via SSL
+#   HUBOT_WUNDERLIST_SMTP_SENDDOMAIN - the domain from which to send
+#   HUBOT_WUNDERLIST_SMTP_USEAUTH - BOOL: authentication required
+#   HUBOT_WUNDERLIST_SMTP_AUTH_NAME - username for authentication
 #   HUBOT_WUNDERLIST_SMTP_AUTH_PASSWORD  - password for authentication
 #
-# hubot wunderlist all the users       - display all users which have registered
-# hubot wunderlist add me with <email> - add <email> as wunderlist login
-# hubot wunderlist my login            - display your wunderlist email
-# hubot wunderlist forget me           - remove the wunderlist login
-# hubot wunderlist me <a todo>         - adds the todo to your wunderlist Inbox
+# Commands:
+#   hubot wunderlist all the users       - display all users which have registered
+#   hubot wunderlist add me with <email> - add <email> as wunderlist login
+#   hubot wunderlist my login            - display your wunderlist email
+#   hubot wunderlist forget me           - remove the wunderlist login
+#   hubot wunderlist me <a todo>         - adds the todo to your wunderlist Inbox
 #
+# Notes:
+#   Currently all todos are added to the Inbox.
+#
+# Author:
+#   mrtazz
 
 mail = require 'mailer'
 

@@ -1,7 +1,18 @@
-# Allows Hubot to start and stop project time in mite.yo.lk
+# Description:
+#   Allows Hubot to start and stop project time in mite.yo.lk
 #
-# hubot save my mite key <key> for <account> - stores your personal API key for mite.yo.lk
-# hubot mite me <task> on <project> - starts or stops the matched task on the given project in mite.yo.lk
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot save my mite key <key> for <account> - stores your personal API key for mite.yo.lk
+#   hubot mite me <task> on <project> - starts or stops the matched task on the given project in mite.yo.lk
+#
+# Author:
+#   canclini
 
 module.exports = (robot) ->
   robot.respond /mite( me)? (.+) on (.+)/i, (msg) ->            # user wants to track time

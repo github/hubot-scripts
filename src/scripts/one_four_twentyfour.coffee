@@ -1,15 +1,21 @@
-# 1-4-24
-#
-# A drunkly coded, ASCII version of the famous game.
-# Sort of assumes Campfire
-# Game mechanics are easy: http://bruteforcex.blogspot.com/2008/03/1-4-24-dice-game.html
+# Description:
+#   A drunkly coded, ASCII version of the famous game.
+#   Sort of assumes Campfire
+#   Game mechanics are easy: http://bruteforcex.blogspot.com/2008/03/1-4-24-dice-game.html
 # 
-# In honor of Mark and the Buddha Lounge in San Francisco's China Town.
-# Created by engineers at SeatMe (http://www.seatme.com/)
+# Dependencies:
+#   None
 #
-# dice start - starts a game of one, four, twenty four
-# dice take <dice letters> - takes dice at given levels
-# dice stats - displays the stats for the game 
+# Configuration:
+#   None
+#
+# Commands:
+#   dice start - starts a game of one, four, twenty four
+#   dice take <dice letters> - takes dice at given levels
+#   dice stats - displays the stats for the game
+#
+# Author:
+#   zbowling
 
 dieMap = ['A','B','C','D','E','F']
 
@@ -315,4 +321,3 @@ module.exports = (robot) ->
     
   robot.hear /(buddha take|dice take|bdt) ([\w .-]+)/i, (msg) ->
     buddha.take msg, msg.message.user, msg.match[2]
-  

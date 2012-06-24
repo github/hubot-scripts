@@ -1,8 +1,18 @@
-# Allows Hubot to roll dice.
+# Description:
+#   Allows Hubot to roll dice
 #
-# hubot roll dice - Roll two six-sided dice.
+# Dependencies:
+#   None
 #
-# hubot roll <x>d<y> - roll x dice, each of which has y sides.
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot roll dice - Roll two six-sided dice
+#   hubot roll <x>d<y> - roll x dice, each of which has y sides
+#
+# Author:
+#   ab9
 
 module.exports = (robot) ->
   robot.respond /roll dice/i, (msg) ->

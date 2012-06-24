@@ -1,4 +1,17 @@
-# gob it - Display a GOB
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   gob it - Display a GOB
+#
+# Author:
+#   dylanegan
 
 gobs = [
   "http://bite-prod.s3.amazonaws.com/wp-content/uploads/2012/05/chicken-dance-2.gif",

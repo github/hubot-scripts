@@ -1,7 +1,17 @@
-# Highly illogical.
+# Description:
+#   Highly illogical
 #
-# illogical - Display an example of illogicality.
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   illogical - Display an example of illogicality
+#
+# Author:
+#   arbales
 
 vulcans = [
   "http://www.katzy.dsl.pipex.com/Smileys/illogical.gif",

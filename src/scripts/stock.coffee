@@ -1,8 +1,17 @@
-# Get a stock price
+# Description:
+#   Get a stock price
 #
-# stock <info|quote|price> for <ticker> - Get a stock price
+# Dependencies:
+#   None
 #
-# Developed by One Mighty Roar (http://github.com/onemightyroar)
+# Configuration:
+#   None
+#
+# Commands:
+#   stock <info|quote|price> for <ticker> - Get a stock price
+#
+# Author:
+#   eliperkins
 
 module.exports = (robot) ->
   robot.respond /stock (info|price|quote) for @?([\w .-_]+)/i, (msg) ->

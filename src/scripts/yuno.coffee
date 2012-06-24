@@ -1,5 +1,21 @@
-# <name> y u no <action> - U NO WHAT IT DOES.
-# Get image generation script at https://github.com/alexdean/yuno
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_YUNO_URL
+#   HUBOT_YUNO_AUTH_TOKEN
+#
+# Commands:
+#   <name> y u no <action> - U NO WHAT IT DOES
+#
+# Notes:
+#   Get image generation script at https://github.com/alexdean/yuno
+#
+# Author:
+#   alexdean
 
 module.exports = (robot) ->
   robot.hear /(.*) y u no (.*)/i, (msg) ->

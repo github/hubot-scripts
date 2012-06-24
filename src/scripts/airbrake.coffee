@@ -1,25 +1,27 @@
-# Returns error info from Airbrake
+# Description:
+#   None
 #
-# hubot show me airbrake errors - Get the most recent active errors
+# Dependencies:
+#   "jsdom": "0.2.14"
+#
+# Configuration:
+#   HUBOT_AIRBRAKE_AUTH_TOKEN
+#   HUBOT_AIRBRAKE_PROJECT
+#
+# Commands:
+#   hubot show me airbrake errors - Get the most recent active errors
+#
+# Author:
+#   tommeier
+
 jsdom = require 'jsdom'
 env = process.env
-
-# ENV Variables required :
-# HUBOT_AIRBRAKE_AUTH_TOKEN : Auth token from your account ( Login to site and go to 'Settings' )
-# HUBOT_AIRBRAKE_PROJECT    : Account name (eg: http://<account name>.airbrakeapp.com)
-
-# Add to heroku :
-# % heroku config:add HUBOT_AIRBRAKE_AUTH_TOKEN="..."
-# % heroku config:add HUBOT_AIRBRAKE_PROJECT="..."
-# Example error and further API :
-# http://help.airbrake.io/kb/api-2/api-overview
 
 module.exports = (robot) ->
 
   robot.respond /(show me )?airbrake( errors)?(.*)/i, (msg) ->
     query msg, (body, err, project_name) ->
       return msg.send err if err
-
 
       error_groups = body.getElementsByTagName("group")
       return msg.send "Congrats! No errors in the system right now!" unless error_groups?
@@ -79,5 +81,3 @@ module.exports = (robot) ->
         catch err
           err = "Could not fetch airbrake errors."
         cb(body, err, airbrake_project)
-
-

@@ -1,6 +1,17 @@
-# Get a fortune
+# Description:
+#   Get a fortune
 #
-# hubot fortune me - Displays a super true fortune
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot fortune me - Displays a super true fortune
+#
+# Author:
+#   mrtazz
 
 module.exports = (robot) ->
   robot.respond /(fortune)( me)?/i, (msg) ->

@@ -1,16 +1,22 @@
-# Beanstalk tools
-# 
-# You need to set the following variables:
-#   HUBOT_BEANSTALK_SUBDOMAIN ="<company subdomain>"
-#   HUBOT_BEANSTALK_ACCOUNT ="<beanstalk account>"
-#   HUBOT_BEANSTALK_PASSWORD ="<beanstalk password>"
+# Description:
+#   Beanstalk tools
 #
-# beanstalk repositories - List beanstalk repositories
-# beanstalk commits - List beanstalk recent commits
-# beanstalk users - List beanstalk users
-# beanstalk deployments - List beanstalk recent deployments
+# Dependencies:
+#   None
 #
-# Developed by One Mighty Roar (http://github.com/onemightyroar)
+# Configuration:
+#   HUBOT_BEANSTALK_SUBDOMAIN
+#   HUBOT_BEANSTALK_ACCOUNT
+#   HUBOT_BEANSTALK_PASSWORD
+#
+# Commands:
+#   beanstalk repositories - List beanstalk repositories
+#   beanstalk commits - List beanstalk recent commits
+#   beanstalk users - List beanstalk users
+#   beanstalk deployments - List beanstalk recent deployments
+#
+# Author:
+#   eliperkins
 
 module.exports = (robot) ->
 

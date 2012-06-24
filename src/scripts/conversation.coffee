@@ -1,4 +1,17 @@
-# Extends robot adding conversation features
+# Description:
+#   Extends robot adding conversation features
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   None
+#
+# Author:
+#   Iristyle
 
 module.exports = (robot) ->
   robot.eatListeners = {}
@@ -54,4 +67,3 @@ class Listener
       return true
     else
       return false
-

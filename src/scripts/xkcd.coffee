@@ -1,8 +1,19 @@
-# Grab XKCD comic image urls
+# Description:
+#   Grab XKCD comic image urls
 #
-# hubot xkcd       - The latest XKCD comic
-# hubot xkcd <num> - XKCD comic matching the supplied number
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot xkcd - The latest XKCD comic
+#   hubot xkcd <num> - XKCD comic <num>
+#
+# Author:
+#   twe4ked
+
 module.exports = (robot) ->
   robot.respond /xkcd\s?(\d+)?/i, (msg) ->
     if msg.match[1] == undefined

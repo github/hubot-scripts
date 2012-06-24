@@ -1,10 +1,18 @@
-# Grabs movie scores from Rotten Tomatoes
-# 
-# rotten me <movie>
-# 
-# Examples:
-# hubot rotten me inception
-# hubot rotten me the good, the bad, and the ugly
+# Description:
+#   Grabs movie scores from Rotten Tomatoes
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_ROTTEN_TOMATOES_API_KEY
+#
+# Commands:
+#   hubot rotten me <movie>
+#
+# Author:
+#   mportiz08
+
 module.exports = (robot) ->
   robot.respond /rotten me (.*)$/i, (msg) ->
     api_key = process.env.HUBOT_ROTTEN_TOMATOES_API_KEY

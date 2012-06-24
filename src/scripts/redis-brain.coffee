@@ -1,3 +1,18 @@
+# Description:
+#   None
+#
+# Dependencies:
+#   "redis": "0.7.2"
+#
+# Configuration:
+#   REDISTOGO_URL
+#
+# Commands:
+#   None
+#
+# Author:
+#   atmos
+
 Url   = require "url"
 Redis = require "redis"
 

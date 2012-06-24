@@ -1,12 +1,20 @@
-# Allows good and bad things to be added to Hubot for sprint retrospective
-#  Based on tasks.coffee
+# Description:
+#   Allows good and bad things to be added to Hubot for sprint retrospective
+# 
+# Dependencies:
 #
-# hubot good <good thing> - Add something good that happened this sprint
-# hubot bad <bad thing> - Add something bad that happened this sprint
-# hubot goodlist - List all good things that happened
-# hubot badlist - List all bad things that happened
-# hubot gooddel - Delete all good things that happened
-# hubot baddel - Delete all bad things that happened
+# Configuration:
+#
+# Commands:
+#   hubot good <good thing> - Add something good that happened this sprint
+#   hubot bad <bad thing> - Add something bad that happened this sprint
+#   hubot goodlist - List all good things that happened
+#   hubot badlist - List all bad things that happened
+#   hubot gooddel - Delete all good things that happened
+#   hubot baddel - Delete all bad things that happened
+#
+# Author:
+#   gabeguz
 
 class GoodBad
   constructor: (@robot) ->

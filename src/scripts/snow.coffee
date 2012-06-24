@@ -1,7 +1,18 @@
-# Get a snow report from onthesnow.com
+# Description:
+#   Get a snow report from onthesnow.com
 #
-# hubot snow in <two letter state name> - Displays resort info for a state, .e.g., snow in CO
-# hubot snow at <resort>, <two letter state name> - Displays info for a single resort
+# Dependencies:
+#   "xml2js": "0.1.14"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot snow in <two letter state name> - Displays resort info for a state, .e.g., snow in CO
+#   hubot snow at <resort>, <two letter state name> - Displays info for a single resort
+#
+# Author:
+#   rwc9u
 
 xml2js = require('xml2js')
 

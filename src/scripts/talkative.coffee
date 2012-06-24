@@ -1,9 +1,19 @@
-# Respond to custom answers
-# hubot say something about <topic> - will say something he knows about the subject
-# hubot when asked <regexp_of_question> answer <response> - teach your bot to answer to <regexp_of_question> with <response>
-# hubot forget answers - remove every teached answer from bot brain
+# Description:
+#   Respond to custom answers
 #
-# requires redis-brain
+# Dependencies:
+#   redis-brain.coffee
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot say something about <topic> - will say something he knows about the subject
+#   hubot when asked <regexp_of_question> answer <response> - teach your bot to answer to <regexp_of_question> with <response>
+#   hubot forget answers - remove every teached answer from bot brain
+#
+# Author:
+#   NNA
 
 module.exports = (robot) ->
 

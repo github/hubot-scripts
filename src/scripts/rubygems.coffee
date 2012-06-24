@@ -1,7 +1,17 @@
-# Find a rubygem from rubygems.org
+# Description:
+#   Find a rubygem from rubygems.org
 #
-# hubot there's a gem for <that> - Returns a link to a gem on rubygems.org
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot there's a gem for <that> - Returns a link to a gem on rubygems.org
+#
+# Author:
+#   sferik
 
 module.exports = (robot) ->
   robot.respond /there's a gem for (.*)/i, (msg) ->

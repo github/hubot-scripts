@@ -1,13 +1,19 @@
-# Make hubot fetch quotes pertaining The IT Crowd
-# The SHOES-A
+# Description:
+#   Make hubot fetch quotes pertaining The IT Crowd
 #
-# get archer
-
-# REQUIRED MODULES
-# sudo npm install htmlparser
-# sudo npm install soupselect
-# sudo npm install jsdom
-# sudo npm install underscore
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
+#   "jsdom": "0.2.14"
+#   "underscore": "1.3.3"
+#
+# Configuration:
+#   None
+#
+# Commands:
+# 
+# Author:
+#   rrix
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

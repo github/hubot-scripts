@@ -1,7 +1,17 @@
-# Display a random tweet from twitter about a subject
+# Description:
+#   Display a random tweet from twitter about a subject
 #
-# hubot <keyword> tweet - Returns a link to a tweet about <keyword>
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot <keyword> tweet - Returns a link to a tweet about <keyword>
+#
+# Author:
+#   atmos
 
 module.exports = (robot) ->
   robot.respond /(.*) tweet/i, (msg) ->

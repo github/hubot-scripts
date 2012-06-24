@@ -1,10 +1,21 @@
-# Decides where you should go.
+# Description:
+#   Decides where you should go
 #
-# hubot remember <location> as a <group> location - Remembers the location for the group.
-# hubot forget <location> as a <group> location - Forgets the location from the group.
-# hubot forget all locations for <group> - Forgets all the locations for the group.
-# hubot where can we go for <group>? - Returns a list of places that exist for the group.
-# hubot where should we go for <group>? - Returns a randomly selected location for the group.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot remember <location> as a <group> location - Remembers the location for the group
+#   hubot forget <location> as a <group> location - Forgets the location from the group
+#   hubot forget all locations for <group> - Forgets all the locations for the group
+#   hubot where can we go for <group>? - Returns a list of places that exist for the group
+#   hubot where should we go for <group>? - Returns a randomly selected location for the group
+#
+# Authors:
+#   lukesmith
 
 class Locations
   constructor: (@robot) ->

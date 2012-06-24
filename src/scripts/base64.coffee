@@ -1,6 +1,17 @@
-# Base64 encoding and decoding.
+# Description:
+#   Base64 encoding and decoding
 #
-# hubot base64 encode|decode <query> - Base64 encode or decode <string>
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot base64 encode|decode <query> - Base64 encode or decode <string>
+#
+# Author:
+#   jimeh
 
 module.exports = (robot) ->
   robot.respond /base64 encode( me)? (.*)/i, (msg) ->

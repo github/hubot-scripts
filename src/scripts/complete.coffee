@@ -1,9 +1,19 @@
-# Hubot, you complete me
+# Description:
+#   Hubot, you complete me
 #
-# complete me - Google Suggest a phrase
+# Dependencies:
+#   "xml2js": "0.1.14"
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot complete me - Google Suggest a phrase
+#
+# Author:
+#   aroben
 
-XMLJS = require("../lib/xml2js")
+XMLJS = require("xml2js")
 
 module.exports = (robot) ->
   robot.respond /complete( me)?(?: x(\d+))? (.*)$/i, (msg) ->

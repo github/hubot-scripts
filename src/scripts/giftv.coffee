@@ -1,6 +1,18 @@
-# Return random animated GIFs from giftv.
+# Description:
+#   Return random animated GIFs from giftv
 #
-# hubot giftv me - Returns a random animated GIF.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot giftv me - Returns a random animated GIF
+#
+# Author:
+#   brettbuddin
+
 module.exports = (robot) ->
   robot.respond /giftv( me)?$/i, (msg) ->
     msg

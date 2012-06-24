@@ -1,11 +1,19 @@
-# Listens for Trajectory story links.
+# Description:
+#   Listens for Trajectory story links.
 #
-# <a Trajectory story URL> - sends back some story details
+# Dependencies:
+#   None
 #
-# You need to set the following variables:
+# Configuration:
 #   HUBOT_TRAJECTORY_APIKEY: your Trajectory API key
 #   HUBOT_TRAJECTORY_ACCOUNT: your Trajectory account number
 #
+# Commands:
+#   <a Trajectory story URL> - sends back some story details
+#
+# Author:
+#   galfert
+
 module.exports = (robot) ->
   robot.hear /apptrajectory\.com\/\w+\/(\w+)\/stories\/(\d+)/i, (msg) ->
     apiKey  = process.env.HUBOT_TRAJECTORY_APIKEY

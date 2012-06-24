@@ -1,4 +1,16 @@
-# Hubot is very attentive (ping hubot)
+# Description:
+#   Hubot is very attentive (ping hubot)
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   tapichu
 
 phrases = [
   "Yes, master?"

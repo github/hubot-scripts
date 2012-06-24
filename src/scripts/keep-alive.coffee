@@ -1,10 +1,20 @@
-# keep-alive pings each url in the array every minute.
-# This is specifically to keep certain heroku apps from going to sleep
+# Description:
+#   keep-alive pings each url in the array every minute.
+#   This is specifically to keep certain heroku apps from going to sleep
 #
-# hubot keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
-# hubot don't keep `http://ninjas-20.herokuapp.com` alive - Remove inputted url to the collection of urls set to be pinged
-# hubot what are you keeping alive - Show list of urls being kept alive
-
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
+#   hubot don't keep `http://ninjas-20.herokuapp.com` alive - Remove inputted url to the collection of urls set to be pinged
+#   hubot what are you keeping alive - Show list of urls being kept alive
+#
+# Author:
+#   maddox
 
 HTTP = require "http"
 URL  = require "url"
@@ -79,17 +89,3 @@ module.exports = (robot) ->
       msg.send "These are the urls I'm keeping alive\n\n" + robot.brain.data.keepalives.join('\n')
     else
       msg.send "i'm not currently keeping any urls alive. Why don't you add one."
-
-
-
-
-
-
-
-
-
-
-
-
-
-

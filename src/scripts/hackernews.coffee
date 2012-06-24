@@ -1,8 +1,20 @@
-# Hacker News
+# Description:
+#   Hacker News
 #
-# hubot hn top <N> - get the top N items on hacker news (or your favorite RSS feed)
-# hn.top - refer to the top item on hn
-# hn[i] - refer to the ith item on hn
+# Dependencies:
+#   "nodepie": "0.5.0"
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot hn top <N> - get the top N items on hacker news (or your favorite RSS feed)
+#   hn.top - refer to the top item on hn
+#   hn[i] - refer to the ith item on hn
+#
+# Author:
+#   skimbrel
+
 NodePie = require("nodepie")
 
 hnFeedUrl = "https://news.ycombinator.com/rss"
@@ -45,6 +57,3 @@ module.exports = (robot) ->
          catch e
            console.log(e)
            msg.send "Something's gone awry"
-
-
-

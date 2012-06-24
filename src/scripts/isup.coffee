@@ -1,8 +1,17 @@
-# Uses downforeveryoneorjustme.com to check if a site is up.
+# Description:
+#   Uses downforeveryoneorjustme.com to check if a site is up
 #
-# is <domain> up?   - Checks if <domain> is up
+# Dependencies:
+#   None
 #
-# Written by @jmhobbs
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot is <domain> up? - Checks if <domain> is up
+#
+# Author:
+#   jmhobbs
 
 module.exports = (robot) ->
   robot.respond /is (.*?) (up|down)(\?)?/i, (msg) ->
@@ -18,4 +27,3 @@ isUp = (msg, domain, cb) ->
         cb "#{domain} looks DOWN from here."
       else
         cb "Not sure, #{domain} returned an error."
-

@@ -1,3 +1,18 @@
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   yoda pic - Returns a random quote
+#
+# Author:
+#   vquaiato
+
 module.exports = (robot) ->
 	robot.hear /^yoda pic$/i, (msg) ->
 		images = ["http://upload.wikimedia.org/wikipedia/pt/thumb/4/45/Yoda.jpg/200px-Yoda.jpg",

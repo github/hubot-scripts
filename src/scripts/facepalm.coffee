@@ -1,5 +1,16 @@
-# Clearly illustrate with an image what people mean whenever
-# they say "facepalm".
+# Description:
+#   Clearly illustrate with an image what people mean whenever they say "facepalm"
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+# 
+# Authors:
+#   jimeh
 
 module.exports = (robot) ->
   robot.hear /facepalm/i, (msg) ->

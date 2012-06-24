@@ -1,44 +1,20 @@
-# Load scripts from the hubot scripts directory on the fly for testing purposes.
+# Description:
+#   Load scripts from the hubot scripts directory on the fly for testing purposes
 #
-# hubot script load <script> - Load a script
-# hubot script list [-l]     - List all availiable scripts (optional -l for list mode)
-# hubot script info <script> - Print script help
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot script load <script> - Load a script
+#   hubot script list [-l]     - List all availiable scripts (optional -l for list mode)
+#   hubot script info <script> - Print script help
+#
+# Author:
+#   unitio
 
-# Examples
-#
-#   script load xkcd
-#   # => Loading scripts XKCD
-#        xkcd       - The latest XKCD comic
-#        xkcd <num> - XKCD comic matching the supplied number
-#
-#   script list
-#   # => achievement_unlocked, adult, animal, ..., wolfram, wordnik, xkcd
-#
-#   script list -l
-#   # => achievement_unlocked
-#        adult
-#        animal
-#        ...
-#        wolfram
-#        wordnik
-#        xkcd
-#
-#   script info xkcd
-#   # => xkcd       - The latest XKCD comic
-#        xkcd <num> - XKCD comic matching the supplied number
-#
-# Note
-#
-#   1. Any scripts that you load will be lost on bot restart unless you add
-#      them to `hubot-scripts.json`.
-#   2. If this script is enabled ANYBODY will be able to load scripts, you may
-#      not want to leave this script enabled.
-#
-# Authors
-#
-#   Tim Oxley   @secoif
-#   Odin Dutton @twe4ked
-#
 Path = require 'path'
 Fs   = require 'fs'
 

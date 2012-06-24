@@ -1,8 +1,20 @@
-# Allows hubot to answer almost any question by asking Wolfram Alpha
+# Description:
+#   Allows hubot to answer almost any question by asking Wolfram Alpha
 #
-# Set the HUBOT_WOLFRAM_APPID environment var to your AppID
+# Dependencies:
+#   "wolfram": "0.2.0"
 #
-# hubot question <question> - Searches Wolfram Alpha for the answer to the question.
+# Configuration:
+#   HUBOT_WOLFRAM_APPID - your AppID
+#
+# Commands:
+#   hubot question <question> - Searches Wolfram Alpha for the answer to the question
+#
+# Notes:
+#   This may not work with node 0.6.x
+#
+# Author:
+#   dhorrigan
 
 Wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 

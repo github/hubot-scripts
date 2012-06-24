@@ -1,8 +1,20 @@
-# The game of Hangman.
-# Words and definitions are sourced via the Wordnik API. You'll need an API key from http://developer.wordnik.com/
+# Description:
+#   The game of Hangman.
+#   Words and definitions are sourced via the Wordnik API. You'll need an API
+#   key from http://developer.wordnik.com/
 #
-# hubot hangman - Display the state of the current game.
-# hubot hangman <letterOrWord> - Make a guess.
+# Dependencies:
+#   None
+# 
+# Configuration:
+#   WORDNIK_API_KEY
+#
+# Commands:
+#   hubot hangman - Display the state of the current game
+#   hubot hangman <letterOrWord> - Make a guess
+#
+# Author:
+#   harukizaemon
 
 class Game
 

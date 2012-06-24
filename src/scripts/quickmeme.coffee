@@ -1,6 +1,18 @@
-# Allow Hubot to show the image from a quickmeme link, as dragging from their site is a pain.
+# Description:
+#   Allow Hubot to show the image from a quickmeme link, as dragging
+#   from their site is a pain.
 #
-# http://www.quickmeme.com/meme/* - Detects the url and displays the image
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   http://www.quickmeme.com/meme/* - Detects the url and displays the image
+#
+# Author:
+#   chrisdrackett
 
 module.exports = (robot) ->
   robot.hear /https?:\/\/www\.quickmeme\.com\/\w+\/(\w+)\//i, (msg) ->

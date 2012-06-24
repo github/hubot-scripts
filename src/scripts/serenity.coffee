@@ -1,4 +1,16 @@
-# Serenity Now!!
+# Description:
+#   Serenity Now!!
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   madtimber
 
 module.exports = (robot) ->
   robot.hear /serenity|serenity now/i, (msg) ->

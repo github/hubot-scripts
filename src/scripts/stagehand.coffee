@@ -1,8 +1,19 @@
-# Stagehand manages who is currently using your team's staging server
+# Description:
+#   Stagehand manages who is currently using your team's staging server
 #
-# stagehand who - Show who has booked the staging server and how much time they have left.
-# stagehand book [minutes] - Book the staging server and optionally specify usage time. Default is 30min.
-# stagehand cancel - Cancel the current booking.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   stagehand who - Show who has booked the staging server and how much time they have left
+#   stagehand book [minutes] - Book the staging server and optionally specify usage time. Default is 30min
+#   stagehand cancel - Cancel the current booking
+#
+# Author:
+#   tinifni
 
 bookStaging = (data, user, minutes) ->
   return false if data.user != user && new Date() < data.expires

@@ -1,8 +1,18 @@
-# Display a random "haters gonna hate" image
+# Description:
+#   Display a random "haters gonna hate" image
 #
-# haters - Returns a random haters gonna hate url
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
 #
+# Commands:
+#   haters - Returns a random haters gonna hate url
+#
+# Author:
+#   atmos
+
 haters = [
   "http://www.hatersgoingtohate.com/wp-content/uploads/2010/06/haters-gonna-hate-rubberband-ball.jpg"
 , "http://www.hatersgoingtohate.com/wp-content/uploads/2010/06/haters-gonna-hate-cat.jpg"

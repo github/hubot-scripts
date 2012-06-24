@@ -1,26 +1,30 @@
-# Messing with the JIRA REST API
+# Description:
+#   Messing with the JIRA REST API
 #
-# <Project Key>-<Issue ID>      - Displays information about the ticket (if it exists)
-# hubot show watchers for <Issue Key> - Shows watchers for the given issue
-# hubot search for <JQL>              - Search JIRA with JQL
-# hubot save filter <JQL> as <name>   - Save JQL as filter in the brain
-# hubot use filter                    - Use a filter from the brain
-# hubot show filter(s)                - Show all filters
-# hubot show filter <name>            - Show a specific filter
-
-# Required environment variables:
-# * HUBOT_JIRA_URL: Base URL to JIRA instance, without trailing slash eg: https://myserver.com/jira 
-# * HUBOT_JIRA_USER: JIRA username
-# * HUBOT_JIRA_PASSWORD: JIRA password
-# Optional environment variables:
-# * HUBOT_JIRA_USE_V2: "true" to use v2 of the JIRA REST API, defaults to "false" (v1)
-# * HUBOT_JIRA_MAXLIST: maximum number of items to show for a JQL query, defaults to 10
-# * HUBOT_JIRA_ISSUEDELAY: number of seconds to not show a ticket for again after it's been 
-#                          mentioned once. This helps to cut down on noise from the bot.
-#                          Defaults to 30.
-# * HUBOT_JIRA_IGNOREUSERS: Comma-seperated list of users to ignore "hearing" issues from.
-#                           This works well with other bots or API calls that post to the room.
-#                           Example: "Subversion,TeamCity,John Doe"
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_JIRA_URL
+#   HUBOT_JIRA_USER
+#   HUBOT_JIRA_PASSWORD
+#   Optional environment variables:
+#   HUBOT_JIRA_USE_V2
+#   HUBOT_JIRA_MAXLIST
+#   HUBOT_JIRA_ISSUEDELAY
+#   HUBOT_JIRA_IGNOREUSERS
+#
+# Commands:
+#   <Project Key>-<Issue ID> - Displays information about the ticket (if it exists)
+#   hubot show watchers for <Issue Key> - Shows watchers for the given issue
+#   hubot search for <JQL> - Search JIRA with JQL
+#   hubot save filter <JQL> as <name> - Save JQL as filter in the brain
+#   hubot use filter - Use a filter from the brain
+#   hubot show filter(s) - Show all filters
+#   hubot show filter <name> - Show a specific filter
+#
+# Author:
+#   codec
 
 class IssueFilters
   constructor: (@robot) ->

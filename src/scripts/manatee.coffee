@@ -1,8 +1,18 @@
-# Allows Hubot to pull down images from clamingmanatee.com
+# Description:
+#   Allows Hubot to pull down images from clamingmanatee.com
 #
-# hubot manatee - outputs a random manatee
+# Dependencies:
+#   "htmlparser": "1.7.6"
+#   "soupselect: "0.2.0"
 #
+# Configuration:
+#   None
 #
+# Commands:
+#   hubot manatee - outputs a random manatee
+#
+# Author:
+#   Danny Lockard
 
 Select = require( "soupselect" ).select
 HTMLParser = require "htmlparser"

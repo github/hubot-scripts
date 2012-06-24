@@ -1,30 +1,31 @@
-# Integrates with memegenerator.net
+# Description:
+#   Integrates with memegenerator.net
 #
-# hubot Y U NO <text>              - Generates the Y U NO GUY with the bottom caption of <text>
+# Dependencies:
+#   None
 #
-# hubot I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
+# Configuration:
+#   HUBOT_MEMEGEN_USERNAME
+#   HUBOT_MEMEGEN_PASSWORD
+#   HUBOT_MEMEGEN_DIMENSIONS
 #
-# hubot <text> ORLY?               - Generates the ORLY? owl with the top caption of <text>
+# Commands:
+#   hubot Y U NO <text>  - Generates the Y U NO GUY with the bottom caption of <text>
+#   hubot I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
+#   hubot <text> ORLY? - Generates the ORLY? owl with the top caption of <text>
+#   hubot <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
+#   hubot <text> ALL the <things> - Generates ALL THE THINGS
+#   hubot <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
+#   hubot good news everyone! <news> - Generates Professor Farnsworth
+#   hubot khanify <text> - TEEEEEEEEEEEEEEEEEXT!
+#   hubot Not sure if <text> or <text> - Generates Futurama Fry
+#   hubot Yo dawg <text> so <text> - Generates Yo Dawg
+#   hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
+#   hubot if <text>, <word that can start a question> <text>? - Generates Philosoraptor
+#   hubot <text> FUCK YOU - Angry Linus
 #
-# hubot <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
-#
-# hubot <text> ALL the <things>    - Generates ALL THE THINGS
-#
-# hubot <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
-#
-# Good news everyone! <news> - Generates Professor Farnsworth
-#
-# hubot khanify <text> - TEEEEEEEEEEEEEEEEEXT!
-#
-# hubot Not sure if <text> or <text> - Generates Futurama Fry
-#
-# hubot Yo dawg <text> so <text> - Generates Yo Dawg
-#
-# hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
-#
-# hubot If <text>, <word that can start a question> <text>? - Generates Philosoraptor
-#
-# hubot <text> FUCK YOU - Angry Linus
+# Author:
+#   skalnik
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->

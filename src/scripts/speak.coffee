@@ -1,8 +1,17 @@
-# Allows Hubot to speak many languages.
+# Description:
+#   Allows Hubot to speak many languages
 #
-# speak me <phrase> - Detects the language 'phrase' is written in, then
-#                     sends back a spoken version of that phrase in its native
-#                     language.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_MSTRANSLATE_APIKEY
+#
+# Commands:
+#   speak me <phrase> - Detects the language 'phrase' is written in, then sends back a spoken version of that phrase
+#
+# Author:
+#   atmos
 
 module.exports = (robot) ->
   robot.hear /(speak)( me)? (.*)/i, (msg) ->

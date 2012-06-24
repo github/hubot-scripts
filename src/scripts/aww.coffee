@@ -1,8 +1,17 @@
-# Hubot delivers a pic from Reddit's /r/aww frontpage.
+# Description:
+#   Hubot delivers a pic from Reddit's /r/aww frontpage
 #
-# aww - aww
+# Dependencies:
+#   None
 #
-# Developed by One Mighty Roar (http://github.com/onemightyroar)
+# Configuration:
+#   None
+#
+# Commands:
+#   aww - Display the picture from /r/aww
+#
+# Author:
+#   eliperkins
 
 module.exports = (robot) ->
   robot.respond /aww/i, (msg) ->

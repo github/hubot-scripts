@@ -1,6 +1,17 @@
-# Motivation from Ron Swanson
+# Description:
+#   Motivation from Ron Swanson
 #
-# hubot swanson me          - Motivates you to be more awesome.
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot swanson me - Motivates you to be more awesome
+#
+# Author:
+#   danielmurphy
 
 module.exports = (robot) ->
   robot.respond /swanson me$/i, (msg) ->

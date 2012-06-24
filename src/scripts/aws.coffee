@@ -1,23 +1,30 @@
-# Queries for the status of AWS services
+# Description:
+#   Queries for the status of AWS services
 #
-# hubot sqs status - Returns the status of SQS queues.
-# hubot ec2 status - Returns the status of EC2 instances.
+# Dependencies:
+#   "aws2js": "0.6.12"
+#   "underscore": "1.3.3"
+#   "moment": "1.6.2"
 #
-
-# Environment variables:
-#   HUBOT_AWS_ACCESS_KEY_ID     - The Amazon access key id
-#   HUBOT_AWS_SECRET_ACCESS_KEY - The Amazon secret key for the given id
-#   HUBOT_AWS_SQS_REGIONS - Comma separated list of regions to query
-#   HUBOT_AWS_EC2_REGIONS - Comma separated list of regions to query
+# Configuration:
+#   HUBOT_AWS_ACCESS_KEY_ID
+#   HUBOT_AWS_SECRET_ACCESS_KEY
+#   HUBOT_AWS_SQS_REGIONS
+#   HUBOT_AWS_EC2_REGIONS
 #
-# package.json needs to have "aws2js":"0.6.12" and "moment":"1.6.2" and "underscore":"1.3.3"
+# Commands:
+#   hubot sqs status - Returns the status of SQS queues
+#   hubot ec2 status - Returns the status of EC2 instances
 #
-# It's highly recommended to use a read-only IAM account for this purpose
-# https://console.aws.amazon.com/iam/home?#
+# Notes:
+#   It's highly recommended to use a read-only IAM account for this purpose
+#   https://console.aws.amazon.com/iam/home?
+#   SQS - requires ListQueues, GetQueueAttributes and ReceiveMessage
+#   EC2 - requires EC2:Describe*, elasticloadbalancing:Describe*, cloudwatch:ListMetrics, 
+#   cloudwatch:GetMetricStatistics, cloudwatch:Describe*, autoscaling:Describe*
 #
-# SQS - requires ListQueues, GetQueueAttributes and ReceiveMessage
-# EC2 - requires EC2:Describe*, elasticloadbalancing:Describe*, cloudwatch:ListMetrics, 
-# cloudwatch:GetMetricStatistics, cloudwatch:Describe*, autoscaling:Describe*
+# Author:
+#   Ethan J. Brown
 
 key = process.env.HUBOT_AWS_ACCESS_KEY_ID
 secret = process.env.HUBOT_AWS_SECRET_ACCESS_KEY

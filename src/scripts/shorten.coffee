@@ -1,6 +1,18 @@
-# Shorten URLs with bit.ly
+# Description:
+#   Shorten URLs with bit.ly
 #
-# hubot (bitly|shorten) (me) <url> - Shorten the URL using bit.ly
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_BITLY_USERNAME
+#   HUBOT_BITLY_API_KEY
+#
+# Commands:
+#   hubot (bitly|shorten) (me) <url> - Shorten the URL using bit.ly
+#
+# Author:
+#   sleekslush
 
 module.exports = (robot) ->
   robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/, (msg) ->

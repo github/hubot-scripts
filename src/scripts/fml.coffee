@@ -1,4 +1,18 @@
-# fml - A random message from fmylife.com
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   fml - A random message from fmylife.com
+#
+# Author:
+#   artfuldodger
+
 module.exports = (robot) ->
   robot.respond /fml/i, (msg) ->
     fml msg

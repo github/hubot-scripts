@@ -1,7 +1,17 @@
-# Find the build status of an open-source project on Travis
+# Description:
+#   Find the build status of an open-source project on Travis
 #
-# hubot travis me <user>/<repo> - Returns the build status of https://github.com/<user>/<repo>
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot travis me <user>/<repo> - Returns the build status of https://github.com/<user>/<repo>
+#
+# Author:
+#   sferik
 
 module.exports = (robot) ->
   robot.respond /travis me (.*)/i, (msg) ->

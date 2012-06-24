@@ -1,7 +1,18 @@
-# Horrible Animal Crossing fish puns
+# Description:
+#   Horrible Animal Crossing fish puns
 #
-# fish - Get fishy
+# Dependencies:
+#   None
+# 
+# Configuration:
+#   None
 #
+# Commands:
+#   fish - Get fishy
+#
+# Author:
+#   BM5k
+
 module.exports = (robot) ->
   robot.hear /fish/i, (msg) ->
     quotes = [

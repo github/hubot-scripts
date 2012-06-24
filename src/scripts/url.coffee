@@ -1,7 +1,18 @@
-# URL encoding and decoding.
+# Description:
+#   URL encoding and decoding
 #
-# hubot url encode|decode <query> - URL encode or decode <string>
-# hubot url form encode|decode <query> - URL form-data encode or decode <string>
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot url encode|decode <query> - URL encode or decode <string>
+#   hubot url form encode|decode <query> - URL form-data encode or decode <string>
+#
+# Author:
+#   jimeh
 
 module.exports = (robot) ->
   robot.respond /URL encode( me)? (.*)/i, (msg) ->

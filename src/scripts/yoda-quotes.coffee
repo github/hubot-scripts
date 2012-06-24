@@ -1,7 +1,17 @@
-# Yoda Quotes
+# Description:
+#   None
 #
-# yoda quote - Get a random Yoda quote
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   yoda quote - Returns a random yoda quote
+#
+# Author:
+#   vquaiato
 
 quotes = [
   "Agree with you, the council does. Your apprentice, Skywalker will be.",
@@ -15,7 +25,6 @@ quotes = [
   "Much to learn you still have...my old padawan... This is just the beginning!",
   "Twisted by the Dark Side young Skywalker has become.",
   "The boy you trained, gone he is, consumed by Darth Vader.",
-  "Death is a natural part of life. Rejoice for those around you who transform into the Force. Mourn them do not. Miss them do not. Attachment leads to jealo$
   "The fear of loss is a path to the Dark Side.",
   "If into the security recordings you go, only pain will you find.",
   "Not if anything to say about it I have.",

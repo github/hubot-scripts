@@ -1,26 +1,32 @@
-# Show open issues from a Github repository.
+# Description:
+#   Show open issues from a Github repository
 #
-# You need to set the following variable:
-#   HUBOT_GITHUB_TOKEN = "<oauth token>"
+# Dependencies:
+#   "underscore": "1.3.3"
+#   "underscore.string": "2.1.1"
+#   "githubot": "0.2.0"
 #
-# You may optionally set the following variables:
-#   HUBOT_GITHUB_USER = "<default user/org name>"
-#   HUBOT_GITHUB_REPO = "<default repo>"
-#   HUBOT_GITHUB_USER_(.*) = "<GitHub username for matching chat handle>"
+# Configuration:
+#   HUBOT_GITHUB_TOKEN
+#   HUBOT_GITHUB_USER
+#   HUBOT_GITHUB_REPO
+#   HUBOT_GITHUB_USER_(.*)
 #
-# Add in "githubot":"0.2.0" to your package.json file.
+# Commands:
+#   If HUBOT_GITHUB_USER is set, you can ask `show me issues for hubot` instead
+#   of `show me issues for github/hubot`.
 #
-# If HUBOT_GITHUB_USER is set, you can ask `show me issues for hubot` instead
-# of `show me issues for github/hubot`.
+#   If HUBOT_GITHUB_REPO is set, you can ask `show me issues` instead of `show
+#   me issues for github/hubot`.
 #
-# If HUBOT_GITHUB_REPO is set, you can ask `show me issues` instead of `show
-# me issues for github/hubot`.
+#   If, for example, HUBOT_GITHUB_USER_JOHN is set to GitHub user login
+#   'johndoe1', you can ask `show john's issues` instead of `show johndoe1's
+#   issues`. This is useful for mapping chat handles to GitHub logins.
 #
-# If, for example, HUBOT_GITHUB_USER_JOHN is set to GitHub user login
-# 'johndoe1', you can ask `show john's issues` instead of `show johndoe1's
-# issues`. This is useful for mapping chat handles to GitHub logins.
+#   hubot show [me] [<limit> [of]] [<assignee>'s|my] [<label>] issues [for <user/repo>] [about <query>] -- Shows open GitHub issues for repo.
 #
-# hubot show [me] [<limit> [of]] [<assignee>'s|my] [<label>] issues [for <user/repo>] [about <query>] -- Shows open GitHub issues for repo.
+# Author:
+#   davidsiegel
 
 _  = require("underscore")
 _s = require("underscore.string")

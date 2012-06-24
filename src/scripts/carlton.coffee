@@ -1,7 +1,17 @@
-# Carlton Celebration
+# Description:
+#   Carlton Celebration
 #
-# dance - Display a dancing Carlton
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   dance - Display a dancing Carlton
+#
+# Author:
+#   pingles
 
 carltons = [
   "http://media.tumblr.com/tumblr_lrzrlymUZA1qbliwr.gif",

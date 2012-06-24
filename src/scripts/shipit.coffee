@@ -1,7 +1,17 @@
-# Rodent Motivation
+# Description:
+#   Rodent Motivation
 #
-# ship it - Display a motivation squirrel
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   ship it - Display a motivation squirrel
+#
+# Author:
+#   maddox
 
 squirrels = [
   "http://img.skitch.com/20100714-d6q52xajfh4cimxr3888yb77ru.jpg",

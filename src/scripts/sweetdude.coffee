@@ -1,3 +1,17 @@
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+# 
+# Author:
+#   cgarvis
+
 module.exports = (robot) ->
   robot.hear /^(sweet|dude)!/i, (msg) ->
     switch msg.match[1].toLowerCase()

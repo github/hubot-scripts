@@ -1,8 +1,18 @@
-# Chuck Norris awesomness.
+# Description:
+#   Chuck Norris awesomeness
 #
+# Dependencies:
+#   None
 #
-# hubot chuck norris -- random Chuck Norris awesomeness.
-# hubot chuck norris me <user> -- let's see how <user> would do as Chuck Norris.
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot chuck norris -- random Chuck Norris awesomeness
+#   hubot chuck norris me <user> -- let's see how <user> would do as Chuck Norris
+#
+# Author:
+#   dlinsin
 
 module.exports = (robot) ->
 
@@ -24,5 +34,3 @@ module.exports = (robot) ->
             msg.send "Achievement unlocked: Chuck Norris is quiet!"
           else
             msg.send message_from_chuck.value.joke
-  
-  

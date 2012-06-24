@@ -1,28 +1,38 @@
-# Trac interaction script
+# Description:
+#   Trac interaction script
 #
-# #123            - Show details about a Trac ticket
-# r123 or [123]   - Show details about a commit
-
-# Required environment variables:
-# * HUBOT_TRAC_URL: Base URL to Trac instance, without trailing slash eg: https://myserver.com/trac
-# * HUBOT_TRAC_USER: Trac username (uses HTTP basic authentication)
-# * HUBOT_TRAC_PASSWORD: Trac password
-# Optional environment variables:
-# * HUBOT_TRAC_JSONRPC: "true" to use the Trac http://trac-hacks.org/wiki/XmlRpcPlugin.
+# Dependencies:
+#   "xml2js": "0.1.14"
+#
+# Configuration:
+#   HUBOT_TRAC_URL: Base URL to Trac instance, without trailing slash eg: https://myserver.com/trac
+#   HUBOT_TRAC_USER: Trac username (uses HTTP basic authentication)
+#   HUBOT_TRAC_PASSWORD: Trac password
+#
+# Optional Configuration:
+#   HUBOT_TRAC_JSONRPC: "true" to use the Trac http://trac-hacks.org/wiki/XmlRpcPlugin.
 #                       Requires jsonrpc to be enabled in the plugin. Default to "true".
-# * HUBOT_TRAC_SCRAPE: "true" to use HTTP scraping to pull information from Trac. 
+#   HUBOT_TRAC_SCRAPE: "true" to use HTTP scraping to pull information from Trac. 
 #                      Defaults to "true".
-# * HUBOT_TRAC_LINKDELAY: number of seconds to not show a link for again after it's been
+#   HUBOT_TRAC_LINKDELAY: number of seconds to not show a link for again after it's been
 #                         mentioned once. This helps to cut down on noise from the bot.
 #                         Defaults to 30.
-# * HUBOT_TRAC_IGNOREUSERS: Comma-seperated list of users to ignore "hearing" issues from.
+#   HUBOT_TRAC_IGNOREUSERS: Comma-seperated list of users to ignore "hearing" issues from.
 #                           This works well with other bots or API calls that post to the room.
 #                           Example: "Subversion,TeamCity,John Doe"
+# Commands:
+#   #123 - Show details about a Trac ticket
+#   r123 - Show details about a commit
+#   [123] - Show details about a commit
 #
-# A note on the JSONRPC/SCRAPE settings:
-# * Tickets pull from jsonrpc (if enabled), then scraping (if enabled), and otherwise just put a link
-# * Revisions pull from scraping (if enabled), and otherwise just post a link. (There are no xmlrpc methods
+# Notes: 
+#   Tickets pull from jsonrpc (if enabled), then scraping (if enabled), and otherwise just put a link
+#   Revisions pull from scraping (if enabled), and otherwise just post a link. (There are no xmlrpc methods
 #   for changeset data).
+#
+# Author:
+#   gregmac
+
 
 jsdom = require 'jsdom'
 #fs = require 'fs'  #todo: load jquery from filesystem

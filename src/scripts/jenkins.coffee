@@ -1,14 +1,20 @@
-# Interact with your Jenkins CI server
+# Description:
+#   Interact with your Jenkins CI server
 #
-# You need to set the following variables:
-#   HUBOT_JENKINS_URL = "http://ci.example.com:8080"
+# Dependencies:
+#   None
 #
-# The following variables are optional
-#   HUBOT_JENKINS_AUTH: for authenticating the trigger request (user:password)
+# Configuration:
+#   HUBOT_JENKINS_URL
+#   HUBOT_JENKINS_AUTH
 #
-# hubot jenkins build <job> - builds the specified Jenkins job
-# hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
-# hubot jenkins list - lists Jenkins jobs
+# Commands:
+#   hubot jenkins build <job> - builds the specified Jenkins job
+#   hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
+#   hubot jenkins list - lists Jenkins jobs
+#
+# Author:
+#   dougcole
 
 querystring = require 'querystring'
 

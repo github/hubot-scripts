@@ -1,4 +1,17 @@
-# hubot horse - Display a randomly selected insight on the world from Horse_Ebooks
+# Description:
+#   None
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot horse - Display a randomly selected insight on the world from Horse_Ebooks
+#
+# Author:
+#   lavelle
 
 module.exports = (robot) ->
     robot.respond /horse/i, (msg) ->

@@ -1,7 +1,17 @@
-# Integrates with join.me 
+# Description:
+#   Integrates with join.me 
 #
-# hubot joinme - Generates a new join.me 9-digit code and outputs a presenter link (download) and a participant link (to view the session)
+# Dependencies:
+#   None
 #
+# Configuration:
+#   HUBOT_JOINME_AUTHCODE
+#
+# Commands:
+#   hubot joinme - Generates a new join.me 9-digit code and outputs a presenter link (download) and a participant link (to view the session)
+#
+# Author:
+#   webandtech
 
 module.exports = (robot) ->
   robot.respond /joinme$/i, (msg) ->

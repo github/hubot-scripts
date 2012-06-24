@@ -1,4 +1,17 @@
-# detect tweet URL and send tweet content
+# Description:
+#   Detect tweet URL and send tweet content
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#
+# Author:
+#   Vrtak-CZ
+
 module.exports = (robot) ->
 	robot.hear /https?:\/\/(mobile\.)?twitter\.com\/.*?\/status\/([0-9]+)/i, (msg) ->
 		msg.http("https://api.twitter.com/1/statuses/show/#{msg.match[2]}.json").get() (err, res, body) ->

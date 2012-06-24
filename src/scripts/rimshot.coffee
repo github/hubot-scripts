@@ -1,7 +1,17 @@
-# Emphasize a joke
+# Description:
+#   Emphasize a joke
 #
-# rimshot - Link to a short video of a rimshot
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   rimshot - Link to a short video of a rimshot
+#
+# Author:
+#   mrtazz
 
 shots = [
     'http://www.youtube.com/watch?v=DH5p5iMEbrE',

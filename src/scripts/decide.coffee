@@ -1,12 +1,17 @@
-# Allows Hubot to help you decide between multiple options.
+# Description:
+#   Allows Hubot to help you decide between multiple options
 #
-# hubot decide "<option1>" "<option2>" "<optionx>" - Randomly picks an option. More fun than using a coin.
+# Dependencies:
+#   None
 #
-# Examples:
+# Configuration:
+#   None
 #
-# decide "Vodka Tonic" "Tom Collins" "Rum & Coke"
-# decide "Stay in bed like a lazy bastard" "You have shit to code, get up!"
+# Commands:
+#   hubot decide "<option1>" "<option2>" "<optionx>" - Randomly picks an option
 #
+# Authors:
+#   logikal
 
 module.exports = (robot) ->
   robot.respond /decide "(.*)"/i, (msg) ->

@@ -1,6 +1,18 @@
-# Evaluate one line of Ruby script.
+# Description:
+#   Evaluate one line of Ruby script
 #
-# hubot ruby|rb <script> - Evaluate one line of Ruby script
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot ruby|rb <script> - Evaluate one line of Ruby script
+#
+# Author:
+#   jingweno
+
 module.exports = (robot) ->
   robot.respond /(ruby|rb)\s+(.*)/i, (msg)->
     script = msg.match[2]
