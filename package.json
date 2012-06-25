@@ -17,7 +17,7 @@
   "dependencies": {
     "hubot": ">= 2.0.4",
     "optparse": "1.0.3",
-    "redis": "0.6.7"
+    "redis": "0.7.2"
   },
 
   "directories":  {
