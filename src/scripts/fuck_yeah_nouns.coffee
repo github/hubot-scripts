@@ -11,8 +11,8 @@
 #   fuck yeah <noun> - Displays a fuck yeah image for the given noun
 #
 # Notes:
-# Uses holman/fuck-yeah as a provider. Can be altered to use the original FYN,
-# but be sure to read the caveats in the comments.
+#   Uses holman/fuck-yeah as a provider. Can be altered to use the original FYN,
+#   but be sure to read the caveats in the comments.
 #
 # Author:
 #   iangreenleaf
