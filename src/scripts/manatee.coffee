@@ -1,5 +1,5 @@
 # Description:
-#   Allows Hubot to pull down images from clamingmanatee.com
+#   Allows Hubot to pull down images from calmingmanatee.com
 #
 # Dependencies:
 #   "htmlparser": "1.7.6"
