@@ -6,7 +6,7 @@
 #
 # Configuration:
 #   HUBOT_JENKINS_URL
-#   HUBOT_JENKINS_AUTH
+#   HUBOT_JENKINS_AUTH - Jenkins auth token (base64 encoded) to generate : echo "user:password" | base64
 #
 # Commands:
 #   hubot jenkins build <job> - builds the specified Jenkins job
@@ -28,17 +28,19 @@ jenkinsBuild = (msg) ->
     req = msg.http(path)
 
     if process.env.HUBOT_JENKINS_AUTH
-      auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+      auth = process.env.HUBOT_JENKINS_AUTH
       req.headers Authorization: "Basic #{auth}"
 
     req.header('Content-Length', 0)
     req.post() (err, res, body) ->
+        if res.statusCode == 401
+           return;
         if err
           msg.send "Jenkins says: #{err}"
         else if res.statusCode == 302
           msg.send "Build started for #{job} #{res.headers.location}"
         else
-          msg.send "Jenkins says: #{body}"
+          msg.send "Jenkins says: #{res.statusCode} #{body}"
 
 jenkinsList = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
@@ -46,10 +48,12 @@ jenkinsList = (msg) ->
     req = msg.http("#{url}/api/json")
 
     if process.env.HUBOT_JENKINS_AUTH
-      auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+      auth = process.env.HUBOT_JENKINS_AUTH
       req.headers Authorization: "Basic #{auth}"
 
     req.get() (err, res, body) ->
+        if res.statusCode == 401
+           return;
         response = ""
         if err
           msg.send "Jenkins says: #{err}"
@@ -58,7 +62,7 @@ jenkinsList = (msg) ->
             content = JSON.parse(body)
             for job in content.jobs
               state = if job.color == "red" then "FAIL" else "PASS"
-              response += "#{state} #{job.name}\n"
+              response += "#{state} - #{job.name}\n"
             msg.send response
           catch error
             msg.send error
