@@ -141,12 +141,12 @@ module.exports = (robot) ->
 
         ticketid = response[0]
         issue = response[3]
-        url = process.env.HUBOT_TRAC_URL+"/ticket/"+ticketid
 
         if !ticketid
           console.log 'Error understanding trac response', ticket, response
           return
 
+        url = process.env.HUBOT_TRAC_URL+"/ticket/"+ticketid
         msg.send "Trac \##{ticketid}: #{issue.summary}. #{issue.owner} / #{issue.status}, #{issue.milestone} #{url}"
 
   # fetch a ticket using http scraping
@@ -155,7 +155,7 @@ module.exports = (robot) ->
       ['#ticket h2.summary', 'td[headers=h_owner]', '#trac-ticket-title .status', 'td[headers=h_milestone]']
       (err, response) ->
         console.log 'scrape response', response
-        url = process.env.HUBOT_TRAC_URL+"/ticket/"+ticketid
+        url = process.env.HUBOT_TRAC_URL+"/ticket/"+ticket
         msg.send "Trac \##{ticket}: #{response[0]}. #{response[1]} / #{response[2]}, #{response[3]} #{url}"
 
 
