@@ -7,6 +7,7 @@
 # 
 # Configuration:
 #   HUBOT_GITHUB_TOKEN
+#   HUBOT_GITHUB_USER
 #
 # Commands:
 #   hubot repo show <repo> - shows activity of repository
@@ -20,7 +21,6 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond /repo show (.*)$/i, (msg) ->
     repo = github.qualified_repo msg.match[1]
-    oauth_token = process.env.HUBOT_GITHUB_TOKEN
     url = "https://api.github.com/repos/#{repo}/commits"
 
     github.get url, (commits) ->
