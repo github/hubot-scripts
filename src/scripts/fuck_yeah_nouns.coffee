@@ -17,18 +17,24 @@
 # Author:
 #   iangreenleaf
 
+providers =
+  holman: (noun) ->
+    noun = escape noun
+    "http://fuckyeah.herokuapp.com/#{noun}#.jpg"
+  # If you want the original FYN, you can use this URL instead.
+  # WARNING: The results from FYN are a bit "quirky", to put it charitably.
+  # Using this endpoint turned Hubot into a demented, pervy old man who
+  # occasionally posted very NSFW images.
+  fyn: (noun) ->
+    noun = noun.replace /\s+/g, "_"
+    noun = noun.replace /\W/g, ""
+    "http://fuckyeahnouns.com/images/#{noun}.jpg"
+
 module.exports = (robot) ->
   robot.hear /fuck yeah (.+)/i, (msg) ->
     noun = msg.match[1]
-    noun = noun.replace /\s+/g, "_"
-    noun = noun.replace /\W/g, ""
-    url = "http://fuckyeah.herokuapp.com/#{noun}#.jpg"
 
-    # If you want the original FYN, you can use this URL instead.
-    # WARNING: The results from FYN are a bit "quirky", to put it charitably.
-    # Using this endpoint turned Hubot into a demented, pervy old man who
-    # occasionally posted very NSFW images.
-    #url = "http://fuckyeahnouns.com/images/#{noun}.jpg"
+    url = providers.holman noun
 
     # This is subtly different from the common usage, because I want a response
     # as soon as we have a status code, don't care about the actual body.
