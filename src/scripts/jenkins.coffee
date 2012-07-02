@@ -63,12 +63,19 @@ jenkinsDescribe = (msg) ->
           try
             content = JSON.parse(body)
             response += "JOB: #{content.displayName}\n"
-            response += "DESCRIPTION: #{content.description}\n"
+
+            if content.description
+              response += "DESCRIPTION: #{content.description}\n"
+            
             response += "ENABLED: #{content.buildable}\n"
             response += "STATUS: #{content.color}\n"
+            
             tmpReport = ""
-            for report in content.healthReport
-              tmpReport += "\n  #{report.description}"
+            if content.healthReport.length > 0
+              for report in content.healthReport
+                tmpReport += "\n  #{report.description}"
+            else
+              tmpReport = " unknown"
             response += "HEALTH: #{tmpReport}\n"
 
             parameters = ""
