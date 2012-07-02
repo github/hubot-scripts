@@ -12,6 +12,8 @@
 #   hubot jenkins build <job> - builds the specified Jenkins job
 #   hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
 #   hubot jenkins list - lists Jenkins jobs
+#   hubot jenkins describe <job> - Describes the specified Jenkins job
+
 #
 # Author:
 #   dougcole
@@ -39,6 +41,50 @@ jenkinsBuild = (msg) ->
           msg.send "Build started for #{job} #{res.headers.location}"
         else
           msg.send "Jenkins says: #{body}"
+
+jenkinsDescribe = (msg) ->
+    url = process.env.HUBOT_JENKINS_URL
+    job = msg.match[1]
+
+    path = "#{url}/job/#{job}/api/json"
+
+    req = msg.http(path)
+
+    if process.env.HUBOT_JENKINS_AUTH
+      auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+      req.headers Authorization: "Basic #{auth}"
+
+    req.header('Content-Length', 0)
+    req.get() (err, res, body) ->
+        if err
+          msg.send "Jenkins says: #{err}"
+        else
+          response = ""
+          try
+            content = JSON.parse(body)
+            response += "JOB: #{content.displayName}\n"
+            response += "DESCRIPTION: #{content.description}\n"
+            response += "ENABLED: #{content.buildable}\n"
+            response += "STATUS: #{content.color}\n"
+            tmpReport = ""
+            for report in content.healthReport
+              tmpReport += "\n  #{report.description}"
+            response += "HEALTH: #{tmpReport}\n"
+
+            parameters = ""
+            for item in content.actions
+              if item.parameterDefinitions
+                for param in item.parameterDefinitions
+                  tmpDescription = if param.description then " - #{param.description} " else ""
+                  tmpDefault = if param.defaultParameterValue then " (default=#{param.defaultParameterValue.value})" else ""
+                  parameters += "\n  #{param.name}#{tmpDescription}#{tmpDefault}"
+
+            if parameters != ""
+              response += "PARAMETERS: #{parameters}\n"
+
+            msg.send response
+          catch error
+            msg.send error
 
 jenkinsList = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
@@ -69,6 +115,9 @@ module.exports = (robot) ->
 
   robot.respond /jenkins list/i, (msg) ->
     jenkinsList(msg)
+
+  robot.respond /jenkins describe ([\w\.\-_]+)/i, (msg) ->
+    jenkinsDescribe(msg)
 
   robot.jenkins = {
     list: jenkinsList,
