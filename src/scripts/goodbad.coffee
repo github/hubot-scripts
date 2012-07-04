@@ -28,16 +28,13 @@ class GoodBad
     maxBadNum  
   goodlist: -> @goodcache
   badlist: -> @badcache
-  good: (msg) ->
-    goodString = msg.match[2]
-    goodthing = {num: @nextGoodNum(), user: user, good: goodString}
+  good: (goodString) ->
+    goodthing = {num: @nextGoodNum(), good: goodString}
     @goodcache.push goodthing
     @robot.brain.data.good = @goodcache
     goodthing
-  bad: (msg) ->
-    badString = msg.match[2]
-    user  = msg.message.user.name
-    badthing = {num: @nextBadNum(), user: user, bad: badString}
+  bad: (badString) ->
+    badthing = {num: @nextBadNum(), bad: badString}
     @badcache.push badthing
     @robot.brain.data.bad = @badcache
     badthing
@@ -52,11 +49,13 @@ module.exports = (robot) ->
   goodbad = new GoodBad robot
   
   robot.respond /(good) (.+?)$/i, (msg) ->
-    good = goodbad.good msg
+    message = "#{msg.message.user.name}: #{msg.match[2]}"
+    good = goodbad.good message
     msg.send "The sprint is thriving!"
 
   robot.respond /(bad) (.+?)$/i, (msg) ->
-    bad = goodbad.bad msg
+    message = "#{msg.message.user.name}: #{msg.match[2]}"
+    bad = goodbad.bad message
     msg.send "The sprint is festering..."
 
   robot.respond /(goodlist)/i, (msg) ->
