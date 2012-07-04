@@ -57,11 +57,13 @@ module.exports = (robot) ->
   goodbad = new GoodBad robot
   
   robot.respond /(good) (.+?)$/i, (msg) ->
-    good = goodbad.good msg.match[2]
+    message = "#{msg.message.user.name}: #{msg.match[2]}"
+    good = goodbad.good message
     msg.send "The sprint is thriving!"
 
   robot.respond /(bad) (.+?)$/i, (msg) ->
-    bad = goodbad.bad msg.match[2]
+    message = "#{msg.message.user.name}: #{msg.match[2]}"
+    bad = goodbad.bad message
     msg.send "The sprint is festering..."
 
   robot.respond /(goodlist)/i, (msg) ->
