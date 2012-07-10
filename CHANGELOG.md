@@ -1,3 +1,10 @@
+v2.1.0
+======
+Massive update to every scripts documentation header.
+
+https://github.com/github/hubot-scripts/compare/v2.0.7...v2.1.0
+
+
 v2.0.6
 ======
 There is a ton of new functionality. The Second laziest changelog entry in a while.
