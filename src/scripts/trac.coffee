@@ -22,6 +22,7 @@
 #                           Example: "Subversion,TeamCity,John Doe"
 # Commands:
 #   #123 - Show details about a Trac ticket
+#   Full ticket URL - Show details about a Trac ticket
 #   r123 - Show details about a commit
 #   [123] - Show details about a commit
 #
@@ -172,8 +173,8 @@ module.exports = (robot) ->
         msg.send "Trac r#{revision}: #{author} #{time} #{url}"
         msg.send line for line in message.split("\n")
 
-  # listen for ticket links
-  robot.hear /([^\w]|^)\#(\d+)(?=[^\w]|$)/ig, (msg) ->
+  # fetch ticket information using scraping or jsonrpc
+  fetchTicket = (msg) ->
     if (ignoredusers.some (user) -> user == msg.message.user.name)
       console.log 'ignoring user due to blacklist:', msg.message.user.name
       return
@@ -192,6 +193,12 @@ module.exports = (robot) ->
         else
           msg.send "Trac \##{ticket}: #{process.env.HUBOT_TRAC_URL}/ticket/#{ticket}"
 
+  # listen for ticket numbers
+  robot.hear /([^\w]|^)\#(\d+)(?=[^\w]|$)/ig, fetchTicket
+
+  # listen for ticket links
+  ticketUrl = new RegExp("#{process.env.HUBOT_TRAC_URL}/ticket/([0-9]+)", 'ig')
+  robot.hear ticketUrl, fetchTicket
 
   # listen for changesets 
   handleChangeset = (msg) ->
