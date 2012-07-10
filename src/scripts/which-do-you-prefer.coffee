@@ -20,4 +20,4 @@ module.exports = (robot) ->
 
     if thing[thing.length-1] == '?' then thing = thing[0..thing.length-2]
 
-    msg.send("I #{msg.match[1]} #{thing}.")
+    msg.send("I #{msg.match[2]} #{thing}.")
