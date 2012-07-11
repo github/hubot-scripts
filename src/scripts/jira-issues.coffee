@@ -1,4 +1,16 @@
-# Just mention a jira issue to get it's summary and link
+# Description:
+#   Looks up jira issues when they're mentioned in chat
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_JIRA_DOMAIN
+#
+# Commands:
+# 
+# Author:
+#   stuartf
 
 module.exports = (robot) ->
   cache = []
