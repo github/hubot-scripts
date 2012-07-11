@@ -1,8 +1,8 @@
 # Description:
-#   Makes your Hubot even more Clever™
+#   "Makes your Hubot even more Clever™"
 #
 # Dependencies:
-#   cleverbot-node: 0.1.1
+#   "cleverbot-node": "0.1.1"
 #
 # Configuration:
 #   None
