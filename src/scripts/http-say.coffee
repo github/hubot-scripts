@@ -8,6 +8,9 @@
 #   None
 #
 # Commands:
+#   None
+#
+# URLs:
 #   GET /hubot/say?message=<message>[&room=<room>&type=<type]
 #
 # Authors:
