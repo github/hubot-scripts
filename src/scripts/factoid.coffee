@@ -83,4 +83,4 @@ module.exports = (robot) ->
       msg.reply msg.match[1] + " is " + factoid
 
   robot.respond /no, (.+) is (.+)/i, (msg) ->
-    msg.reply factoids.setFactoid match[1], match[2]
+    msg.reply factoids.setFactoid msg.match[1], msg.match[2]
