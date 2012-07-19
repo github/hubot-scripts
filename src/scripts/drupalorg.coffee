@@ -7,13 +7,13 @@
 # Configuration:
 #   NONE
 #
-# Optional Configuration:
+# Commands:
+#   Drupal.org url - Show details about a drupal.org page or issue
+#
+# Notes:
 #   HUBOT_DRUPALORG_LINKDELAY: number of seconds to not respond to a link again after it's been
 #                             mentioned once. This helps to cut down on noise from the bot.
 #                             Defaults to 30.
-#
-# Commands:
-#   Drupal.org url - Show details about a drupal.org page or issue
 #
 # Author:
 #   guyoron
