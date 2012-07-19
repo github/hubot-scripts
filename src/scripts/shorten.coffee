@@ -15,7 +15,7 @@
 #   sleekslush
 
 module.exports = (robot) ->
-  robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/, (msg) ->
+  robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/i, (msg) ->
     msg
       .http("http://api.bitly.com/v3/shorten")
       .query
