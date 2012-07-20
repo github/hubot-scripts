@@ -23,6 +23,7 @@ module.exports = (robot) ->
   
   # rooms where hubot is hearing for notes
   hearingRooms = {}
+  messageKeys = ['blocking', 'blocker', 'yesterday', 'today', 'tomorrow', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
   getDate = ->
     today = new Date()
@@ -42,22 +43,27 @@ module.exports = (robot) ->
     if (listener)
       return
 
-    listenersCount = robot.hear /^(yesterday|today|tomorrow|blocking|sun|mon|tue|wed|thu|fri|sat)[ :\-](.*)$/i, (msg) ->
+    listenersCount = robot.catchAll (msg) ->
 
       if (!hearingRooms[msg.message.user.room])
         return
 
       today = getDate()
-      name = msg.message.user.name;
+      name = msg.message.user.name
 
       robot.brain.data.scrumNotes ?= {};
-      notes = robot.brain.data.scrumNotes[today] ?= {};
-      notes[name] ?= {};
+      notes = robot.brain.data.scrumNotes[today] ?= {}
 
-      key = msg.match[1].toLowerCase();
+      notes._raw ?= [];
+      notes._raw.push([new Date().getTime(), name, msg.message.text])
 
-      notes[name][key] ?= [];
-      notes[name][key].push(msg.match[2]);
+      keyValue = /^([^ :\n\r\t]+)[ :\n\t](.+)$/m.exec(msg.message.text)
+      if (keyValue)
+        notes[name] ?= {}
+        key = keyValue[1].toLowerCase()
+        if (key in messageKeys)
+          notes[name][key] ?= [];
+          notes[name][key].push(keyValue[2])
 
     listener = robot.listeners[listenersCount - 1]
 
@@ -99,9 +105,19 @@ module.exports = (robot) ->
     notes = robot.brain.data.scrumNotes?[today]
 
     if !notes
-      msg.reply('no notes so far');
+      msg.reply('no notes so far')
     else
-      msg.reply(JSON.stringify(robot.brain.data.scrumNotes?[today], null, 2));
+
+      # build a pretty version
+      response = []
+      for own user, userNotes of notes
+        if user != '_raw'
+          response.push(user, ':\n')
+          for key in messageKeys
+            if userNotes[key]
+              response.push('  ', key, ': ', userNotes[key].join(', '), '\n')
+
+      msg.reply(response.join(''))
 
   robot.respond /take scrum notes/i, (msg) ->
 
@@ -121,12 +137,20 @@ module.exports = (robot) ->
 
     delete hearingRooms[msg.message.user.room];
 
+    msg.reply("not taking scrum notes anymore");
+
     today = getDate()
     notes = robot.brain.data.scrumNotes?[today]
-    count = if notes then Object.keys(notes).length else 0
-    status = if count > 0 then "I got notes from #{count} user#{if count>1 then 's' else ''} today" else "I got no notes today"
 
-    msg.reply("not taking scrum notes anymore (#{status})");
+    users = (user for user in Object.keys(notes) when user isnt '_raw')
+
+    count = if notes then users.length else 0
+
+    status = "I got no notes today"
+    if count > 0
+      status = ["I got notes from ", users.slice(0,Math.min(3, users.length - 1)).join(', '), " and ", if users.length > 3 then (users.length-3)+' more' else users[users.length-1]].join('')
+
+    msg.reply(status);
 
     if (Object.keys(hearingRooms).length < 1)
       stopHearing()
