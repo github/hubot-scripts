@@ -83,13 +83,13 @@ module.exports = (robot) ->
   robot.respond /(.*) FUCK YOU/i, (msg) ->
     memeGenerator msg, 1189472, 5044147, msg.match[1], 'FUCK YOU', (url) ->
       msg.send url
-	  
+
   robot.respond /((Oh|You) .*) ((Please|Tell) .*)/i, (msg) ->
-	memeGenerator msg, 542616, 2729805, msg.match[1], msg.match[3], (url) ->
+    memeGenerator msg, 542616, 2729805, msg.match[1], msg.match[3], (url) ->
       msg.send url
-	  
+
   robot.respond /(.*) (You'?re gonna have a bad time)/i, (msg) ->
-	memeGenerator msg, 825296, 3786537, msg.match[1], msg.match[2], (url) ->
+    memeGenerator msg, 825296, 3786537, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
