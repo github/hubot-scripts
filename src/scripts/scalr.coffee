@@ -54,8 +54,10 @@ run_script = (script_name, msg) ->
     })
     .post() (err, res, body) ->
       response = JSON.parse(body)
-      msg.send response.result ? msg.random success_message : "I couldn't get a positive response from #{scalr_script_executer}... SOMETHING IS NOT RIGHT ON THAT END."
-
+      if response.result
+        msg.send msg.random success_message
+      else
+        msg.send "I couldn't get a positive response from #{scalr_script_executer}... SOMETHING IS NOT RIGHT ON THAT END."
 
 module.exports = (robot) ->
 
