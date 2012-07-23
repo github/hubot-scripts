@@ -34,7 +34,12 @@ send_meme = (message, location, response_handler)->
       location = response.headers['location']
       return send_meme( message, location, response_handler )
 
-    response_handler get_meme_image( body, ".img-wrap img" )
+    img_src = get_meme_image( body, ".img-wrap img" )
+
+    if img_src.substr 0,4 != "http"
+      img_src = "http:#{img_src}"
+
+    response_handler img_src
 
 get_meme_image = (body, selector)->
   html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
