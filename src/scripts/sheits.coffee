@@ -1,18 +1,17 @@
 # Description:
-# When you get some bad news sometimes you got to let it out.
+#   When you get some bad news sometimes you got to let it out.
 #
 # Dependencies:
-# None
+#   None
 #
 # Configuration:
-# None
+#   None
 #
 # Commands:
-# sheeeit - Display an image or animated gif
+#   sheeeit - Display an image or animated gif
 #
 # Author:
-# danishkhan
-#
+#   danishkhan
 
 sheits = [
   "http://www.circlenoir.com/forums/attachment.php?attachmentid=478&stc=1#.jpg",
