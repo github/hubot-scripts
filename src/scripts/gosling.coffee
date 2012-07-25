@@ -1,7 +1,3 @@
-#
-# gos(ling)? me - Receive a programmer Ryan Gosling meme
-# gos(ling)? bomb N - Receive N programmer Ryan Gosling memes
-
 # Description:
 #   Pulls a random programmer Ryan Gosling image
 #
