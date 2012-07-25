@@ -30,8 +30,9 @@ module.exports = (robot) ->
           unless errors
             $ = window.$
             title = $('title').text()
-            description = "\n" + $('meta[name=description]').attr("content")
-
+            description = $('meta[name=description]').attr("content") || ""
+            description = "\n" + description if description
+            
             if title
               msg.send "#{title}#{description}"
         )
