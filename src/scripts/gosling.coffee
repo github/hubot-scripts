@@ -1,8 +1,22 @@
-# Pulls a random programmer Ryan Gosling image
 #
 # gos(ling)? me - Receive a programmer Ryan Gosling meme
 # gos(ling)? bomb N - Receive N programmer Ryan Gosling memes
 
+# Description:
+#   Pulls a random programmer Ryan Gosling image
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_TUMBLR_API_KEY
+#
+# Commands:
+#   hubot gos(ling)? me - Receive a programmer Ryan Gosling meme
+#   hubot gos(ling)? bomb N - Receive N programmer Ryan Gosling memes
+#
+# Author:
+#   jessedearing
 
 api_key = process.env.HUBOT_TUMBLR_API_KEY
 
