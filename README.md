@@ -12,8 +12,8 @@ of all the available scripts.
 ## Installing
 
 Once you have Hubot installed, you can drop new scripts from this repository
-right into your generated Hubot installation. Just put them in `scripts`, add
-the new scripts to the `hubot-scripts.json` file.
+right into your generated Hubot installation. Just put them in the `scripts`
+folder.
 
 Any third-party dependencies for scripts need adding your your `package.json`
 otherwise a lot of errors will be thrown during the start up of your hubot. You
@@ -77,6 +77,6 @@ repository.
 [script-catalog]: http://hubot-script-catalog.herokuapp.com
 [src-scripts]: https://github.com/github/hubot-scripts/tree/master/src/scripts
 [tomdoc]: http://tomdoc.org
-[example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee 
+[example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee
 [hubot-script-tests]: https://github.com/github/hubot-scripts/blob/master/test/tests.coffee
 [example-script-docs]: (https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5
