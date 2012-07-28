@@ -23,5 +23,5 @@ sheits = [
 
 module.exports = (robot) ->
   robot.hear /sh(e+)(i+)(t+)/, (msg) ->
-  msg.send msg.random sheits
+    msg.send msg.random sheits
 
