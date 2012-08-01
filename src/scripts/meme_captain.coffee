@@ -1,33 +1,27 @@
-# Get a meme from http://memecaptain.com/
+# Description:
+#   Get a meme from http://memecaptain.com/
 #
-# hubot Y U NO <text> - Generates the Y U NO GUY with the bottom caption of <text>
+# Dependencies:
+#   None
 #
-# hubot I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
+# Commands:
+#   hubot Y U NO <text> - Generates the Y U NO GUY with the bottom caption of <text>
+#   hubot I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
+#   hubot <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
+#   hubot <text> ALL the <things>    - Generates ALL THE THINGS
+#   hubot <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
+#   hubot Not sure if <text> or <text> - Generates Futurama Fry
+#   hubot Yo dawg <text> so <text> - Generates Yo Dawg
+#   hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
+#   hubot If <text>, <word that can start a question> <text>? - Generates Philosoraptor
+#   hubot <text>, BITCH PLEASE <text> - Generates Yao Ming
+#   hubot <text>, COURAGE <text> - Generates Courage Wolf
+#   hubot ONE DOES NOT SIMPLY <text> - Generates Boromir
+#   hubot IF YOU <text> GONNA HAVE A BAD TIME - Ski Instructor
+#   hubot IF YOU <text> TROLLFACE <text> - Troll Face
 #
-# hubot <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
-#
-# hubot <text> ALL the <things>    - Generates ALL THE THINGS
-#
-# hubot <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
-#
-# hubot Not sure if <text> or <text> - Generates Futurama Fry
-#
-# hubot Yo dawg <text> so <text> - Generates Yo Dawg
-#
-# hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
-#
-# hubot If <text>, <word that can start a question> <text>? - Generates Philosoraptor
-#
-# hubot <text>, BITCH PLEASE <text> - Generates Yao Ming
-#
-# hubot <text>, COURAGE <text> - Generates Courage Wolf
-#
-# hubot ONE DOES NOT SIMPLY <text> - Generates Boromir
-#
-# hubot IF YOU <text> GONNA HAVE A BAD TIME - Ski Instructor
-#
-# hubot IF YOU <text> TROLLFACE <text> - Troll Face
-
+# Author:
+#   bobanj
 
 module.exports = (robot) ->
   robot.respond /Y U NO (.+)/i, (msg) ->
