@@ -77,7 +77,7 @@ module.exports = (robot) ->
     app     = msg.match[1]
     branch  = msg.match[3] || "master"
     room_id = msg.message.user.room
-    user    = msg.message.user.name
+    user    = msg.message.user.name.replace(/\ /g, "+")
 
     post "#{app}/#{branch}?room_id=#{room_id}&user=#{user}", {}, (err, statusCode, body) ->
       if statusCode == 201 or statusCode == 404
