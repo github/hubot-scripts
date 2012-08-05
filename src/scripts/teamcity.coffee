@@ -2,8 +2,7 @@
 #   wrapper for TeamCity REST API
 #
 # Dependencies:
-#   underscore
-#   util
+#   "underscore": "1.3.3"
 #
 # Configuration:
 #   HUBOT_TEAMCITY_USERNAME = <user name>
