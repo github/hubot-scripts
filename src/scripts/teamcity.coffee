@@ -27,8 +27,6 @@ module.exports = (robot) ->
   username = process.env.HUBOT_TEAMCITY_USERNAME
   password = process.env.HUBOT_TEAMCITY_PASSWORD
   hostname = process.env.HUBOT_TEAMCITY_HOSTNAME
-  #buildReportRoom = process.env.HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
-  #reportRoomName = buildReportRoom.match(/(.*)@(.*)/i)[0]
 
   buildTypes = []
 
