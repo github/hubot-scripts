@@ -123,7 +123,7 @@ module.exports = (robot) ->
   robot.respond /jenkins list/i, (msg) ->
     jenkinsList(msg)
 
-  robot.respond /jenkins describe ([\w\.\-_]+)/i, (msg) ->
+  robot.respond /jenkins describe (.*)/i, (msg) ->
     jenkinsDescribe(msg)
 
   robot.jenkins = {
