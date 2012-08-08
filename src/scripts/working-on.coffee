@@ -1,9 +1,11 @@
 # Description:
 #   Tell Hubot what you're working on so he can give out status updates when asked
 #
-# Dependencies: None
+# Dependencies:
+#   None
 #
-# Configuration: None
+# Configuration:
+#   None
 #
 # Commands:
 #   hubot i am working on <anything> - Set what you're working on
