@@ -31,7 +31,7 @@ module.exports = (robot) ->
 
   robot.respond /(i\'m|i am) working on (.*)/i, (msg) ->
     name = msg.message.user.name
-    user = findUser name
+    user = robot.userForName name
 
     if typeof user is 'object'
       user.workingon = msg.match[2]
