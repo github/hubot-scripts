@@ -25,6 +25,7 @@
 #   hubot <text> FUCK YOU - Angry Linus
 #   hubot (Oh|You) <text> (Please|Tell) <text> - Willy Wonka
 #   hubot <text> you're gonna have a bad time - Bad Time Ski Instructor
+#   hubot one does not simply <text> - Lord of the Rings Boromir
 #
 # Author:
 #   skalnik
