@@ -56,8 +56,8 @@ send = (msg, story)->
      message += " (#{story.owned_by})" if story.owned_by
      message += " is #{story.current_state}" if story.current_state && story.current_state != "unstarted"
      if not msg
-         the_robot.adpater.send(null, message)
-         the_robot.adapter.send(null, story.url)
+         the_robot.send(null, message)
+         the_robot.send(null, story.url)
      else
          msg.send(message)
          msg.send(story.url)
@@ -75,10 +75,15 @@ poll = (msg) ->
 
                      body = xml2json.toJson(body, {object:true})
                      if not body.stories or not body.stories.story
+                        if msg
+                           msg.send('Nothing has changed')
                         return                     
 
-                     for story in body.stories.story
-                         send(msg, story)
+                     if body.stories.count == '1'
+                        send(msg, body.stories.story)
+                     else
+                        for story in body.stories.story
+                            send(msg, story)
 
     last_check = new Date().getTime()
 
@@ -91,6 +96,7 @@ module.exports = (robot) ->
     if projects.names.length <= 0
         robot.logger.error 'No HUBOT_PIVOTAL_PROJECTS given'
         return
+
 
     get_project_ids()    
 
