@@ -79,4 +79,4 @@ repository.
 [tomdoc]: http://tomdoc.org
 [example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee 
 [hubot-script-tests]: https://github.com/github/hubot-scripts/blob/master/test/tests.coffee
-[example-script-doc]: (https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5
+[example-script-doc]: https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5
