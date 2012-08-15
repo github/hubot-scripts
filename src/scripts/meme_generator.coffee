@@ -60,14 +60,10 @@ module.exports = (robot) ->
     memeGenerator msg, 1591, 112464, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
-  robot.respond /khanify (.*)/i, (msg) ->
+  robot.respond /k(?:ha|ah)nify (.*)/i, (msg) ->
     memeGenerator msg, 6443, 1123022, "", khanify(msg.match[1]), (url) ->
       msg.send url
       
-  robot.respond /kahnify (.*)/i, (msg) ->
-    memeGenerator msg, 6443, 1123022, "", khanify(msg.match[1]), (url) ->
-      msg.send url
-
   robot.respond /(NOT SURE IF .*) (OR .*)/i, (msg) ->
     memeGenerator msg, 305, 84688, msg.match[1], msg.match[2], (url) ->
       msg.send url
