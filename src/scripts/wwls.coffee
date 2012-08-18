@@ -32,4 +32,4 @@ quotes = [
 
 module.exports = (robot) ->
   robot.hear /what would linus say/i, (msg) ->
-    msg.send "\"#{msg.random quotes}\""
+    msg.send msg.random quotes
