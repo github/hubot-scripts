@@ -8,7 +8,9 @@
 #   HUBOT_UPTIMEROBOT_APIKEY
 #
 # Commands:
+#   hubot uptimerobot - Show the status of the monitored sites
 #   hubot what is the uptime of the monitored sites? - Show the status of the monitored sites
+#   hubot uptimerobot add <url>[ as <friendlyname>] - Instructs uptime robot to monitor the <url>, optionally with a name
 #   hubot start monitoring the http uptime of <url> - Instructs uptime robot to monitor the <url>
 #
 # Author:
@@ -17,7 +19,7 @@
 module.exports = (robot) ->
   apikey = process.env.HUBOT_UPTIMEROBOT_APIKEY
 
-  robot.respond /what is the uptime of the monitored sites?/i, (msg) ->
+  getMonitors = (msg) ->
     msg.http("http://api.uptimerobot.com/getMonitors")
       .query({ apiKey: apikey, logs: 0, format: "json", noJsonCallback: 1 })
       .get() (err, res, body) ->
@@ -41,10 +43,11 @@ module.exports = (robot) ->
         else if response.stat is "fail"
           msg.send "Uhoh, #{response.message}";
 
+  robot.respond /what is the uptime of the monitored sites?/i, getMonitors
+  robot.respond /uptimerobot/i, getMonitors
 
-  robot.respond /start monitoring the http uptime of (.*)$/i, (msg) ->
-    monitorUrl = msg.match[1]
-    monitorFriendlyName = msg.match[1]
+  newMonitor = (monitorUrl, monitorFriendlyName) ->
+    monitorFriendlyName ?= monitorUrl
     msg.http("http://api.uptimerobot.com/newMonitor")
       .query({ apiKey: apikey, monitorFriendlyName: monitorFriendlyName, monitorURL: monitorUrl, monitorType: 1, format: "json", noJsonCallback: 1 })
       .get() (err, res, body) ->
@@ -55,3 +58,9 @@ module.exports = (robot) ->
 
         if response.stat is "fail"
           msg.send "#{response.message}"
+
+  robot.respond /start monitoring the http uptime of (.*)$/i, (msg) ->
+    newMonitor(msg.match[1], null)
+  robot.respond /uptimerobot add (http(s?)\:\/\/\S+)( as (.+))?/i, (msg) ->
+    newMonitor(msg.match[1], msg.match[4])
+
