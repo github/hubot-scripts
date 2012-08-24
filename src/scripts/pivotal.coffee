@@ -2,7 +2,7 @@
 #   Get current stories from PivotalTracker
 #
 # Dependencies:
-#   None
+#   "xml2js": "0.1.14"
 #
 # Configuration:
 #   HUBOT_PIVOTAL_TOKEN
