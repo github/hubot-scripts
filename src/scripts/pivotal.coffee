@@ -10,6 +10,7 @@
 #
 # Commands:
 #   show me stories for <project> - shows current stories being worked on
+#   pivotal story <story_id> - shows story title, owner and status
 #
 # Author:
 #   assaf
