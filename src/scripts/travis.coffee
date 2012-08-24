@@ -3,7 +3,7 @@
 #   Can also notify about builds, just enable the webhook notification on travis http://about.travis-ci.org/docs/user/build-configuration/ -> 'Webhook notification'
 #
 # Dependencies:
-#   None
+#   "gitio": "1.0.1"
 #
 # Configuration:
 #   None
@@ -20,6 +20,7 @@
 
 url = require('url')
 querystring = require('querystring')
+gitio = require('gitio')
 
 module.exports = (robot) ->
   
@@ -43,4 +44,6 @@ module.exports = (robot) ->
 
     payload = JSON.parse req.body.payload
 
-    robot.send user, "#{payload.author_name} triggered build of #{payload.repository.name} and it #{payload.status_message}!"
+    if payload.status isnt 0
+        gitio payload.compare_url, (err, data) ->
+            robot.send user, "#{payload.author_name} broke the build (#{payload.build_url}) of #{payload.repository.name} with commit (#{if err then payload.compare_url else data})!"
