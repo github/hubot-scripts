@@ -26,7 +26,7 @@ module.exports = (robot) ->
         
         urls = [ ]
         for child in result.headlines
-          urls.push(child.headline + ":  " + child.links.web.href)
+          urls.push(child.headline + "-  " + child.links.web.href)
           
         rnd = Math.floor(Math.random()*urls.length)
         msg.send urls[rnd]
