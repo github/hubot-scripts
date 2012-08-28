@@ -1,5 +1,5 @@
 # Description:
-#   Grab a headline from ESPN through querying hubot
+#   Grab headlines and MLB/NFL/NBA/NHL team home pages from ESPN
 #
 # Dependencies:
 #   None
@@ -9,7 +9,10 @@
 #
 # Commands:
 #   hubot espn headline - Displays a random headline from ESPN.com
-#   hubot espn mlb <name of team> - Displays ESPN.com team homepage
+#   hubot espn mlb <name of team> - Displays ESPN.com MLB team homepage
+#   hubot espn nfl <name of team> - Displays ESPN.com NFL team homepage
+#   hubot espn nba <name of team> - Displays ESPN.com NBA team homepage
+#   hubot espn nhl <name of team> - Displays ESPN.com NHL team homepage
 #
 # Author:
 #   mjw56
@@ -36,7 +39,7 @@ module.exports = (robot) ->
         rnd = Math.floor(Math.random()*urls.length)
         msg.send urls[rnd]
 
-  robot.respond /(espn)( mlb)? (.*)/i, (msg) ->
+  robot.respond /(espn)( mlb) (.*)/i, (msg) ->
     msg.http('http://api.espn.com/v1/sports/baseball/mlb/teams?apikey=' + espnApiKey)
       .get() (err, res, body) ->
         result = JSON.parse(body)	
@@ -48,3 +51,42 @@ module.exports = (robot) ->
 
           if team is input || city is input
             msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+
+  robot.respond /(espn)( nfl) (.*)/i, (msg) ->
+      msg.http('http://api.espn.com/v1/sports/football/nfl/teams?apikey=' + espnApiKey)
+        .get() (err, res, body) ->
+          result = JSON.parse(body)
+
+          for child in result.sports[0].leagues[0].teams
+            team = child.name.toLowerCase()
+            city = child.location.toLowerCase()
+            input = msg.match[3].toLowerCase()
+
+            if team is input || city is input
+              msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+
+  robot.respond /(espn)( nba) (.*)/i, (msg) ->
+      msg.http('http://api.espn.com/v1/sports/basketball/nba/teams?apikey=' + espnApiKey)
+        .get() (err, res, body) ->
+          result = JSON.parse(body)
+
+          for child in result.sports[0].leagues[0].teams
+            team = child.name.toLowerCase()
+            city = child.location.toLowerCase()
+            input = msg.match[3].toLowerCase()
+
+            if team is input || city is input
+              msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+
+  robot.respond /(espn)( nhl) (.*)/i, (msg) ->
+      msg.http('http://api.espn.com/v1/sports/hockey/nhl/teams?apikey=' + espnApiKey)
+        .get() (err, res, body) ->
+          result = JSON.parse(body)
+
+          for child in result.sports[0].leagues[0].teams
+            team = child.name.toLowerCase()
+            city = child.location.toLowerCase()
+            input = msg.match[3].toLowerCase()
+
+            if team is input || city is input
+              msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
