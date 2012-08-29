@@ -1,5 +1,5 @@
 # Description:
-#   Grab headlines and MLB/NFL/NBA/NHL team home pages from ESPN
+#   Grab a headline from ESPN through querying hubot
 #
 # Dependencies:
 #   None
@@ -42,51 +42,41 @@ module.exports = (robot) ->
   robot.respond /(espn)( mlb) (.*)/i, (msg) ->
     msg.http('http://api.espn.com/v1/sports/baseball/mlb/teams?apikey=' + espnApiKey)
       .get() (err, res, body) ->
-        result = JSON.parse(body)	
-
-        for child in result.sports[0].leagues[0].teams
-          team = child.name.toLowerCase()
-          city = child.location.toLowerCase()
-          input = msg.match[3].toLowerCase()
-
-          if team is input || city is input
-            msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+        result = JSON.parse(body)
+        getTeamPage msg, result, (url) ->
+          msg.send url
 
   robot.respond /(espn)( nfl) (.*)/i, (msg) ->
       msg.http('http://api.espn.com/v1/sports/football/nfl/teams?apikey=' + espnApiKey)
         .get() (err, res, body) ->
           result = JSON.parse(body)
-
-          for child in result.sports[0].leagues[0].teams
-            team = child.name.toLowerCase()
-            city = child.location.toLowerCase()
-            input = msg.match[3].toLowerCase()
-
-            if team is input || city is input
-              msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+          getTeamPage msg, result, (url) ->
+            msg.send url
 
   robot.respond /(espn)( nba) (.*)/i, (msg) ->
       msg.http('http://api.espn.com/v1/sports/basketball/nba/teams?apikey=' + espnApiKey)
         .get() (err, res, body) ->
           result = JSON.parse(body)
-
-          for child in result.sports[0].leagues[0].teams
-            team = child.name.toLowerCase()
-            city = child.location.toLowerCase()
-            input = msg.match[3].toLowerCase()
-
-            if team is input || city is input
-              msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+          getTeamPage msg, result, (url) ->
+            msg.send url
 
   robot.respond /(espn)( nhl) (.*)/i, (msg) ->
       msg.http('http://api.espn.com/v1/sports/hockey/nhl/teams?apikey=' + espnApiKey)
         .get() (err, res, body) ->
           result = JSON.parse(body)
+          getTeamPage msg, result, (url) ->
+            msg.send url
 
-          for child in result.sports[0].leagues[0].teams
+getTeamPage = (msg, json, cb) ->
+  found = off
+  for child in json.sports[0].leagues[0].teams
             team = child.name.toLowerCase()
             city = child.location.toLowerCase()
             input = msg.match[3].toLowerCase()
 
             if team is input || city is input
-              msg.send 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+              found = on
+              cb 'Team news for the '+ child.location + ' ' + child.name + '- ' + child.links.web.teams.href
+
+  if not found
+    cb 'Could not find that team'
