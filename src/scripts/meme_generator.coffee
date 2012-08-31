@@ -25,6 +25,7 @@
 #   hubot <text> FUCK YOU - Angry Linus
 #   hubot (Oh|You) <text> (Please|Tell) <text> - Willy Wonka
 #   hubot <text> you're gonna have a bad time - Bad Time Ski Instructor
+#   hubot one does not simply <text> - Lord of the Rings Boromir
 #
 # Author:
 #   skalnik
@@ -90,6 +91,10 @@ module.exports = (robot) ->
 
   robot.respond /(.*) (You'?re gonna have a bad time)/i, (msg) ->
     memeGenerator msg, 825296, 3786537, msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /(one does not simply) (.*)/i, (msg) ->
+    memeGenerator msg, 274947, 1865027, msg.match[1], msg.match[2], (url) ->
       msg.send url
 
 memeGenerator = (msg, generatorID, imageID, text0, text1, callback) ->
