@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot stranger me
+#   hubot stranger me - Meet someone new from facebook
 #
 # Author:
 #   joelongstreet
