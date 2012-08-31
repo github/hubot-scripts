@@ -38,10 +38,12 @@ module.exports = (robot) ->
     #   "metric_name": "last_minute",
     #   "metric_value": 3.5,
     #   "severity": "warning", // warning = normal threshold, critical = SMS threshold
-    #   "url": "https://scoutapp.com/a/999999"
+    #   "url": "https://scoutapp.com/a/999999",
+    #   "sparkline_url":"https://scoutapp.com/alert_sparkline.png"
     # }
 
     robot.messageRoom room, "Scout #{data.severity} - #{data.server_name} on host #{data.server_hostname} #{data.lifecycle}ed - #{data.plugin_name} - #{data.title} - Current value #{data.metric_name}=#{data.metric_value} - Details: #{data.url}"
+    robot.messageRoom room, data.sparkline_url if data.sparkline_url
 
     # Send back an empty response
     res.writeHead 204, { 'Content-Length': 0 }
