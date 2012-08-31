@@ -2,7 +2,7 @@
 #   Get current stories from PivotalTracker
 #
 # Dependencies:
-#   None
+#   "xml2js": "0.1.14"
 #
 # Configuration:
 #   HUBOT_PIVOTAL_TOKEN
@@ -10,6 +10,7 @@
 #
 # Commands:
 #   show me stories for <project> - shows current stories being worked on
+#   pivotal story <story_id> - shows story title, owner and status
 #
 # Author:
 #   assaf
