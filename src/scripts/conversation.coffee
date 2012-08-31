@@ -11,7 +11,7 @@
 #   None
 #
 # Author:
-#   Iristyle
+#   pescuma
 
 module.exports = (robot) ->
   robot.eatListeners = {}
