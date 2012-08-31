@@ -10,12 +10,11 @@
 #   HUBOT_GITHUB_API
 #
 # Commands:
-#   HUBOT_GITHUB_USER is optional, but if you set it, you can ask `show me hubot pulls`
-#   instead of `show me github/hubot pulls`.
+#   hubot show [me] <user/repo> pulls [with <regular expression>] - Shows open pull requests for that project by filtering pull request's title.
+#   hubot show [me] hubot pulls -- Show open pulls for a given user IFF HUBOT_GITHUB_USER configured
 #
+# Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
-#
-#   hubot show me <user/repo> pulls [with <regular expression>] - Shows open pull requests for that project by filtering pull request's title.
 #
 #   You can further filter pull request title by providing a reguar expression.
 #   For example, `show me hubot pulls with awesome fix`.
