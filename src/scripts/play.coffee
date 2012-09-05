@@ -163,7 +163,7 @@ module.exports = (robot) ->
     authedRequest message, '/freeform', 'post', params, (err, res, body) ->
       if body.length == 0
         return message.send("That doesn't exist in Play. Or anywhere, probably. If it's not"+
-               " in Play the shit don't exist. I'm a total hipstser.")
+               " in Play the shit don't exist. I'm a total hipster.")
 
       json = JSON.parse(body)
       str = json.songs.map (song) ->
