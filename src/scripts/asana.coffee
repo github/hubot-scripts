@@ -5,7 +5,9 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_ASANA_WORKSPACE_ID
+#   HUBOT_ASANA_PROJECT_ID
+#   HUBOT_ASANA_API_KEY
 #
 # Commands:
 #   todo: @name? <task directive> - public message starting with todo: will add task, optional @name to assign task
@@ -16,13 +18,13 @@
 
 url  = 'https://app.asana.com/api/1.0'
 
-workspace = "WORKSPACE_ID"
-project = "PROJECT_ID"
-user = "xxxxx.xxxxxxxxxxxxxxx"
-pass = ""
+workspace = process.env.HUBOT_ASANA_WORKSPACE_ID
+project = process.env.HUBOT_ASANA_PROJECT_ID
+api_key = process.env.HUBOT_ASANA_API_KEY
+
 
 getRequest = (msg, path, callback) ->
-  auth = 'Basic ' + new Buffer("#{user}:#{pass}").toString('base64')
+  auth = 'Basic ' + new Buffer(api_key + ":").toString('base64')
   msg.http("#{url}#{path}")
     .headers("Authorization": auth, "Accept": "application/json")
     .get() (err, res, body) ->
