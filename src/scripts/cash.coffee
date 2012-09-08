@@ -18,8 +18,14 @@
 # Author:
 #   jhubert
 
-Number.prototype.toDollars = (currency_symbol = (process.env.HUBOT_CASH_CURRENCY_SYMBOL or '$'), thousands_separator = (process.env.HUBOT_CASH_THOUSANDS_SEPARATOR or ',')) ->
-    n = this
+class OutputFormatter
+  months: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+
+  constructor: ->
+    return
+
+  toDollars: (number, currency_symbol = (process.env.HUBOT_CASH_CURRENCY_SYMBOL or '$'), thousands_separator = (process.env.HUBOT_CASH_THOUSANDS_SEPARATOR or ',')) ->
+    n = parseInt(number, 10)
     sign = if n < 0 then "-" else ""
     i = parseInt(n = Math.abs(n).toFixed(0)) + ''
     j = if (j = i.length) > 3 then j % 3 else 0
@@ -27,12 +33,13 @@ Number.prototype.toDollars = (currency_symbol = (process.env.HUBOT_CASH_CURRENCY
     y = i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands_separator)
     sign + currency_symbol + x + y
 
-Date.months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-Date::getNiceDate = ->
-  Date.months[@getMonth()] + ' ' + @getDate() + ', ' + @getFullYear()
+  toNiceDate: (date) ->
+    date = new Date(String(date))
+    @months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()
 
-Date::getMonthName = ->
-  Date.months[@getMonth()]
+  getMonthName: (date) ->
+    date = new Date(String(date))
+    @months[date.getMonth()]
 
 class Cash
   constructor: (@robot) ->
@@ -73,14 +80,15 @@ class Cash
 module.exports = (robot) ->
 
   cash = new Cash robot
+  optf = new OutputFormatter()
 
   robot.respond /cash (left|on hand)( is)? (.+)$/i, (msg) ->
     amount = cash.set_on_hand msg.match[3]
-    msg.send "Ok, cash on hand is #{amount.toDollars()}"
+    msg.send "Ok, cash on hand is #{optf.toDollars(amount)}"
 
   robot.respond /cash burn( rate)?( is)? (.+)$/i, (msg) ->
     amount = cash.set_burn_rate msg.match[3]
-    msg.send "Ok, our burn rate is #{amount.toDollars()} per month"
+    msg.send "Ok, our burn rate is #{optf.toDollars(amount)} per month"
 
   robot.respond /cash (stats|state|update)/i, (msg) ->
     data = cash.data()
@@ -102,7 +110,7 @@ module.exports = (robot) ->
       end_date.setMonth(end_date.getMonth() + months)
 
       output = ''
-      output += "Ok, we have #{current_cash.amount.toDollars()} on hand as of #{current_cash.date.getNiceDate()}"
+      output += "Ok, we have #{optf.toDollars(current_cash.amount)} on hand as of #{optf.toNiceDate(current_cash.date)}"
 
       # If we have history, add a comparison to the last cash status
       if data.on_hand.length > 1
@@ -113,11 +121,11 @@ module.exports = (robot) ->
         else
           diff_type = 'less'
 
-        output += ", which is #{Math.abs(diff).toDollars()} #{diff_type} than on #{last_cash.date.getNiceDate()}. "
+        output += ", which is #{optf.toDollars(Math.abs(diff))} #{diff_type} than on #{optf.toNiceDate(last_cash.date)}. "
       else
         output += "."
 
-      output += "\nAt our current burn rate (#{current_burn.rate.toDollars()} / month), we have #{months} months left. That gets us to #{end_date.getMonthName()} #{end_date.getFullYear()}."
+      output += "\nAt our current burn rate (#{optf.toDollars(current_burn.rate)} / month), we have #{months} months left. That gets us to #{optf.getMonthName(end_date)} #{end_date.getFullYear()}."
 
       msg.send output
     else
