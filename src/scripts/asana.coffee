@@ -5,9 +5,14 @@
 #   None
 #
 # Configuration:
-#   HUBOT_ASANA_WORKSPACE_ID
-#   HUBOT_ASANA_PROJECT_ID
-#   HUBOT_ASANA_API_KEY
+#   HUBOT_ASANA_API_KEY - find this in Account Settings -> API
+#   
+#   HUBOT_ASANA_WORKSPACE_ID - list all workspaces using
+#   curl -u <api_key>: https://app.asana.com/api/1.0/workspaces
+#   (note the colon after the api key)  
+# 
+#   HUBOT_ASANA_PROJECT_ID - list all projects in the workspace using:
+#   curl -u <api_key>: https://app.asana.com/api/1.0/workspaces/<workspace id>/projects
 #
 # Commands:
 #   todo: @name? <task directive> - public message starting with todo: will add task, optional @name to assign task
@@ -15,6 +20,7 @@
 # 
 # Author:
 #   idpro
+#   abh1nav
 
 url  = 'https://app.asana.com/api/1.0'
 
