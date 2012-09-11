@@ -73,7 +73,8 @@ redis_server = Url.parse process.env.LOG_REDIS_URL || process.env.REDISTOGO_URL 
 
 module.exports = (robot) ->
   robot.logging ||= {} # stores some state info that should not persist between application runs
-  robot.brain.data.logging ||= {}
+  robot.brain.on 'loaded', ->
+    robot.brain.data.logging ||= {}
   robot.logger.debug "Starting chat logger."
 
   # Setup our own redis connection
