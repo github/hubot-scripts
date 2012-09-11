@@ -14,6 +14,7 @@
 #   LOG_HTTP_PASS: password for viewing logs over HTTP (default 'changeme' if unset)
 #   LOG_HTTP_PORT: port for our logging Connect server to listen on (default 8081)
 #   LOG_STEALTH:   If set, bot will not announce that it is logging in chat
+#   LOG_MESSAGES_ONLY: If set, bot will not log room enter or leave events
 #
 # Commands:
 #   hubot send me today's logs - messages you the logs for today
@@ -449,8 +450,8 @@ log_message = (redis, robot, response) ->
     type = 'join'
   else if response.message instanceof hubot.LeaveMessage
     type = 'part'
-
-  entry = JSON.stringify(new Entry(response.message.user?['id'], Date.now(), 'text', response.message.text))
+  return if process.env.LOG_MESSAGES_ONLY && type != 'text'
+  entry = JSON.stringify(new Entry(response.message.user?['id'], Date.now(), type, response.message.text))
   room = response.message.user.room || 'general'
   redis.rpush("logs:#{room}:#{date_id()}", entry)
 
