@@ -28,7 +28,7 @@ defaultOptions = () ->
 
 get = (path, params, cb) ->
   options = defaultOptions()
-  options.path += path
+  options.path   = "/_hubot/#{path}"
   console.log(options)
   req = HTTP.request options, (res) ->
     body = ""
