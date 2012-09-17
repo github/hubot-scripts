@@ -27,8 +27,8 @@ defaultOptions = () ->
       "Authorization": "Basic #{auth}"
 
 get = (path, params, cb) ->
-  options = defaultOptions()
-  options.path   = "/_hubot/#{path}"
+  options      = defaultOptions()
+  options.path = "/_hubot/#{path}"
   console.log(options)
   req = HTTP.request options, (res) ->
     body = ""
