@@ -1,5 +1,5 @@
 # Description:
-#   Play Cards Against Humanity right in Hubot
+#   Play Cards Against Humanity in Hubot
 #
 # Dependencies:
 #   None
