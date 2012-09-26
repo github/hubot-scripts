@@ -1,0 +1,29 @@
+# Description:
+#   Github commit link looks for <SHA> and links to that commit for your default
+#   repo. Eg. "Hey guys check out commit 251a8fb"
+#
+# Dependencies:
+#   "githubot": "0.2.0"
+#
+# Configuration:
+#   HUBOT_GITHUB_REPO
+#   HUBOT_GITHUB_TOKEN
+#
+# Commands:
+#   Listens for <SHA> and links to the commit for your default repo on github
+#
+# Author:
+#   achiu
+
+module.exports = (robot) ->
+  github = require("githubot")(robot)
+  robot.hear /.*(\b[0-9a-f]{7}\b|\b[0-9a-f]{40}\b).*/i, (msg) ->
+    if !(msg.message.text.match(/commit\//))
+      commit_sha = msg.match[1].replace /\b/, ""
+      bot_github_repo = github.qualified_repo process.env.HUBOT_GITHUB_REPO
+      issue_title = ""
+      github.get "https://api.github.com/repos/#{bot_github_repo}/commits/" + commit_sha, (commit_obj) ->
+        url = commit_obj.url.replace(/api\./,'')
+        url = url.replace(/repos\//,'')
+        url = url.replace(/commits/,'commit')
+        msg.send "Commit " + commit_sha + ": " + url
