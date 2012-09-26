@@ -26,4 +26,4 @@ module.exports = (robot) ->
         url = commit_obj.url.replace(/api\./,'')
         url = url.replace(/repos\//,'')
         url = url.replace(/commits/,'commit')
-        msg.send "Commit " + commit_sha + ": " + url
+        msg.send "Commit: " + commt_obj.commit.message + " " + url
