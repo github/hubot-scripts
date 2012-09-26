@@ -6,7 +6,7 @@
 #   hubot show twitter query - Show current search query
 #
 # Dependencies:
-#   "cron": "1.0.1"
+#   None
 #
 # Configuration:
 #   HUBOT_TWITTER_MENTION_QUERY
@@ -16,14 +16,12 @@
 #   Sachinr
 
 module.exports = (robot) ->
-  cronJob  = require('cron').CronJob
   response = new robot.Response(robot)
   robot.brain.data.twitter_mention ?= {}
+  setInterval ->
+    last_tweet = robot.brain.data.twitter_mention.last_tweet || ''
 
-  if twitter_query(robot)?
-    new cronJob '*/5 * * * *', ->
-      last_tweet = robot.brain.data.twitter_mention.last_tweet || ''
-
+    if twitter_query(robot)?
       response.http('http://search.twitter.com/search.json')
         .query(q: escape(twitter_query(robot)), since_id: last_tweet)
         .get() (err, res, body) ->
@@ -33,9 +31,8 @@ module.exports = (robot) ->
             for tweet in tweets.results.reverse()
               sendMessage robot, "http://twitter.com/#!/#{tweet.from_user}/status/#{tweet.id_str}"
 
-    , null, true
-  else
-    sendMessage robot, 'No query string configured in the environment'
+  , 1000 * 60 * 5
+
 
   robot.respond /(set twitter query) (.*)/i, (msg) ->
     robot.brain.data.twitter_mention.query = msg.match[2]
