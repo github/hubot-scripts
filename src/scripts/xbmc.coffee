@@ -26,7 +26,8 @@
 http = require 'http'
 url = require 'url' 
 
-xbmc_uri = url.parse process.env.HUBOT_XBMC_URL
+xbmc_uri = process.env.HUBOT_XBMC_URL + 'jsonrpc'
+
 xbmc_user = process.env.HUBOT_XBMC_USER
 xbmc_password = process.env.HUBOT_XBMC_PASSWORD
 
@@ -40,8 +41,11 @@ xbmc_stop = (msg) ->
 
 xbmc_request = (method, params, msg) ->
   data = JSON.stringify({"jsonrpc": "2.0", "method": method, "params": params, "id": 1})
-  msg.http(xbmc_uri).auth(xbmc_user, xbmc_password)
-  msg.post(data) (err, res, body) ->
+  req = msg.http(xbmc_uri).auth(xbmc_user, xbmc_password)
+  
+  console.log("Sending '"+data+"' to " + xbmc_uri)
+  
+  req.post(data) (err, res, body) ->
       if res.statusCode == 401
         msg.send "XBMC is saying I'm unauthorised. Check my credentials, would you?" 
       if res.statusCode == 200
@@ -56,8 +60,8 @@ get_youtube_video_id_from = (video_url) ->
     return uri.path.replace '/', ''
 
 
-module.exports = (robot) ->
-  robot.respond /xbmc (.*youtu\.?be.*)/i, (msg) ->
+module.exports = (robot) -> 
+  robot.respond /xbmc (\S*youtu\.?be\S*)/i, (msg) ->
     if /(^|\/\/)((www.)?(youtube.com)|youtu.be)\//.test msg.match[1]
       video_id = get_youtube_video_id_from msg.match[1]
       if video_id?
