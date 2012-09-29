@@ -2,6 +2,7 @@
 #   Plays YouTube videos on XBMC
 #
 # Dependencies:
+#   None
 #
 # Configuration:
 #   HUBOT_XBMC_URL
@@ -51,6 +52,7 @@ xbmc_request = (method, params, msg) ->
       if res.statusCode == 200
         msg.reply "Done."
   
+  
 get_youtube_video_id_from = (video_url) ->
   uri = url.parse((if /^http/.test video_url then video_url else 'http://'+video_url), true)
   if /youtube.com$/.test uri.host
@@ -60,7 +62,7 @@ get_youtube_video_id_from = (video_url) ->
     return uri.path.replace '/', ''
 
 
-module.exports = (robot) -> 
+module.exports = (robot) ->  
   robot.respond /xbmc (\S*youtu\.?be\S*)/i, (msg) ->
     if /(^|\/\/)((www.)?(youtube.com)|youtu.be)\//.test msg.match[1]
       video_id = get_youtube_video_id_from msg.match[1]

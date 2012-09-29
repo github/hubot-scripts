@@ -9,6 +9,7 @@
 #
 # Commands:
 #   torrents - Get a list of open torrents
+#   where is transmission? - Reply with the URL Hubot is using to talk to Transmission
 #
 # Author:
 #   lucaswilric
