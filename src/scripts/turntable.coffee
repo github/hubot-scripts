@@ -38,3 +38,5 @@ module.exports = (robot) ->
       robot.messageRoom env.TT_CHAN, "#{data.name}@turntable.fm: #{data.text}"
 
     ttbot.on 'speak', speak_callback
+  else
+    console.log 'Set the TT_AUTH, TT_USERID, TT_ROOMID and TT_CHAN environment variables to enable the turntable.fm script'
