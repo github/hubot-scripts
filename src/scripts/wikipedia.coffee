@@ -73,7 +73,7 @@ findBestParagraph = (paragraphs) ->
     text
 
 makeArticleURL = (title) ->
-  "http://en.wikipedia.org/wiki/#{encodeURIComponent(title)}"
+  "https://en.wikipedia.org/wiki/#{encodeURIComponent(title)}"
 
 makeTitleFromQuery = (query) ->
   strCapitalize(_s.trim(query).replace(/[ ]/g, '_'))
