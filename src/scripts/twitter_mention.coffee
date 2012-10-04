@@ -17,7 +17,9 @@
 
 module.exports = (robot) ->
   response = new robot.Response(robot)
+  room = process.env.HUBOT_TWITTER_MENTION_ROOM
   robot.brain.data.twitter_mention ?= {}
+
   setInterval ->
     last_tweet = robot.brain.data.twitter_mention.last_tweet || ''
 
@@ -29,10 +31,9 @@ module.exports = (robot) ->
           if tweets.results? and tweets.results.length > 0
             robot.brain.data.twitter_mention.last_tweet = tweets.results[0].id_str
             for tweet in tweets.results.reverse()
-              sendMessage robot, "http://twitter.com/#!/#{tweet.from_user}/status/#{tweet.id_str}"
-
+              message = "http://twitter.com/#!/#{tweet.from_user}/status/#{tweet.id_str}"
+              robot.messageRoom room, message
   , 1000 * 60 * 5
-
 
   robot.respond /(set twitter query) (.*)/i, (msg) ->
     robot.brain.data.twitter_mention.query = msg.match[2]
@@ -45,6 +46,3 @@ module.exports = (robot) ->
 twitter_query = (robot) ->
   robot.brain.data.twitter_mention.query ||
     process.env.HUBOT_TWITTER_MENTION_QUERY
-
-sendMessage = (robot, str) ->
-  robot.adapter.send({room: process.env.HUBOT_TWITTER_MENTION_ROOM}, str )
