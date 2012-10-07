@@ -1,16 +1,26 @@
 #
+# Description:
+#   Gets a list of active torrents from  Transmission, a BitTorrent client.
+# 
 # Dependencies:
 #   None
 #
 # Configuration:
 #   HUBOT_TRANSMISSION_USER - Transmission HTTP username
 #   HUBOT_TRANSMISSION_PASSWORD - Transmission HTTP password
-#   HUBOT_TRANSMISSION_URL - Where Transmission lives
+#   HUBOT_TRANSMISSION_URL - The URL used to access Transmission remotely
 #
 # Commands:
-#   torrents - Get a list of open torrents
-#   where is transmission? - Reply with the URL Hubot is using to talk to Transmission
+#   hubot torrents - Get a list of open torrents
+#   hubot where is transmission? - Reply with the URL Hubot is using to talk to Transmission
 #
+# Notes:
+#   This script uses Transmission's HTTP interface to get the information for its 
+#   responses. To enable remote access to Transmission and get the values for the 
+#   settings, you can follow the Transmission documentation at 
+#   https://trac.transmissionbt.com/wiki/UserDocumentation
+#   There should be a section about remote access under the section for your chosen OS.
+# 
 # Author:
 #   lucaswilric
 
