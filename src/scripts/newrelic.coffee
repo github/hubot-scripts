@@ -2,7 +2,7 @@
 #   Display current app performance stats from New Relic
 #
 # Dependencies:
-#   xml2js
+#   "xml2js": "0.2.0"
 #
 # Configuration:
 #   HUBOT_NEWRELIC_ACCOUNT_ID
