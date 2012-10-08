@@ -42,5 +42,5 @@ module.exports = (robot) ->
         else if commits.length == 0
           msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
         else
-          msg.send "http://github.com/#{repo}"
+          msg.send "https://github.com/#{repo}"
           response_handler commits
