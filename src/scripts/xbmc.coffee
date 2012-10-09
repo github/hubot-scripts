@@ -27,24 +27,27 @@
 http = require 'http'
 url = require 'url' 
 
-xbmc_uri = process.env.HUBOT_XBMC_URL + 'jsonrpc'
-
+xbmc_uri = process.env.HUBOT_XBMC_URL
 xbmc_user = process.env.HUBOT_XBMC_USER
-xbmc_password = process.env.HUBOT_XBMC_PASSWORD
+xbmc_password = process.env.HUBOT_XBMC_PASSWORD || ''
 
 play_youtube = (video_id, msg) ->
   xbmc_request "Player.Open", {"item":{"file":"plugin://plugin.video.youtube/?action=play_video&videoid=" + video_id }}, msg
 
-
 xbmc_stop = (msg) ->
   xbmc_request "Player.Stop", {"playerid": 1}, msg
 
-
 xbmc_request = (method, params, msg) ->
+  unless xbmc_uri
+    msg.reply "I don't know where XBMC is. Please configure a URL."
+    return
+    
+  unless xbmc_user
+    msg.reply "I don't have a user name to give XBMC. Please configure one."
+    return
+
   data = JSON.stringify({"jsonrpc": "2.0", "method": method, "params": params, "id": 1})
-  req = msg.http(xbmc_uri).auth(xbmc_user, xbmc_password)
-  
-  console.log("Sending '"+data+"' to " + xbmc_uri)
+  req = msg.http(xbmc_uri + 'jsonrpc').auth(xbmc_user, xbmc_password)
   
   req.post(data) (err, res, body) ->
       if res.statusCode == 401
@@ -74,5 +77,5 @@ module.exports = (robot) ->
   robot.respond /xbmc stop/i, (msg) ->
     xbmc_stop(msg)
   
-  robot.respond /where('s| is) xbmc\??/i, (msg) ->      #'
+  robot.respond /where('s| is) xbmc\??/i, (msg) ->
     msg.send 'XBMC is at ' + process.env.HUBOT_XBMC_URL
