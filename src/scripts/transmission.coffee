@@ -28,8 +28,8 @@ url = process.env.HUBOT_TRANSMISSION_URL
 user = process.env.HUBOT_TRANSMISSION_USER
 password = process.env.HUBOT_TRANSMISSION_PASSWORD || ''
 
-get_torrents = (msg, session_id = '', rec_count = 0) ->
-  return if rec_count > 4
+getTorrents = (msg, sessionId = '', recursions = 0) ->
+  return if recursions > 4
   
   unless url?
     msg.reply "I don't know where Transmission is. Please configure a URL."
@@ -41,10 +41,10 @@ get_torrents = (msg, session_id = '', rec_count = 0) ->
   
   msg.http(url)
     .auth(user, password)
-    .header('X-Transmission-Session-Id', session_id)
+    .header('X-Transmission-Session-Id', sessionId)
     .post(JSON.stringify({method: "torrent-get", arguments: { fields: ["id", "name", "downloadDir", "percentDone", "files", "isFinished"]}})) (err, res, body) ->
       if res.statusCode == 409
-        get_torrents(msg, res.headers['x-transmission-session-id'], rec_count + 1)
+        getTorrents(msg, res.headers['x-transmission-session-id'], recursions + 1)
       else
         response = ''
         torrents = JSON.parse(body).arguments.torrents
@@ -56,7 +56,7 @@ get_torrents = (msg, session_id = '', rec_count = 0) ->
 
 module.exports = (robot) ->
   robot.respond /torrents/i, (msg) ->
-    get_torrents(msg)
+    getTorrents(msg)
     
   robot.respond /where('s| is) transmission\??/i, (msg) ->
     msg.send "Transmission is at " + url
