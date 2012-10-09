@@ -26,10 +26,19 @@
 
 url = process.env.HUBOT_TRANSMISSION_URL
 user = process.env.HUBOT_TRANSMISSION_USER
-password = process.env.HUBOT_TRANSMISSION_PASSWORD
+password = process.env.HUBOT_TRANSMISSION_PASSWORD || ''
 
 get_torrents = (msg, session_id = '', rec_count = 0) ->
   return if rec_count > 4
+  
+  unless url?
+    msg.reply "I don't know where Transmission is. Please configure a URL."
+    return
+  
+  unless user?
+    msg.reply "I don't have a user name to give Transmission. Please configure one."
+    return
+  
   msg.http(url)
     .auth(user, password)
     .header('X-Transmission-Session-Id', session_id)
