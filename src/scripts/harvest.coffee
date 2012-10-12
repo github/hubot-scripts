@@ -18,11 +18,13 @@
 #                                                      (both of which may be abbreviated, Hubot
 #                                                      will ask you if your input is ambigious).
 #                                                      An existing timer (if any) will be stopped.
-#   hubot stop harvest at <project>/<task> - Stop the timer the for a task, if any.
+#   hubot stop harvest [at <project>/<task>] - Stop the timer the for a task, if any.
+#                                              If no project is given, stops the first
+#                                              active timer it can find.
 #   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
 #
 # Notes:
-# All commands and command arguments are case-insenstive. If you work
+# All commands and command arguments are case-insenitive. If you work
 # on a project "FooBar", hubot will unterstand "foobar" as well. This
 # is also true for abbreviations, so if you don't have similary named
 # projects, "foob" will do as expected.
@@ -101,26 +103,29 @@ module.exports = (robot) ->
         msg.reply "Request failed with status #{status}."
 
   # Stops the timer running for a project/task combination,
-  # if any.
-  robot.respond /stop harvest at (.+)\/(.+)/i, (msg) ->
+  # if any. If no combination is given, stops the first
+  # active timer available.
+  robot.respond /stop harvest( at (.+)\/(.+))?/i, (msg) ->
     user    = msg.message.user
-    project = msg.match[1]
-    task    = msg.match[2]
     unless user.harvest_account
       msg.reply "You have to tell me your Harvest credentials first."
       return
     
-    user.harvest_account.stop msg, project, task, (status, body) ->
-      if 200 <= status <= 299
-        msg.reply "Timer stopped."
-      else
-        msg.reply "Request failed with status #{status}."
-        msg.reply body
-
-  # Stop the first running timer it can find.
-  # Not yet implemented.
-  #robot.respond /stop harvest/i, (msg) ->
-  #  msg.reply "Not yet implemented."
+    if msg.match[1]
+      project = msg.match[2]
+      task    = msg.match[3]
+      user.harvest_account.stop msg, project, task, (status, body) ->
+        if 200 <= status <= 299
+          msg.reply "Timer stopped (#{body.hours}h)."
+        else
+          msg.reply "Request failed with status #{status}."
+          msg.reply body
+    else
+      user.harvest_account.stop_first msg, (status, body) ->
+        if 200 <= status <= 299
+          msg.reply "Timer stopped (#{body.hours}h)."
+        else
+          msg.reply "Request failed with status #{status}."
 
 # Class managing the Harvest account associated with
 # a user. Keeps track of the user's credentials and can
@@ -188,6 +193,24 @@ class HarvestAccount
   stop: (msg, target_project, target_task, callback) ->
     this.find_day_entry msg, target_project, target_task, (entry) =>
       this.stop_entry msg, entry, (status, body) -> callback status, body
+
+  # Issues /daily/timer/<id> to the Harvest API to stop
+  # the timer running at <id>, which is the first active
+  # timer it can find in today's timesheet, then calls the
+  # callback. If no active timer is found, replies accordingly
+  # and doesn't execute the callback.
+  stop_first: (msg, callback) ->
+    this.daily msg, (status, body) =>
+      found_entry = null
+      for entry in body.day_entries
+        if entry.timer_started_at?
+          found_entry = entry
+          break
+
+      if found_entry?
+        this.stop_entry msg, found_entry, (status, body) -> callback status, body
+      else
+        msg.reply "Currently there is no timer running."
 
   # (internal method)
   # Assembles the basic parts of a request to the Harvest
