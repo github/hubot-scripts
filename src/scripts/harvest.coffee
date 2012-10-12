@@ -18,7 +18,7 @@
 #                                                      (both of which may be abbreviated, Hubot
 #                                                      will ask you if your input is ambigious).
 #                                                      An existing timer (if any) will be stopped.
-#   hubot finish harvest at <project> - TODO
+#   hubot stop harvest at <project>/<task> - Stop the timer the for a task, if any.
 #   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
 #
 # Notes:
@@ -82,16 +82,45 @@ module.exports = (robot) ->
 
   # Kick off a new timer, stopping the previously running one, if any.
   robot.respond /start harvest at (.+)\/(.+): (.*)/i, (msg) ->
+    user    = msg.message.user
     project = msg.match[1]
     task    = msg.match[2]
     notes   = msg.match[3]
-    msg.message.user.harvest_account.start msg, project, task, notes, (status, body) ->
+
+    # Check if we know the detected user's credentials.
+    unless user.harvest_account
+      msg.reply "You have to tell me your Harvest credentials first."
+      return
+    
+    user.harvest_account.start msg, project, task, notes, (status, body) ->
       if 200 <= status <= 299
         if body.hours_for_previously_running_timer?
           msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
         msg.reply "Started tracking. Back to your work, #{msg.message.user.name}!"
       else
         msg.reply "Request failed with status #{status}."
+
+  # Stops the timer running for a project/task combination,
+  # if any.
+  robot.respond /stop harvest at (.+)\/(.+)/i, (msg) ->
+    user    = msg.message.user
+    project = msg.match[1]
+    task    = msg.match[2]
+    unless user.harvest_account
+      msg.reply "You have to tell me your Harvest credentials first."
+      return
+    
+    user.harvest_account.stop msg, project, task, (status, body) ->
+      if 200 <= status <= 299
+        msg.reply "Timer stopped."
+      else
+        msg.reply "Request failed with status #{status}."
+        msg.reply body
+
+  # Stop the first running timer it can find.
+  # Not yet implemented.
+  #robot.respond /stop harvest/i, (msg) ->
+  #  msg.reply "Not yet implemented."
 
 # Class managing the Harvest account associated with
 # a user. Keeps track of the user's credentials and can
@@ -123,7 +152,7 @@ class HarvestAccount
 
   # Issues /daily to the Harvest API.
   daily: (msg, callback) ->
-    this.request(msg).path("daily").get() (err, res, body) ->
+    this.request(msg).path("/daily").get() (err, res, body) ->
       callback res.statusCode, JSON.parse(body)
 
   # Issues /daily/add to the Harvest API to add a new timer
@@ -137,6 +166,28 @@ class HarvestAccount
         task_id: task.id
       this.request(msg).path("/daily/add").post(JSON.stringify(data)) (err, res, body) ->
         callback res.statusCode, JSON.parse(body)
+
+  # Issues /daily/timer/<id> to the Harvest API to stop
+  # the timer running at `entry.id`. If that timer isn't
+  # running, replys accordingly, otherwise calls the callback
+  # when the operation has finished.
+  stop_entry: (msg, entry, callback) ->
+    if entry.timer_started_at?
+      this.request(msg).path("/daily/timer/#{entry.id}").get() (err, res, body) ->
+        callback res.statusCode, JSON.parse(body)
+    else
+      msg.reply "This timer is not running."
+
+  # Issues /daily/timer/<id> to the Harvest API to stop
+  # the timer running at <id>, which is determined by
+  # looking up the current day_entry for the given
+  # project/task combination. If no entry is found (i.e.
+  # no timer has been started for this combination today),
+  # replies with an error message and doesn't executes the
+  # callback.
+  stop: (msg, target_project, target_task, callback) ->
+    this.find_day_entry msg, target_project, target_task, (entry) =>
+      this.stop_entry msg, entry, (status, body) -> callback status, body
 
   # (internal method)
   # Assembles the basic parts of a request to the Harvest
@@ -193,3 +244,34 @@ class HarvestAccount
 
       # Execute the callback with the results
       callback projects[0], tasks[0]
+
+  # (internal method)
+  # Searches through all entries made for today and tries
+  # to find a running timer for the given project/task
+  # combination.
+  # If it is found, the respective entry object is passed to
+  # the callback, otherwise an error message is replied and
+  # the callback doesn't get executed.
+  find_day_entry: (msg, target_project, target_task, callback) ->
+    this.find_project_and_task msg, target_project, target_task, (project, task) =>
+      this.daily msg, (status, body) ->
+        # For some unknown reason, the daily entry IDs are strings
+        # instead of numbers, causing the comparison below to fail.
+        # So, convert our target stuff to strings as well.
+        project_id = "#{project.id}"
+        task_id    = "#{task.id}"
+        # Iterate through all available entries for today
+        # and try to find the requested ID.
+        found_entry = null
+        for entry in body.day_entries
+          if entry.project_id == project_id and entry.task_id == task_id and entry.timer_started_at?
+            found_entry = entry
+            break
+
+        # None found
+        unless found_entry?
+          msg.reply "I couldn't find a running timer in today's timesheet for the combination #{target_project}/#{target_task}."
+          return
+
+        # Execute the callback with the result
+        callback found_entry
