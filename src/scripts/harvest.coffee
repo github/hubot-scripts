@@ -12,7 +12,7 @@
 #
 # Commands:
 #   hubot remember my harvest account <email> with password <password> - Saves your Harvest credentials to allow Hubot to track time for you
-#   hubot forget my harvest account <email> - Deletes your account credentials from Hubot's memory
+#   hubot forget my harvest account - Deletes your account credentials from Hubot's memory
 #   hubot start harvest at <project>: notes - TODO
 #   hubot finish harvest at <project> - TODO
 #   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
@@ -36,24 +36,29 @@ module.exports = (robot) ->
         msg.reply "Uh-oh -- I just tested your credentials, but they appear to be wrong. Please specify the correct ones."
 
   # Allows a user to delete his credentials.
-  robot.respond /forget my harvest account (.+)/i, (msg) ->
+  robot.respond /forget my harvest account/i, (msg) ->
     msg.message.user.harvest_account = null
     msg.reply "Okay, I erased your credentials from my memory."
 
   # Retrieve your or a specific user's timesheet for today.
   robot.respond /daily harvest( of (.+))?/i, (msg) ->
+    # Detect the user; if none is passed, assume the sender.
     if msg.match[2]
       user = robot.userForName(msg.match[2])
-      if user
-        unless user.harvest_account
-          msg.reply "I didn't crack #{user.name}'s Harvest credentials yet, but I'm working on it... Sorry for the inconvenience."
-          return
-      else
+      unless user
         msg.reply "#{msg.match[2]}? Who's that?"
         return
     else
       user = msg.message.user
-    
+
+    # Check if we know the detected user's credentials.
+    unless user.harvest_account
+      if user == msg.message.user
+        msg.reply "You have to tell me your Harvest credentials first."
+      else
+        msg.reply "I didn't crack #{user.name}'s Harvest credentials yet, but I'm working on it... Sorry for the inconvenience."
+      return
+
     user.harvest_account.daily msg, (status, body) ->
       if 200 <= status <= 299
         msg.reply "Your entries for today, #{user.name}:"
