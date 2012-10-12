@@ -11,11 +11,21 @@
 #     you should set this to "yourcompany" (without the quotes).
 #
 # Commands:
-#   hubot remember my harvest account <email> with password <password> - Saves your Harvest credentials to allow Hubot to track time for you
+#   hubot remember my harvest account <email> with password <password> - Saves your Harvest credentials
+#                                                                        to allow Hubot to track time for you
 #   hubot forget my harvest account - Deletes your account credentials from Hubot's memory
-#   hubot start harvest at <project>: notes - TODO
+#   hubot start harvest at <project>/<task>: <notes> - Start a timer for a task at a project
+#                                                      (both of which may be abbreviated, Hubot
+#                                                      will ask you if your input is ambigious).
+#                                                      An existing timer (if any) will be stopped.
 #   hubot finish harvest at <project> - TODO
 #   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
+#
+# Notes:
+# All commands and command arguments are case-insenstive. If you work
+# on a project "FooBar", hubot will unterstand "foobar" as well. This
+# is also true for abbreviations, so if you don't have similary named
+# projects, "foob" will do as expected.
 # 
 # Author:
 #   Quintus
@@ -70,6 +80,19 @@ module.exports = (robot) ->
       else
         msg.reply "Request failed with status #{status}."
 
+  # Kick off a new timer, stopping the previously running one, if any.
+  robot.respond /start harvest at (.+)\/(.+): (.*)/i, (msg) ->
+    project = msg.match[1]
+    task    = msg.match[2]
+    notes   = msg.match[3]
+    msg.message.user.harvest_account.start msg, project, task, notes, (status, body) ->
+      if 200 <= status <= 299
+        if body.hours_for_previously_running_timer?
+          msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
+        msg.reply "Started tracking. Back to your work, #{msg.message.user.name}!"
+      else
+        msg.reply "Request failed with status #{status}."
+
 # Class managing the Harvest account associated with
 # a user. Keeps track of the user's credentials and can
 # be used to query the Harvest API on behalf of that user.
@@ -103,6 +126,18 @@ class HarvestAccount
     this.request(msg).path("daily").get() (err, res, body) ->
       callback res.statusCode, JSON.parse(body)
 
+  # Issues /daily/add to the Harvest API to add a new timer
+  # starting from now.
+  start: (msg, target_project, target_task, notes, callback) ->
+    this.find_project_and_task msg, target_project, target_task, (project, task) =>
+      # OK, task and project found. Start the tracker.
+      data =
+        notes: notes
+        project_id: project.id
+        task_id: task.id
+      this.request(msg).path("/daily/add").post(JSON.stringify(data)) (err, res, body) ->
+        callback res.statusCode, JSON.parse(body)
+
   # (internal method)
   # Assembles the basic parts of a request to the Harvest
   # API, i.e. the Content-Type/Accept and authorization
@@ -115,3 +150,46 @@ class HarvestAccount
       "Accept": "application/json"
     .auth(@email, @password)
     return req
+
+  # (internal method)
+  # Searches through all projects available to the sender of
+  # `msg` for a project whose name inclues `target_project`.
+  # If exactly one is found, query all tasks available for the
+  # sender in this projects, and if exactly one is found,
+  # execute the callback with the project object as the first
+  # and the task object as the second argument. If more or
+  # less than one project or task are found to match the query,
+  # reply accordingly to the user (the callback never gets
+  # executed in this case).
+  find_project_and_task: (msg, target_project, target_task, callback) ->
+    this.daily msg, (status, body) ->
+      # Search through all possible projects for the matching ones
+      projects = []
+      for project in body.projects
+        if project.name.toLowerCase().indexOf(target_project.toLowerCase()) != -1
+          projects.push(project)
+      # Ask the user if the project name is ambivalent
+      if projects.length == 0
+        msg.reply "Sorry, no matching projects found."
+        return
+      else if projects.length > 1
+        msg.reply "I found the following #{projects.length} projects for your query, please be more precise:"
+        for project in projects
+          msg.reply "* #{project.name}"
+        return
+
+      # Repeat the same process for the tasks
+      tasks = []
+      for task in projects[0].tasks
+        if task.name.toLowerCase().indexOf(target_task.toLowerCase()) != -1
+          tasks.push(task)
+      if tasks.length == 0
+        msg.reply "Sorry, no matching tasks found."
+      else if tasks.length > 1
+        msg.reply "I found the following #{tasks.length} tasks for your query, please be more pricese:"
+        for task in tasks
+          msg.reply "* #{task.name}"
+        return
+
+      # Execute the callback with the results
+      callback projects[0], tasks[0]
