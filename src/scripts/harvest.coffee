@@ -15,7 +15,7 @@
 #   hubot forget my harvest account <email> - Deletes your account credentials from Hubot's memory
 #   hubot start harvest at <project>: notes - TODO
 #   hubot finish harvest at <project> - TODO
-#   hubot daily harvest - Hubot responds with your entries for today
+#   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
 # 
 # Author:
 #   Quintus
@@ -40,17 +40,30 @@ module.exports = (robot) ->
     msg.message.user.harvest_account = null
     msg.reply "Okay, I erased your credentials from my memory."
 
-  robot.respond /daily harvest/i, (msg) ->
-    msg.message.user.harvest_account.daily msg, (status, body) ->
+  # Retrieve your or a specific user's timesheet for today.
+  robot.respond /daily harvest( of (.+))?/i, (msg) ->
+    if msg.match[2]
+      user = robot.userForName(msg.match[2])
+      if user
+        unless user.harvest_account
+          msg.reply "I didn't crack #{user.name}'s Harvest credentials yet, but I'm working on it... Sorry for the inconvenience."
+          return
+      else
+        msg.reply "#{msg.match[2]}? Who's that?"
+        return
+    else
+      user = msg.message.user
+    
+    user.harvest_account.daily msg, (status, body) ->
       if 200 <= status <= 299
-        msg.reply "Your entries for today, #{msg.message.user.name}:"
+        msg.reply "Your entries for today, #{user.name}:"
         for entry in body.day_entries
           if entry.ended_at == ""
             msg.reply "* #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
           else
             msg.reply "* #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} - #{entry.ended_at} (#{entry.hours}h)]"
       else
-        msg.reply "Failed with status #{status}."
+        msg.reply "Request failed with status #{status}."
 
 # Class managing the Harvest account associated with
 # a user. Keeps track of the user's credentials and can
