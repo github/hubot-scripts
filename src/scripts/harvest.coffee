@@ -32,6 +32,9 @@
 # Author:
 #   Quintus
 
+unless process.env.HUBOT_HARVEST_SUBDOMAIN
+  console.log "Please set HUBOT_HARVEST_SUBDOMAIN in the environment to use the harvest plugin script."
+
 module.exports = (robot) ->
 
   # Provide facility for saving the account credentials.
