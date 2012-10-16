@@ -11,5 +11,4 @@
 
 module.exports = (robot) ->
   robot.hear /standup|stand-up|hangout/i, (msg) ->
-    process.env.HUBOT_HANGOUT_URL
-    msg.send url
+    msg.send process.env.HUBOT_HANGOUT_URL
