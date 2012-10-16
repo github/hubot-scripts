@@ -7,10 +7,10 @@
 module.exports = (robot) ->
   robot.brain.data.achievements ||= {}
 
-  robot.hear /(.*): *\+1 for (.*)$/i, (msg) ->
-    receiver = msg.match[1]
+  robot.hear /(.*):? *(\+1|thx) for (.*)$/i, (msg) ->
+    receiver = msg.match[1].trim()
     thanking = msg.message.user.name
-    reason   = msg.match[2]
+    reason   = msg.match[3]
 
     if receiver == thanking
       msg.send "hey, don't cheat!"
@@ -26,7 +26,7 @@ module.exports = (robot) ->
 
   robot.respond /who thanks me??/i, (msg) ->
     user = msg.message.user.name
-  response = "#{user}, #{robot.brain.data.achievements[user].length} time(s) someone thanked you:\n"
+    response = "#{user}, #{robot.brain.data.achievements[user].length} time(s) someone thanked you:\n"
     for achievement in robot.brain.data.achievements[user]
       response += "#{achievement.given_by} for #{achievement.reason}\n"
     msg.send response
@@ -48,7 +48,4 @@ module.exports = (robot) ->
       message += "#{position}. #{user.name} - #{user.points}\n"
 
     msg.send message
-
-  robot.hear /thx/i, (msg) ->
-    msg.send "#{msg.message.user.name}: hey, grant a plus!"
 
