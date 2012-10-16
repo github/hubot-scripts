@@ -23,7 +23,7 @@ module.exports = (robot) ->
     help_text.push '      Indian        (indpak)'
     help_text.push 'Parent categories include the child categories:'
     help_text.push '      Chinese (chinese) will include "cantonese, dimsum, shanghainese and szechuan" in the search.'
-    help_text.push 'If you would like to have me give you a random result from all available categories use "random".'
+    help_text.push 'If you would like me to give you a random result from all available categories use "random".'
 
     msg.send help_text.join("\n")
     setTimeout (-> msg.send url), 2000
