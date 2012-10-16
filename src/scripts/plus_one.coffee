@@ -7,7 +7,7 @@
 module.exports = (robot) ->
   robot.brain.data.achievements ||= {}
 
-  robot.hear /(.*):? *(\+1|thx) for (.*)$/i, (msg) ->
+  robot.hear /(.*): *(\+1|thx) for (.*)$/i, (msg) ->
     receiver = msg.match[1].trim()
     thanking = msg.message.user.name
     reason   = msg.match[3]
