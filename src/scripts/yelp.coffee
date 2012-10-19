@@ -7,6 +7,9 @@
 # Commands:
 #   hubot [suggestion|recommendation] category list
 #   hubot [suggest|recommend] [random|category] [at|in|near|by] [location]
+#
+# Author:
+#   Gino Lucero
 
 yelp = require('yelp').createClient(
   consumer_key: process.env.YELP_CONSUMER_KEY

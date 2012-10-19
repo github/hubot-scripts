@@ -5,7 +5,6 @@
 #   sudo [command]    Execute the protected command.
 #
 # Configuration:
-#
 #   How to use sudo with your plugin:
 #
 #   Sudo = require('./sudo')
@@ -16,6 +15,9 @@
 #
 #     sudo.respond /make me a sandwich/i, (msg) ->
 #       msg.send "Okay #{msg.message.user.name}, I'm making you a sandwich."
+#
+# Author:
+#   Gino Lucero
 
 class Sudo
 
@@ -40,6 +42,8 @@ class Sudo
     if msg.message.user.id in @sudoers
       msg['message']['done'] = true
       execute msg
+    else
+      msg.send "You do not have permission to execute that command."
 
 module.exports = Sudo
 
