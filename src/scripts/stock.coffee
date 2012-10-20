@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   stock <info|quote|price> for <ticker> - Get a stock price
+#   hubot stock <info|quote|price> for <ticker> - Get a stock price
 #
 # Author:
 #   eliperkins
