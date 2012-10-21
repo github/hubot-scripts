@@ -14,7 +14,7 @@
 #     Enter your Github password when prompted. When you get a response, look for the "token" value
 #
 #     See the following for more details:
-#       http://developer.github.com/v3/#authentication
+  #     http://developer.github.com/v3/oauth/#create-a-new-authorization
 #       https://github.com/iangreenleaf/githubot
 #
 # Commands:
