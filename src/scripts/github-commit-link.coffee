@@ -7,7 +7,15 @@
 #
 # Configuration:
 #   HUBOT_GITHUB_REPO
+#     The `user/repository` that you want to connect to. example: github/hubot-scripts
 #   HUBOT_GITHUB_TOKEN
+#     You can retrieve your github token via:
+#       curl -i https://api.github.com/authorizations -d '{"scopes":["repo"]}' -u "yourusername"
+#     Enter your Github password when prompted. When you get a response, look for the "token" value
+#
+#     See the following for more details:
+#       http://developer.github.com/v3/#authentication
+#       https://github.com/iangreenleaf/githubot
 #
 # Commands:
 #   Listens for <SHA> and links to the commit for your default repo on github
