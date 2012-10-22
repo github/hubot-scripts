@@ -8,12 +8,28 @@
 #   HUBOT_TEAM_EMAILS
 #
 # Commands:
+#   None
 #
 # Author:
 #   earlonrails
 #
 # Additional Requirements
-#   Mutt email installed on the system
+#   unix mail client installed on the system
+#
+# Notes:
+#
+#   Broken-spec will have hubot IM the person who just committed, if rspec fails on the CI server.
+#   The person will then have one hour to fix their code or hubot will email the entire team.
+#
+#   Have your ci server wget to hubot when the specs fail ie
+#    wget -qO - http://10.1.11.201:5555/hubot/broken-spec?user=earlonrails@email.com\&project=bigProject\&branch=qa\&tag=HAHAHAHUBOTROX
+#
+#   Have your ci server wget to hubot when the specs passes ie
+#    wget -qO - http://10.1.11.201:5555/hubot/great-commit?user=earlonrails@email.com\&project=bigProject\&branch=qa\&tag=lhkldf12314lkjasdf
+#
+#   Variables
+#     emailWorkers - will contain the email timeout and user information
+
 
 util          = require 'util'
 child_process = require 'child_process'
@@ -31,16 +47,15 @@ findWorkerByProject = (project, workerArray) ->
 
 delay = (ms, func) -> setTimeout func, ms
 sendNaughtyEmail = (badBoy, msg) ->
-  muttCommand = """echo '#{msg}' | mutt -s '#{badBoy.id} is a naughty teammate' -- #{process.env.HUBOT_TEAM_EMAILS}"""
-  exec muttCommand, (error, stdout, stderr) ->
+  mailCommand = """echo '#{msg}' | mail -s '#{badBoy.id} is a naughty teammate' -F #{process.env.HUBOT_TEAM_EMAILS}"""
+  exec mailCommand, (error, stdout, stderr) ->
     util.print 'stdout: ' + stdout
     util.print 'stderr: ' + stderr
   worker = findWorkerByProject(badBoy.badCommit.project, emailWorkers)
   emailWorkers.splice(worker[1], 1)
 
 module.exports = (robot) ->
-  # Have your ci server wget to hubot when the specs fail ie
-  # hubot.com:5555/hubot/broken-spec?user=badBoy@email.com&project=bigProject&branch=qa&tag=lhkldf12314lkjasdf
+
   robot.router.get "/hubot/broken-spec", (req, res) ->
     query = querystring.parse(req._parsedUrl.query)
     naughtyUser =
@@ -56,8 +71,7 @@ module.exports = (robot) ->
                   This was a bad commit: #{query.tag}
                   If you don't correct this with-in the hour I will be forced to alert your team."""
 
-    teamEmail = """I regret to inform you that one of your teammates is a big jerk.
-                   They have broken our spec tests and our trust.
+    teamEmail = """I regret to inform you that rspec is failing.
                    Here is the data I have:
                    Naughty Person: #{query.user}
                    On project: #{query.project}
@@ -70,8 +84,7 @@ module.exports = (robot) ->
     robot.send  naughtyUser, scolding
     res.end "Don't be naughty!"
 
-  # Have your ci server wget to hubot when the specs passes ie
-  # hubot.com:5555/hubot/great-commit?user=goodBoy@email.com&project=bigProject&branch=qa&tag=lhkldf12314lkjasdf
+
   robot.router.get "/hubot/great-commit", (req, res) ->
     query = querystring.parse(req._parsedUrl.query)
     awesomeUser =
@@ -83,7 +96,6 @@ module.exports = (robot) ->
         tag: query.tag
 
     currentTime = (new Date).getTime()
-    # email workers will contain the email timeout and user information
     if emailWorkers.length > 0
       # loop through the users to out if they fixed it themself or if it was another person
       for key, worker of emailWorkers
