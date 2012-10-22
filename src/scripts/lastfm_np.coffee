@@ -32,5 +32,5 @@ getSong = (msg, usr) ->
 module.exports = (robot) ->
   robot.respond /what(')?s (.*) playing/i, (msg) ->
     getSong(msg)
-  robot.respond /what(')?s am I playing/i, (msg) ->
+  robot.respond /what am I playing/i, (msg) ->
     getSong(msg, msg.message.user.name)
