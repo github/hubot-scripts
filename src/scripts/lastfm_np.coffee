@@ -9,7 +9,7 @@
 #   HUBOT_LASTFM_APIKEY
 #
 # Commands:
-#   hubot what's playing <last FM user> - Returns song name and artist
+#   hubot what's <last FM user> playing  - Returns song name and artist
 #   hubot what am I playing - only works if last.fm nick = username who typed it
 #
 # Author:
@@ -32,5 +32,5 @@ getSong = (msg, usr) ->
 module.exports = (robot) ->
   robot.respond /what(')?s (.*) playing/i, (msg) ->
     getSong(msg)
-  robot.respond /what((')?s me| am I) playing/i, (msg) ->
+  robot.respond /what(')?s am I playing/i, (msg) ->
     getSong(msg, msg.message.user.name)
