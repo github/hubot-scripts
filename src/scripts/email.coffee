@@ -29,5 +29,5 @@ module.exports = (robot) ->
       util.print 'stderr: ' + stderr
 
   robot.respond /email (.*) -s (.*) -m (.*)/i, (msg) ->
-    sendEmail msg.match[1], msg.match[2], msg.match[3], msg.message.user.name
+    sendEmail msg.match[1], msg.match[2], msg.match[3], msg.message.user.id
     msg.send "email sent"
