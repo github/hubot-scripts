@@ -14,19 +14,19 @@
 #   earlonrails
 #
 # Additional Requirements
-#   Mutt email installed on the system
+#   unix mail client installed on the system
 
-sys = require 'sys'
+util = require 'util'
 child_process = require 'child_process'
 exec = child_process.exec
 
 module.exports = (robot) ->
   emailTime = null
   sendEmail = (addresses, subject, msg) ->
-    muttCommand = """echo '#{msg}' | mutt -s '#{subject}' -- #{addresses}"""
-    exec muttCommand, (error, stdout, stderr) ->
-      sys.print 'stdout: ' + stdout
-      sys.print 'stderr: ' + stderr
+    mailCommand = """echo '#{msg}' | mail -s '#{subject}' '#{addresses}'"""
+    exec mailCommand, (error, stdout, stderr) ->
+      util.print 'stdout: ' + stdout
+      util.print 'stderr: ' + stderr
 
-  robot.respond /email (^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$) -s (.*) -m (.*)/i, (msg) ->
-    sendEmail msg.match[0], msg.match[1], msg.match[2]
+  robot.respond /email (.*) -s (.*) -m (.*)/i, (msg) ->
+    sendEmail msg.match[1], msg.match[2], msg.match[3]
