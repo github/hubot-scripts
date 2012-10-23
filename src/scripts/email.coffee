@@ -30,3 +30,4 @@ module.exports = (robot) ->
 
   robot.respond /email (.*) -s (.*) -m (.*)/i, (msg) ->
     sendEmail msg.match[1], msg.match[2], msg.match[3]
+    msg.send "Email Sent"
