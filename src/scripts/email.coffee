@@ -22,12 +22,12 @@ exec = child_process.exec
 
 module.exports = (robot) ->
   emailTime = null
-  sendEmail = (addresses, subject, msg) ->
-    mailCommand = """echo '#{msg}' | mail -s '#{subject}' '#{addresses}'"""
+  sendEmail = (recipients, subject, msg, from) ->
+    mailCommand = """echo '#{msg}' | mail -s '#{subject}' -r '#{from}' '#{recipients}'"""
     exec mailCommand, (error, stdout, stderr) ->
       util.print 'stdout: ' + stdout
       util.print 'stderr: ' + stderr
 
   robot.respond /email (.*) -s (.*) -m (.*)/i, (msg) ->
-    sendEmail msg.match[1], msg.match[2], msg.match[3]
-    msg.send "Email Sent"
+    sendEmail msg.match[1], msg.match[2], msg.match[3], msg.message.user.name
+    msg.send "email sent"
