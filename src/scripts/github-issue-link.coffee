@@ -26,4 +26,4 @@ module.exports = (robot) ->
     issue_title = ""
     github.get "https://api.github.com/repos/#{bot_github_repo}/issues/" + issue_number, (issue_obj) ->
       issue_title = issue_obj.title
-      msg.send "Issue " + issue_number + ": " + issue_title  + "  http://github.com/" + bot_github_repo + '/issues/' + issue_number
+      msg.send "Issue " + issue_number + ": " + issue_title  + "  https://github.com/" + bot_github_repo + '/issues/' + issue_number

@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#   sosearch me <query> - Search for the query
-#   sosearch me <query> with tags <tag list sperated by ,> - Search for the query limit to given tags
+#   hubot sosearch [me] <query> - Search for the query
+#   hubot sosearch [me] <query> with tags <tag list sperated by ,> - Search for the query limit to given tags
 #
 # Author:
 #   carsonmcdonald

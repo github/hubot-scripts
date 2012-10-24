@@ -1,5 +1,5 @@
 # Description:
-#   Allows Hubot to find an awesome Mitch Hedburg quotes
+#   Allows Hubot to find an awesome Mitch Hedberg quotes
 #
 # Dependencies:
 #   "htmlparser": "1.7.6"
@@ -11,8 +11,8 @@
 #   None
 #
 # Commands:
-#   hubot get mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org with filter
-#   hubot get dirty mitch - This spits out one of the many awesome Mitch Hedburg quotes from wikiquote.org without potty mouth filter
+#   hubot get mitch - This spits out one of the many awesome Mitch Hedberg quotes from wikiquote.org with filter
+#   hubot get dirty mitch - This spits out one of the many awesome Mitch Hedberg quotes from wikiquote.org without potty mouth filter
 #
 # Author:
 #   nickfloyd
