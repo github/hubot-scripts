@@ -10,7 +10,8 @@
 #   None
 #
 # Commands:
-#   hubot moarcat - links http://edgecats.net, which serves a random cat gif
+#   hubot moarcats me - links http://edgecats.net, which serves a random cat gif
+#   hubot moarcats bomb <n> - gives <n> cat gifs
 #
 # Author:
 #   flores
