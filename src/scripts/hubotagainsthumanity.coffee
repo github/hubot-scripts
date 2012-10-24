@@ -550,12 +550,13 @@ answers = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /(card me)/i, (msg) ->
-    msg.send msg.random answers
+  robot.respond /card(?: me)?(?: (\d+))?/i
+    count = if msg.match[1]
+                     parseInt(msg.match[1])
+                   else
+                     1
+    for i in [0..count] by 1
+      msg.send msg.random answers
 
-  robot.hear /(card 2)/i, (msg) ->
-    msg.send msg.random answers
-    msg.send msg.random answers
-
-  robot.hear /(q card)/i, (msg) ->
+  robot.respond /q(?:uestion)? card/i, (msg) ->
     msg.send msg.random questions
