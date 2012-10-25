@@ -101,7 +101,7 @@ module.exports = (robot) ->
       if 200 <= status <= 299
         if body.hours_for_previously_running_timer?
           msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
-        msg.reply "Started tracking. Back to your work, #{msg.message.user.name}!"
+        msg.reply "OK, I started tracking you on #{body.project}/#{body.task}."
       else
         msg.reply "Request failed with status #{status}."
 
