@@ -1,5 +1,5 @@
 # Description:
-#   Display a ferengi rule of acquisition.
+#   Display a ferengi rule of acquisition upon certain keywords.
 #
 # Dependencies:
 #   None
@@ -263,6 +263,10 @@ rules = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /.*(ferengi rule).*/i, (msg) ->
+
+  words = ["ferengi rule", "money", "profit", "sale", "discount", "opportunity"]
+  regex = new RegExp('(?:^|\\s)(' + words.join('|') + ')(?:\\s|\\.|\\?|!|$)', 'i');
+
+  robot.hear regex, (msg) ->
     msg.send msg.random rules
 
