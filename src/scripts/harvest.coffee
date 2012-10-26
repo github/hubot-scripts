@@ -23,6 +23,9 @@
 #                                              active timer it can find.
 #   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
 #
+#   hubot list harvest tasks - Gives you a list of all project/task combinations available to you.
+#                              You can use these for the start command.
+#
 # Notes:
 # All commands and command arguments are case-insenitive. If you work
 # on a project "FooBar", hubot will unterstand "foobar" as well. This
@@ -82,6 +85,25 @@ module.exports = (robot) ->
             msg.reply "* #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
           else
             msg.reply "* #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} - #{entry.ended_at} (#{entry.hours}h)]"
+      else
+        msg.reply "Request failed with status #{status}."
+
+
+  # List all project/task combinations that are available to a user.
+  robot.respond /list harvest tasks/i, (msg) ->
+    user = msg.message.user
+
+    unless user.harvest_account
+      msg.reply "You have to tell me your harvest credentials first."
+      return
+
+    user.harvest_account.daily msg, (status, body) ->
+      if 200 <= status <= 299
+        msg.reply "The following project/task combinations are available for you:"
+        for project in body.projects
+          msg.reply "* Project #{project.name}"
+          for task in project.tasks
+            msg.reply "  -> #{task.name} (#{if task.billable then 'billable' else 'non-billable'})"
       else
         msg.reply "Request failed with status #{status}."
 
