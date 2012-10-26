@@ -49,7 +49,7 @@ check_user = (robot, msg, test_user = null) ->
   if test_user
     user = robot.userForName(test_user)
     unless user
-      msg.reply "#{msg.match[2]}? Who's that?"
+      msg.reply "#{msg.match[2]}? Whoʼs that?"
       return null
   else
     user = msg.message.user
@@ -59,7 +59,7 @@ check_user = (robot, msg, test_user = null) ->
     if user == msg.message.user
       msg.reply "You have to tell me your Harvest credentials first."
     else
-      msg.reply "I didn't crack #{user.name}'s Harvest credentials yet, but I'm working on it... Sorry for the inconvenience."
+      msg.reply "I didnʼt crack #{user.name}ʼs Harvest credentials yet, but Iʼm working on it… Sorry for the inconvenience."
     return null
     
   return user
@@ -76,9 +76,9 @@ module.exports = (robot) ->
     account.test msg, (valid) ->
       if valid
         msg.message.user.harvest_account = account
-        msg.reply "Thanks, I'll remember your credentials. Have fun with Harvest."
+        msg.reply "Thanks, Iʼll remember your credentials. Have fun with Harvest."
       else
-        msg.reply "Uh-oh -- I just tested your credentials, but they appear to be wrong. Please specify the correct ones."
+        msg.reply "Uh-oh – I just tested your credentials, but they appear to be wrong. Please specify the correct ones."
 
   # Allows a user to delete his credentials.
   robot.respond /forget my harvest account/i, (msg) ->
@@ -95,9 +95,9 @@ module.exports = (robot) ->
         msg.reply "Your entries for today, #{user.name}:"
         for entry in body.day_entries
           if entry.ended_at == ""
-            msg.reply "* #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
+            msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
           else
-            msg.reply "* #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} - #{entry.ended_at} (#{entry.hours}h)]"
+            msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
       else
         msg.reply "Request failed with status #{status}."
 
@@ -108,11 +108,11 @@ module.exports = (robot) ->
 
     user.harvest_account.daily msg, (status, body) ->
       if 200 <= status <= 299
-        msg.reply "The following project/task combinations are available for you:"
+        msg.reply "The following project/task combinations are available for you, #{user.name}:"
         for project in body.projects
-          msg.reply "* Project #{project.name}"
+          msg.reply "• Project #{project.name}"
           for task in project.tasks
-            msg.reply "  -> #{task.name} (#{if task.billable then 'billable' else 'non-billable'})"
+            msg.reply "  ‣ #{task.name} (#{if task.billable then 'billable' else 'non-billable'})"
       else
         msg.reply "Request failed with status #{status}."
 
@@ -278,7 +278,7 @@ class HarvestAccount
       else if projects.length > 1
         msg.reply "I found the following #{projects.length} projects for your query, please be more precise:"
         for project in projects
-          msg.reply "* #{project.name}"
+          msg.reply "• #{project.name}"
         return
 
       # Repeat the same process for the tasks
@@ -291,7 +291,7 @@ class HarvestAccount
       else if tasks.length > 1
         msg.reply "I found the following #{tasks.length} tasks for your query, please be more pricese:"
         for task in tasks
-          msg.reply "* #{task.name}"
+          msg.reply "• #{task.name}"
         return
 
       # Execute the callback with the results
@@ -322,7 +322,7 @@ class HarvestAccount
 
         # None found
         unless found_entry?
-          msg.reply "I couldn't find a running timer in today's timesheet for the combination #{target_project}/#{target_task}."
+          msg.reply "I couldnʼt find a running timer in todayʼs timesheet for the combination #{target_project}/#{target_task}."
           return
 
         # Execute the callback with the result
