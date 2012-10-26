@@ -38,6 +38,33 @@
 unless process.env.HUBOT_HARVEST_SUBDOMAIN
   console.log "Please set HUBOT_HARVEST_SUBDOMAIN in the environment to use the harvest plugin script."
 
+# Checks if we have the information necessary for making requests
+# for a user. If we don't, reply accordingly and return null. Otherwise,
+# return the user object.
+# If `test_user` is supplied, checks the credentials for the user
+# with that name, otherwise the sender of `msg` is checked.
+check_user = (robot, msg, test_user = null) ->
+  # Detect the user; if none is passed, assume the sender.
+  user = null
+  if test_user
+    user = robot.userForName(test_user)
+    unless user
+      msg.reply "#{msg.match[2]}? Who's that?"
+      return null
+  else
+    user = msg.message.user
+    
+  # Check if we know the detected user's credentials.
+  unless user.harvest_account
+    if user == msg.message.user
+      msg.reply "You have to tell me your Harvest credentials first."
+    else
+      msg.reply "I didn't crack #{user.name}'s Harvest credentials yet, but I'm working on it... Sorry for the inconvenience."
+    return null
+    
+  return user
+
+### Definitions for hubot ###
 module.exports = (robot) ->
 
   # Provide facility for saving the account credentials.
@@ -60,21 +87,7 @@ module.exports = (robot) ->
 
   # Retrieve your or a specific user's timesheet for today.
   robot.respond /daily harvest( of (.+))?/i, (msg) ->
-    # Detect the user; if none is passed, assume the sender.
-    if msg.match[2]
-      user = robot.userForName(msg.match[2])
-      unless user
-        msg.reply "#{msg.match[2]}? Who's that?"
-        return
-    else
-      user = msg.message.user
-
-    # Check if we know the detected user's credentials.
-    unless user.harvest_account
-      if user == msg.message.user
-        msg.reply "You have to tell me your Harvest credentials first."
-      else
-        msg.reply "I didn't crack #{user.name}'s Harvest credentials yet, but I'm working on it... Sorry for the inconvenience."
+    unless user = check_user(robot, msg, msg.match[2])
       return
 
     user.harvest_account.daily msg, (status, body) ->
@@ -88,13 +101,9 @@ module.exports = (robot) ->
       else
         msg.reply "Request failed with status #{status}."
 
-
   # List all project/task combinations that are available to a user.
-  robot.respond /list harvest tasks/i, (msg) ->
-    user = msg.message.user
-
-    unless user.harvest_account
-      msg.reply "You have to tell me your harvest credentials first."
+  robot.respond /list harvest tasks( of (.+))?/i, (msg) ->
+    unless user = check_user(robot, msg, msg.match[2])
       return
 
     user.harvest_account.daily msg, (status, body) ->
@@ -109,15 +118,12 @@ module.exports = (robot) ->
 
   # Kick off a new timer, stopping the previously running one, if any.
   robot.respond /start harvest at (.+)\/(.+): (.*)/i, (msg) ->
-    user    = msg.message.user
+    unless user = check_user(robot, msg)
+      return
+
     project = msg.match[1]
     task    = msg.match[2]
     notes   = msg.match[3]
-
-    # Check if we know the detected user's credentials.
-    unless user.harvest_account
-      msg.reply "You have to tell me your Harvest credentials first."
-      return
     
     user.harvest_account.start msg, project, task, notes, (status, body) ->
       if 200 <= status <= 299
@@ -131,9 +137,7 @@ module.exports = (robot) ->
   # if any. If no combination is given, stops the first
   # active timer available.
   robot.respond /stop harvest( at (.+)\/(.+))?/i, (msg) ->
-    user    = msg.message.user
-    unless user.harvest_account
-      msg.reply "You have to tell me your Harvest credentials first."
+    unless user = check_user(robot, msg)
       return
     
     if msg.match[1]
