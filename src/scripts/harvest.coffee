@@ -11,29 +11,46 @@
 #     you should set this to "yourcompany" (without the quotes).
 #
 # Commands:
-#   hubot remember my harvest account <email> with password <password> - Saves your Harvest credentials
-#                                                                        to allow Hubot to track time for you
-#   hubot forget my harvest account - Deletes your account credentials from Hubot's memory
-#   hubot start harvest at <project>/<task>: <notes> - Start a timer for a task at a project
-#                                                      (both of which may be abbreviated, Hubot
-#                                                      will ask you if your input is ambigious).
-#                                                      An existing timer (if any) will be stopped.
-#   hubot stop harvest [at <project>/<task>] - Stop the timer the for a task, if any.
-#                                              If no project is given, stops the first
-#                                              active timer it can find.
-#   hubot daily harvest [of <user>] - Hubot responds with your/a specific user's entries for today
+#   hubot remember my harvest account <email> with password <password>
+#     Saves your Harvest credentials to allow Hubot to track
+#     time for you.
 #
-#   hubot list harvest tasks - Gives you a list of all project/task combinations available to you.
-#                              You can use these for the start command.
+#   hubot forget my harvest account
+#     Deletes your account credentials from Hubt's memory.
+#
+#   hubot start harvest at <project>/<task>: <notes>
+#     Starts a timer for a task at a project (both of which may
+#     be abbreviated, Hubot will ask you if your input is
+#     ambigious). An existing timer (if any) will be stopped.
+#
+#   hubot stop harvest [at <project>/<task>]
+#     Stops the timer for a task, if any. If no project is given,
+#     stops the first active timer it can find. The project and
+#     task arguments may be abbreviated as with start.
+#
+#   hubot daily harvest [of <user>]
+#     Hubot responds with your/a specific user's entries
+#     for today.
+#
+#   hubot list harvest tasks
+#     Gives you a list of all project/task combinations available
+#     to you. You can use these for the start command.
 #
 # Notes:
-# All commands and command arguments are case-insenitive. If you work
-# on a project "FooBar", hubot will unterstand "foobar" as well. This
-# is also true for abbreviations, so if you don't have similary named
-# projects, "foob" will do as expected.
+#   All commands and command arguments are case-insenitive. If you work
+#   on a project "FooBar", hubot will unterstand "foobar" as well. This
+#   is also true for abbreviations, so if you don't have similary named
+#   projects, "foob" will do as expected.
+#
+#   Some examples:
+#   > hubot remember my harvest account joe@example.org with password doe
+#   > hubot list harvest tasks
+#   > hubot start harvest at myproject/important-task: Some notes go here.
+#   > hubot start harvest at myp/imp: Some notes go here.
+#   > hubot daily harvest of nickofotheruser
 # 
 # Author:
-#   Quintus
+#   Quintus @ Asquera
 
 unless process.env.HUBOT_HARVEST_SUBDOMAIN
   console.log "Please set HUBOT_HARVEST_SUBDOMAIN in the environment to use the harvest plugin script."
@@ -169,6 +186,9 @@ module.exports = (robot) ->
 # via `JSON.parse`.
 class HarvestAccount
 
+  # Create a new harvest account. Pass in the account's email and the
+  # password used to access harvest. These credentials are the same you
+  # use for logging into Harvest's web service.
   constructor: (email, password) ->
     @base_url = "https://#{process.env.HUBOT_HARVEST_SUBDOMAIN}.harvestapp.com"
     @email    = email
