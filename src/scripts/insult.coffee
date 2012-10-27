@@ -2,8 +2,7 @@
 #   Allows Hubot to lambast someone with a random insult
 #
 # Dependencies:
-#   "soupselect: "0.2.0"
-#   "htmlparser": "1.7.6"
+#   "cheerio: "0.7.0"
 #
 # Configuration:
 #   None
