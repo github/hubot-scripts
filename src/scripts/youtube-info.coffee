@@ -35,7 +35,7 @@ module.exports = (robot) ->
             entry = data.entry
             msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)})"
           else
-            console.error "youtube-info script error: #{api_url} returned #{res.statusCode}: #{body}"
+            msg.send "YouTube: error: #{api_url} returned #{res.statusCode}: #{body}"
 
 formatTime = (seconds) ->
   min = Math.floor(seconds / 60)
