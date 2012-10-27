@@ -5,7 +5,14 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_ASANA_API_KEY - find this in Account Settings -> API
+#   
+#   HUBOT_ASANA_WORKSPACE_ID - list all workspaces using
+#   curl -u <api_key>: https://app.asana.com/api/1.0/workspaces
+#   (note the colon after the api key)  
+# 
+#   HUBOT_ASANA_PROJECT_ID - list all projects in the workspace using:
+#   curl -u <api_key>: https://app.asana.com/api/1.0/workspaces/<workspace id>/projects
 #
 # Commands:
 #   todo: @name? <task directive> - public message starting with todo: will add task, optional @name to assign task
@@ -13,16 +20,17 @@
 # 
 # Author:
 #   idpro
+#   abh1nav
 
 url  = 'https://app.asana.com/api/1.0'
 
-workspace = "WORKSPACE_ID"
-project = "PROJECT_ID"
-user = "xxxxx.xxxxxxxxxxxxxxx"
-pass = ""
+workspace = process.env.HUBOT_ASANA_WORKSPACE_ID
+project = process.env.HUBOT_ASANA_PROJECT_ID
+api_key = process.env.HUBOT_ASANA_API_KEY
+
 
 getRequest = (msg, path, callback) ->
-  auth = 'Basic ' + new Buffer("#{user}:#{pass}").toString('base64')
+  auth = 'Basic ' + new Buffer("#{api_key}:").toString('base64')
   msg.http("#{url}#{path}")
     .headers("Authorization": auth, "Accept": "application/json")
     .get() (err, res, body) ->
@@ -30,7 +38,7 @@ getRequest = (msg, path, callback) ->
 
 postRequest = (msg, path, params, callback) ->
   stringParams = JSON.stringify params
-  auth = 'Basic ' + new Buffer("#{user}:#{pass}").toString('base64')
+  auth = 'Basic ' + new Buffer("#{api_key}:").toString('base64')
   msg.http("#{url}#{path}")
     .headers("Authorization": auth, "Content-Length": stringParams.length, "Accept": "application/json")
     .post(stringParams) (err, res, body) ->
