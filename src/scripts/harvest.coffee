@@ -208,7 +208,7 @@ class HarvestAccount
   # If so, the callback gets passed `true`, otherwise
   # it gets passed `false`.
   test: (msg, callback) ->
-   this.request(msg).path("account/who_am_i").get() (err, res, body) ->
+    this.request(msg).path("account/who_am_i").get() (err, res, body) ->
       if 200 <= res.statusCode <= 299
         callback true
       else
