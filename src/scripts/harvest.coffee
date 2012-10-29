@@ -11,6 +11,29 @@
 #     you should set this to "yourcompany" (without the quotes).
 #
 # Commands:
+#
+#   hubot remember my harvest account <email> with password <password> - Make hubot remember your Harvest credentials
+#   hubot forget my harvest account - Make hubot forget your Harvest credentials again
+#   hubot start harvest at <project>/<task>: <notes> - Start a Harvest timer at a given project-task combination
+#   hubot stop harvest [at project/task] - Stop the most recent Harvest timer or the one for the given project-task combination.
+#   hubot daily harvest [of <user>] - Show a user's Harvest timers for today (or yours, if noone is specified)
+#   hubot list harvest tasks [of <user>] - Show the Harvest project-task combinations available to a user (or you, if noone is specified)
+# 
+# Notes:
+#   All commands and command arguments are case-insenitive. If you work
+#   on a project "FooBar", hubot will unterstand "foobar" as well. This
+#   is also true for abbreviations, so if you don't have similary named
+#   projects, "foob" will do as expected.
+#
+#   Some examples:
+#   > hubot remember my harvest account joe@example.org with password doe
+#   > hubot list harvest tasks
+#   > hubot start harvest at myproject/important-task: Some notes go here.
+#   > hubot start harvest at myp/imp: Some notes go here.
+#   > hubot daily harvest of nickofotheruser
+#
+#   Full command descriptions:
+#
 #   hubot remember my harvest account <email> with password <password>
 #     Saves your Harvest credentials to allow Hubot to track
 #     time for you.
@@ -32,22 +55,9 @@
 #     Hubot responds with your/a specific user's entries
 #     for today.
 #
-#   hubot list harvest tasks
+#   hubot list harvest tasks [of <user>]
 #     Gives you a list of all project/task combinations available
-#     to you. You can use these for the start command.
-#
-# Notes:
-#   All commands and command arguments are case-insenitive. If you work
-#   on a project "FooBar", hubot will unterstand "foobar" as well. This
-#   is also true for abbreviations, so if you don't have similary named
-#   projects, "foob" will do as expected.
-#
-#   Some examples:
-#   > hubot remember my harvest account joe@example.org with password doe
-#   > hubot list harvest tasks
-#   > hubot start harvest at myproject/important-task: Some notes go here.
-#   > hubot start harvest at myp/imp: Some notes go here.
-#   > hubot daily harvest of nickofotheruser
+#     to you or a specific user. You can use these for the start command.
 # 
 # Author:
 #   Quintus @ Asquera
