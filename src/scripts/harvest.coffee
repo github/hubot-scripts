@@ -18,6 +18,7 @@
 #   hubot stop harvest [at project/task] - Stop the most recent Harvest timer or the one for the given project-task combination.
 #   hubot daily harvest [of <user>] - Show a user's Harvest timers for today (or yours, if noone is specified)
 #   hubot list harvest tasks [of <user>] - Show the Harvest project-task combinations available to a user (or you, if noone is specified)
+#   hubot is harvest down/up - Check if the Harvest API is reachable.
 # 
 # Notes:
 #   All commands and command arguments are case-insenitive. If you work
@@ -61,6 +62,8 @@
 # 
 # Author:
 #   Quintus @ Asquera
+#
+http = require("http")
 
 unless process.env.HUBOT_HARVEST_SUBDOMAIN
   console.log "Please set HUBOT_HARVEST_SUBDOMAIN in the environment to use the harvest plugin script."
@@ -91,8 +94,45 @@ check_user = (robot, msg, test_user = null) ->
     
   return user
 
+# Issues an empty GET request to harvest to test whether the service is
+# available at the moment. The callback gets passed an exception object
+# describing the connection error; if everything is fine it gets passed
+# null.
+check_harvest_down = (callback) ->
+  opts =
+    headers:
+      "Content-Type": "application/json"
+      "Accept": "application/json"
+    method: "GET"
+    host: "#{process.env.HUBOT_HARVEST_SUBDOMAIN}.harvestapp.com"
+    port: 80
+    path: "/account/who_am_i"
+  req = http.request opts, (response) ->
+    callback null
+  req.on "error", (error) ->
+    callback error
+  req.setTimeout 5000, ->
+    req.destroy() # Cancel the request
+    callback "Connection timeout"
+  req.end()
+
 ### Definitions for hubot ###
 module.exports = (robot) ->
+
+  # Periodically check the Harvest service for availability
+  cb = ->
+    check_harvest_down (error) ->
+      if (error)
+        robot.send "broadcast", "Harvest appears to be down; exact error is: #{error}"
+  setInterval(cb, 600000) # 10 Minutes in milliseconds
+
+  # Check if Harvest is available.
+  robot.respond /is harvest (down|up)/i, (msg) ->
+    check_harvest_down (error) ->
+      if error
+        msg.reply("Harvest is down; exact error: #{error}")
+      else
+        msg.reply("Harvest is up.")
 
   # Provide facility for saving the account credentials.
   robot.respond /remember my harvest account (.+) with password (.+)/i, (msg) ->
