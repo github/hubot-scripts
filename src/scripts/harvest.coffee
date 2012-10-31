@@ -137,11 +137,12 @@ module.exports = (robot) ->
   # Provide facility for saving the account credentials.
   robot.respond /remember my harvest account (.+) with password (.+)/i, (msg) ->
     account = new HarvestAccount msg.match[1], msg.match[2]
+    harvest = new HarvestService(account)
 
     # If the credentials are valid, remember them, otherwise
     # tell the user they are wrong.
     try
-      account.test msg, (valid) ->
+      harvest.test msg, (valid) ->
         if valid
           msg.message.user.harvest_account = account
           msg.reply "Thanks, Iʼll remember your credentials. Have fun with Harvest."
@@ -159,9 +160,10 @@ module.exports = (robot) ->
   robot.respond /daily harvest( of (.+))?/i, (msg) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
+    harvest = new HarvestService(user.harvest_account)
 
     try
-      user.harvest_account.daily msg, (status, body) ->
+      harvest.daily msg, (status, body) ->
         if 200 <= status <= 299
           msg.reply "Your entries for today, #{user.name}:"
           for entry in body.day_entries
@@ -179,8 +181,9 @@ module.exports = (robot) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
 
+    harvest = new HarvestService(user.harvest_account)
     try
-      user.harvest_account.daily msg, (status, body) ->
+      harvest.daily msg, (status, body) ->
         if 200 <= status <= 299
           msg.reply "The following project/task combinations are available for you, #{user.name}:"
           for project in body.projects
@@ -197,12 +200,13 @@ module.exports = (robot) ->
     unless user = check_user(robot, msg)
       return
 
+    harvest = new HarvestService(user.harvest_account)
     project = msg.match[1]
     task    = msg.match[2]
     notes   = msg.match[3]
 
     try
-      user.harvest_account.start msg, project, task, notes, (status, body) ->
+      harvest.start msg, project, task, notes, (status, body) ->
         if 200 <= status <= 299
           if body.hours_for_previously_running_timer?
             msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
@@ -218,12 +222,13 @@ module.exports = (robot) ->
   robot.respond /stop harvest( at (.+)\/(.+))?/i, (msg) ->
     unless user = check_user(robot, msg)
       return
-    
+
+    harvest = new HarvestService(user.harvest_account)
     if msg.match[1]
       project = msg.match[2]
       task    = msg.match[3]
       try
-        user.harvest_account.stop msg, project, task, (status, body) ->
+        harvest.stop msg, project, task, (status, body) ->
           if 200 <= status <= 299
             msg.reply "Timer stopped (#{body.hours}h)."
           else
@@ -233,7 +238,7 @@ module.exports = (robot) ->
         msg.reply("Fatal error: #{error}")
     else
       try
-        user.harvest_account.stop_first msg, (status, body) ->
+        harvest.stop_first msg, (status, body) ->
           if 200 <= status <= 299
             msg.reply "Timer stopped (#{body.hours}h)."
           else
@@ -241,10 +246,21 @@ module.exports = (robot) ->
       catch error
         msg.reply("Fatal error: #{error}")
 
-# Class managing the Harvest account associated with
-# a user. Keeps track of the user's credentials and can
-# be used to query the Harvest API on behalf of that user.
-#
+# Class encapsulating a user's Harvest credentials; safe to store
+# in Hubot's Redis brain (no methods, this is a data-only construct).
+class HarvestAccount
+
+  # Create a new harvest account. Pass in the account's email and the
+  # password used to access harvest. These credentials are the same you
+  # use for logging into Harvest's web service.
+  constructor: (email, password) ->
+    @email    = email
+    @password = password
+
+# This class represents a user's connection to the Harvest API;
+# it is bound to a specific account and cannot be stored permanently
+# in Hubot's (Redis) brain.
+# 
 # The API calls are asynchronous, i.e. the methods executing
 # the request immediately return. To process the response,
 # you have to attach a callback to the method call, which
@@ -252,16 +268,14 @@ module.exports = (robot) ->
 # the first being the response's status code, the second
 # one is the response's body as a JavaScript object created
 # via `JSON.parse`.
-class HarvestAccount
+class HarvestService
 
-  # Create a new harvest account. Pass in the account's email and the
-  # password used to access harvest. These credentials are the same you
-  # use for logging into Harvest's web service.
-  constructor: (email, password) ->
+  # Creates a new connection to the Harvest API for the given
+  # account.
+  constructor: (account) ->
     @base_url = "https://#{process.env.HUBOT_HARVEST_SUBDOMAIN}.harvestapp.com"
-    @email    = email
-    @password = password
-
+    @account = account
+  
   # Tests whether the account credentials are valid.
   # If so, the callback gets passed `true`, otherwise
   # it gets passed `false`.
@@ -339,7 +353,7 @@ class HarvestAccount
     req = msg.http(@base_url).headers
       "Content-Type": "application/json"
       "Accept": "application/json"
-    .auth(@email, @password)
+    .auth(@account.email, @account.password)
     return req
 
   # (internal method)
