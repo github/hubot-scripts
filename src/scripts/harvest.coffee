@@ -100,12 +100,15 @@ module.exports = (robot) ->
 
     # If the credentials are valid, remember them, otherwise
     # tell the user they are wrong.
-    account.test msg, (valid) ->
-      if valid
-        msg.message.user.harvest_account = account
-        msg.reply "Thanks, Iʼll remember your credentials. Have fun with Harvest."
-      else
-        msg.reply "Uh-oh – I just tested your credentials, but they appear to be wrong. Please specify the correct ones."
+    try
+      account.test msg, (valid) ->
+        if valid
+          msg.message.user.harvest_account = account
+          msg.reply "Thanks, Iʼll remember your credentials. Have fun with Harvest."
+        else
+          msg.reply "Uh-oh – I just tested your credentials, but they appear to be wrong. Please specify the correct ones."
+    catch error
+      msg.reply "Fatal error: #{error}"
 
   # Allows a user to delete his credentials.
   robot.respond /forget my harvest account/i, (msg) ->
@@ -117,31 +120,37 @@ module.exports = (robot) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
 
-    user.harvest_account.daily msg, (status, body) ->
-      if 200 <= status <= 299
-        msg.reply "Your entries for today, #{user.name}:"
-        for entry in body.day_entries
-          if entry.ended_at == ""
-            msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
-          else
-            msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
-      else
-        msg.reply "Request failed with status #{status}."
+    try
+      user.harvest_account.daily msg, (status, body) ->
+        if 200 <= status <= 299
+          msg.reply "Your entries for today, #{user.name}:"
+          for entry in body.day_entries
+            if entry.ended_at == ""
+              msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
+            else
+              msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
+        else
+          msg.reply "Request failed with status #{status}."
+    catch error
+      msg.reply("Fatal error: #{error}")
 
   # List all project/task combinations that are available to a user.
   robot.respond /list harvest tasks( of (.+))?/i, (msg) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
 
-    user.harvest_account.daily msg, (status, body) ->
-      if 200 <= status <= 299
-        msg.reply "The following project/task combinations are available for you, #{user.name}:"
-        for project in body.projects
-          msg.reply "• Project #{project.name}"
-          for task in project.tasks
-            msg.reply "  ‣ #{task.name} (#{if task.billable then 'billable' else 'non-billable'})"
-      else
-        msg.reply "Request failed with status #{status}."
+    try
+      user.harvest_account.daily msg, (status, body) ->
+        if 200 <= status <= 299
+          msg.reply "The following project/task combinations are available for you, #{user.name}:"
+          for project in body.projects
+            msg.reply "• Project #{project.name}"
+            for task in project.tasks
+              msg.reply "  ‣ #{task.name} (#{if task.billable then 'billable' else 'non-billable'})"
+        else
+          msg.reply "Request failed with status #{status}."
+    catch error
+      msg.reply "Fatal error: #{error}"
 
   # Kick off a new timer, stopping the previously running one, if any.
   robot.respond /start harvest at (.+)\/(.+): (.*)/i, (msg) ->
@@ -151,14 +160,17 @@ module.exports = (robot) ->
     project = msg.match[1]
     task    = msg.match[2]
     notes   = msg.match[3]
-    
-    user.harvest_account.start msg, project, task, notes, (status, body) ->
-      if 200 <= status <= 299
-        if body.hours_for_previously_running_timer?
-          msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
-        msg.reply "OK, I started tracking you on #{body.project}/#{body.task}."
-      else
-        msg.reply "Request failed with status #{status}."
+
+    try
+      user.harvest_account.start msg, project, task, notes, (status, body) ->
+        if 200 <= status <= 299
+          if body.hours_for_previously_running_timer?
+            msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
+          msg.reply "OK, I started tracking you on #{body.project}/#{body.task}."
+        else
+          msg.reply "Request failed with status #{status}."
+    catch error
+      msg.reply "Fatal error: #{error}"
 
   # Stops the timer running for a project/task combination,
   # if any. If no combination is given, stops the first
@@ -170,18 +182,24 @@ module.exports = (robot) ->
     if msg.match[1]
       project = msg.match[2]
       task    = msg.match[3]
-      user.harvest_account.stop msg, project, task, (status, body) ->
-        if 200 <= status <= 299
-          msg.reply "Timer stopped (#{body.hours}h)."
-        else
-          msg.reply "Request failed with status #{status}."
-          msg.reply body
+      try
+        user.harvest_account.stop msg, project, task, (status, body) ->
+          if 200 <= status <= 299
+            msg.reply "Timer stopped (#{body.hours}h)."
+          else
+            msg.reply "Request failed with status #{status}."
+            msg.reply body
+      catch error
+        msg.reply("Fatal error: #{error}")
     else
-      user.harvest_account.stop_first msg, (status, body) ->
-        if 200 <= status <= 299
-          msg.reply "Timer stopped (#{body.hours}h)."
-        else
-          msg.reply "Request failed with status #{status}."
+      try
+        user.harvest_account.stop_first msg, (status, body) ->
+          if 200 <= status <= 299
+            msg.reply "Timer stopped (#{body.hours}h)."
+          else
+            msg.reply "Request failed with status #{status}."
+      catch error
+        msg.reply("Fatal error: #{error}")
 
 # Class managing the Harvest account associated with
 # a user. Keeps track of the user's credentials and can
