@@ -310,12 +310,18 @@ class HarvestService
   # Issues /daily to the Harvest API.
   daily: (msg, callback) ->
     this.request(msg).path("/daily").get() (err, res, body) ->
-      callback res.statusCode, JSON.parse(body)
+      if 200 <= res.statusCode <= 299
+        callback res.statusCode, JSON.parse(body)
+      else
+        callback res.statusCode, null
 
   # Issues /daily/<dayofyear>/<year> to the Harvest API.
   daily_at: (msg, date, callback) ->
     this.request(msg).path("/daily/#{this.day_of_year(date)}/#{date.getFullYear()}").get() (err, res, body) ->
-      callback res.statusCode, JSON.parse(body)
+      if 200 <= res.statusCode <= 299
+        callback res.statusCode, JSON.parse(body)
+      else
+        callback res.statusCode, null
 
   # Issues /daily/add to the Harvest API to add a new timer
   # starting from now.
@@ -327,7 +333,10 @@ class HarvestService
         project_id: project.id
         task_id: task.id
       this.request(msg).path("/daily/add").post(JSON.stringify(data)) (err, res, body) ->
-        callback res.statusCode, JSON.parse(body)
+        if 200 <= res.statusCode <= 299
+          callback res.statusCode, JSON.parse(body)
+        else
+          callback res.statusCode, null
 
   # Issues /daily/timer/<id> to the Harvest API to stop
   # the timer running at `entry.id`. If that timer isn't
@@ -336,7 +345,10 @@ class HarvestService
   stop_entry: (msg, entry, callback) ->
     if entry.timer_started_at?
       this.request(msg).path("/daily/timer/#{entry.id}").get() (err, res, body) ->
-        callback res.statusCode, JSON.parse(body)
+        if 200 <= res.statusCode <= 299
+          callback res.statusCode, JSON.parse(body)
+        else
+          callback res.statusCode, null
     else
       msg.reply "This timer is not running."
 
