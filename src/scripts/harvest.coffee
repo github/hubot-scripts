@@ -16,7 +16,7 @@
 #   hubot forget my harvest account - Make hubot forget your Harvest credentials again
 #   hubot start harvest at <project>/<task>: <notes> - Start a Harvest timer at a given project-task combination
 #   hubot stop harvest [at project/task] - Stop the most recent Harvest timer or the one for the given project-task combination.
-#   hubot daily harvest [of <user>] - Show a user's Harvest timers for today (or yours, if noone is specified)
+#   hubot daily harvest [of <user>] [at yyyy-mm-dd] - Show a user's Harvest timers for today (or yours, if noone is specified) or a specific day
 #   hubot list harvest tasks [of <user>] - Show the Harvest project-task combinations available to a user (or you, if noone is specified)
 #   hubot is harvest down/up - Check if the Harvest API is reachable.
 # 
@@ -52,9 +52,11 @@
 #     stops the first active timer it can find. The project and
 #     task arguments may be abbreviated as with start.
 #
-#   hubot daily harvest [of <user>]
+#   hubot daily harvest [of <user>] [at yyyy-mm-dd]
 #     Hubot responds with your/a specific user's entries
-#     for today.
+#     for the given date; if no date is given, assumes today.
+#     If user is ommitted, you are assumed; if both the user and
+#     the date are ommited, your entries for today will be displayed.
 #
 #   hubot list harvest tasks [of <user>]
 #     Gives you a list of all project/task combinations available
@@ -157,22 +159,41 @@ module.exports = (robot) ->
     msg.reply "Okay, I erased your credentials from my memory."
 
   # Retrieve your or a specific user's timesheet for today.
-  robot.respond /daily harvest( of (.+))?/i, (msg) ->
+  robot.respond /daily harvest( of (\w+))?( at (\d{4})-(\d{2})-(\d{2}))?/i, (msg) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
     harvest = new HarvestService(user.harvest_account)
 
+    if msg.match[3]
+      target_date = new Date(parseInt(msg.match[4]), parseInt(msg.match[5] - 1), parseInt(msg.match[6])) # Month starts at 0
+
     try
-      harvest.daily msg, (status, body) ->
-        if 200 <= status <= 299
-          msg.reply "Your entries for today, #{user.name}:"
-          for entry in body.day_entries
-            if entry.ended_at == ""
-              msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
+      if target_date
+        harvest.daily_at msg, target_date, (status, body) ->
+          if 200 <= status <= 299
+            if body.day_entries.length == 0
+              msg.reply "#{user.name} has no entries on #{target_date}."
             else
-              msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
-        else
-          msg.reply "Request failed with status #{status}."
+              msg.reply "#{user.name}'s entries on #{target_date}:"
+              
+            for entry in body.day_entries
+              if entry.ended_at == ""
+                msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
+              else
+                msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
+          else
+            msg.reply "Request failed with status #{status}."
+      else
+        harvest.daily msg, (status, body) ->
+          if 200 <= status <= 299
+            msg.reply "Your entries for today, #{user.name}:"
+            for entry in body.day_entries
+              if entry.ended_at == ""
+                msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [running since #{entry.started_at} (#{entry.hours}h)]"
+              else
+                msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
+          else
+            msg.reply "Request failed with status #{status}."
     catch error
       msg.reply("Fatal error: #{error}")
 
@@ -289,6 +310,11 @@ class HarvestService
   # Issues /daily to the Harvest API.
   daily: (msg, callback) ->
     this.request(msg).path("/daily").get() (err, res, body) ->
+      callback res.statusCode, JSON.parse(body)
+
+  # Issues /daily/<dayofyear>/<year> to the Harvest API.
+  daily_at: (msg, date, callback) ->
+    this.request(msg).path("/daily/#{this.day_of_year(date)}/#{date.getFullYear()}").get() (err, res, body) ->
       callback res.statusCode, JSON.parse(body)
 
   # Issues /daily/add to the Harvest API to add a new timer
@@ -429,3 +455,10 @@ class HarvestService
 
         # Execute the callback with the result
         callback found_entry
+
+  # Takes a Date object and figures out which day in its
+  # year it represents and returns that one. Leap years
+  # are honoured.
+  day_of_year: (date) ->
+    start = new Date(date.getFullYear(), 0, 0)
+    return Math.ceil((date - start) / 86400000)
