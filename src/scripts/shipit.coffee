@@ -34,5 +34,5 @@ squirrels = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /ship(ping|z|s|ped)?( it)?/i, (msg) ->
+  robot.hear /ship(ping|z|s|ped)? it/i, (msg) ->
     msg.send msg.random squirrels
