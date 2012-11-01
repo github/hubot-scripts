@@ -52,7 +52,7 @@
 #     stops the first active timer it can find. The project and
 #     task arguments may be abbreviated as with start.
 #
-#   hubot daily harvest [of <user>] [at yyyy-mm-dd]
+#   hubot daily harvest [of <user>] [on yyyy-mm-dd]
 #     Hubot responds with your/a specific user's entries
 #     for the given date; if no date is given, assumes today.
 #     If user is ommitted, you are assumed; if both the user and
@@ -159,7 +159,7 @@ module.exports = (robot) ->
     msg.reply "Okay, I erased your credentials from my memory."
 
   # Retrieve your or a specific user's timesheet for today.
-  robot.respond /daily harvest( of (\w+))?( at (\d{4})-(\d{2})-(\d{2}))?/i, (msg) ->
+  robot.respond /daily harvest( of (\w+))?( on (\d{4})-(\d{2})-(\d{2}))?/i, (msg) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
     harvest = new HarvestService(user.harvest_account)
