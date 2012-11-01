@@ -151,7 +151,7 @@ module.exports = (robot) ->
         else
           msg.reply "Uh-oh – I just tested your credentials, but they appear to be wrong. Please specify the correct ones."
     catch error
-      msg.reply "Fatal error: #{error}"
+      msg.reply "Unable to test credentials: fatal error: #{error}"
 
   # Allows a user to delete his credentials.
   robot.respond /forget my harvest account/i, (msg) ->
@@ -182,7 +182,7 @@ module.exports = (robot) ->
               else
                 msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
           else
-            msg.reply "Request failed with status #{status}."
+            msg.reply "Failed to retrieve entry information: request failed with status #{status}."
       else
         harvest.daily msg, (status, body) ->
           if 200 <= status <= 299
@@ -193,9 +193,9 @@ module.exports = (robot) ->
               else
                 msg.reply "• #{entry.project} (#{entry.client}) → #{entry.task} <#{entry.notes}> [#{entry.started_at} – #{entry.ended_at} (#{entry.hours}h)]"
           else
-            msg.reply "Request failed with status #{status}."
+            msg.reply "Failed to retrieve entry information: request failed with status #{status}."
     catch error
-      msg.reply("Fatal error: #{error}")
+      msg.reply("Failed to retrieve entry information: fatal error: #{error}")
 
   # List all project/task combinations that are available to a user.
   robot.respond /list harvest tasks( of (.+))?/i, (msg) ->
@@ -212,9 +212,9 @@ module.exports = (robot) ->
             for task in project.tasks
               msg.reply "  ‣ #{task.name} (#{if task.billable then 'billable' else 'non-billable'})"
         else
-          msg.reply "Request failed with status #{status}."
+          msg.reply "Failed to retrieve project/task list: request failed with status #{status}."
     catch error
-      msg.reply "Fatal error: #{error}"
+      msg.reply "Failed to retrieve project/task list: fatal error: #{error}"
 
   # Kick off a new timer, stopping the previously running one, if any.
   robot.respond /start harvest at (.+)\/(.+): (.*)/i, (msg) ->
@@ -233,9 +233,9 @@ module.exports = (robot) ->
             msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
           msg.reply "OK, I started tracking you on #{body.project}/#{body.task}."
         else
-          msg.reply "Request failed with status #{status}."
+          msg.reply "Failed to start timer: request failed with status #{status}."
     catch error
-      msg.reply "Fatal error: #{error}"
+      msg.reply "Failed to start timer: fatal error: #{error}"
 
   # Stops the timer running for a project/task combination,
   # if any. If no combination is given, stops the first
@@ -253,19 +253,19 @@ module.exports = (robot) ->
           if 200 <= status <= 299
             msg.reply "Timer stopped (#{body.hours}h)."
           else
-            msg.reply "Request failed with status #{status}."
+            msg.reply "Failed to stop timer: request failed with status #{status}."
             msg.reply body
       catch error
-        msg.reply("Fatal error: #{error}")
+        msg.reply("Failed to stop timer: fatal error: #{error}")
     else
       try
         harvest.stop_first msg, (status, body) ->
           if 200 <= status <= 299
             msg.reply "Timer stopped (#{body.hours}h)."
           else
-            msg.reply "Request failed with status #{status}."
+            msg.reply "Failed to stop timer: request failed with status #{status}."
       catch error
-        msg.reply("Fatal error: #{error}")
+        msg.reply("Failed to stop timer: fatal error: #{error}")
 
 # Class encapsulating a user's Harvest credentials; safe to store
 # in Hubot's Redis brain (no methods, this is a data-only construct).
