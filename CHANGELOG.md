@@ -1,7 +1,12 @@
+v2.2.1
+======
+
+https://github.com/github/hubot-scripts/compare/v2.2.0...v2.2.1
+
 v2.2.0
 ======
 
-https://github.com/github/hubot-scripts/compare/v2.1.3...v2.1.4
+https://github.com/github/hubot-scripts/compare/v2.1.3...v2.2.0
 
 v2.1.3
 ======
