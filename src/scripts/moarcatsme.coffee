@@ -24,5 +24,6 @@ module.exports = (robot) ->
   robot.respond /moarcats bomb( (\d+))?/i, (msg) ->
     count = msg.match[2] || 5
     for cat in [1..count]
-      msg.http("http://edgecats.net/random".get() (err, res, body) ->
-        msg.send body
+      msg.http("http://edgecats.net/random")
+        .get() (err, res, body) ->
+          msg.send body
