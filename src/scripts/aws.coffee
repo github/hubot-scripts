@@ -24,7 +24,7 @@
 #   cloudwatch:GetMetricStatistics, cloudwatch:Describe*, autoscaling:Describe*
 #
 # Author:
-#   Ethan J. Brown
+#   Iristyle
 
 key = process.env.HUBOT_AWS_ACCESS_KEY_ID
 secret = process.env.HUBOT_AWS_SECRET_ACCESS_KEY
