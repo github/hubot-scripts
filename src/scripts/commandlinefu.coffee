@@ -1,18 +1,19 @@
 # Description:
-# Returns a command from commandlinefu.com
+#   Returns a command from commandlinefu.com
 #
 # Dependencies:
-# None
+#   None
 #
 # Configuration:
-# None
+#   None
 #
 # Commands:
-# show me some commandlinefu - returns random command
-# show me some commandlinefu <command> - random entry for the comand passed
+#   hubot show me some commandlinefu - returns random command
+#   hubot show me some commandlinefu <command> - random entry for the comand passed
 #
 # Author:
 #   aaronott
+
 module.exports = (robot) ->
   robot.respond /(show me some )?(commandlinefu)\s*(.*)?/i, (msg) ->
     uri = "http://www.commandlinefu.com/commands/"
