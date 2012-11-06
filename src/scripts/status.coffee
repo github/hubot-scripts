@@ -2,7 +2,7 @@
 #   Status is a simple user status message updater
 #
 # Dependencies:
-#   None
+#   "underscore": "1.3.3"
 #
 # Configuration:
 #   None
