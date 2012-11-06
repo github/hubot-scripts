@@ -98,8 +98,8 @@ getRegionInstances = (region, msg) ->
           arch = instance.architecture
           devType = instance.rootDeviceType
 
-          tags = _.flatten [instance.tagSet.item]
-          name = (_.find tags, (t) -> t.key == 'Name').value
+          tags = _.flatten [instance.tagSet?.item ? []]
+          name = (_.find tags, (t) -> t.key == 'Name')?.value ? 'missing'
 
           msg.send "#{prefix} [#{state}] - #{name} / #{type} [#{devType} #{arch}] / #{dnsName} / #{region} / #{id} - started #{launchTime} #{suffix}"
 
