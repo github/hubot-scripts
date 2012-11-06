@@ -1,11 +1,14 @@
 # Description:
 #   Rodent Motivation
 #
+#   Set the environment variable HUBOT_SHIP_EXTRA_SQUIRRELS (to anything)
+#   for additional motivation
+#
 # Dependencies:
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_SHIP_EXTRA_SQUIRRELS
 #
 # Commands:
 #   ship it - Display a motivation squirrel
@@ -34,5 +37,12 @@ squirrels = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /ship it/i, (msg) ->
+
+  # Enable a looser regex if environment variable is set
+  if process.env.HUBOT_SHIP_EXTRA_SQUIRRELS
+    regex = /ship(ping|z|s|ped)? it/i
+  else
+    regex = /ship it/i
+
+  robot.hear regex, (msg) ->
     msg.send msg.random squirrels
