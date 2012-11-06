@@ -2,7 +2,7 @@
 #   Allows you to "yell" your message to everyone in the room
 #
 # Dependencies:
-#   None
+#   "underscore": "1.3.3"
 #
 # Configuration:
 #   None
