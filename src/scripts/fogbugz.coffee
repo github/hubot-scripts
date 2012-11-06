@@ -29,7 +29,7 @@ util = require 'util'
 
 module.exports = (robot) ->
   if env.HUBOT_FOGBUGZ_HOST and env.HUBOT_FOGBUGZ_TOKEN
-    robot.hear /(?:(?:fog)?bugz?|case) (\d+)/, (msg) ->
+    robot.hear /(?:[Bb]ugz?|[Cc]ase) (\d+)/, (msg) ->
       msg.http("https://#{env.HUBOT_FOGBUGZ_HOST}/api.asp")
         .query
           cmd: "search"
