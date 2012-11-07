@@ -8,27 +8,23 @@
 #   None
 #
 # Commands:
-#   hubot show me some commandlinefu - returns random command
-#   hubot show me some commandlinefu <command> - random entry for the comand passed
+#   hubot commandlinefu me - returns random command
+#   hubot commandlinefu me <command> - random entry for the comand passed
 #
 # Author:
 #   aaronott
 
 module.exports = (robot) ->
-  robot.respond /(show me some )?(commandlinefu)\s*(.*)?/i, (msg) ->
-    uri = "http://www.commandlinefu.com/commands/"
-    c = msg.match[3]
-    if c != undefined 
-      query = "matching/" + c + "/" + new Buffer(c).toString('base64') + "/json"
-    else 
-      query = "random/json"
-    uri = uri + query
-    command msg, uri, (cmd) ->
+  robot.respond /commandlinefu(?: me)? *(.*)?/i, (msg) ->
+    query = if msg.match[1]
+          "matching/#{msg.match[1]}/#{new Buffer(msg.match[1]).toString('base64')}/json"
+        else 
+          "random/json"
+    command msg, "http://www.commandlinefu.com/commands/#{query}", (cmd) ->
       msg.send cmd
 
 command = (msg, uri, cb) ->
   msg.http(uri)
-    .header('User-Agent', 'Mozilla/5.0')
     .get() (err, res, body) ->
       # The random call passes back a 302 to redirect to a new page, if this
       # happens we redirect through a recursive function call passing the new
@@ -36,8 +32,6 @@ command = (msg, uri, cb) ->
       if res.statusCode == 302
         command msg, res.headers.location, cb
       else
-        cl = JSON.parse(body)
         # choose a random command from the returned list
-        cc = msg.random cl
-        ret_str = "-- #{cc.summary}\n#{cc.command}"
-        cb(ret_str)
+        cc = msg.random JSON.parse(body)
+        cb("-- #{cc.summary}\n#{cc.command}")
