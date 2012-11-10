@@ -11,7 +11,6 @@
 #   hubot chess me - Creates a new game between yourself and another person in the room
 #   hubot chess status - Gets the current state of the board
 #   hubot chess move <to> - Moves a piece to the coordinate position using standard chess notation
-#   hubot chess undo - Takes back the previous move
 #
 # Author:
 #   thallium205
@@ -28,15 +27,6 @@ module.exports = (robot) ->
 
   robot.respond /chess status/i, (msg) ->
     try
-      boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
-        msg.send status
-        msg.send 'http://www.eddins.net/steve/chess/ChessImager/ChessImager.php?fen=' + fen + '.png'
-    catch e
-      msg.send e
-
-  robot.respond /chess undo/i, (msg) ->
-    try
-      robot.brain.data.chess.undo
       boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
         msg.send status
         msg.send 'http://www.eddins.net/steve/chess/ChessImager/ChessImager.php?fen=' + fen + '.png'
