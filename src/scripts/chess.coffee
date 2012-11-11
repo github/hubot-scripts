@@ -23,13 +23,12 @@ module.exports = (robot) ->
     robot.brain.data.chess = Chess.create()
     boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
       msg.send 'White\'s turn.'
-      msg.send 'http://www.eddins.net/steve/chess/ChessImager/ChessImager.php?fen=' + fen + '.png'
-
+      msg.send 'http://chessup.net/php/pictureParser.php?fen=' + fen + '&coord=on&.png'
   robot.respond /chess status/i, (msg) ->
     try
       boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
         msg.send status
-        msg.send 'http://www.eddins.net/steve/chess/ChessImager/ChessImager.php?fen=' + fen + '.png'
+        msg.send 'http://chessup.net/php/pictureParser.php?fen=' + fen + '&coord=on&.png'
     catch e
       msg.send e
 
@@ -38,7 +37,7 @@ module.exports = (robot) ->
       robot.brain.data.chess.move msg.match[1]
       boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
         msg.send status
-        msg.send 'http://www.eddins.net/steve/chess/ChessImager/ChessImager.php?fen=' + fen + '.png'
+        msg.send 'http://chessup.net/php/pictureParser.php?fen=' + fen + '&coord=on&.png'
     catch e
       msg.send e
 
