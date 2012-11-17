@@ -1,0 +1,68 @@
+# Description:
+#	 Nickname generator
+#
+# Dependencies:
+#	 "querystring": "0.1.0"
+#	 "jquery": "1.7.2"
+#
+# Commands:
+#	 hubot nick <option> <name> - Receive your nickname
+
+QS = require 'querystring'
+$ = require 'jquery'
+
+# what nickname do you want?
+options =
+	pirate:
+		selector: ".normalText font b"
+		uri: "http://mess.be/pirate-names-male.php"
+		greeting: 'Arrr! Yer pirate name be: '
+	wutang:
+		selector: "center b font:not(.normalText)"
+		uri: "http://mess.be/inickgenwuname.php"
+		greeting: 'Your Wu-Tang Clan name is: '
+	blues:
+		selector: "center > .boldText"
+		uri: "http://mess.be/inickgenbluesmalename.php"
+		greeting: 'Welcome to the Crossroads: '
+	potter:
+		selector: "center .normalText font b"
+		uri: "http://mess.be/harry-potter-names-male.php"
+		greeting: 'Your Wizarding name is: '
+	hacker:
+		selector: "center > p.normalText > b"
+		uri: "http://mess.be/inickgenhacker.php"
+		greeting: 'Welcome to the Matrix: '
+
+		# curl --data "species=human&number=1" http://swg.stratics.com/content/gameplay/characters/randomname.php
+
+module.exports = (robot) ->
+	robot.respond /nick ([^ ]+) (.+)/i, (msg) ->
+		type = msg.match[1]
+
+		if (!options[type])
+			list = (" #{name}" for name of options)
+			msg.send "Uh-oh, #{type} is not a legit option: choices are#{list}"
+			return
+
+		url = options[type]['uri']
+		name = msg.match[2]
+		selector = options[type]['selector']
+		greeting = options[type]['greeting']
+		data = QS.stringify({'realname': name})
+
+		msg.http(url)
+			.header("Content-Type", "application/x-www-form-urlencoded")
+			.post(data) (err, res, body) ->
+				response = greeting + $.trim( $(body).find(selector).text().replace('\n','').replace(name,'') )
+				msg.send response
+
+	robot.respond /nick help/i, (msg) ->
+		count = Object.keys(options).length
+		list = ("#{name}" for name of options)
+		msg.send "Usage: nick <#{list}> <your name>"
+
+
+
+
+
