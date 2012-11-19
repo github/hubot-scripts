@@ -6,9 +6,6 @@
 #   None
 # Configuration:
 #   HUBOT_HARVEST_SUBDOMAIN
-#     The subdomain you access the Harvest service with, e.g.
-#     if you have the Harvest URL http://yourcompany.harvestapp.com
-#     you should set this to "yourcompany" (without the quotes).
 #
 # Commands:
 #
@@ -61,6 +58,11 @@
 #   hubot list harvest tasks [of <user>]
 #     Gives you a list of all project/task combinations available
 #     to you or a specific user. You can use these for the start command.
+#
+#   Note on HUBOT_HARVEST_SUBDOMAIN:
+#     This is the subdomain you access the Harvest service with, e.g.
+#     if you have the Harvest URL http://yourcompany.harvestapp.com
+#     you should set this to "yourcompany" (without the quotes).
 # 
 # Author:
 #   Quintus @ Asquera
