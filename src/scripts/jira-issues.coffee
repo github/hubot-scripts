@@ -18,7 +18,7 @@ module.exports = (robot) ->
   jiraUrl = "https://" + jiraDomain
   http = require 'https'
 
-  http.get {host: jiraDomain, path: "/rest/api/2.0.alpha1/project"}, (res) ->
+  http.get {host: jiraDomain, path: "/rest/api/latest/project"}, (res) ->
     data = ''
     res.on 'data', (chunk) ->
       data += chunk.toString()
@@ -36,11 +36,11 @@ module.exports = (robot) ->
             cache.shift() until cache.length is 0 or cache[0].expires >= now
           if cache.length == 0 or (item for item in cache when item.issue is issue).length == 0
             cache.push({issue: issue, expires: now + 120000})
-            msg.http(jiraUrl + "/rest/api/2.0.alpha1/issue/" + issue)
+            msg.http(jiraUrl + "/rest/api/latest/issue/" + issue)
               .get() (err, res, body) ->
                 try
                   key = JSON.parse(body).key
-                  msg.send "[" + key + "] " + JSON.parse(body).fields.summary.value
+                  msg.send "[" + key + "] " + JSON.parse(body).fields.summary
                   urlRegex = new RegExp(jiraUrl + "[^\\s]*" + key)
                   if not msg.message.text.match(urlRegex)
                     msg.send jiraUrl + "/browse/" + key
