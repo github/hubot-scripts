@@ -6,6 +6,8 @@
 #
 # Configuration:
 #   HUBOT_JIRA_DOMAIN
+#   HUBOT_JIRA_USERNAME (optional)
+#   HUBOT_JIRA_PASSWORD (optional)
 #
 # Commands:
 # 
@@ -18,7 +20,12 @@ module.exports = (robot) ->
   jiraUrl = "https://" + jiraDomain
   http = require 'https'
 
-  http.get {host: jiraDomain, path: "/rest/api/latest/project"}, (res) ->
+  jiraUsername = process.env.HUBOT_JIRA_USERNAME
+  jiraPassword = process.env.HUBOT_JIRA_PASSWORD
+  if jiraUsername != undefined && jiraUsername.length > 0
+    auth = "#{jiraUsername}:#{jiraPassword}"
+
+  http.get {host: jiraDomain, auth: auth, path: "/rest/api/latest/project"}, (res) ->
     data = ''
     res.on 'data', (chunk) ->
       data += chunk.toString()
@@ -37,6 +44,7 @@ module.exports = (robot) ->
           if cache.length == 0 or (item for item in cache when item.issue is issue).length == 0
             cache.push({issue: issue, expires: now + 120000})
             msg.http(jiraUrl + "/rest/api/latest/issue/" + issue)
+              .auth(auth)
               .get() (err, res, body) ->
                 try
                   key = JSON.parse(body).key
