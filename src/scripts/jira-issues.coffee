@@ -47,13 +47,14 @@ module.exports = (robot) ->
               .auth(auth)
               .get() (err, res, body) ->
                 try
-                  key = JSON.parse(body).key
-                  msg.send "[" + key + "] " + JSON.parse(body).fields.summary
+                  json = JSON.parse(body)
+                  key = json.key
+                  msg.send "[" + key + "] " + json.fields.summary
                   urlRegex = new RegExp(jiraUrl + "[^\\s]*" + key)
                   if not msg.message.text.match(urlRegex)
                     msg.send jiraUrl + "/browse/" + key
                 catch error
                   try
-                    msg.send "[*ERROR*] " + JSON.parse(body).errorMessages[0]
+                    msg.send "[*ERROR*] " + json.errorMessages[0]
                   catch reallyError
                     msg.send "[*ERROR*] " + reallyError
