@@ -99,11 +99,12 @@ module.exports = (robot) ->
 
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
-    authdata = new Buffer(process.env.HUBOT_JIRA_USER+':'+process.env.HUBOT_JIRA_PASSWORD).toString('base64')
 
-    msg.http(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where).
-      header('Authorization', 'Basic ' + authdata).
-      get() (err, res, body) ->
+    httprequest = msg.http(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
+    if (process.env.HUBOT_JIRA_USER)
+      authdata = new Buffer(process.env.HUBOT_JIRA_USER+':'+process.env.HUBOT_JIRA_PASSWORD).toString('base64')
+      httprequest = httprequest.header('Authorization', 'Basic ' + authdata)
+    httprequest.get() (err, res, body) ->
         cb JSON.parse(body)
 
   watchers = (msg, issue, cb) ->
