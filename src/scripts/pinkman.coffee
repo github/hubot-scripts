@@ -2,7 +2,7 @@
 #   Random quote from Jesse Pinkman of Breaking Bad
 #
 # Commands:
-#   hubot pinkman me bitch - Show status of currently running builds
+#   hubot pinkman me bitch - Random quote from Pinkman
 #
 # Author:
 #   Micah Martin
