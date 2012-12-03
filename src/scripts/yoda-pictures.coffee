@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   yoda pic - Returns a random quote
+#   yoda pic - Returns a random yoda picture
 #
 # Author:
 #   vquaiato
