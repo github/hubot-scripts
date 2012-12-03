@@ -5,8 +5,19 @@
 #	 "querystring": "0.1.0"
 #	 "jquery": "1.7.2"
 #
+# Configuration:
+#   None
+#
 # Commands:
-#	 hubot nick <option> <name> - Receive your nickname
+#	 hubot nick <option> <name> - Provides the user with a funny nickname from a list of choices.
+#	 hubot nick help - explains usage
+#
+# Notes:
+#	 None
+#
+# Author:
+#	 @commadelimited
+
 
 QS = require 'querystring'
 $ = require 'jquery'
