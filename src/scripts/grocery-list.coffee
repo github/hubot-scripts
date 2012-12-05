@@ -11,7 +11,8 @@
 #   hubot grocery list - list items on your grocery list
 #   hubot remind me to buy <item> - add item to grocery list
 #   hubot i bought <item> - mark item as purchased
-#   hubot remove <item> from my grocery lists
+#   hubot remove <item> - remove item from my grocery lists
+#   hubot what have i purchased - shows what you've purchased
 #
 # Author:
 #   parkr
