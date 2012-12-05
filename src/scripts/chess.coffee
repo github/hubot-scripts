@@ -22,13 +22,13 @@ module.exports = (robot) ->
   robot.respond /chess me$/i, (msg) ->
     robot.brain.data.chess = Chess.create()
     boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
-      msg.send 'White\'s turn.'
-      msg.send 'http://chessup.net/php/pictureParser.php?fen=' + fen + '&coord=on&.png'
+      msg.send 'http://webchess.freehostia.com/diag/chessdiag.php?fen=' + encodeURIComponent(fen) + '&size=large&coord=yes&cap=yes&stm=yes&fb=no&theme=classic&format=auto&color1=E3CEAA&color2=635147&color3=000000&.png'
   robot.respond /chess status/i, (msg) ->
     try
       boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
-        msg.send status
-        msg.send 'http://chessup.net/php/pictureParser.php?fen=' + fen + '&coord=on&.png'
+        if status
+          msg.send status
+        msg.send 'http://webchess.freehostia.com/diag/chessdiag.php?fen=' + encodeURIComponent(fen) + '&size=large&coord=yes&cap=yes&stm=yes&fb=no&theme=classic&format=auto&color1=E3CEAA&color2=635147&color3=000000&.png'
     catch e
       msg.send e
 
@@ -36,8 +36,9 @@ module.exports = (robot) ->
     try
       robot.brain.data.chess.move msg.match[1]
       boardToFen robot.brain.data.chess.getStatus(), (status, fen) ->
-        msg.send status
-        msg.send 'http://chessup.net/php/pictureParser.php?fen=' + fen + '&coord=on&.png'
+       if status
+          msg.send status
+        msg.send 'http://webchess.freehostia.com/diag/chessdiag.php?fen=' + encodeURIComponent(fen) + '&size=large&coord=yes&cap=yes&stm=yes&fb=no&theme=classic&format=auto&color1=E3CEAA&color2=635147&color3=000000&.png'
     catch e
       msg.send e
 
@@ -82,9 +83,9 @@ boardToFen = (status, callback) ->
   if status.isStalemate
     msg += 'Stalemate! '
   if Object.keys(status.notatedMoves).length > 0
-    if status.notatedMoves[Object.keys(status.notatedMoves)[0]].src.piece.side.name is 'white' then msg += 'White\'s turn. ' else msg += 'Black\'s turn.'
-
+    if status.notatedMoves[Object.keys(status.notatedMoves)[0]].src.piece.side.name is 'white' 
+      fen += ' w';
+    else 
+      fen += ' b';
 
   callback msg, fen
-
-
