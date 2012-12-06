@@ -8,13 +8,14 @@
 #   None
 #
 # Commands:
-#   hubot <anything related to size, speed, quality, specific body parts> - Hubot will "that's what she said" that ish
+#   Will listen for good opportunities to drop a twss joke.
 #
 # Author:
-#   dhchow
+#   thallium205
 
-var twss = require('twss');
+twss = require('twss')
+twss.threshold = .9
 module.exports = (robot) ->
-  robot.hear //, (msg) ->
-  if (twss.is(robot.msg)) {
-    msg.send "... that's what she said."
+  robot.hear /\S/, (msg) ->
+    if twss.is(msg.message.text)
+      msg.send "... that's what she said."
