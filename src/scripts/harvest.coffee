@@ -11,12 +11,13 @@
 #
 #   hubot remember my harvest account <email> with password <password> - Make hubot remember your Harvest credentials
 #   hubot forget my harvest account - Make hubot forget your Harvest credentials again
+#   hubot start harvest - Restart the last timer.
 #   hubot start harvest at <project>/<task>: <notes> - Start a Harvest timer at a given project-task combination
 #   hubot stop harvest [at project/task] - Stop the most recent Harvest timer or the one for the given project-task combination.
 #   hubot daily harvest [of <user>] [at yyyy-mm-dd] - Show a user's Harvest timers for today (or yours, if noone is specified) or a specific day
 #   hubot list harvest tasks [of <user>] - Show the Harvest project-task combinations available to a user (or you, if noone is specified)
 #   hubot is harvest down/up - Check if the Harvest API is reachable.
-# 
+#
 # Notes:
 #   All commands and command arguments are case-insenitive. If you work
 #   on a project "FooBar", hubot will unterstand "foobar" as well. This
@@ -38,6 +39,10 @@
 #
 #   hubot forget my harvest account
 #     Deletes your account credentials from Hubt's memory.
+#
+#  hubot start harvest
+#    Examines the list of timers for today and creates a new timer with
+#    the same properties as the most recent one.
 #
 #   hubot start harvest at <project>/<task>: <notes>
 #     Starts a timer for a task at a project (both of which may
@@ -63,7 +68,7 @@
 #     This is the subdomain you access the Harvest service with, e.g.
 #     if you have the Harvest URL http://yourcompany.harvestapp.com
 #     you should set this to "yourcompany" (without the quotes).
-# 
+#
 # Author:
 #   Quintus @ Asquera
 #
@@ -239,6 +244,23 @@ module.exports = (robot) ->
     catch error
       msg.reply "Failed to start timer: fatal error: #{error}"
 
+  robot.respond /start harvest/i, (msg) ->
+    unless user = check_user(robot, msg)
+      return
+
+    harvest = new HarvestService(user.harvest_account)
+
+    try
+      harvest.restart msg, (status, body) ->
+        if 200 <= status <= 299
+          if body.hours_for_previously_running_timer?
+            msg.reply "Previously running timer stopped at #{body.hours_for_previously_running_timer}h."
+          msg.reply "OK, I started tracking you on #{body.project}/#{body.task}."
+        else
+          msg.reply "Failed to start timer: request failed with status #{status}."
+    catch error
+      msg.reply "Failed to start timer: fatal error: #{error}"
+
   # Stops the timer running for a project/task combination,
   # if any. If no combination is given, stops the first
   # active timer available.
@@ -324,6 +346,25 @@ class HarvestService
         callback res.statusCode, JSON.parse(body)
       else
         callback res.statusCode, null
+
+  restart: (msg, callback) ->
+    this.daily msg, (status, body) =>
+      if 200 <= status <= 299
+        if body.day_entries.length == 0
+          msg.reply "No last entry to restart, sorry."
+        else
+          last_entry = body.day_entries.pop()
+          data =
+            notes: last_entry.notes
+            project_id: last_entry.project_id
+            task_id: last_entry.task_id
+          this.request(msg).path("/daily/add").post(JSON.stringify(data)) (err, res, body) ->
+            if 200 <= res.statusCode <= 299
+              callback res.statusCode, JSON.parse(body)
+            else
+              callback res.statusCode, null
+      else
+        callback status, null
 
   # Issues /daily/add to the Harvest API to add a new timer
   # starting from now.
