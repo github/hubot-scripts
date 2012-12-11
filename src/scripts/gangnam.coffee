@@ -20,5 +20,5 @@ gifs = [
   ]
 
 module.exports = (robot)->
-  robot.hear /oppa gangnam style/i, (message)-> #changed gifbin
+  robot.hear /gangnam style/i, (message)-> #changed gifbin
     message.send message.random gifs
