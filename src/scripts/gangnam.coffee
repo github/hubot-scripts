@@ -15,7 +15,7 @@
 gifs = [
   "http://i1.kym-cdn.com/photos/images/original/000/370/936/cb3.gif",
   "http://i3.kym-cdn.com/photos/images/original/000/363/835/32a.gif",
-  "http://knowyourmeme.com/photos/388760-gangnam-style",
+  "http://i3.kym-cdn.com/photos/images/original/000/388/760/3f3.gif)",
   "http://i2.kym-cdn.com/photos/images/original/000/386/610/52d.gif"
   ]
 
