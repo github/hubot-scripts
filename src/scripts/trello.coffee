@@ -5,9 +5,9 @@
 #   "node-trello": "latest"
 #
 # Configuration:
-#   HUBOT_TRELLO_KEY
-#   HUBOT_TRELLO_TOKEN
-#   HUBOT_TRELLO_LIST
+#   HUBOT_TRELLO_KEY - Trello application key
+#   HUBOT_TRELLO_TOKEN - Trello API token
+#   HUBOT_TRELLO_LIST - The list ID that you'd like to create cards for
 #
 # Commands:
 #   hubot trello card <name> - Create a new Trello card
