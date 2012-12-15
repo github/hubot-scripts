@@ -26,8 +26,13 @@ module.exports = (robot) ->
     if not cardName.length
       msg.send "You must give the card a name"
       return
+    if not process.env.HUBOT_TRELLO_KEY
+      msg.send "Error: Trello app key is not specified"
+    if not process.env.HUBOT_TRELLO_TOKEN
+      msg.send "Error: Trello token is not specified"
+    if not process.env.HUBOT_TRELLO_LIST
+      msg.send "Error: Trello list ID is not specified"
     if not (process.env.HUBOT_TRELLO_KEY and process.env.HUBOT_TRELLO_TOKEN and process.env.HUBOT_TRELLO_LIST)
-      msg.send "Please sepcify your Trello key, token, and list as environment variables"
       return
     createCard msg, cardName
 
