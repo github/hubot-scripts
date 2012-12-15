@@ -7,7 +7,7 @@
 # 
 # Configuration:
 #   HUBOT_BITBUCKET_USER
-#   HUBOT_BITBUCKET_USER
+#   HUBOT_BITBUCKET_PASSWORD
 #
 # Commands:
 #   hubot repo show <repo> - shows activity of repository
