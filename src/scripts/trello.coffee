@@ -37,4 +37,5 @@ createCard = (msg, cardName) ->
   t.post "/1/cards", {name: cardName, idList: process.env.HUBOT_TRELLO_LIST}, (err, data) ->
     if err
       msg.send "There was an error creating the card"
+      return
     msg.send data.url
