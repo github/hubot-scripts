@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot locpix me <query>
+#   hubot locpix me <query> - Search the Library of Congress image archives
 #
 # Author:
 #   pj4533
