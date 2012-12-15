@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.respond /bees/i, (message) ->
-    message.send "http://thechive.files.wordpress.com/2010/11/oprah-bees.gif"
+    message.send "http://i.imgur.com/qrLEV.gif"
