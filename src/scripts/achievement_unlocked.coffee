@@ -22,6 +22,6 @@ module.exports = (robot) ->
       url += "?email=#{escape(email.trim())}.png"
     msg.send(url)
 
-  robot.hear /acheivement (get|unlock(ed)?)/i, (msg) ->
+  robot.hear /achievement (get|unlock(ed)?)/i, (msg) ->
     url = "http://achievement-unlocked.heroku.com/xbox/#{escape("Bane of Daniel Webster")}.png"
     msg.send(url)
