@@ -2,17 +2,20 @@
 #   Hubot will respond to (in)appropriate lines with "That's what she said"
 #
 # Dependencies:
-#   None
+#   twss
 #
 # Configuration:
 #   None
 #
 # Commands:
-#   hubot <anything related to size, speed, quality, specific body parts> - Hubot will "that's what she said" that ish
+#   Will listen for good opportunities to drop a twss joke.
 #
 # Author:
-#   dhchow
+#   thallium205
 
+twss = require('twss')
+twss.threshold = .9
 module.exports = (robot) ->
-  robot.respond /.*(big|small|long|hard|soft|mouth|face|good|fast|slow|in there|on there|in that|on that|wet|dry|on the|in the|suck|blow|jaw|all in|fit that|fit it|hurts|hot|huge|balls|stuck)/i, (msg) ->
-    msg.send "THAT'S WHAT SHE SAID!"
+  robot.hear /\S/, (msg) ->
+    if twss.is(msg.message.text)
+      msg.send "... that's what she said."
