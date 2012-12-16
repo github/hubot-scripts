@@ -26,7 +26,7 @@ module.exports = (robot) ->
       json = JSON.parse(data)
       jiraPrefixes = ( entry.key for entry in json )
       reducedPrefixes = jiraPrefixes.reduce (x,y) -> x + "-|" + y
-      jiraPattern = "/(" + reducedPrefixes + "-)(\\d+)/gi"
+      jiraPattern = "/\\b(" + reducedPrefixes + "-)(\\d+)\\b/gi"
 
       robot.hear eval(jiraPattern), (msg) ->
         for i in msg.match
