@@ -25,7 +25,7 @@ module.exports = (robot) ->
   if jiraUsername != undefined && jiraUsername.length > 0
     auth = "#{jiraUsername}:#{jiraPassword}"
 
-  http.get {host: jiraDomain, auth: auth, path: "/rest/api/latest/project"}, (res) ->
+  http.get {host: jiraDomain, auth: auth, path: "/rest/api/2/project"}, (res) ->
     data = ''
     res.on 'data', (chunk) ->
       data += chunk.toString()
@@ -43,7 +43,7 @@ module.exports = (robot) ->
             cache.shift() until cache.length is 0 or cache[0].expires >= now
           if cache.length == 0 or (item for item in cache when item.issue is issue).length == 0
             cache.push({issue: issue, expires: now + 120000})
-            msg.http(jiraUrl + "/rest/api/latest/issue/" + issue)
+            msg.http(jiraUrl + "/rest/api/2/issue/" + issue)
               .auth(auth)
               .get() (err, res, body) ->
                 try
