@@ -55,7 +55,7 @@ module.exports = (robot) ->
     authedRequest message, '/queue', 'get', {}, (err, res, body) ->
       json = JSON.parse(body)
       song = json.songs[1]
-      if song.name
+      if typeof(song) == "object"
         message.send("We will play this awesome track \"#{song.name}\" by #{song.artist} in just a minute!")
       else
         message.send("The queue is empty :( Try adding some songs, eh?")
