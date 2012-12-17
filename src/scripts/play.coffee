@@ -51,6 +51,15 @@ module.exports = (robot) ->
       message.send("#{URL}/images/art/#{json.id}.png?login=HOTFIX#.jpg")
       message.send("Now playing " + str)
 
+  robot.respond /what'?s next/i, (message) ->
+    authedRequest message, '/queue', 'get', {}, (err, res, body) ->
+      json = JSON.parse(body)
+      song = json.songs[1]
+      if song.name
+        message.send("We will play this awesome track \"#{song.name}\" by #{song.artist} in just a minute!")
+      else
+        message.send("The queue is empty :( Try adding some songs, eh?")
+
   robot.respond /say (.*)/i, (message) ->
     authedRequest message, '/say', 'post', {message: message.match[1]}, (err, res, body) ->
       message.send(message.match[1])
