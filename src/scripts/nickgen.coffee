@@ -9,7 +9,12 @@
 #   None
 #
 # Commands:
-#	 hubot nick <option> <name> - Provides the user with a funny nickname from a list of choices.
+#	 hubot nick pirate <name> - Get your pirate name.
+#	 hubot nick wutang <name> - Get your Wutang Clan name.
+#	 hubot nick blues <name> - Get your Blues guitarist name.
+#	 hubot nick potter <name> - Get your Harry Potter universe name.
+#	 hubot nick hacker <name> - Get your l337 hacker name.
+#
 #	 hubot nick help - explains usage
 #
 # Notes:
@@ -72,8 +77,3 @@ module.exports = (robot) ->
 		count = Object.keys(options).length
 		list = ("#{name}" for name of options)
 		msg.send "Usage: nick <#{list}> <your name>"
-
-
-
-
-
