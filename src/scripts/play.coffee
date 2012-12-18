@@ -13,6 +13,7 @@
 #   hubot play next - Plays the next song.
 #   hubot play previous - Plays the previous song.
 #   hubot what's playing - Returns the currently-played song.
+#   hubot what's next - Returns next song in the queue.
 #   hubot I want this song - Returns a download link for the current song.
 #   hubot I want this album - Returns a download link for the current album.
 #   hubot play <artist> - Queue up ten songs from a given artist.
