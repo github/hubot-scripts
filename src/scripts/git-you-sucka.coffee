@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.hear /git/, (msg) ->
-    msg.reply 'ima git you sucka'
+    if Math.random() < 0.1 then msg.reply 'ima git you sucka'
