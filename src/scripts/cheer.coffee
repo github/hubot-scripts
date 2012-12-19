@@ -26,6 +26,6 @@ aww = (msg) ->
     .http('http://imgur.com/r/aww.json')
       .get() (err, res, body) ->
         images = JSON.parse(body)
-        images = images.gallery
+        images = images.data
         image  = msg.random images
         msg.send "http://i.imgur.com/#{image.hash}#{image.ext}"
