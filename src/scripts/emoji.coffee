@@ -9,11 +9,11 @@
 #   None
 #
 # Commands:
-#   "put a bird on it" - Prints "put a 🐦  on it" in moreEmoji mode.
-#   "put a :bird: on it" - Prints "put a 🐦  on it" in lessEmoji mode.
-#   hubot list emojis - Print a list of available emojis
-#   hubot more emojis - (default) Try to substitute all words - no :colons: required.
-#   hubot less emojis - Require :colons: to substitute emojis.
+#   "put a bird on it" - Prints "put a 🐦  on it" in 'more' emoji mode.
+#   "put a :bird: on it" - Prints "put a 🐦  on it" in 'less' emoji mode.
+#   hubot list emoji - Print a list of available emojis
+#   hubot more emoji - (default) Try to substitute all words - no :colons: required.
+#   hubot less emoji - Require :colons: to substitute emojis.
 #
 # Notes:
 #   Emoji/unicode pairing data from https://github.com/github/gemoji
@@ -21,29 +21,30 @@
 # Author:
 #   dzello
 
-# don't require surrounding in :colons: for substitution
-moreEmoji = true
-
 module.exports = (robot) ->
+
+  robot.brain.on "loaded", ->
+    robot.brain.data.emojis ?= {}
+
   robot.hear /.+/, (msg) ->
-    if textWithEmoji = substituteEmoji(msg.message.text)
+    if textWithEmoji = substituteEmoji(msg.message.text, robot)
       msg.send(textWithEmoji)
 
-  robot.respond /more emojis/, (msg) ->
-    moreEmoji = true
+  robot.respond /more emoji/, (msg) ->
+    robot.brain.data.emojis.more = true
 
-  robot.respond /less emojis/, (msg) ->
-    moreEmoji = false
+  robot.respond /less emoji/, (msg) ->
+    robot.brain.data.emojis.more = false
 
-  robot.respond /list emojis/, (msg) ->
+  robot.respond /list emoji/, (msg) ->
     buf = ""
     for symbol, hexCode of emojis
       buf += "#{toEmoji(hexCode)}   #{symbol}\n"
     msg.send buf
 
-substituteEmoji = (text) ->
+substituteEmoji = (text, robot) ->
   ct = 0
-  re = if moreEmoji then /([a-zA-Z0-9_:]{3,})/g else /:([a-zA-Z0-9_]+):/g
+  re = if robot.brain.data.emojis.more then /([a-zA-Z0-9_:]{3,})/g else /:([a-zA-Z0-9_]+):/g
   text = text.replace re, (match, key) ->
     if emoji = emojis[key.toLowerCase().replace(/:/g, '')]
       ct++
@@ -66,26 +67,6 @@ fromFullCharCode = (args...) ->
       chars.push(String.fromCharCode(high, low))
 
   chars.join('')
-
-# Temporary - leaving in pre-scraped values for now and not calling this method until
-# there's a more efficient way to do it - see https://github.com/juliamae/definitive-guide-to-emoji/issues/1
-# NOTE: requires jsdom as a dependency
-# jsdom = require 'jsdom'
-# scrapeEmojis = ->
-#   emojis = {}
-#   jsdom.env "https://github.com/github/gemoji/tree/master/images/emoji", \
-#   [ 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' ], (errors, window) ->
-#     (($) ->
-#       $(".tree-entries td.content").each (entry) ->
-#         key = $(this).text().replace(/\.png/, '')
-#         robot.http("https://raw.github.com/github/gemoji/master/images/emoji/#{key}.png").get() (err, res, body) ->
-#           contentLength = res.headers["content-length"]
-#           unless contentLength > 17
-#             if /unicode/.test(body)
-#               if match = body.match(/unicode\/([a-z0-9\+\-_]+)\.png/)
-#                 emojis[key] = match[1]
-#
-#       )(window.jQuery)
 
 `emojis = {
   '100': '1f4af',
