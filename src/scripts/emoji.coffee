@@ -12,8 +12,8 @@
 #   "put a bird on it" - Prints "put a 🐦  on it" in 'more' emoji mode.
 #   "put a :bird: on it" - Prints "put a 🐦  on it" in 'less' emoji mode.
 #   hubot list emoji - Print a list of available emojis
-#   hubot more emoji - (default) Try to substitute all words - no :colons: required.
-#   hubot less emoji - Require :colons: to substitute emojis.
+#   hubot more emoji - Try to substitute all words - no :colons: required.
+#   hubot less emoji - Require :colons: to substitute emojis (default).
 #
 # Notes:
 #   Emoji/unicode pairing data from https://github.com/github/gemoji
