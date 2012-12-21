@@ -2,8 +2,7 @@
 #	 Nickname generator
 #
 # Dependencies:
-#	 "querystring": "0.1.0"
-#	 "jquery": "1.7.2"
+#	 "cheerio": "0.10.5"
 #
 # Configuration:
 #   None
@@ -23,9 +22,7 @@
 # Author:
 #	 @commadelimited
 
-
-QS = require 'querystring'
-$ = require 'jquery'
+$ = require 'cheerio'
 
 # what nickname do you want?
 options =
@@ -65,12 +62,13 @@ module.exports = (robot) ->
 		name = msg.match[2]
 		selector = options[type]['selector']
 		greeting = options[type]['greeting']
-		data = QS.stringify({'realname': name})
+		data = "realname="+ name
 
+		console.log(data)
 		msg.http(url)
 			.header("Content-Type", "application/x-www-form-urlencoded")
 			.post(data) (err, res, body) ->
-				response = greeting + $.trim( $(body).find(selector).text().replace('\n','').replace(name,'') )
+				response = greeting + $(body).find(selector).text().replace(/\n/g,'').replace(name,'')
 				msg.send response
 
 	robot.respond /nick help/i, (msg) ->
