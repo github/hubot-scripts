@@ -22,7 +22,7 @@
 util = require 'util'
 qs = require 'querystring'
 
-makeServer = process.env.HUBOT_MAKE_ME_URL or 'http://localhost:9393'
+makeServer = process.env.HUBOT_MAKE_ME_URL or 'http://localhost:9292'
 [authUser, authPass] = [process.env.HUBOT_MAKE_ME_USER or 'hubot', process.env.HUBOT_MAKE_ME_PASS or 'isalive']
 auth64 = (new Buffer("#{authUser}:#{authPass}")).toString("base64")
 
