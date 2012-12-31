@@ -100,7 +100,10 @@ module.exports = (robot) ->
     if scale_op = /scale by (\d+\.\d+)/.exec(options)
       scale = parseFloat(scale_op[1])
 
-    msg.reply "Talking to the 3d printer to print #{things.length} models '#{options}'..."
+    reply = "Telling the 3D printer to print #{things.length} models"
+    reply += " with the options: #{options}" if options.length > 0
+    msg.reply reply
+
     msg.http(makeServer + "/print")
       .header("Authorization", "Basic #{auth64}")
       .post(JSON.stringify({url: things, count: count, scale: scale, quality: quality, density: density, config: config})) (err, res, body) =>
