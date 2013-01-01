@@ -36,7 +36,7 @@ module.exports = (robot) ->
                "    'xN' (e.g. x2)              -- print more than one of a thing at once\n" +
                "    'with supports'             -- adds supports to the model, for complex overhangs. Default: disabled\n" +
                "    'xx% solid'                 -- changes how solid the object is on the inside. Default: 5%\n" +
-               "    'scale by X.Y' (e.g. 0.5)   -- scale the size of the model by a factor
+               "    'scale by X.Y' (e.g. 0.5)   -- scale the size of the model by a factor\n" +
                "#{robot.name} 3d snapshot - takes a picture and tells you the locked status\n" +
                "#{robot.name} 3d unlock - unlocks the printer after you clean up\n\n" +
                "Only 1 print at a time is allowed, and you are required to tell\n" +
