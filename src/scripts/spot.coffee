@@ -82,8 +82,10 @@ module.exports = (robot) ->
     spotRequest message, '/find', 'post', params, (err, res, body) ->
       message.send(":small_blue_diamond: #{body}")
 
-  robot.respond /(.*) says turn it down.*/i, (message) ->
+  robot.respond /(.*) says.*turn.*down.*/i, (message) ->
     name = message.match[1]
+    message.send("#{name} says, 'Turn down the music and get off my lawn!' :bowtie:")
     params = {volume: 15}
     spotRequest message, '/volume', 'put', params, (err, res, body) ->
-     message.send("#{name} says, 'Turn down the music and get off my lawn!' :bowtie:")
+      message.send("Spot volume set to #{body}. :mega:")
+     
