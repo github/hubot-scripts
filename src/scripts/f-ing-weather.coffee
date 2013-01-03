@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_WEATHER_CELSIUS - Display in celsius
 #
 # Commands:
 #   hubot what's the weather for <city> - Get the weather for a location
@@ -15,8 +15,11 @@
 #   aaronott
 
 weather = (msg, query, cb) ->
+  qs = where: query
+  qs.unit = "c" if process.env.HUBOT_WEATHER_CELSIUS
+
   msg.http('http://thefuckingweather.com/')
-    .query(where: query)
+    .query(qs)
     .header('User-Agent', 'Mozilla/5.0')
     .get() (err, res, body) ->
       temp = body.match(/<span class="temperature" tempf="\d*">(\d+)/)?[1] || ""
@@ -24,8 +27,17 @@ weather = (msg, query, cb) ->
       flavor = body.match(/<p class="flavor">(.*)</)?[1] || "flavor not found"
       cb(temp, remark, flavor)
 
+output = (msg) ->
+  weather msg, msg.match[2], (temp, remark, flavor) ->
+    unless temp?
+      msg.send "I CAN'T FIND THAT SHIT"
+      return
+
+    unit = "fahrenheit"
+    unit = "celsius" if process.env.HUBOT_WEATHER_CELSIUS
+    out = temp + " " + unit + " degrees, " + remark + ", " + flavor
+    msg.send out
+
 module.exports = (robot) ->
   robot.respond /(what's|what is) the weather for (.*)/i, (msg) ->
-    weather msg, msg.match[2], (temp, remark, flavor) ->
-      out = temp + " degrees " + remark + " " + flavor
-      msg.send out
+    output msg
