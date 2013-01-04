@@ -88,10 +88,13 @@ module.exports = (robot) ->
 
       msg.send response
 
-  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s?([\.\-_a-z0-9]+))?/i, (msg) ->
+  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s?([\.\-_a-z0-9]+))?(\s?([\.\-_a-z0-9]+))?/i, (msg) ->
     nwo     = msg.match[1]
     params  = "?nwo=#{nwo}"
-    params += "&name=#{msg.match[3]}" if msg.match[3] != undefined
+    if msg.match[3] != undefined
+      params += "&name=#{msg.match[3]}"
+      if msg.match[5] != undefined
+        params += "&template=#{msg.match[5]}"
 
     post "setup#{params}", {}, (err, statusCode, body) ->
       if statusCode == 201
