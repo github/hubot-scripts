@@ -8,9 +8,13 @@
 # Configuration:
 #   HUBOT_GITHUB_TOKEN
 #   HUBOT_GITHUB_USER
+#   HUBOT_GITHUB_API
 #
 # Commands:
 #   hubot repo show <repo> - shows activity of repository
+#
+# Notes:
+#   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
 #
 # Author:
 #   vquaiato
@@ -21,7 +25,8 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond /repo show (.*)$/i, (msg) ->
     repo = github.qualified_repo msg.match[1]
-    url = "https://api.github.com/repos/#{repo}/commits"
+    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+    url = "#{base_url}/repos/#{repo}/commits"
 
     github.get url, (commits) ->
       if commits.message
