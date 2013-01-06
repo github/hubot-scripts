@@ -34,5 +34,5 @@ module.exports = (robot) ->
       unless process.env.HUBOT_GITHUB_API
         url = "https://github.com/"
       else
-        url = base_url.replace /api\/v3/, ''
-      msg.send "Issue " + issue_number + ": " + issue_title  + "  #{url}" + bot_github_repo + '/issues/' + issue_number
+        url = base_url.replace /\/api\/v3/, ''
+      msg.send "Issue #{issue_number}: #{issue_title} #{url}/#{bot_github_repo}/issues/#{issue_number}"
