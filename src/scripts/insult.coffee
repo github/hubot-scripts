@@ -10,7 +10,7 @@
 # Commands:
 #   hubot insult <name> - give <name> the what-for
 #
-# Authors:
+# Author:
 #   ajacksified, brandonvalentine
 
 cheerio = require('cheerio')

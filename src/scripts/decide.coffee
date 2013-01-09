@@ -10,7 +10,7 @@
 # Commands:
 #   hubot decide "<option1>" "<option2>" "<optionx>" - Randomly picks an option
 #
-# Authors:
+# Author:
 #   logikal
 
 module.exports = (robot) ->
