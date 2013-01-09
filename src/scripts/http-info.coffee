@@ -10,7 +10,7 @@
 # Commands:
 #   http(s)://<site> - prints the title and meta description for sites linked.
 #
-# Authors:
+# Author:
 #   ajacksified
 
 jsdom = require('jsdom')
@@ -32,7 +32,7 @@ module.exports = (robot) ->
             title = $('title').text()
             description = $('meta[name=description]').attr("content") || ""
             description = "\n" + description if description
-            
+
             if title
               msg.send "#{title}#{description}"
         )

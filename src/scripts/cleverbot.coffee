@@ -10,7 +10,7 @@
 # Commands:
 #   hubot c <input>
 #
-# Authors:
+# Author:
 #   ajacksified
 
 cleverbot = require('cleverbot-node')
