@@ -35,6 +35,7 @@ module.exports = (robot) ->
                "    '(high|medium|low) quality' -- sets the quality of the print. Default: medium\n" +
                "    'xN' (e.g. x2)              -- print more than one of a thing at once\n" +
                "    'with supports'             -- adds supports to the model, for complex overhangs. Default: disabled\n" +
+               "    'with raft'                 -- prints on a plastic raft, for models with little platform contact. Default: disabled\n" +
                "    'xx% solid'                 -- changes how solid the object is on the inside. Default: 5%\n" +
                "    'scale by X.Y' (e.g. 0.5)   -- scale the size of the model by a factor\n" +
                "#{robot.name} 3d snapshot - takes a picture and tells you the locked status\n" +
@@ -75,7 +76,8 @@ module.exports = (robot) ->
     things = [msg.match[4]]
     count = 1
     scale = 1.0
-    config = 'default'
+    supports = false
+    raft = false
     quality = 'medium'
     density = 0.05
     options = msg.match[5]
@@ -89,7 +91,10 @@ module.exports = (robot) ->
       count = parseInt(count_op[1])
 
     if /with support/.exec(options)
-      config = 'support'
+      supports = true
+
+    if /with raft/.exec(options)
+      raft = true
 
     if quality_op = /(\w+) quality/.exec(options)
       quality = quality_op[1]
@@ -106,7 +111,15 @@ module.exports = (robot) ->
 
     msg.http(makeServer + "/print")
       .header("Authorization", "Basic #{auth64}")
-      .post(JSON.stringify({url: things, count: count, scale: scale, quality: quality, density: density, config: config})) (err, res, body) =>
+      .post(JSON.stringify({
+        url: things,
+        count: count,
+        scale: scale,
+        quality: quality,
+        density: density,
+        supports: supports,
+        raft: raft
+      })) (err, res, body) =>
         if res.statusCode is 200
           msg.reply "Your thing is printin'! Check logs at #{makeServer}/log"
         else if res.statusCode is 409
