@@ -20,6 +20,7 @@ Redis = require "redis"
 module.exports = (robot) ->
   info   = Url.parse process.env.REDISTOGO_URL || 'redis://localhost:6379'
   client = Redis.createClient(info.port, info.hostname)
+  loaded = false
 
   if info.auth
     client.auth info.auth.split(":")[1]
@@ -36,7 +37,12 @@ module.exports = (robot) ->
       else if reply
         robot.brain.mergeData JSON.parse(reply.toString())
 
+  robot.brain.on 'loaded', () ->
+    loaded = true
   robot.brain.on 'save', (data) ->
+    if not loaded
+      robot.logger.debug "Not saving, because not loaded yet"
+      return
     client.set 'hubot:storage', JSON.stringify data
 
   robot.brain.on 'close', ->
