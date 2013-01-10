@@ -6,10 +6,14 @@
 #
 # Configuration:
 #   HUBOT_GITHUB_TOKEN
+#   HUBOT_GITHUB_API
 #
 # Commands:
 #   hubot repo commiters <repo> - shows commiters of repository
 #   hubot repo top-commiters <repo> - shows top commiters of repository
+#
+# Notes:
+#   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
 #
 # Author:
 #   vquaiato
@@ -35,12 +39,17 @@ module.exports = (robot) ->
 
   read_contributors = (msg, response_handler) ->
       repo = github.qualified_repo msg.match[1]
-      url = "https://api.github.com/repos/#{repo}/contributors"
+      base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+      url = "#{base_url}/repos/#{repo}/contributors"
       github.get url, (commits) ->
         if commits.message
           msg.send "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
         else if commits.length == 0
           msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
         else
-          msg.send "https://github.com/#{repo}"
-          response_handler commits
+          unless process.env.HUBOT_GITHUB_API
+            msg.send "https://github.com/#{repo}"
+          else
+            ghe_url = base_url.replace /\/api\/v3/, ''
+            msg.send "#{ghe_url}/#{repo}"
+            response_handler commits
