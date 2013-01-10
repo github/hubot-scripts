@@ -66,13 +66,13 @@ rules = [
   Never make fun of a Ferengi's mother.\n
     -- ST:DS9, \"The Siege\"",
   "Ferengi Rule of Acquisition #33:\n
-  It never hurts to suck up to the boss.2\n
+  It never hurts to suck up to the boss.\n
     -- ST:DS9, \"Rule of Acquisition\", \"The Dogs of War\"",
   "Ferengi Rule of Acquisition #34:\n
   War is good for business.\n
     -- ST:DS9, \"Destiny\"",
   "Ferengi Rule of Acquisition #35:\n
-  Peace is good for business.3\n
+  Peace is good for business.\n
     -- ST:DS9, \"The Perfect Mate\"; ST:TNG, \"Destiny\"",
   "Ferengi Rule of Acquisition #40:\n
     She can touch your lobes, but never your latinum.\n
