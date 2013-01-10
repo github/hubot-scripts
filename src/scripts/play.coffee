@@ -13,6 +13,7 @@
 #   hubot play next - Plays the next song.
 #   hubot play previous - Plays the previous song.
 #   hubot what's playing - Returns the currently-played song.
+#   hubot what's next - Returns next song in the queue.
 #   hubot I want this song - Returns a download link for the current song.
 #   hubot I want this album - Returns a download link for the current album.
 #   hubot play <artist> - Queue up ten songs from a given artist.
@@ -50,6 +51,15 @@ module.exports = (robot) ->
       str = "\"#{json.name}\" by #{json.artist}, from \"#{json.album}\"."
       message.send("#{URL}/images/art/#{json.id}.png?login=HOTFIX#.jpg")
       message.send("Now playing " + str)
+
+  robot.respond /what'?s next/i, (message) ->
+    authedRequest message, '/queue', 'get', {}, (err, res, body) ->
+      json = JSON.parse(body)
+      song = json.songs[1]
+      if typeof(song) == "object"
+        message.send("We will play this awesome track \"#{song.name}\" by #{song.artist} in just a minute!")
+      else
+        message.send("The queue is empty :( Try adding some songs, eh?")
 
   robot.respond /say (.*)/i, (message) ->
     authedRequest message, '/say', 'post', {message: message.match[1]}, (err, res, body) ->
