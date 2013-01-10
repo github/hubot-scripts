@@ -1,11 +1,11 @@
 # Description:
-#  Listens for "standup" keywords and speaks Google Hangout url. Saves a couple minutes in our office.
+#  Listens for "hangout" keywords and speaks Google Hangout url. Saves a couple minutes in our office.
 #
 # Configuration:
 #   HUBOT_HANGOUT_URL
 #
 # Commands:
-#   <standup> - speaks hangout url
+#   hubot hangout - sends hangout url
 #
 # Notes:
 #  To generate a static Hangout URL, create a Google+ event sometime in the future
