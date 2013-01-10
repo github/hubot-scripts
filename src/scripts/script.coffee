@@ -27,6 +27,10 @@ module.exports = (robot) ->
     # commands as they are added, there's no other way to access the populated
     # commands array.
     tmpRobot =
+      logger: 
+        debug: (debug_msg)->
+          null
+      documentation: {}
       commands:
         push: (command) ->
           msg.send(command)
