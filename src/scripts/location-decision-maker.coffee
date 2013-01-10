@@ -14,7 +14,7 @@
 #   hubot where can we go for <group>? - Returns a list of places that exist for the group
 #   hubot where should we go for <group>? - Returns a randomly selected location for the group
 #
-# Authors:
+# Author:
 #   lukesmith
 
 class Locations
