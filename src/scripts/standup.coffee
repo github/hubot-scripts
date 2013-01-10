@@ -1,5 +1,5 @@
 # Description:
-#  Listens for "hangout" keywords and speaks Google Hangout url. Saves a couple minutes in our office.
+#  Listens for "hangout" keyword and sends Google Hangout url. Saves a couple minutes in our office.
 #
 # Configuration:
 #   HUBOT_HANGOUT_URL
