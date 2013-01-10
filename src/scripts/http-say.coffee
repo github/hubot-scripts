@@ -13,7 +13,7 @@
 # URLs:
 #   GET /hubot/say?message=<message>[&room=<room>&type=<type]
 #
-# Authors:
+# Author:
 #   ajacksified
 
 querystring = require('querystring')

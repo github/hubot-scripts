@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-# 
-# Authors:
+#
+# Author:
 #   jimeh
 
 module.exports = (robot) ->
