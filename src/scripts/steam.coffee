@@ -5,6 +5,7 @@
 #   "htmlparser": "1.8.0"
 #   "soupselect": "0.2.0"
 #   "validator" : "0.4.20"
+# 
 # Configuration:
 #   None
 #
@@ -33,7 +34,7 @@ module.exports = (robot) ->
 getDeals = (msg, callback) ->
     location = "http://store.steampowered.com"
     msg.http(location).get() (error,response, body) ->
-      return msg.send "Something went worng..." if error
+      return msg.send "Something went wrong..." if error
       deal = parseDeals body, ".dailydeal a"
       callback deal
 
@@ -42,10 +43,12 @@ parseDeals = (body, selector) ->
   parser = new HTMLParser.Parser handler
   parser.parseComplete body 
   dealObj = Select(handler.dom, selector)[0]
-  originalPrice = Select(handler.dom, '.dailydeal_content .discount_original_price')[0]
-  finalPrice = Select(handler.dom, '.dailydeal_content .discount_final_price')[0]
-  deal = "From #{sanitize(originalPrice.children[0].data).entityDecode().trim()} to #{sanitize(finalPrice.children[0].data).entityDecode().trim()}  #{dealObj.children[0].attribs.src}  #{dealObj.attribs.href}"
-  
-       
+  if dealObj?
+    originalPrice = Select(handler.dom, '.dailydeal_content .discount_original_price')[0]
+    finalPrice = Select(handler.dom, '.dailydeal_content .discount_final_price')[0]
+    deal = "From #{sanitize(originalPrice.children[0].data).entityDecode().trim()} to #{sanitize(finalPrice.children[0].data).entityDecode().trim()}  #{dealObj.children[0].attribs.src}  #{dealObj.attribs.href}"
+  else 
+    msg.send "No daily deal found"
+
 
 
