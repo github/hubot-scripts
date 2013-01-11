@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot tellnow <username> <some message> - tell <username> <some message> right now !
+#   hubot im <username> <some message> - im <username> <some message> right now !
 #
 # Author:
 #   earlonrails & ggongaware
@@ -17,7 +17,7 @@
 #   Only works on gtalk
 
 module.exports = (robot) ->
-  robot.respond /tell ([\w.-@]*) (.*)/i, (msg) ->
+  robot.respond /im ([\w.-@]*) (.*)/i, (msg) ->
    new_user =
     id: msg.match[1] + "@" + msg.message.user.domain
     name: msg.match[1]
