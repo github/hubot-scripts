@@ -117,8 +117,10 @@ module.exports = (robot) ->
         scale: scale,
         quality: quality,
         density: density,
-        supports: supports,
-        raft: raft
+        slicer_args: {
+          doSupport: supports,
+          doRaft: raft
+        }
       })) (err, res, body) =>
         if res.statusCode is 200
           msg.reply "Your thing is printin'! Check logs at #{makeServer}/log"
