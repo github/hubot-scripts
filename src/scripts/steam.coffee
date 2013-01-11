@@ -11,7 +11,6 @@
 #
 # Commands:
 #   hubot daily deal - <It will show you Steam's daily deal>
-#   None
 #
 # Notes:
 #   soupselect depends on htmlparser so install both using "npm install soupselect" and "npm install htmlparser". Don't forget: "npm install validator" 
