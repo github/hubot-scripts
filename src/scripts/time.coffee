@@ -1,5 +1,5 @@
 # Description:
-#   Search jobs from oDesk platform and return best 5 results
+#   Returns local time in given city.
 #
 # Dependencies:
 #   None
