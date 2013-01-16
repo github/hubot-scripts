@@ -124,6 +124,11 @@ views =
       {{sender.login}} commented on issue {{issue.number}} on {{repo_name}} "{{{overflow issue.title 25}}}" {{issue.html_url}}
       > {{{overflow comment.body 120}}}
     """
+  commit_comment:
+    """
+    {{sender.login}} commented on commit {{comment.commit_id}} on {{repo_name}} {{comment.html_url}}
+    > {{{overflow comment.body 120}}}
+    """
   pull_request: (context) ->
     template = switch context.action
       when 'opened'

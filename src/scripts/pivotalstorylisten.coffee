@@ -10,7 +10,7 @@
 # Commands:
 #   paste a pivotal tracker link or type "sid-####" in the presence of hubot
 #
-# Authors:
+# Author:
 #   christianchristensen
 
 module.exports = (robot) ->
