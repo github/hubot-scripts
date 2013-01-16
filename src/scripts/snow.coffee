@@ -16,19 +16,56 @@
 
 xml2js = require('xml2js')
 
+states = 
+  'ak':   'alaska'
+  'az':   'arizona'
+  'ca':   'california'
+  'co':   'colorado'
+  'ct':   'connecticut'
+  'id':   'idaho'
+  'il':   'illinois'
+  'in':   'indiana'
+  'ia':   'iowa'
+  'me':   'maine'
+  'md':   'maryland'
+  'ma':   'massachusetts'
+  'mi':   'michigan'
+  'mn':   'minnesota'
+  'mo':   'missouri'
+  'mt':   'montana'
+  'nv':   'nevada'
+  'nh':   'new-hampshire'
+  'nj':   'new-jersey'
+  'nm':   'new-mexico'
+  'ny':   'new-york'
+  'nc':   'north-carolina'
+  'oh':   'ohio'
+  'or':   'oregon'
+  'pa':   'pennsylvania'
+  'sd':   'south-dakota'
+  'tn':   'tennessee'
+  'ut':   'utah'
+  'vt':   'vermont'
+  'va':   'virginia'
+  'wa':   'washington'
+  'wv':   'west-virginia'
+  'wi':   'wisconsin'
+  'wy':   'wyoming'
+
 module.exports = (robot) ->
-  robot.respond /snow in (\w+)/i, (msg) ->
+  robot.respond /snow in (\w+)$/i, (msg) ->
     snow_report(msg, msg.match[1], null)
-  robot.respond /snow at (.+), (\w+)/i, (msg) ->
+  robot.respond /snow at (.+), (\w+)$/i, (msg) ->
     snow_report(msg, msg.match[2], msg.match[1])
 
 
 snow_report = (msg, state, resort) ->
-  if state == "CA"
-    # onthesnow splits CA into CN and CS but they have the same resorts
-    get_snow_report(msg,"http://www.onthesnow.com/CN/snow.rss",resort)
-  else
-    get_snow_report(msg,"http://www.onthesnow.com/#{state}/snow.rss",resort)
+  state_full = states[state.toLowerCase()]
+  if !state_full
+    msg.send "Sorry bro, #{state} isn't a legit state or there are no resorts there!"
+    return 
+  
+  get_snow_report(msg,"http://www.onthesnow.com/#{state_full}/snow-rss.html",resort)
 
 get_snow_report = (msg, url, resort) ->
   msg.http(url)
@@ -44,7 +81,7 @@ get_snow_report = (msg, url, resort) ->
             msg.send "Got: #{err}"
           output = ""
           for area in result.channel.item
-            if resort? and resort == area.title
+            if resort? and resort.toLowerCase() == area.title.toLowerCase()
               output =  "#{area.title} - #{area.description}"
             else
               output += "#{area.title} - #{area.description}\n" unless resort?

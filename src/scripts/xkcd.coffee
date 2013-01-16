@@ -27,6 +27,4 @@ module.exports = (robot) ->
           msg.send 'Comic not found.'
         else
           object = JSON.parse(body)
-          msg.send object.alt
-          msg.send object.title
-          msg.send object.img
+          msg.send object.title, object.img, object.alt

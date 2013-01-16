@@ -14,8 +14,11 @@
 #     Enter your Github password when prompted. When you get a response, look for the "token" value
 #
 #     See the following for more details:
-  #     http://developer.github.com/v3/oauth/#create-a-new-authorization
+#       http://developer.github.com/v3/oauth/#create-a-new-authorization
 #       https://github.com/iangreenleaf/githubot
+#   HUBOT_GITHUB_API
+#     Optional, default is https://api.github.com. Override with
+#     http[s]://yourdomain.com/api/v3/ for Enterprise installations.
 #
 # Commands:
 #   Listens for <SHA> and links to the commit for your default repo on github
@@ -31,10 +34,11 @@ module.exports = (robot) ->
         commit_sha = msg.match[1].replace /\b/, ""
         bot_github_repo = github.qualified_repo process.env.HUBOT_GITHUB_REPO
         issue_title = ""
-        github.get "https://api.github.com/repos/#{bot_github_repo}/commits/" + commit_sha, (commit_obj) ->
+        base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+        github.get "#{base_url}/repos/#{bot_github_repo}/commits/" + commit_sha, (commit_obj) ->
           url = commit_obj.url.replace(/api\./,'')
           url = url.replace(/repos\//,'')
           url = url.replace(/commits/,'commit')
-          msg.send "Commit: " + commt_obj.commit.message + " " + url
+          msg.send "Commit: " + commit_obj.commit.message + " " + url
     else
       msg.send "Hey! You need to set HUBOT_GITHUB_REPO and HUBOT_GITHUB_TOKEN before I can link to that commit."

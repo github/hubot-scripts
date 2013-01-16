@@ -15,13 +15,13 @@
 #   HUBOT_JIRA_IGNOREUSERS
 #
 # Commands:
-#   <Project Key>-<Issue ID> - Displays information about the ticket (if it exists)
-#   hubot show watchers for <Issue Key> - Shows watchers for the given issue
+#   <Project Key>-<Issue ID> - Displays information about the JIRA ticket (if it exists)
+#   hubot show watchers for <Issue Key> - Shows watchers for the given JIRA issue
 #   hubot search for <JQL> - Search JIRA with JQL
-#   hubot save filter <JQL> as <name> - Save JQL as filter in the brain
-#   hubot use filter - Use a filter from the brain
-#   hubot show filter(s) - Show all filters
-#   hubot show filter <name> - Show a specific filter
+#   hubot save filter <JQL> as <name> - Save JIRA JQL query as filter in the brain
+#   hubot use filter <name> - Use a JIRA filter from the brain
+#   hubot show filter(s) - Show all JIRA filters
+#   hubot show filter <name> - Show a specific JIRA filter
 #
 # Author:
 #   codec
@@ -40,7 +40,7 @@ class IssueFilters
   delete: (name) ->
     result = []
     @cache.forEach (filter) ->
-      if filter.name isnt name
+      if filter.name.toLowerCase() isnt name.toLowerCase()
         result.push filter
 
     @cache = result
@@ -50,7 +50,7 @@ class IssueFilters
     result = null
 
     @cache.forEach (filter) ->
-      if filter.name is name
+      if filter.name.toLowerCase() is name.toLowerCase()
         result = filter
 
     result
@@ -99,11 +99,12 @@ module.exports = (robot) ->
 
   get = (msg, where, cb) ->
     console.log(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
-    authdata = new Buffer(process.env.HUBOT_JIRA_USER+':'+process.env.HUBOT_JIRA_PASSWORD).toString('base64')
 
-    msg.http(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where).
-      header('Authorization', 'Basic ' + authdata).
-      get() (err, res, body) ->
+    httprequest = msg.http(process.env.HUBOT_JIRA_URL + "/rest/api/latest/" + where)
+    if (process.env.HUBOT_JIRA_USER)
+      authdata = new Buffer(process.env.HUBOT_JIRA_USER+':'+process.env.HUBOT_JIRA_PASSWORD).toString('base64')
+      httprequest = httprequest.header('Authorization', 'Basic ' + authdata)
+    httprequest.get() (err, res, body) ->
         cb JSON.parse(body)
 
   watchers = (msg, issue, cb) ->
@@ -212,6 +213,10 @@ module.exports = (robot) ->
   robot.respond /(use )?filter (.*)/i, (msg) ->
     name    = msg.match[2]
     filter  = filters.get name
+    
+    if not filter
+      msg.reply "Sorry, could not find filter #{name}"
+      return
 
     search msg, filter.jql, (text) ->
       msg.reply text
