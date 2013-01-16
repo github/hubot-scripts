@@ -99,7 +99,6 @@ module.exports = (robot) ->
               body
 
   checkIfOffline = (user, callback) ->
-    ###
     if process.env.HUBOT_HIPCHAT_TOKEN
       options =
         host: "api.hipchat.com"
@@ -119,8 +118,7 @@ module.exports = (robot) ->
           callback err
       req.end()
     else
-    ###
-    callback null, true
+      callback null, true
 
   robot.hear /@(\w+)/i, (msg) ->
     sender   = msg.message.user.name.toLowerCase()
