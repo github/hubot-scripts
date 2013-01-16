@@ -14,7 +14,7 @@
 #   hubot list notifiers
 #
 # Author:
-#   marten, darvin
+#   marten
 #
 https = require "https"
 Prowl = require "prowler"
@@ -29,7 +29,7 @@ module.exports = (robot) ->
     data  = QS.stringify
       From: from
       To: to
-      Body: "#{msg.user.name}: #{msg.message.text}"
+      Body: "#{msg.message.user.name}: #{msg.message.text}"
     unless sid
       msg.send "Twilio SID isn't set."
       msg.send "Please set the HUBOT_SMS_SID environment variable."
@@ -64,7 +64,6 @@ module.exports = (robot) ->
   notify = (username, msg) ->
     notifies = []
     console.error "Going notify #{username}"
-
     if username == "all" or username == "everyone"
       for username, apikey of robot.brain.data.notifiers
         unless username.toLowerCase() == msg.message.user.name.toLowerCase()
@@ -100,6 +99,7 @@ module.exports = (robot) ->
               body
 
   checkIfOffline = (user, callback) ->
+    ###
     if process.env.HUBOT_HIPCHAT_TOKEN
       options =
         host: "api.hipchat.com"
@@ -119,7 +119,8 @@ module.exports = (robot) ->
           callback err
       req.end()
     else
-      callback null, false
+    ###
+    callback null, true
 
   robot.hear /@(\w+)/i, (msg) ->
     sender   = msg.message.user.name.toLowerCase()
@@ -129,7 +130,7 @@ module.exports = (robot) ->
       msg.send "All notified!"
       return
       
-
+    
     for userId, user of robot.brain.data.users
       if user.mention_name==mentionedUserName
         username=user.name
@@ -144,6 +145,10 @@ module.exports = (robot) ->
         notify username, msg
  
     
+  robot.respond /do not notify me/i, (msg) ->
+    delete robot.brain.data.notifiers[msg.message.user.name.toLowerCase()]
+    msg.send "OK"
+
 
   robot.respond /notify me by prowl with (\w+)/i, (msg) ->
     apikey = msg.match[1].toLowerCase()
