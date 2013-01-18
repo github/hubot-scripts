@@ -42,7 +42,8 @@ module.exports = (robot) ->
                "#{robot.name} 3d unlock - unlocks the printer after you clean up\n\n" +
                "Only 1 print at a time is allowed, and you are required to tell\n" +
                "#{robot.name} after you've cleaned your print off.\n\n" +
-               "The most current log is always available at #{makeServer}/log"
+               "The web frontend is at #{makeServer}, and\n" +
+               "the most current log is always available at #{makeServer}/log\n\n" +
     msg.send response
 
   robot.respond /3d (snapshot|status)/i, (msg) ->
@@ -123,10 +124,10 @@ module.exports = (robot) ->
         }
       })) (err, res, body) =>
         if res.statusCode is 200
-          msg.reply "Your thing is printin'! Check logs at #{makeServer}/log"
+          msg.reply "Your thing is printin'! Check logs at #{makeServer}"
         else if res.statusCode is 409
           msg.reply "I couldn't process that pile of triangles."
         else if res.statusCode is 423
-          msg.reply "Wait your turn, someone is already printing a thing. You can check progress at #{makeServer}/log"
+          msg.reply "Wait your turn, someone is already printing a thing. You can check progress at #{makeServer}"
         else if err or res.statusCode is 500
           msg.reply "Something broke!"

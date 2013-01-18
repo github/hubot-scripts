@@ -31,7 +31,10 @@ class IssueFilters
     @cache = []
 
     @robot.brain.on 'loaded', =>
-      @cache = @robot.brain.data.jqls
+      jqls_from_brain = @robot.brain.data.jqls
+      # only overwrite the cache from redis if data exists in redis
+      if jqls_from_brain
+        @cache = jqls_from_brain
 
   add: (filter) ->
     @cache.push filter

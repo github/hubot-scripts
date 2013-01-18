@@ -11,7 +11,7 @@
 # Commands:
 #   hubot jenkins build <job> - builds the specified Jenkins job
 #   hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
-#   hubot jenkins list - lists Jenkins jobs
+#   hubot jenkins list <filter> - lists Jenkins jobs
 #   hubot jenkins describe <job> - Describes the specified Jenkins job
 
 #
@@ -95,7 +95,7 @@ jenkinsDescribe = (msg) ->
 
 jenkinsList = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
-    job = msg.match[1]
+    filter = new RegExp(msg.match[2], 'i')
     req = msg.http("#{url}/api/json")
 
     if process.env.HUBOT_JENKINS_AUTH
@@ -111,7 +111,8 @@ jenkinsList = (msg) ->
             content = JSON.parse(body)
             for job in content.jobs
               state = if job.color == "red" then "FAIL" else "PASS"
-              response += "#{state} #{job.name}\n"
+              if filter.test job.name
+                response += "#{state} #{job.name}\n"
             msg.send response
           catch error
             msg.send error
@@ -120,7 +121,7 @@ module.exports = (robot) ->
   robot.respond /jenkins build ([\w\.\-_ ]+)(, (.+))?/i, (msg) ->
     jenkinsBuild(msg)
 
-  robot.respond /jenkins list/i, (msg) ->
+  robot.respond /jenkins list( (.+))?/i, (msg) ->
     jenkinsList(msg)
 
   robot.respond /jenkins describe (.*)/i, (msg) ->

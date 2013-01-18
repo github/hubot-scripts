@@ -35,6 +35,9 @@ module.exports = (robot) ->
         throw err
       else if reply
         robot.brain.mergeData JSON.parse(reply.toString())
+      else
+        robot.logger.info "Initializing new redis-brain storage"
+        robot.brain.mergeData {}
 
   robot.brain.on 'save', (data = {}) ->
     client.set 'hubot:storage', JSON.stringify data
