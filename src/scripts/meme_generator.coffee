@@ -26,6 +26,7 @@
 #   hubot (Oh|You) <text> (Please|Tell) <text> - Willy Wonka
 #   hubot <text> you're gonna have a bad time - Bad Time Ski Instructor
 #   hubot one does not simply <text> - Lord of the Rings Boromir
+#   hubot it looks like (you|you're) <text> - Generates Clippy
 #
 # Author:
 #   skalnik
@@ -102,6 +103,11 @@ module.exports = (robot) ->
         regex: /(grumpy cat) (.*),(.*)/i,
         generatorID: 1590955,
         imageID: 6541210
+      },
+      {
+        regex: /(it looks like you're|it looks like you) (.*)/i,
+        generatorID: 20469,
+        imageID: 1159769
       }
     ]
 

@@ -55,7 +55,7 @@ module.exports = (robot) ->
     get_languages robot, (languages) ->
       lang_msg = 'Known Languages\n\n'
       for own id, desc of languages
-        lang_msg += "#{id}: #{desc}"
+        lang_msg += "#{id}: #{desc}\n"
       msg.send lang_msg
 
   robot.respond /eval[,:]? +on +([a-z]+) *$/i, (msg) ->
