@@ -8,9 +8,10 @@
 #   None
 #
 # Commands:
-#   filmwise me - a randomly selected filmwise invisible
-#   filmwise bomb <number> - filmwise invisible explosion!
-#   filmwise answer (or cheat) - show the answer to the last filmwise shown
+#   hubot filmwise me - a randomly selected filmwise invisible
+#   hubot filmwise bomb <number> - filmwise invisible explosion!
+#   hubot filmwise answer (or cheat) - show the answer to the last filmwise shown
+#   hubot filmwise guess <answer> - guess the answer
 #
 # Author:
 #   mwongatemma, lroggendorff
@@ -20,9 +21,25 @@ $ = require "cheerio"
 module.exports = (robot) ->
   robot.respond /filmwise\s*(?:me)?$/i, (msg) ->
     robot.brain.data.lastfilm = show_filmwise msg, 1
+
+    msg.send robot.brain.data.lastfilm.replace
+    answerUrl = robot.brain.data.lastfilm.replace /\/image_0\d+\.jpg$/, "a.shtml"
+    answerImgSrc = robot.brain.data.lastfilm.match /(invisible_\d+\/image_0\d+)\.jpg$/
+    answerImgSrc = answerImgSrc[1] + "a.jpg"
+    msg.http(answerUrl)
+      .get() (err, res, body) ->
+        robot.brain.data.lastfilmanswer = $(body).find('img[src$="' + answerImgSrc + '"]').next().next().text()
+
   robot.respond /filmwise\s+(?:bomb)\s*(?:me)?\s*(\d+)?/i, (msg) ->
     count = msg.match[1] || 5
     robot.brain.data.lastfilm = show_filmwise msg, count
+  robot.respond /filmwise\s+(?:guess)\s*(.+)?/i, (msg) ->
+    # The double quotes aren't stripped from the answer web page
+    guess = '"' + msg.match[1] + '"'
+    if robot.brain.data.lastfilmanswer.toLowerCase() == guess.toLowerCase()
+      msg.send msg.message.user.name + ': You guessed ' + guess + ' correctly!'
+    else
+      msg.send msg.message.user.name + ': You guessed ' + guess + ' incorrectly!'
   robot.respond /filmwise\s+(?:answer|cheat)?$/i, (msg) ->
     title = ""
     answerUrl = robot.brain.data.lastfilm.replace /\/image_0\d+\.jpg$/, "a.shtml"
@@ -45,4 +62,5 @@ show_filmwise = (msg, count) ->
     image = 1 + Math.floor(Math.random() * 8)
     lastFilm = "http://filmwise.com/invisibles/invisible_" + (String) week + "/image_0" + (String) image + ".jpg"
     msg.send lastFilm
+
   return lastFilm
