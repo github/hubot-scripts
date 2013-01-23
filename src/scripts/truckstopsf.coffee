@@ -3,7 +3,7 @@
 #   See http://truckstopsf.com
 #
 # Dependencies:
-#   None
+#   "underscore": "*"
 #
 # Configuration:
 #   None
@@ -16,11 +16,11 @@
 # Author:
 #   chris
 
-utils = require 'underscore'
+_ = require 'underscore'
 
 data_by_matcher = (input, matcher) ->
   get_data = (match.match(matcher).slice(1) for match in input)
-  utils.flatten(get_data)
+  _.flatten(get_data)
 
 module.exports = (robot) ->
   robot.respond /truckstopsf\s?(!|details|deets)?/i, (res) ->
