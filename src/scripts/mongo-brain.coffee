@@ -46,7 +46,7 @@ module.exports = (robot) ->
         collection.findOne {}, (err, document) ->
           if err?
             throw err
-          else if doc
+          else if document
             document = decodeKeys document
             robot.brain.mergeData document
 
