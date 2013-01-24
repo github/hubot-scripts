@@ -33,12 +33,12 @@ module.exports = (robot) ->
         else
           msg.send "Unable to verify API token: #{body}"
 
-  robot.respond /sprintly +default +(\d+) *$/, (msg) ->
+  robot.respond /sprintly +default +(\d+) *$/i, (msg) ->
     robot.brain.data.sprintly ?= {}
     robot.brain.data.sprintly.product_id = msg.match[1]
     msg.send "Default Product ID set to #{msg.match[1]}"
 
-  robot.respond /sprintly *(?: +(\d+))?(?: +(backlog|in-progress|completed|accepted))?(?: +(\d+))? *$/, (msg) ->
+  robot.respond /sprintly *(?: +(\d+))?(?: +(backlog|in-progress|completed|accepted))?(?: +(\d+))? *$/i, (msg) ->
     query = status: msg.match[2] ? 'in-progress'
     query.limit = msg.match[3] if msg.match[3]
     sprintly(msg).product()
@@ -46,14 +46,14 @@ module.exports = (robot) ->
       .query(query)
       .get()(formatItems(msg))
 
-  robot.respond /sprintly +(?:(\d+) +)?mine *$/, (msg) ->
+  robot.respond /sprintly +(?:(\d+) +)?mine *$/i, (msg) ->
     withUserId msg, (user_id) ->
       sprintly(msg).product()
         .scope('items.json')
         .query(assigned_to: user_id)
         .get()(formatItems(msg))
 
-  robot.respond /sprintly +(?:(\d+) +)?#(\d+) *$/, (msg) ->
+  robot.respond /sprintly +(?:(\d+) +)?#(\d+) *$/i, (msg) ->
     sprintly(msg).product()
       .scope("items/#{msg.match[2]}.json")
       .get() (err, res, body) ->
@@ -71,12 +71,12 @@ module.exports = (robot) ->
         else
           msg.send "Something came up: #{body}"
 
-  robot.respond /sprintly +(?:(\d+) +)?#(\d+) +tasks *$/, (msg) ->
+  robot.respond /sprintly +(?:(\d+) +)?#(\d+) +tasks *$/i, (msg) ->
     sprintly(msg).product()
       .scope("items/#{msg.match[2]}/children.json")
       .get()(formatItems(msg, true))
 
-  robot.respond /sprintly +(?:(\d+) +)?(start|stop|finish|accept|reject|delete) +#?(\d+) *$/, (msg) ->
+  robot.respond /sprintly +(?:(\d+) +)?(start|stop|finish|accept|reject|delete) +#?(\d+) *$/i, (msg) ->
     withUserId msg, (user_id) ->
       query = {}
       method = 'post'
