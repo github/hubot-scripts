@@ -33,5 +33,7 @@ geocodeMe = (msg, query, cb) ->
       })
       .get() (err, res, body) ->
         response = JSON.parse(body)
+        cb "No idea. Tried using a map? https://maps.google.com/" if response.results.length == 0
+
         location = response.results[0].geometry.location.lat + "," + response.results[0].geometry.location.lng
         cb "That's somewhere around " + location + " - https://maps.google.com/maps?q=" + location
