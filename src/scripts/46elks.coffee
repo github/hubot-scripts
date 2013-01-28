@@ -49,7 +49,7 @@ module.exports = (robot) ->
         to = user.phone
         to = to.toString().replace(/\d/, '+46')
     else 
-      users = robot.brain.usersForFuzzyName(name)
+      users = robot.brain.usersForFuzzyName(to)
       if users.length is 1
         user = users[0]
         to = user.phone
