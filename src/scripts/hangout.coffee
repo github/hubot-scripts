@@ -19,4 +19,4 @@ module.exports = (robot) ->
     if process.env.HUBOT_HANGOUT_URL
       msg.send process.env.HUBOT_HANGOUT_URL
     else
-      msg.send 'Environment variable HUBOT_HANGOUT_URL has not been set. Add EXPORT HUBOT_HANOUT_URL="..." to your profile'
+      msg.send 'Environment variable HUBOT_HANGOUT_URL has not been set. Add EXPORT HUBOT_HANGOUT_URL="..." to your Procfile.'
