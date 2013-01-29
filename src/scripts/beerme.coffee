@@ -1,7 +1,17 @@
-# Beer Me
+# Description:
+#   None
 #
-# beer me - Grab me a beer
+# Dependencies:
+#   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   beer me - Grab me a beer
+#
+# Author:
+#  houndbee
 
 beers = [
   "http://organicxbenefits.com/wp-content/uploads/2011/11/organic-beer-health-benefits.jpg",
