@@ -41,7 +41,7 @@ module.exports = (robot) ->
       return
 
     #get <user>'s phone number as listed in the brain
-    if user = robot.userForName(to)
+    if user = robot.brain.userForName(to)
       if user.phone == ""
         msg.send user.name + ' has no phone! set it with <user> has phone <phone>'
         return
@@ -69,7 +69,7 @@ module.exports = (robot) ->
     phone = msg.match[2].trim()
 
   
-    users = robot.usersForFuzzyName(name)
+    users = robot.brain.usersForFuzzyName(name)
     if users.length is 1
       user = users[0]
       if user.phone == phone
@@ -86,7 +86,7 @@ module.exports = (robot) ->
 
   robot.respond /@?give me the phone number to ([\w .-_]+)*/i, (msg) ->
     name  = msg.match[1]
-    users = robot.usersForFuzzyName(name)
+    users = robot.brain.usersForFuzzyName(name)
     if users.length is 1
       user = users[0]
       if user.phone.length < 1
