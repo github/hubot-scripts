@@ -34,5 +34,7 @@ get_img_src = (body, selector)->
 
   html_parser.parseComplete body
   imgs = select(html_handler.dom, selector)
+  if imgs.length <= 0
+    return "No pin found"
   idx = Math.floor(Math.random() * imgs.length)
   imgs[idx].attribs.src
