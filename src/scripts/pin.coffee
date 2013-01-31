@@ -17,24 +17,35 @@
 select      = require("soupselect").select
 htmlparser  = require("htmlparser")
 
+html_handler  = new htmlparser.DefaultHandler((()->), ignoreWhitespace: true )
+html_parser   = new htmlparser.Parser html_handler
+
 module.exports = (robot) ->
   robot.respond /(pin|pinterest)( me)? (.*)/i, (msg) ->
-    pin_me msg, msg.match[3], (url) ->
+    pin_me msg, 'http://pinterest.com/search/pins/?', msg.match[3], (url) ->
       msg.send url
 
-pin_me = (msg, query, cb) ->
-  msg.http('http://pinterest.com/search/pins/?')
+pin_me = (msg, url, query, cb) ->
+  http msg, url, query, (err, res, body) ->
+    pin_url = get_pin_url(body, 'a.PinImage.ImgLink')
+    if pin_url?
+      http msg, pin_url, null, (err, res, body) ->
+        cb get_pin_img(body, 'img#pinCloseupImage')
+    else cb 'Sorry no pin found.'
+
+http = (msg, url, query, cb) ->
+  msg.http(url)
     .query(q: query)
-    .get() (err, res, body) ->
-      cb get_img_src(body, "img.PinImageImg")
-
-get_img_src = (body, selector)->
-  html_handler  = new htmlparser.DefaultHandler((()->), ignoreWhitespace: true )
-  html_parser   = new htmlparser.Parser html_handler
-
+    .get() cb
+  
+get_pin_url = (body, selector) ->
   html_parser.parseComplete body
-  imgs = select(html_handler.dom, selector)
-  if imgs.length <= 0
-    return "No pin found"
-  idx = Math.floor(Math.random() * imgs.length)
-  imgs[idx].attribs.src
+  pins = select(html_handler.dom, selector)
+  if pins.length <= 0
+    return null
+  idx = Math.floor(Math.random() * pins.length)
+  'http://pinterest.com' + pins[idx].attribs.href
+
+get_pin_img = (body, selector) ->
+  html_parser.parseComplete body
+  select(html_handler.dom, selector)[0].attribs.src
