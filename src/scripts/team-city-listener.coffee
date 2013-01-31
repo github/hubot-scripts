@@ -28,7 +28,7 @@ unless room
   throw "Need a room to send build status messages to once we receive the web hook call"
 module.exports = (robot)->
   robot.router.post "/hubot/build/", (req, res)->
-    user = robot.userForId 'broadcast'
+    user = robot.brain.userForId 'broadcast'
     user.room = room
     user.type = 'groupchat'
     build = req.body.build

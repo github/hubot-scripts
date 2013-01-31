@@ -24,7 +24,7 @@ module.exports = (robot) ->
     robot.brain.data.ambushes ||= {}
 
   robot.respond /ambush (.*): (.*)/i, (msg) ->
-    users = robot.usersForFuzzyName(msg.match[1].trim())
+    users = robot.brain.usersForFuzzyName(msg.match[1].trim())
     if users.length is 1
       user = users[0]
       appendAmbush(robot.brain.data.ambushes, user, msg.message.user, msg.match[2])
