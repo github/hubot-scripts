@@ -2,7 +2,7 @@
 #   Allows hubot to answer almost any question by asking Wolfram Alpha
 #
 # Dependencies:
-#   "wolfram": "0.2.0"
+#   "wolfram": "0.2.2"
 #
 # Configuration:
 #   HUBOT_WOLFRAM_APPID - your AppID
