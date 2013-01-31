@@ -46,7 +46,7 @@ module.exports = (robot) ->
     if !msg.match[3]?
       hb_status.remove_status msg.message.user.name
       msg.send msg.message.user.name + " has no more status."
-    else if (_.any (_.values _.pluck robot.brain.data.users, 'name'), (val) -> return val.toLowerCase() == msg.match[3].toLowerCase())
+    else if (_.any (_.values _.pluck robot.brain.users, 'name'), (val) -> return val.toLowerCase() == msg.match[3].toLowerCase())
       if hb_status.statuses_[msg.match[2].toLowerCase()]?
         msg.send msg.match[3] + "'s status: " + hb_status.statuses_[msg.match[3].toLowerCase()]
       else

@@ -33,7 +33,7 @@ module.exports = (robot) ->
   robot.respond /wunderlist all the users/i, (msg) ->
     theReply = "Here is who I know:\n"
 
-    for own key, user of robot.brain.data.users
+    for own key, user of robot.brain.users
       if(user.wunderlistmail)
         theReply += user.name + " is " + user.wunderlistmail + "\n"
 
