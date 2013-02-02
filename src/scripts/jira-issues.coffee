@@ -53,7 +53,21 @@ module.exports = (robot) ->
                 try
                   json = JSON.parse(body)
                   key = json.key
-                  msg.send "[" + key + "] " + json.fields.summary
+
+                  message = "[" + key + "] " + json.fields.summary
+                  message += '\nStatus: '+json.fields.status.name
+                  if (json.fields.assignee and json.fields.assignee.displayName)
+                    message += ', assigned to ' + json.fields.assignee.displayName
+                  else
+                    message += ', unassigned'
+                  message += ", rep. by "+json.fields.reporter.displayName
+                  if json.fields.fixVersions and json.fields.fixVersions.length > 0
+                    message += ', fixVersion: '+json.fields.fixVersions[0].name
+                  else
+                    message += ', fixVersion: NONE'
+
+                  msg.send message
+
                   urlRegex = new RegExp(jiraUrl + "[^\\s]*" + key)
                   if not msg.message.text.match(urlRegex)
                     msg.send jiraUrl + "/browse/" + key
