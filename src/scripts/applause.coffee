@@ -1,5 +1,5 @@
 # Description:
-#   Applause from Orson Welles
+#   Applause from Orson Welles and others
 #
 # Dependencies:
 #   None
