@@ -35,7 +35,7 @@ You can list multiple URLs separated by spaces.
     '(high|medium|low) quality' -- sets the quality of the print. Default: medium
     'xN' (e.g. x2)              -- print more than one of a thing at once
     'with supports'             -- adds supports to the model, for complex overhangs. Default: disabled
-    'with raft'                 -- prints on a plastic raft, for models with little platform contact. Default: disabled\
+    'with raft'                 -- prints on a plastic raft, for models with little platform contact. Default: disabled
     'xx% solid'                 -- changes how solid the object is on the inside. Default: 5%
     'scale by X.Y' (e.g. 0.5)   -- scale the size of the model by a factor
 
