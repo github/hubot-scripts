@@ -43,7 +43,7 @@ module.exports = (robot) ->
                "Only 1 print at a time is allowed, and you are required to tell\n" +
                "#{robot.name} after you've cleaned your print off.\n\n" +
                "The web frontend is at #{makeServer}, and\n" +
-               "the most current log is always available at #{makeServer}/log\n\n" +
+               "the most current log is always available at #{makeServer}/log\n\n"
     msg.send response
 
   robot.respond /3d (snapshot|status)/i, (msg) ->
