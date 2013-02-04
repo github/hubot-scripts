@@ -28,22 +28,25 @@ auth64 = (new Buffer("#{authUser}:#{authPass}")).toString("base64")
 
 module.exports = (robot) ->
   robot.respond /3d\??$/i, (msg) ->
-    response = "#{robot.name} 3d me [STL URLs] [[options]] - prints an STL file\n" +
-               "  You can list multiple URLs separated by spaces.\n" +
-               "\n" +
-               "  Options can follow the URL and are:\n" +
-               "    '(high|medium|low) quality' -- sets the quality of the print. Default: medium\n" +
-               "    'xN' (e.g. x2)              -- print more than one of a thing at once\n" +
-               "    'with supports'             -- adds supports to the model, for complex overhangs. Default: disabled\n" +
-               "    'with raft'                 -- prints on a plastic raft, for models with little platform contact. Default: disabled\n" +
-               "    'xx% solid'                 -- changes how solid the object is on the inside. Default: 5%\n" +
-               "    'scale by X.Y' (e.g. 0.5)   -- scale the size of the model by a factor\n" +
-               "#{robot.name} 3d snapshot - takes a picture and tells you the locked status\n" +
-               "#{robot.name} 3d unlock - unlocks the printer after you clean up\n\n" +
-               "Only 1 print at a time is allowed, and you are required to tell\n" +
-               "#{robot.name} after you've cleaned your print off.\n\n" +
-               "The web frontend is at #{makeServer}, and\n" +
-               "the most current log is always available at #{makeServer}/log\n\n"
+    response = """#{robot.name} 3d me [STL URLs] [[options]] - prints an STL file
+You can list multiple URLs separated by spaces.
+
+  Options can follow the URL and are:
+    '(high|medium|low) quality' -- sets the quality of the print. Default: medium
+    'xN' (e.g. x2)              -- print more than one of a thing at once
+    'with supports'             -- adds supports to the model, for complex overhangs. Default: disabled
+    'with raft'                 -- prints on a plastic raft, for models with little platform contact. Default: disabled\
+    'xx% solid'                 -- changes how solid the object is on the inside. Default: 5%
+    'scale by X.Y' (e.g. 0.5)   -- scale the size of the model by a factor
+
+#{robot.name} 3d snapshot - takes a picture and tells you the locked status
+#{robot.name} 3d unlock - unlocks the printer after you clean up
+
+Only 1 print at a time is allowed, and you are required to tell
+#{robot.name} after you've cleaned your print off.
+
+The web frontend is at #{makeServer}, and
+the most current log is always available at #{makeServer}/log"""
     msg.send response
 
   robot.respond /3d (snapshot|status)/i, (msg) ->
