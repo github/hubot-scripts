@@ -61,7 +61,7 @@ the most current log is always available at #{makeServer}/log"""
           .get() (err, res, body) =>
             if res.statusCode is 200
               msg.reply "I can't see anything, what does it look like to you? I hear the machine is #{locked_msg}."
-              images = JSON.parse(body)['images']
+              images = JSON.parse(body)?.images
               for image in images
                 msg.send image
             else
