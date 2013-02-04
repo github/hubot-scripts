@@ -53,13 +53,16 @@ module.exports = (robot) ->
       .get() (err, res, body) =>
         if res.statusCode is 423
           locked_msg = "locked"
-    msg.http(makeServer).scope('photo')
-      .get() (err, res, body) =>
-        if res.statusCode is 302
-          msg.reply "I can't see anything, what does it look like to you? I hear the machine is #{locked_msg}."
-          msg.send res.headers.location
-        else
-          msg.reply "I can't seem to get a hold of a picture for you, but the internets tell me the machine is #{locked_msg}."
+
+        msg.http(makeServer).scope('photo.json')
+          .get() (err, res, body) =>
+            if res.statusCode is 200
+              msg.reply "I can't see anything, what does it look like to you? I hear the machine is #{locked_msg}."
+              images = JSON.parse(body)['images']
+              for image in images
+                msg.send image
+            else
+              msg.reply "I can't seem to get a hold of a picture for you, but the internets tell me the machine is #{locked_msg}."
 
   robot.respond /3d unlock( me)?/i, (msg) ->
     msg.http(makeServer + "/lock")
