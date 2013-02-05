@@ -29,7 +29,7 @@ module.exports = (robot) ->
 
   class Auth
     hasRole: (name, role) ->
-      user = robot.userForName(name)
+      user = robot.brain.userForName(name)
       if user? and user.roles?
         if role in user.roles then return true
       
@@ -42,7 +42,7 @@ module.exports = (robot) ->
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
-      user = robot.userForName(name)
+      user = robot.brain.userForName(name)
       user.roles = user.roles or [ ]
 
       if newRole in user.roles
@@ -61,7 +61,7 @@ module.exports = (robot) ->
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
-      user = robot.userForName(name)
+      user = robot.brain.userForName(name)
       user.roles = user.roles or [ ]
       if newRole == 'admin'
         msg.reply "Sorry, the 'admin' role can only be removed from the HUBOT_AUTH_ADMIN env variable."
@@ -74,7 +74,7 @@ module.exports = (robot) ->
   robot.respond /(what role does|what roles does) @?([\w .-]+) (have)\?*$/i, (msg) ->
     name = msg.match[2].trim()
 
-    user = robot.userForName(name)
+    user = robot.brain.userForName(name)
     user.roles = user.roles or [ ]
 
     if name.toLowerCase() in admin.toLowerCase().split(',') then isAdmin = ' and is also an admin' else isAdmin = ''
