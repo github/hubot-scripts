@@ -77,14 +77,14 @@ module.exports = (robot) ->
         branch = hook.ref.split("/")[2..].join("/")
         # if the ref before the commit is 00000, this is a new branch
         if /^0+$/.test(hook.before)
-            message.push "Gitlab #{bold(hook.repository.name)} (#{underline(hook.repository.url)}): #{bold(hook.user_name)} pushed a new branch: #{bold(branch)}"
+            message.push "Gitlab #{bold(hook.repository.name)} (#{underline(hook.repository.homepage)}): #{bold(hook.user_name)} pushed a new branch: #{bold(branch)}"
         else
-            message.push "Gitlab #{bold(hook.repository.name)} (#{underline(hook.repository.url)}): #{bold(hook.user_name)} pushed #{bold(hook.total_commits_count)} commits to #{bold(branch)}:"
+            message.push "Gitlab #{bold(hook.repository.name)} (#{underline(hook.repository.homepage)}): #{bold(hook.user_name)} pushed #{bold(hook.total_commits_count)} commits to #{bold(branch)}:"
             for i, commit of hook.commits
               commit_message = commit.message.split("\n")[0]
               message.push "    * #{commit_message} (#{underline(trim_commit_url(commit.url))})"
             if hook.total_commits_count > 1
-                message.push "Entire diff: #{underline(hook.repository.url + '/compare/' + hook.before.substr(0,9) + '...' + hook.after.substr(0,9))}"
+                message.push "Entire diff: #{underline(hook.repository.homepage + '/compare/' + hook.before.substr(0,9) + '...' + hook.after.substr(0,9))}"
         message = message.join("\n")
         robot.send user, message
 
