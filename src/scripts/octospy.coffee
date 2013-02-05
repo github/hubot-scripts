@@ -356,7 +356,7 @@ module.exports = (robot) ->
     message = '[octospy] ' +  renderTemplate(event,context)
 
     # Tell the people who care
-    listeners = (robot.userForId(id) for id in (robot.brain.data.octospy[github_url]?[repo_name][event] || []))
+    listeners = (robot.brain.userForId(id) for id in (robot.brain.data.octospy[github_url]?[repo_name][event] || []))
 
     # group rooms together, so we don't spam with multiple people with subs
     for room, users of _.groupBy(listeners, 'room') when room

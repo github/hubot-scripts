@@ -24,24 +24,24 @@ exec = require('child_process').exec
 
 user = process.env.HUBOT_RALLY_USERNAME
 pass = process.env.HUBOT_RALLY_PASSWORD
-api_version = 1.29
+api_version = '1.40'
 
 module.exports = (robot) ->
 	robot.respond /(rally)( me)? (.*)/i, (msg) ->
 		if user && pass
-			switch msg.match[3].toUpperCase().substring(0,2)
-				when "DE" then bugRequest msg, msg.match[3], (string) ->
+			switch msg.match[3].toUpperCase().substring(0,1)
+				when "D" then bugRequest msg, msg.match[3], (string) ->
 					msg.send string
-				when "TA" then taskRequest msg, msg.match[3], (string) ->
+				when "T" then taskRequest msg, msg.match[3], (string) ->
 					msg.send string
-				when "US" then storyRequest msg, msg.match[3], (string) ->
+				when "S" then storyRequest msg, msg.match[3], (string) ->
 					msg.send string
 				else msg.send "Uhh, that doesn't work"
 		else
 		  msg.send "You need to set HUBOT_RALLY_USERNAME & HUBOT_RALLY_PASSWORD before making requests!"
 
 bugRequest = (msg, defectId, cb) ->
-	query_string = '/defect.js?query=(FormattedId%20=%20'+defectId+')' + '&fetch=true'
+	query_string = "/defect.js?query=(FormattedID = #{defectId})&fetch=true"
 	rallyRequest msg, query_string, (json) ->
 		if json && json.QueryResult.TotalResultCount > 0
 			getLinkToItem msg, json.QueryResult.Results[0], "defect"
@@ -62,7 +62,7 @@ bugRequest = (msg, defectId, cb) ->
 			cb "Aww snap, I couldn't find that bug!"
 
 taskRequest = (msg, taskId, cb) ->
-	query_string = '/task.js?query=(FormattedId%20=%20'+taskId+')' + '&fetch=true'
+	query_string = "/task.js?query=(FormattedID = #{taskId})&fetch=true"
 	rallyRequest msg, query_string, (json) ->
 		if json && json.QueryResult.TotalResultCount > 0
 			getLinkToItem msg, json.QueryResult.Results[0], "task"
@@ -78,7 +78,7 @@ taskRequest = (msg, taskId, cb) ->
 			cb "Aww snap, I couldn't find that task!"
 
 storyRequest = (msg, storyId, cb) ->
-	query_string = '/hierarchicalrequirement.js?query=(FormattedId%20=%20'+storyId+')' + '&fetch=true'
+	query_string = "/hierarchicalrequirement.js?query=(FormattedID = #{storyId})&fetch=true"
 	rallyRequest msg, query_string, (json) ->
 		if json && json.QueryResult.TotalResultCount > 0
 			getLinkToItem msg, json.QueryResult.Results[0], "userstory"

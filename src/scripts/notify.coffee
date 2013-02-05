@@ -129,7 +129,7 @@ module.exports = (robot) ->
       return
       
     
-    for userId, user of robot.brain.data.users
+    for userId, user of robot.brain.users
       if user.mention_name==mentionedUserName
         username=user.name
         mentionedUserId = userId

@@ -86,7 +86,7 @@ check_user = (robot, msg, test_user = null) ->
   # Detect the user; if none is passed, assume the sender.
   user = null
   if test_user
-    user = robot.userForName(test_user)
+    user = robot.brain.userForName(test_user)
     unless user
       msg.reply "#{msg.match[2]}? Whoʼs that?"
       return null
