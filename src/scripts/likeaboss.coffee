@@ -23,8 +23,26 @@ images = [
   "http://images.cheezburger.com/completestore/2011/2/20/a4ea536d-4b21-4517-b498-a3491437d224.jpg",
   "http://funcorner.eu/wp-content/uploads/2011/03/like_a_boss.jpg",
   "http://www.japemonster.com/wp-content/uploads/2011/08/demotivational-posters-like-a-boss.jpg",
+  "https://i.chzbgr.com/maxW500/6972126976/hAA5A99AF/",
+  "http://like-a-boss.org/wp-content/uploads/2011/06/abd-17.gif",
+  "http://like-a-boss.org/wp-content/uploads/2011/06/abd-25.gif",
+  "http://like-a-boss.org/wp-content/uploads/2011/06/abd-31.gif",
+  "http://like-a-boss.org/wp-content/uploads/2011/06/abd-53.gif",
+  "http://like-a-boss.org/wp-content/uploads/2011/06/tumblr_lk82o89vSG1qe0eclo1_r7_500.gif",
+  "https://i.chzbgr.com/maxW500/6669391104/h7509954E/",
+  "http://i.imgur.com/eNXkb.gif",
+  "http://i.imgur.com/WN8Ud.gif",
+  "http://i.imgur.com/9y0VV.gif",
+  "http://i.imgur.com/68Jtv.gif",
+  "http://i.imgur.com/hdVDd.gif",
+  "http://i.imgur.com/B0ehW.gif",
+  "http://i.imgur.com/3GU2Q.gif",
+  "http://i.imgur.com/Z3aAs.gif",
+  "http://i.imgur.com/diA9N.gif",
+  "http://i.imgur.com/ze3MJ.gif",
+  "http://i.imgur.com/rBvJany.gif"
   ]
 
 module.exports = (robot) ->
-  robot.hear /like a boss/i, (msg) ->
+  robot.hear /like a boss|boss|like a baws|baws/i, (msg) ->
     msg.send msg.random images
