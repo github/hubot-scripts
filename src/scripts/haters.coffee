@@ -25,6 +25,7 @@ haters = [
 , "http://media.tumblr.com/tumblr_m2yv2hqw9l1rnvwt1.gif"
 , "http://loldailyfun.com/wp-content/uploads/2012/02/Haters-Gonna-hate-Funny.jpg"
 , "http://brian.io/slides/incog-intro/img/rollin.jpg"
+, "http://static.fjcdn.com/pictures/Haters+Gonna+Hate_0dd058_3113024.jpg"
 ]
 
 hatin = (msg) ->
