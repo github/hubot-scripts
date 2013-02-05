@@ -19,7 +19,7 @@ module.exports = (robot) ->
 
   robot.respond /(what\'s|what is) (everyone|everybody) working on(\?)?/i, (msg) ->
     messageText = '';
-    users = robot.users()
+    users = robot.brain.users()
     for k, u of users
         if u.workingon
             messageText += "#{u.name} is working on #{u.workingon}\n"
@@ -31,7 +31,7 @@ module.exports = (robot) ->
 
   robot.respond /(i\'m|i am) working on (.*)/i, (msg) ->
     name = msg.message.user.name
-    user = robot.userForName name
+    user = robot.brain.userForName name
 
     if typeof user is 'object'
       user.workingon = msg.match[2]

@@ -29,7 +29,7 @@ module.exports = (robot) ->
 
     robot.logger.info "Message '#{message}' received for room #{room}"
 
-    user = robot.adapter.userForId 'broadcast'
+    user = robot.brain.userForId 'broadcast'
     user.room = room
     user.type = 'groupchat'
 
