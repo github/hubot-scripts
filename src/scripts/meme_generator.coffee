@@ -10,23 +10,23 @@
 #   HUBOT_MEMEGEN_DIMENSIONS
 #
 # Commands:
-#   hubot Y U NO <text>  - Generates the Y U NO GUY with the bottom caption of <text>
-#   hubot I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
-#   hubot <text> ORLY? - Generates the ORLY? owl with the top caption of <text>
-#   hubot <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
-#   hubot <text> ALL the <things> - Generates ALL THE THINGS
-#   hubot <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
-#   hubot good news everyone! <news> - Generates Professor Farnsworth
-#   hubot khanify <text> - TEEEEEEEEEEEEEEEEEXT!
-#   hubot Not sure if <text> or <text> - Generates Futurama Fry
-#   hubot Yo dawg <text> so <text> - Generates Yo Dawg
-#   hubot ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
-#   hubot if <text>, <word that can start a question> <text>? - Generates Philosoraptor
-#   hubot <text> FUCK YOU - Angry Linus
-#   hubot (Oh|You) <text> (Please|Tell) <text> - Willy Wonka
-#   hubot <text> you're gonna have a bad time - Bad Time Ski Instructor
-#   hubot one does not simply <text> - Lord of the Rings Boromir
-#   hubot it looks like (you|you're) <text> - Generates Clippy
+#   hubot memegen Y U NO <text>  - Generates the Y U NO GUY with the bottom caption of <text>
+#   hubot memegen I don't always <something> but when i do <text> - Generates The Most Interesting man in the World
+#   hubot memegen <text> ORLY? - Generates the ORLY? owl with the top caption of <text>
+#   hubot memegen <text> (SUCCESS|NAILED IT) - Generates success kid with the top caption of <text>
+#   hubot memegen <text> ALL the <things> - Generates ALL THE THINGS
+#   hubot memegen <text> TOO DAMN <high> - Generates THE RENT IS TOO DAMN HIGH guy
+#   hubot memegen good news everyone! <news> - Generates Professor Farnsworth
+#   hubot memegen khanify <text> - TEEEEEEEEEEEEEEEEEXT!
+#   hubot memegen Not sure if <text> or <text> - Generates Futurama Fry
+#   hubot memegen Yo dawg <text> so <text> - Generates Yo Dawg
+#   hubot memegen ALL YOUR <text> ARE BELONG TO US - Generates Zero Wing with the caption of <text>
+#   hubot memegen if <text>, <word that can start a question> <text>? - Generates Philosoraptor
+#   hubot memegen <text> FUCK YOU - Angry Linus
+#   hubot memegen (Oh|You) <text> (Please|Tell) <text> - Willy Wonka
+#   hubot memegen <text> you're gonna have a bad time - Bad Time Ski Instructor
+#   hubot memegen one does not simply <text> - Lord of the Rings Boromir
+#   hubot memegen it looks like (you|you're) <text> - Generates Clippy
 #
 # Author:
 #   skalnik
