@@ -19,7 +19,8 @@ module.exports = (robot) ->
     (that escalated quickly)
   ///i, (msg) -> msg.send manatee()
 
-  robot.hear ///
-    (([A-Z]{2,}\s+)([A-Z]{2,})\s?)|
-    ([A-Z]{5,})
-  ///, (msg) -> msg.send manatee()
+  unless process.env.HUBOT_LESS_MANATEES
+    robot.hear ///
+      (([A-Z]{2,}\s+)([A-Z]{2,})\s?)|
+      ([A-Z]{5,})
+    ///, (msg) -> msg.send manatee()
