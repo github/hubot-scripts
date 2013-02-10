@@ -13,7 +13,7 @@
 # Author:
 #   ajacksified
 
-Sandbox = require('Sandbox')
+Sandbox = require('sandbox')
 
 module.exports = (robot) ->
   robot.respond /(run|sandbox) (.*)/i, (msg) ->
