@@ -90,6 +90,33 @@ jenkinsDescribe = (msg) ->
               response += "PARAMETERS: #{parameters}\n"
 
             msg.send response
+
+            if not content.lastBuild
+              return
+
+            path = "#{content.lastBuild.url}/api/json"
+            req = msg.http(path)
+            if process.env.HUBOT_JENKINS_AUTH
+              auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+              req.headers Authorization: "Basic #{auth}"
+
+            req.header('Content-Length', 0)
+            req.get() (err, res, body) ->
+                if err
+                  msg.send "Jenkins says: #{err}"
+                else
+                  response = ""
+                  try
+                    content = JSON.parse(body)
+                    console.log(JSON.stringify(content, null, 4))
+                    jobstatus = content.result || 'PENDING'
+                    jobdate = new Date(content.timestamp);
+                    response += "LAST JOB: #{jobstatus}, #{jobdate}\n"
+
+                    msg.send response
+                  catch error
+                    msg.send error
+
           catch error
             msg.send error
 
