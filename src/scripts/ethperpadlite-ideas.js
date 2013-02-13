@@ -5,10 +5,10 @@
 //   None
 //
 // Configuration:
-//   HUBOT_IDEAS_URL  - The Etherpad Lite main URL, e.g. "http://my-etherpad.net/"
-//   HUBOT_IDEAS_KEY  - The Etherpad Lite API key (see https://github.com/ether/etherpad-lite/wiki/HTTP-API)
-//   HUBOT_IDEAS_PAD  - The Etherpad Lite pad ID, e.g. "my-pad"
-//   HUBOT_IDEAS_SEPARATOR  - (optional) A regex to find lines separating ideas, default: "^\s?(?:- )+\-?$"
+//   HUBOT_EL_IDEAS_URL  - The Etherpad Lite main URL, e.g. "http://my-etherpad.net/"
+//   HUBOT_EL_IDEAS_KEY  - The Etherpad Lite API key (see https://github.com/ether/etherpad-lite/wiki/HTTP-API)
+//   HUBOT_EL_IDEAS_PAD  - The Etherpad Lite pad ID, e.g. "my-pad"
+//   HUBOT_EL_IDEAS_SEPARATOR  - (optional) A regex to find lines separating ideas, default: "^\s?(?:- )+\-?$"
 //
 // Commands:
 //   hubot list ideas  - List 10 latest ideas
@@ -25,7 +25,7 @@
 //   bpierre
 
 var ERROR_MSG = 'Sorry, something is broken.';
-var ERROR_ENV = 'HUBOT_IDEAS_URL, HUBOT_IDEAS_KEY and/or HUBOT_IDEAS_PAD are not set.';
+var ERROR_ENV = 'HUBOT_EL_IDEAS_URL, HUBOT_EL_IDEAS_KEY and/or HUBOT_EL_IDEAS_PAD are not set.';
 
 function parseIdeas(rawText, cb) {
   var data, text, ideas, separator;
@@ -40,13 +40,13 @@ function parseIdeas(rawText, cb) {
     return cb(ERROR_MSG);
   }
 
-  separator = process.env.HUBOT_IDEAS_SEPARATOR;
+  separator = process.env.HUBOT_EL_IDEAS_SEPARATOR;
   if (!separator) {
     separator = '^\s?(?:- )+\-?$';
   }
 
   text = data.data.text;
-  ideas = text.split(new RegExp(process.env.HUBOT_IDEAS_SEPARATOR, 'gm'));
+  ideas = text.split(new RegExp(separator, 'gm'));
 
   // Intro
   if (ideas) {
@@ -73,9 +73,9 @@ function getIdeasList(ideas, cb) {
 }
 
 function getPadUrl() {
-  var url = process.env.HUBOT_IDEAS_URL;
-  var key = process.env.HUBOT_IDEAS_KEY;
-  var pad = process.env.HUBOT_IDEAS_PAD;
+  var url = process.env.HUBOT_EL_IDEAS_URL;
+  var key = process.env.HUBOT_EL_IDEAS_KEY;
+  var pad = process.env.HUBOT_EL_IDEAS_PAD;
   if (!pad || !key || !pad) {
     return null;
   }
