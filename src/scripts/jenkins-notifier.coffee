@@ -43,7 +43,7 @@ module.exports = (robot) ->
             build = "STILL"
           else
             build = "STARTED"
-          robot.send user, "#{build} FAILING: #{data.name} ##{data.build.number} (#{data.build.full_url})"
+          robot.send user, "#{build} FAILING: #{data.name} ##{data.build.number} (#{encodeURI(data.build.full_url)})"
           @failing.push data.name unless data.name in @failing
         if data.build.status == 'SUCCESS'
           if data.name in @failing
