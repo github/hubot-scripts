@@ -43,13 +43,13 @@ module.exports = (robot) ->
             build = "STILL"
           else
             build = "STARTED"
-          robot.send user, "#{build} FAILING: #{data.name} ##{data.build.number} (#{data.build.full_url})"
+          robot.send user, "#{build} FAILING: #{data.name} ##{data.build.number} (#{encodeURI(data.build.full_url)})"
           @failing.push data.name unless data.name in @failing
         if data.build.status == 'SUCCESS'
           if data.name in @failing
             index = @failing.indexOf data.name
             @failing.splice index, 1 if index isnt -1
-            robot.send user, "BUILD RESTORED: #{data.name} ##{data.build.number} (#{data.build.full_url})"
+            robot.send user, "BUILD RESTORED: #{data.name} ##{data.build.number} (#{encodeURI(data.build.full_url)})"
 
     catch error
       console.log "jenkins-notify error: #{error}. Data: #{req.body}"
