@@ -1,13 +1,11 @@
 # Description:
-#   None
+#   Control your Philips Hue Lights from HUBOT! BAM, easy candy for the kids
 #
 # Dependencies:
 #
 # Configuration:
 #   PHILIPS_HUE_HASH : export PHILIPS_HUE_HASH="secrets"
 #   PHILIPS_HUE_IP : export PHILIPS_HUE_IP="xxx.xxx.xxx.xxx"
-#
-#
 #
 # Commands:
 #   hue lights - list all lights
@@ -17,11 +15,11 @@
 #   hue config - reads bridge config
 #   hue set config (name|linkbutton) <value>- change the name or programatically press the link button
 #   hue (alert|alerts) light <light number> - blink once or blink for 10 seconds specific light
-#   
+#
 # Notes:
 #
 # Author:
-#   cblazek
+#   kingbin
 
 
 module.exports = (robot) ->
@@ -42,7 +40,7 @@ module.exports = (robot) ->
     url = "http://#{base_url}/api/#{hash}/lights"
     getGenInfo msg, url, (responseText) ->
       msg.send responseText
-  
+
   robot.hear /hue light (.*)/i, (msg) ->
     light = msg.match[1]
     url = "http://#{base_url}/api/#{hash}/lights/#{light}"
@@ -52,12 +50,12 @@ module.exports = (robot) ->
   robot.hear /hue turn light (.+) (.+)/i, (msg) ->
     [light, state] = msg.match[1..2]
     msg.send "get off your LAZY ass and turn it " + state + " yourself"
-    jsonParams = 
-       on: if state is "on" then true else false 
+    jsonParams =
+       on: if state is "on" then true else false
     url = "http://#{base_url}/api/#{hash}/lights/#{light}/state"
     setInfo msg, url, jsonParams, (responseText) ->
       msg.send responseText
-  
+
   robot.hear /hue (alert|alerts) light (.+)/i, (msg) ->
     [state,light] = msg.match[1..2]
     msg.send "ain't nobody got time for that!"
@@ -80,7 +78,7 @@ module.exports = (robot) ->
     supportedSettings = ['name','linkbutton']
     if setting in supportedSettings
 
-      switch setting 
+      switch setting
         when "name" then jsonParams = name: val
         when "linkbutton" then jsonParams = linkbutton: val
 
