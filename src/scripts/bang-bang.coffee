@@ -21,7 +21,7 @@ module.exports = (robot) ->
 
     if exports.last_command?
       msg.send exports.last_command
-      msg['message']['text'] = "hubot: #{exports.last_command}"
+      msg['message']['text'] = "#{robot.name}: #{exports.last_command}"
       robot.receive(msg['message'])
       msg['message']['done'] = true
     else
