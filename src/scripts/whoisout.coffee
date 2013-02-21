@@ -34,10 +34,28 @@ plugin = (robot)->
       msg.send 'unable to save date'
 
 plugin.parseDate = (fuzzyDateString)->
-  if (@thisDate = (moment fuzzyDateString)).isValid()
-    return {start: @thisDate.toDate(), end: null}
-  else
-    return false
+  fuzzyDateString = fuzzyDateString.toLowerCase()
+  if fuzzyDateString.split(" ")[0] is "next"
+    plusOneWeek = true
+    fuzzyDateString = fuzzyDateString.split(" ")[1]
+  day = 1000*60*60*24
+  week = day*7
+  switch fuzzyDateString
+    when "tomorrow"
+      return new Date((new Date).getTime() + day)
+    when "today"
+      return new Date()
+    when "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"
+      days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+      date = new Date()
+      date = new Date(date.getTime() + day) until days[date.getDay()] == fuzzyDateString
+      date = new Date(date.getTime() + week) if plusOneWeek
+      return date
+    else
+      if (@thisDate = (moment fuzzyDateString)).isValid()
+        return {start: @thisDate.toDate(), end: null}
+      else
+        return false
 
 plugin.save = (robot, vacationDateRange, msg)->
   userOutList = robot.brain.data.outList
