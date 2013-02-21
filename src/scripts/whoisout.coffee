@@ -25,7 +25,7 @@ plugin = (robot)->
   robot.respond /whoisout/i, (msg)->
     msg.send (plugin.getAbsentees robot, msg.match[1])
 
-  robot.respond /I will be out +(.*)/i, (msg)->
+  robot.respond /(?:I am|I'm|I will be) out +(.*)/i, (msg)->
     thisDate = plugin.parseDate msg.match[1]?.trim()
     if thisDate
       plugin.save robot, thisDate, msg.message
