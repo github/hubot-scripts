@@ -33,6 +33,9 @@ plugin = (robot)->
     else
       msg.send 'unable to save date'
 
+  robot.respond /when is (.*)/i, (msg)->
+    msg.send plugin.parseDate msg.match[1]?.trim()
+
 plugin.parseDate = (fuzzyDateString)->
   fuzzyDateString = fuzzyDateString.toLowerCase()
   if fuzzyDateString.split(" ")[0] is "next"
