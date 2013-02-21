@@ -24,10 +24,11 @@
 
 class Responders
   constructor: (@robot) ->
-    @robot.brain.data.responders ||= {}
-
-    for pattern, responder of @robot.brain.data.responders
-      @add(pattern, responder.callback)
+    @robot.brain.data.responders = {}
+    @robot.brain.on 'loaded', (data) =>
+      for pattern, responder of data.responders
+        delete responder.index
+        @add(pattern, responder.callback)
 
   responders: ->
     @robot.brain.data.responders
@@ -38,7 +39,8 @@ class Responders
   remove: (pattern) ->
     responder = @responder(pattern)
     if responder
-      @robot.listeners.splice(responder.index, 1, (->))
+      if responder.index
+        @robot.listeners.splice(responder.index, 1, (->))
       delete @responders()[pattern]
     responder
 
