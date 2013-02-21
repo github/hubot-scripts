@@ -29,7 +29,7 @@ plugin = (robot)->
     thisDate = plugin.parseDate msg.match[1]?.trim()
     if thisDate
       plugin.save robot, thisDate, msg.message
-      msg.send "ok, #{msg.user.name} is out on #{thisDate}"
+      msg.send "ok, #{msg.message.user.name} is out on #{thisDate}"
     else
       msg.send 'unable to save date'
 
