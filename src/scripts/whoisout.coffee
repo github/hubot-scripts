@@ -56,21 +56,21 @@ plugin.parseDate = (fuzzyDateString)->
       return date
     else
       if (@thisDate = (moment fuzzyDateString)).isValid()
-        return {start: @thisDate.toDate(), end: null}
+        return @thisDate.toDate()
       else
         return false
 
-plugin.save = (robot, vacationDateRange, msg)->
+plugin.save = (robot, date, msg)->
   userOutList = robot.brain.data.outList
   userVacation = _(userOutList).find (item)-> item.name is msg.user.name
 
   if userVacation is undefined
     userOutList.push
       name: msg.user.name
-      dates: [vacationDateRange.start]
+      dates: [date]
   else
-    unless _(userVacation.dates).some( (item)-> (moment item).format('M/D/YY') is (moment vacationDateRange.start).format('M/D/YY'))
-      userVacation.dates.push vacationDateRange.start
+    unless _(userVacation.dates).some( (item)-> (moment item).format('M/D/YY') is (moment date).format('M/D/YY'))
+      userVacation.dates.push date
 
 plugin.getAbsentees = (robot, targetDate)->
   targetDate = new Date() unless targetDate?
