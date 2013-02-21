@@ -36,10 +36,19 @@ module.exports = (robot) ->
           if res.statusCode is 301 or res.statusCode is 302
             httpResponse(res.headers.location)
           else if res.statusCode is 200
+            if res.headers['content-type'] != 'text/html'
+              return
+
             handler = new HtmlParser.DefaultHandler()
             parser  = new HtmlParser.Parser handler
             parser.parseComplete body
-            results = (Select handler.dom, "head title")
+
+            # abort if soupselect runs out of stack space
+            try
+              results = (Select handler.dom, "head title")
+            catch RangeError
+              return
+
             processResult = (elem) ->
                 unEntity(elem.children[0].data.replace(/(\r\n|\n|\r)/gm,"").trim())
             if results[0]
