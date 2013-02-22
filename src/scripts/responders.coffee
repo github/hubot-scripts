@@ -68,11 +68,11 @@ module.exports = (robot) ->
   responders = new Responders(robot)
 
   robot.respond /responders/i, (msg) ->
-    responders_ = responders.responders()
-    if Object.keys(responders_).length
+    patterns = Object.keys(responders.responders()).sort()
+    if patterns.length
       response = ''
-      for pattern, responder of responders_
-        response += "/#{pattern}/ #{responder.callback}\n"
+      for pattern in patterns
+        response += "/#{pattern}/ #{responders.responder(pattern).callback}\n"
       msg.send(response.trim())
     else
       msg.send("I'm not responding to anything.")
