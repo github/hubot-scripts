@@ -36,7 +36,7 @@ module.exports = (robot) ->
           if res.statusCode is 301 or res.statusCode is 302
             httpResponse(res.headers.location)
           else if res.statusCode is 200
-            if res.headers['content-type'] != 'text/html'
+            if res.headers['content-type'].indexOf('text/html') != 0
               return
 
             handler = new HtmlParser.DefaultHandler()
