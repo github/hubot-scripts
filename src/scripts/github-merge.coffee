@@ -10,7 +10,7 @@
 #   HUBOT_GITHUB_USER
 #
 # Commands:
-#   hubot merge HUBOT_GITHUB_USER/<head> into <base> - merges the selected branches or SHA commits
+#   hubot merge project_name/<head> into <base> - merges the selected branches or SHA commits
 #
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
@@ -27,7 +27,7 @@ module.exports = (robot) ->
     head     = msg.match[3] || "master"
     base     = msg.match[4]
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    url = "#{base_url}/repos/#{app}/merges"
+    url      = "#{base_url}/repos/#{app}/merges"
 
     github.post url, { base: base, head: head }, (merge) ->
       if merge.message
