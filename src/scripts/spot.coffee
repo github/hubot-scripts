@@ -82,6 +82,7 @@ module.exports = (robot) ->
     params = {q: message.match[1]}
     spotRequest message, '/find', 'post', params, (err, res, body) ->
       message.send(":small_blue_diamond: #{body}")
+      
   robot.respond /say (.*)/i, (message) ->
     what = message.match[1]
     params = {what: what}
