@@ -21,7 +21,7 @@
 # Author:
 #   cubanx 
 
-Robot = require('hubot').robot()
+Robot = require('hubot').Robot
 
 room = process.env.HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
 unless room
