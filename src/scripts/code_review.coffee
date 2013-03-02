@@ -34,9 +34,9 @@ module.exports = (robot) ->
         console.log "Status #{res.statusCode}"
         res.on 'data', (data) ->
             console.log data.toString()
-    ###
 
     req.end payload
+    ###
 
     robot.respond /ping/i, (res) ->
         res.send 'pong'
