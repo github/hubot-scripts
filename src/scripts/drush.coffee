@@ -13,7 +13,7 @@ module.exports = (robot) ->
       msg.send "DRUSH_UID is not set. Cannot complete this action."
       return
 
-    sitelist = ''
+    sitelist = 'Site Aliases Available: \n'
     sitealias = spawn("drush", ["sa"],
       cwd: undefined,
       env: process.env,
@@ -24,6 +24,7 @@ module.exports = (robot) ->
 
     sitealias.on "exit", (code) ->
       msg.send sitelist
+      msg.send 'sa command complete.'
 
   robot.respond /drush cc (.*)$/i, (msg) ->
     ccout = ''
