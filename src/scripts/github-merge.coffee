@@ -2,7 +2,7 @@
 #   Integrate with GitHub merge API
 #
 # Dependencies:
-#   "githubot": "0.2.0"
+#   "githubot": "0.4.x"
 #
 # Configuration:
 #   HUBOT_GITHUB_TOKEN

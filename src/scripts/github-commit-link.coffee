@@ -3,7 +3,7 @@
 #   repo. Eg. "Hey guys check out commit 251a8fb"
 #
 # Dependencies:
-#   "githubot": "0.2.0"
+#   "githubot": "0.4.x"
 #
 # Configuration:
 #   HUBOT_GITHUB_REPO

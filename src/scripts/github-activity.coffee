@@ -3,7 +3,7 @@
 #
 # Dependencies:
 #   "date-utils": ">=1.2.5"
-#   "githubot": "0.2.0"
+#   "githubot": "0.4.x"
 # 
 # Configuration:
 #   HUBOT_GITHUB_TOKEN
