@@ -12,23 +12,26 @@ module.exports = (robot) ->
     if not process.env.DRUSH_UID?
       msg.send "DRUSH_UID is not set. Cannot complete this action."
       return
-    try
-      process.setuid Number process.env.DRUSH_UID
-      msg.send "New UID set to: " + process.getuid()
-    catch err
-      msg.send "Unable to set uid. " + err
 
-    #    sitelist = ''
-    #    sitealias = spawn("drush", ["sa"])
-    #    sitealias.stdout.on "data", (data) ->
-    #      sitelist = sitelist + data
+    sitelist = ''
+    sitealias = spawn("drush", ["sa"],
+      cwd: undefined,
+      env: process.env,
+      uid: Number process.env.DRUSH_UID
+    )
+    sitealias.stdout.on "data", (data) ->
+      sitelist = sitelist + data
 
-    #    sitealias.on "exit", (code) ->
-    #  msg.send sitelist
+    sitealias.on "exit", (code) ->
+      msg.send sitelist
 
   robot.respond /drush cc (.*)$/i, (msg) ->
     ccout = ''
-    clearcache = spawn("drush", [msg.match[1], "cc", "all"])
+    clearcache = spawn("drush", [msg.match[1], "cc", "all"],
+      cwd: undefined,
+      env: process.env,
+      uid: Number process.env.DRUSH_UID
+    )
     msg.send "This may take a minute, please be patient..."
     clearcache.stdout.on "data", (data) ->
       ccout = ccout + data
