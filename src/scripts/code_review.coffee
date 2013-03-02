@@ -41,6 +41,7 @@ module.exports = (robot) ->
     robot.respond /ping/i, (res) ->
         res.send 'pong'
 
-    robot.router.get '/pull', (req, res) ->
+    robot.router.post '/pull', (req, res) ->
+        console.log "got pull request"
         req.on 'data', (data) ->
             console.log data.toString()
