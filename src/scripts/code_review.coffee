@@ -17,6 +17,30 @@
 # Author:
 #   <github username of the original script author>
 #
+
+https = require 'https'
+
 module.exports = (robot) ->
+    ###
+    req = https.request {
+        host: 'api.github.com'
+        method: 'POST'
+        path: '/authorizations'
+        headers: {
+            'Accept': 'application/json'
+            'Content-Length': payload.length
+        }
+    }, (res) ->
+        console.log "Status #{res.statusCode}"
+        res.on 'data', (data) ->
+            console.log data.toString()
+    ###
+
+    req.end payload
+
     robot.respond /ping/i, (res) ->
         res.send 'pong'
+
+    robot.router.get '/pull', (req, res) ->
+        req.on 'data', (data) ->
+            console.log data.toString()
