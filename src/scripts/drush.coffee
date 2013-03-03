@@ -14,7 +14,7 @@ module.exports = (robot) ->
       return
 
     sitelist = 'Site Aliases Available: \n'
-    sitealias = spawn("drush", ["sa"],
+    sitealias = spawn("bash", ["drush", "sa"],
       cwd: undefined,
       env: process.env,
       uid: Number process.env.DRUSH_UID
