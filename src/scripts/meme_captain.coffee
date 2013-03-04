@@ -78,8 +78,8 @@ module.exports = (robot) ->
 
 
 memeGenerator = (msg, imageName, text1, text2, callback) ->
-  imageUrl = "http://memecaptain.com/" + imageName
-  msg.http("http://memecaptain.com/g")
+  imageUrl = "http://v1.memecaptain.com/" + imageName
+  msg.http("http://v1.memecaptain.com/g")
   .query(
     u: imageUrl,
     t1: text1,
