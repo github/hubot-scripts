@@ -6,6 +6,8 @@
 #   "strftime": "0.5.0"
 #
 # Configuration:
+#   HUBOT_WALKIE_USERNAME - Basecamp account username
+#   HUBOT_WALKIE_PASSWORD - Basecamp account password
 #   HUBOT_WALKIE_ROOMS - comma-separated list of rooms
 #
 # Commands:
