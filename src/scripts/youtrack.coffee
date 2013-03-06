@@ -4,8 +4,21 @@ http = require 'http'
 #   Listens for patterns matching youtrack issues and provides information about 
 #   them
 # 
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_YOUTRACK_HOSTNAME = <host:port>
+#   HUBOT_YOUTRACK_USERNAME = <user name>
+#   HUBOT_YOUTRACK_PASSWORD = <password>
+#
 # Commands:
+#   what are my issues? - Show my in progress issues
+#   what can I work on? - Show open issues
 #   #project-number - responds with a summary of the issue
+#
+# Author:
+#   Dusty Burwell and Jeremy Sellars
 
 host     = process.env.HUBOT_YOUTRACK_HOSTNAME
 username = process.env.HUBOT_YOUTRACK_USERNAME
