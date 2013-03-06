@@ -4,6 +4,7 @@
 #
 # Dependencies:
 #   "strftime": "0.5.0"
+#   "string": "1.2.1"
 #
 # Configuration:
 #   HUBOT_WALKIE_USERNAME - Basecamp account username
@@ -18,6 +19,7 @@
 #   tybenz
 
 strftime = require 'strftime'
+S = require 'string'
 
 module.exports = (robot) ->
 
@@ -52,7 +54,8 @@ module.exports = (robot) ->
                   listeners[i] = JSON.stringify project
                   for event, i in events
                     message = "Walkie: [#{project.projectName}] #{event.creator.name} #{event.summary}: #{event.url.replace( /api\/v1\//, '' ).replace(/\.json/g,'')}"
-                    robot.messageRoom allRooms, message.replace( /(<([^>]+)>)/ig,"" );
+                    message = S(message).unescapeHTML().s.replace( /(<([^>]+)>)/ig,"" )
+                    robot.messageRoom allRooms, message
                 else
                   console.log "Issue with connection to Basecamp#{body}"
     else
