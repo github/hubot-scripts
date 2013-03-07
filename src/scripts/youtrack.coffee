@@ -1,9 +1,7 @@
-http = require 'http'
-
 # Description: 
 #   Listens for patterns matching youtrack issues and provides information about 
 #   them
-# 
+#
 # Dependencies:
 #   None
 #
@@ -19,6 +17,8 @@ http = require 'http'
 #
 # Author:
 #   Dusty Burwell and Jeremy Sellars
+
+http = require 'http'
 
 host     = process.env.HUBOT_YOUTRACK_HOSTNAME
 username = process.env.HUBOT_YOUTRACK_USERNAME
