@@ -1,5 +1,5 @@
 # Description:
-#   With the Yelp API, search for nearby restaurants.
+#   With the Yelp API v2.0, search for nearby restaurants.
 #
 # Dependencies:
 #   "yelp": "0.1.1"
@@ -9,14 +9,15 @@
 #   HUBOT_YELP_CONSUMER_SECRET
 #   HUBOT_YELP_TOKEN
 #   HUBOT_YELP_TOKEN_SECRET
-#   HUBOT_YELP_SEARH_ADDRESS
+#   HUBOT_YELP_SEARCH_ADDRESS
 #   HUBOT_YELP_SEARCH_RADIUS
 #   HUBOT_YELP_SORT
 #   HUBOT_YELP_DEFAULT_SUGGESTION
 #
 #   Get your Yelp tokens at http://www.yelp.com/developers/getting_started/api_access
-#   The search radius should be specified in meters. The sort parameter can be
-#   best matched (0), distance (1) or highest rated (2 - default).
+#   The search address can be a full address, city, or zipcode
+#   The search radius should be specified in meters, it defaults to 600.
+#   The sort parameter can be best matched (0 - default), distance (1) or highest rated (2).
 #   See http://www.yelp.com/developers/documentation/v2/search_api#searchGP for
 #   more information about the search radius and sort.
 #
