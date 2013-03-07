@@ -1,5 +1,5 @@
 # Description:
-#   Shorten URLs with bit.ly & expand dtected bit.ly URLs
+#   Shorten URLs with bit.ly & expand detected bit.ly URLs
 #
 # Dependencies:
 #   None
