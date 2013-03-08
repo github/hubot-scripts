@@ -9,16 +9,12 @@ spawn = require("child_process").spawn
 
 module.exports = (robot) ->
   robot.respond /drush sa$/i, (msg) ->
-    if not process.env.DRUSH_UID?
-      msg.send "DRUSH_UID is not set. Cannot complete this action."
-      return
+    #    if not process.env.DRUSH_UID?
+    # msg.send "DRUSH_UID is not set. Cannot complete this action."
+    #  return
 
     sitelist = 'Site Aliases Available: \n'
-    sitealias = spawn("bash", ["drush", "sa"],
-      cwd: undefined,
-      env: process.env,
-      uid: Number process.env.DRUSH_UID
-    )
+    sitealias = spawn("drush", ["sa"])
     sitealias.stdout.on "data", (data) ->
       sitelist = sitelist + data
 
@@ -28,11 +24,7 @@ module.exports = (robot) ->
 
   robot.respond /drush cc (.*)$/i, (msg) ->
     ccout = ''
-    clearcache = spawn("drush", [msg.match[1], "cc", "all"],
-      cwd: undefined,
-      env: process.env,
-      uid: Number process.env.DRUSH_UID
-    )
+    clearcache = spawn("drush", [msg.match[1], "cc", "all"])
     msg.send "This may take a minute, please be patient..."
     clearcache.stdout.on "data", (data) ->
       ccout = ccout + data
