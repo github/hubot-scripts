@@ -1,5 +1,7 @@
 # Description:
 #   Showing of redmine issue via the REST API
+#   It also listens for the #nnnn format and provides issue data and link
+#   Eg. "Hey guys check out #273"
 #
 # Dependencies:
 #   None
@@ -8,6 +10,7 @@
 #   HUBOT_REDMINE_SSL
 #   HUBOT_REDMINE_BASE_URL
 #   HUBOT_REDMINE_TOKEN
+#   HUBOT_REDMINE_IGNORED_USERS
 #
 # Commands:
 #   hubot (redmine|show) me <issue-id> - Show the issue status
@@ -220,6 +223,31 @@ module.exports = (robot) ->
             _.push "    #{journal.notes}\n"
 
       msg.reply _.join "\n"
+
+  # Listens to #NNNN and gives ticket info
+  robot.hear /.*(#(\d+)).*/, (msg) ->
+    id = msg.match[1].replace /#/, ""
+        
+    ignoredUsers = process.env.HUBOT_REDMINE_IGNORED_USERS or ""
+
+    #Ignore cetain users, like Redmine plugins
+    if msg.message.user.name in ignoredUsers.split(',')
+      return
+
+    if isNaN(id)
+      return
+
+    params = []
+
+    redmine.Issue(id).show params, (err, data, status) ->
+      unless status == 200
+        # Issue not found, don't say anything
+        return false
+
+      issue = data.issue
+      
+      url = "#{redmine.url}/issues/#{id}"
+      msg.send "#{issue.tracker.name} <a href=\"#{url}\">##{issue.id}</a> (#{issue.project.name}): #{issue.subject} (#{issue.status.name}) [#{issue.priority.name}]"
 
 # simple ghetto fab date formatter this should definitely be replaced, but didn't want to
 # introduce dependencies this early
