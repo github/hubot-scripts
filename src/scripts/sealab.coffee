@@ -21,8 +21,8 @@ module.exports = (robot) ->
   robot.hear /energy/i, (msg) ->
     msg.reply "I have the energy of a bear that has the energy of two bears!"
 
- robot.hear /bad idea/i, (msg) ->
+  robot.hear /bad idea/i, (msg) ->
     msg.reply "Oh why don't you just shout down every idea I have? How about you call Bruce Springsteen and tell him to get another nickname since you're already the Boss! Huh? Yeah? Yeah!"
 
- robot.hear /change hubot/i, (msg) ->
+  robot.hear /change hubot/i, (msg) ->
     msg.reply "You want the mustache on, or off?"
