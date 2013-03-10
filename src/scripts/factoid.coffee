@@ -69,11 +69,11 @@ class Factoids
       factoid
 
   handleFactoid: (text) ->
-    if match = /^~(.+) is also (.+)/i.exec text
+    if match = /^~(.+?) is also (.+)/i.exec text
       this.append match[1], match[2]
-    else if match = /^~(.+) is (.+)/i.exec text
+    else if match = /^~(.+?) is (.+)/i.exec text
       this.add match[1], match[2]
-    else if match = (/^~tell (.+) about (.+)/i.exec text) or (/^~~(.+) (.+)/.exec text)
+    else if match = (/^~tell (.+?) about (.+)/i.exec text) or (/^~~(.+) (.+)/.exec text)
       this.tell match[1], match[2]
     else if match = /^~(.+)/i.exec text
       this.niceGet match[1]
