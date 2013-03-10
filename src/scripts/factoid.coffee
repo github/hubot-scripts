@@ -31,7 +31,7 @@ class Factoids
   add: (key, val) ->
     if @cache[key]
       "#{key} is already #{@cache[key]}"
-    else 
+    else
       this.setFactoid key, val
 
   append: (key, val) ->
@@ -39,7 +39,7 @@ class Factoids
       @cache[key] = @cache[key] + ", " + val
       @robot.brain.data.factoids = @cache
       "Ok. #{key} is also #{val} "
-    else 
+    else
       "No factoid for #{key}. It can't also be #{val} if it isn't already something."
 
   setFactoid: (key, val) ->
@@ -85,7 +85,7 @@ module.exports = (robot) ->
     if match = (/^~tell (.+) about (.+)/i.exec msg.match) or (/^~~(.+) (.+)/.exec msg.match)
       msg.send factoids.handleFactoid msg.message.text
     else
-      msg.reply factoids.handleFactoid msg.message.text 
+      msg.reply factoids.handleFactoid msg.message.text
 
   robot.hear /(.+)\?/i, (msg) ->
     factoid = factoids.get msg.match[1]
