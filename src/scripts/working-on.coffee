@@ -29,7 +29,7 @@ module.exports = (robot) ->
     msg.send messageText
 
 
-  robot.respond /(i\'m|i am) working on (.*)/i, (msg) ->
+  robot.respond /(i\'m|i am|im) working on (.*)/i, (msg) ->
     name = msg.message.user.name
     user = robot.brain.userForName name
 
