@@ -30,7 +30,22 @@ module.exports = (robot) ->
         msg.send "Pivotal says: #{err}"
         return
       (new Parser).parseString body, (err, json)->
-        for project in json.project
+        if json.project.length?
+          for project in json.project
+            if project_name.test(project.name)
+
+              msg.http("https://www.pivotaltracker.com/services/v3/projects/#{project.id}/iterations/current").headers("X-TrackerToken": token).query(filter: "state:unstarted,started,finished,delivered").get() (err, res, body) ->
+                if err
+                  msg.send "Pivotal says: #{err}"
+                  return
+
+                (new Parser).parseString body, (err, json)->
+                  for story in json.iteration.stories.story
+                    msg.send formatted_message(story)
+
+              return
+        else
+          project = json.project
           if project_name.test(project.name)
             msg.http("https://www.pivotaltracker.com/services/v3/projects/#{project.id}/iterations/current").headers("X-TrackerToken": token).query(filter: "state:unstarted,started,finished,delivered").get() (err, res, body) ->
               if err
