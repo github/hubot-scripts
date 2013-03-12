@@ -1,4 +1,14 @@
-v2.2.1
+v2.4.2
+======
+
+https://github.com/github/hubot-scripts/compare/v2.4.1...v2.4.2
+
+v2.4.1
+======
+
+https://github.com/github/hubot-scripts/compare/v2.2.2...v2.4.1
+
+v2.2.2
 ======
 
 https://github.com/github/hubot-scripts/compare/v2.2.1...v2.2.2
@@ -30,6 +40,7 @@ https://github.com/github/hubot-scripts/compare/v2.1.0...v2.1.1
 
 v2.1.0
 ======
+
 Massive update to every scripts documentation header.
 
 https://github.com/github/hubot-scripts/compare/v2.0.7...v2.1.0
@@ -37,35 +48,42 @@ https://github.com/github/hubot-scripts/compare/v2.0.7...v2.1.0
 
 v2.0.6
 ======
-There is a ton of new functionality. The Second laziest changelog entry in a while.
+
+There is a ton of new functionality. The Second laziest changelog entry in
+a while.
 
 https://github.com/github/hubot-scripts/compare/v2.0.5...v2.0.6
 
 v2.0.5
 ======
+
 There is a ton of new functionality. Laziest changelog entry in a while.
 
 https://github.com/github/hubot-scripts/compare/v2.0.4...v2.0.5
 
 v2.0.4
 ======
+
 There is a ton of new functionality.
 
 https://github.com/github/hubot-scripts/compare/v2.0.3...v2.0.4
 
 v2.0.3
 ======
+
 * start using `robot.logger` instead of console.log, eases runtime debugging
 * remove dependencies in package.json that don't work on node 0.6.0
 * require hubot 2.0 explicitly to start using new stuff
 
 v1.1.8
 ======
+
 * allow people to start tracks - Zach Holman <github.com@zachholman.com>
 * simplify local development - atmos
 
 v1.1.7
 ======
+
 * urban dictionary definitions - Kevin Traver <kevintraver@gmail.com>
 * latest tweet from a user - Kevin Traver <kevintraver@gmail.com>
 * bit.ly shortening - Kevin Traver <kevintraver@gmail.com>
@@ -88,6 +106,7 @@ v1.1.7
 
 v1.1.4
 ======
+
 * hubot define me - Pete Nicholls <pete@metanation.com>
 * google directions support - Zakaria Zajac <zdzajac@gmail.com>
 * hubot vanity me fixup - Alex Whitman <alex@alexwhitman.com>
@@ -104,4 +123,3 @@ v1.0.4
 * Add 'hubot google me' - i'm feeling lucky search - Justin Searls<searls@gmail.com>
 * Add 'hubot travis me owner/repo' - travis ci status by Erik Michaels-Ober <sferik@gmail.com>
 * Add 'hubot vanity me' - sort users by twitter followers by Jon Maddox <jon@jonmaddox.com>
-
