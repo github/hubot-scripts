@@ -153,7 +153,7 @@ module.exports = (robot) ->
         getBuildTypes msg, project, (err, msg, buildTypes) ->
           message = ""
           for buildType in buildTypes
-            message += buildType.projectName + '/' + buildType.name + "\n"
+            message += "#{buildType.name} of #{buildType.projectName}\n"
           msg.send message
 
       when "builds"
