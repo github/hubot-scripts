@@ -14,6 +14,7 @@
 #
 # Author:
 #   Travis Jeffery (@travisjeffery)
+#   Robbie Trencheny (@Robbie)
 
 # FIXME merge with whatis.coffee
 
@@ -26,7 +27,7 @@ module.exports = (robot) ->
         msg.send "#{entry.definition}"
 
 urbanDict = (msg, query, callback) ->
-  msg.http("http://urbandict.me/api/#{escape(query)}")
+  msg.http("http://api.urbandictionary.com/v0/define?term=#{escape(query)}")
     .get() (err, res, body) ->
-      callback(JSON.parse(body).entries[0])
+      callback(JSON.parse(body).list[0])
 
