@@ -2,7 +2,7 @@
 #   Base36 encoding and decoding
 #
 # Dependencies:
-#   None
+#   "big-integer": "https://github.com/peterolson/BigInteger.js"
 #
 # Configuration:
 #   None
