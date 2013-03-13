@@ -40,9 +40,6 @@ Want to write your own Hubot script? The best way is to take a look at an
 [existing script][example-script] and see how things are set up. Hubot scripts
 are written in CoffeeScript, a higher-level implementation of JavaScript.
 
-You'll also want to [add tests][hubot-script-tests] for your script; no one
-likes untested code. It makes Hubot sad.
-
 Additionally, it's extremely helpful to add [TomDoc][tomdoc] to the top of each
 file. (Check out [an example][example-script-doc]). We'll pull out the commands
 from those lines and display them in the generic, robot-wide `hubot help`
