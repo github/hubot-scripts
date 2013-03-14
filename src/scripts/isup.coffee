@@ -19,11 +19,15 @@ module.exports = (robot) ->
       msg.send domain
 
 isUp = (msg, domain, cb) ->
-  msg.http('http://www.isup.me/' + domain)
+  msg.http("http://isitup.org/#{domain}.json")
+    .header('User-Agent', 'Hubot')
     .get() (err, res, body) ->
-      if body.match("It's just you.")
-        cb "#{domain} looks UP from here."
-      else if body.match("It's not just you!")
-        cb "#{domain} looks DOWN from here."
+      response = JSON.parse(body)
+      if response.status_code is 1
+        cb "#{response.domain} looks UP from here."
+      else if response.status_code is 2
+        cb "#{response.domain} looks DOWN from here."
+      else if response.status_code is 3
+        cb "Are you sure '#{response.domain}' is a valid domain?"
       else
-        cb "Not sure, #{domain} returned an error."
+        msg.send "Not sure, #{response.domain} returned an error."
