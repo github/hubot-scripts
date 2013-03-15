@@ -48,4 +48,4 @@ module.exports = (robot) ->
                msg.http("http://xkcd.com/#{num}/info.0.json")
                .get() (err, res, body) ->
                object = JSON.parse(body)
-               msg.send object.title, object.img, object.alt, object.num
+               msg.send object.title, object.img, object.alt
