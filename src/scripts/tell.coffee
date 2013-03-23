@@ -12,12 +12,12 @@
 #
 # Author:
 #   christianchristensen, lorenzhs, xhochy
- 
+
 module.exports = (robot) ->
    localstorage = {}
    robot.respond /tell ([\w.-]*):? (.*)/i, (msg) ->
      datetime = new Date()
-     username = msg.match[1].toLowerCase()
+     username = msg.match[1]
      room = msg.message.user.room
      tellmessage = username + ": " + msg.message.user.name + " @ " + datetime.toLocaleString() + " said: " + msg.match[2] + "\r\n"
      if not localstorage[room]?
@@ -28,12 +28,13 @@ module.exports = (robot) ->
        localstorage[room][username] = tellmessage
      return
  
+   # When a user enters, check if someone left them a message
    robot.enter (msg) ->
-     # just send the messages if they are available...
-     username = msg.message.user.name.toLowerCase()
+     username = msg.message.user.name
      room = msg.message.user.room
      if localstorage[room]?
        for recipient, message of localstorage[room]
+         # Check if the recipient matches username
          if username.match(new RegExp "^"+recipient, "i")
            tellmessage = localstorage[room][recipient]
            delete localstorage[room][recipient]
