@@ -43,6 +43,10 @@ module.exports = (robot) ->
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
       user = robot.brain.userForName(name)
+      if !user?
+        msg.reply "#{name} does not exist"
+        return
+      
       user.roles = user.roles or [ ]
 
       if newRole in user.roles
@@ -62,6 +66,10 @@ module.exports = (robot) ->
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
       user = robot.brain.userForName(name)
+      if !user?
+        msg.reply "#{name} does not exist"
+        return
+      
       user.roles = user.roles or [ ]
       if newRole == 'admin'
         msg.reply "Sorry, the 'admin' role can only be removed from the HUBOT_AUTH_ADMIN env variable."
@@ -75,6 +83,10 @@ module.exports = (robot) ->
     name = msg.match[2].trim()
 
     user = robot.brain.userForName(name)
+    if !user?
+      msg.reply "#{name} does not exist"
+      return
+    
     user.roles = user.roles or [ ]
 
     if name.toLowerCase() in admin.toLowerCase().split(',') then isAdmin = ' and is also an admin' else isAdmin = ''
