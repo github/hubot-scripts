@@ -52,13 +52,15 @@ module.exports = (robot) ->
 
       robot.brain.on 'save', (data) ->
         db.collection 'storage', (err, collection) ->
-          collection.remove {}, (err) ->
-            if err?
-              throw err
-            else
-              data = encodeKeys data
-              collection.save data, (err) ->
-                throw err if err?
+          # https://github.com/christkv/node-mongodb-native/blob/master/lib/mongodb/collection.js#L373
+          # update(selector, document, options, callback)
+          data = encodeKeys data
+          opts =
+            safe: true
+            upsert: true
+          collection.update data, opts, (err) ->
+            throw err if err?
 
       robot.brain.on 'close', ->
         db.close()
+
