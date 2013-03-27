@@ -37,7 +37,7 @@ module.exports = (robot) ->
 
   robot.Auth = new Auth
 
-  robot.respond /@?([\w .-_]+) (has) (["'\w: -_]+) (role)/i, (msg) ->
+  robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
@@ -60,7 +60,7 @@ module.exports = (robot) ->
             user.roles.push(newRole)
             msg.reply "Ok, #{name} has the '#{newRole}' role."
 
-  robot.respond /@?([\w .-_]+) (doesn't have|does not have) (["'\w: -_]+) (role)/i, (msg) ->
+  robot.respond /@?(.+) (doesn't have|does not have) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
@@ -79,7 +79,7 @@ module.exports = (robot) ->
           user.roles = (role for role in user.roles when role isnt newRole)
           msg.reply "Ok, #{name} doesn't have the '#{newRole}' role."
 
-  robot.respond /(what role does|what roles does) @?([\w .-]+) (have)\?*$/i, (msg) ->
+  robot.respond /(what role does|what roles does) @?(.+) (have)\?*$/i, (msg) ->
     name = msg.match[2].trim()
 
     user = robot.brain.userForName(name)
