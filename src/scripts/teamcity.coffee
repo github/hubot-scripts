@@ -7,7 +7,8 @@
 # Configuration:
 #   HUBOT_TEAMCITY_USERNAME = <user name>
 #   HUBOT_TEAMCITY_PASSWORD = <password>
-#   HUBOT_TEAMCITY_URL = <scheme://host:port>
+#   HUBOT_TEAMCITY_HOSTNAME = <host : port>
+#   HUBOT_TEAMCITY_SCHEME = <http || https> defaults to http if not set.
 #
 # Commands:
 #   hubot show me builds - Show status of currently running builds
@@ -28,7 +29,9 @@ _     = require 'underscore'
 module.exports = (robot) ->
   username = process.env.HUBOT_TEAMCITY_USERNAME
   password = process.env.HUBOT_TEAMCITY_PASSWORD
-  base_url = process.env.HUBOT_TEAMCITY_URL
+  hostname = process.env.HUBOT_TEAMCITY_HOSTNAME
+  scheme = process.env.HUBOT_TEAMCITY_SCHEME || "http"
+  base_url = "#{scheme}://#{hostname}"
 
   buildTypes = []
 
