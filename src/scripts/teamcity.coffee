@@ -20,7 +20,7 @@
 #   hubot tc build start <buildType> of <project> - Adds a build to the queue for the specified build type of the specified project
 #
 # Author:
-#   Micah Martin
+#   Micah Martin and Jens Jahnke
 
 util  = require 'util'
 _     = require 'underscore'
