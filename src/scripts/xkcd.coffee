@@ -35,7 +35,7 @@ module.exports = (robot) ->
           msg.send 'Comic #{num} not found.'
         else
           object = JSON.parse(body)
-          msg.send object.title, object.img, object.al
+          msg.send object.title, object.img, object.alt
 
   robot.respond /xkcd\s+random/i, (msg) ->
     msg.http("http://xkcd.com/info.0.json")
