@@ -20,6 +20,7 @@
 #   Dusty Burwell, Jeremy Sellars and Jens Jahnke
 
 http = require 'http'
+https = require 'https'
 
 host     = process.env.HUBOT_YOUTRACK_HOSTNAME
 username = process.env.HUBOT_YOUTRACK_USERNAME
@@ -92,7 +93,7 @@ module.exports = (robot) ->
     login (login_res) ->
       cookies = (cookie.split(';')[0] for cookie in login_res.headers['set-cookie'])
       ask_options = {
-        hostname: "#{scheme}://#{host}",
+        hostname: host,
         path: path,
         headers: {
           Cookie: cookies,
@@ -100,28 +101,46 @@ module.exports = (robot) ->
         }
       }
 
-      ask_req = http.get ask_options, (ask_res) ->
-        data = ''
+      if scheme == 'https'
+        ask_req = https.get ask_options, (ask_res) ->
+          data = ''
 
-        ask_res.on 'data', (chunk) ->
-          data += chunk
+          ask_res.on 'data', (chunk) ->
+            data += chunk
 
-        ask_res.on 'end', () ->
-          answer = JSON.parse data
-          callback null, answer
+          ask_res.on 'end', () ->
+            answer = JSON.parse data
+            callback null, answer
 
-        ask_res.on 'error', (err) ->
-          callback err ? new Error 'Error getting answer from youtrack'
+          ask_res.on 'error', (err) ->
+            callback err ? new Error 'Error getting answer from youtrack'
+      else
+        ask_req = http.get ask_options, (ask_res) ->
+          data = ''
+
+          ask_res.on 'data', (chunk) ->
+            data += chunk
+
+          ask_res.on 'end', () ->
+            answer = JSON.parse data
+            callback null, answer
+
+          ask_res.on 'error', (err) ->
+            callback err ? new Error 'Error getting answer from youtrack'
 
       ask_req.on 'error', (e) ->
         callback e ? new Error 'Error asking youtrack'
 
   login = (handler) ->
     options = {
-      hostname: "#{scheme}://#{host}",
+      hostname: host,
       path: "/rest/user/login?login=#{username}&password=#{password}",
       method: "POST"
     }
 
-    login_req = http.request options, handler
+    if scheme == 'https'
+      login_req = https.request options, handler
+    else
+      login_req = http.request options, handler
+
     login_req.end()
