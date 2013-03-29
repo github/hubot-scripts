@@ -20,6 +20,11 @@
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
 
 pagerDutyUsers = {}
+pagerDutyUsername    = process.env.HUBOT_PAGERDUTY_USERNAME
+pagerDutyPassword    = process.env.HUBOT_PAGERDUTY_PASSWORD
+pagerDutySubdomain   = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
+pagerDutyBaseUrl     = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
+pagerDutyApiKey      = process.env.HUBOT_PAGERDUTY_APIKEY
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
@@ -80,13 +85,26 @@ module.exports = (robot) ->
     withCurrentOncall msg, (username) ->
       msg.reply "#{username} is on call"
 
-pagerDutyGet = (msg, url, query, cb) ->
-  user    = process.env.HUBOT_PAGERDUTY_USERNAME
-  pass    = process.env.HUBOT_PAGERDUTY_PASSWORD
-  baseUrl = "https://#{process.env.HUBOT_PAGERDUTY_SUBDOMAIN}.pagerduty.com/api/v1"
+missingEnvironmentForApi = (msg) ->
+  missingAnything = false
+  unless pagerDutySubdomain?
+    msg.send "PagerDuty Subdomain is missing:  Ensure that HUBOT_PAGERDUTY_SUBDOMAIN is set."
+    missingAnything |= true
+  unless pagerDutyUsername?
+    msg.send "PagerDuty username is missing:  Ensure that HUBOT_PAGERDUTY_USERNAME is set."
+    missingAnything |= true
+  unless pagerDutyPassword?
+    msg.send "PagerDuty password is missing:  Ensure that HUBOT_PAGERDUTY_PASSWORD is set."
+    missingAnything |= true
+  missingAnything
 
-  auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
-  msg.http(baseUrl + url)
+
+pagerDutyGet = (msg, url, query, cb) ->
+  if missingEnvironmentForApi(msg)
+    return
+
+  auth = 'Basic ' + new Buffer(pagerDutyUsername + ':' + pagerDutyPassword).toString('base64')
+  msg.http(pagerDutyBaseUrl + url)
     .query(query)
     .headers(Authorization: auth, Accept: 'application/json')
     .get() (err, res, body) ->
@@ -100,13 +118,12 @@ pagerDutyGet = (msg, url, query, cb) ->
       cb json_body
 
 pagerDutyPut = (msg, url, data, cb) ->
-  user    = process.env.HUBOT_PAGERDUTY_USERNAME
-  pass    = process.env.HUBOT_PAGERDUTY_PASSWORD
-  baseUrl = "https://#{process.env.HUBOT_PAGERDUTY_SUBDOMAIN}.pagerduty.com/api/v1"
+  if missingEnvironmentForApi(msg)
+    return
 
   json = JSON.stringify(data)
-  auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
-  msg.http(baseUrl + url)
+  auth = 'Basic ' + new Buffer(pagerDutyUsername + ':' + pagerDutyPassword).toString('base64')
+  msg.http(pagerDutyBaseUrl + url)
     .headers(Authorization: auth, Accept: 'application/json')
     .header("content-type","application/json")
     .header("content-length",json.length)
@@ -121,13 +138,12 @@ pagerDutyPut = (msg, url, data, cb) ->
       cb json_body
 
 pagerDutyPost = (msg, url, data, cb) ->
-  user    = process.env.HUBOT_PAGERDUTY_USERNAME
-  pass    = process.env.HUBOT_PAGERDUTY_PASSWORD
-  baseUrl = "https://#{process.env.HUBOT_PAGERDUTY_SUBDOMAIN}.pagerduty.com/api/v1"
+  if missingEnvironmentForApi(msg)
+    return
 
   json = JSON.stringify(data)
-  auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
-  msg.http(baseUrl + url)
+  auth = 'Basic ' + new Buffer(pagerDutyUsername + ':' + pagerDutyPassword).toString('base64')
+  msg.http(pagerDutyBaseUrl + url)
     .headers(Authorization: auth, Accept: 'application/json')
     .header("content-type","application/json")
     .header("content-length",json.length)
@@ -173,8 +189,7 @@ pagerDutyIncidents = (msg, cb) ->
     cb(json.incidents)
 
 pagerDutyIntegrationAPI = (msg, cmd, args, cb) ->
-  apikey = process.env.HUBOT_PAGERDUTY_APIKEY
-  unless apikey?
+  unless pagerDutyApiKey?
     msg.send "PagerDuty API service key is missing."
     msg.send "Ensure that HUBOT_PAGERDUTY_APIKEY is set."
     return
@@ -182,7 +197,7 @@ pagerDutyIntegrationAPI = (msg, cmd, args, cb) ->
   data = null
   switch cmd
     when "trigger"
-      data = JSON.stringify { service_key: "#{apikey}", event_type: "trigger", description: "#{args}"}
+      data = JSON.stringify { service_key: pagerDutyApiKey, event_type: "trigger", description: "#{args}"}
       pagerDutyIntergrationPost msg, data, (json) ->
         cb(json)
 
