@@ -1,6 +1,17 @@
-# PagerDuty
+# Description:
+#   PagerDuty Integration for checking who's on call, making exceptions, ack, resolve, etc.
 #
-# Required environment variables:
+# Commands:
+#
+#   hubot who's on call - return the username of who's on call
+#   hubot pager me page <msg> - create a new incident
+#   hubot pager me 60 - take the pager for 60 minutes
+#   hubot pager me incidents - return the current incidents
+#   hubot pager me problems - return all open inicidents
+#   hubot pager me ack 24 - ack incident #24
+#   hubot pager me resolve 24 - resolve incident #24
+
+# Configuration
 #
 #   HUBOT_PAGERDUTY_USERNAME
 #   HUBOT_PAGERDUTY_PASSWORD
@@ -8,20 +19,14 @@
 #   HUBOT_PAGERDUTY_APIKEY     Service API Key from a 'General API Service'
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
 
-
 pagerDutyUsers = {}
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
-    buffer = "PagerDuty\n\nUsage:\n"
-    buffer = buffer + "  /who's on call              # return the username of who's on call\n\n"
-    buffer = buffer + "  /pager me page <msg>        # create a new incident\n\n"
-    buffer = buffer + "  /pager me 60                # take the pager for 60 minutes\n\n"
-    buffer = buffer + "  /pager me incidents         # return the current incidents\n"
-    buffer = buffer + "  /pager me problems          # return all open inicidents\n\n"
-    buffer = buffer + "  /pager me ack 24            # ack incident #24\n"
-    buffer = buffer + "  /pager me resolve 24        # resolve incident #24\n"
-    msg.send buffer
+
+    cmds = robot.helpCommands()
+    cmds = (cmd for cmd in cmds when cmd.match(/(pager me |who's on call)/))
+    msg.send cmds.join("\n")
 
   # Assumes your Campfire usernames and PagerDuty names are identical
   robot.respond /pager( me)? (\d+)/i, (msg) ->
