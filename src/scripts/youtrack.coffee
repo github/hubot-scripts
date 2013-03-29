@@ -92,7 +92,7 @@ module.exports = (robot) ->
     login (login_res) ->
       cookies = (cookie.split(';')[0] for cookie in login_res.headers['set-cookie'])
       ask_options = {
-	hostname: "#{scheme}://#{host}",
+        hostname: "#{scheme}://#{host}",
         path: path,
         headers: {
           Cookie: cookies,
