@@ -53,11 +53,11 @@ module.exports = (robot) ->
   robot.respond /(pager|major)( me)? (inc|incidents|sup|problems)$/i, (msg) ->
     pagerDutyIncidents msg, (incidents) ->
       if incidents.length > 0
-        buffer = "Triggered\n\n"
+        buffer = "Triggered:\n----------\n"
         for junk, incident of incidents.reverse()
           if incident.status == 'triggered'
             buffer = buffer + formatIncident(incident)
-        buffer = buffer + "\nAcknowledged\n\n"
+        buffer = buffer + "\nAcknowledged:\n-------------\n"
         for junk, incident of incidents.reverse()
           if incident.status == 'acknowledged'
             buffer = buffer + formatIncident(incident)
