@@ -101,6 +101,8 @@ module.exports = (robot) ->
 
     if response && response.buffer
       robot.brain.mergeData JSON.parse(response.buffer.toString())
+    else
+      robot.brain.mergeData {}
 
   robot.brain.on 'loaded', () ->
     loaded = true
