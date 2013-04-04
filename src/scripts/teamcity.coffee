@@ -113,6 +113,15 @@ getCurrentBuild = (msg, type, callback) ->
     getBuildTypes msg, project, (err, msg, buildTypes) ->
       callback msg, execute(buildTypes)
 
+  mapBuildTypeIdToName = (msg, id, callback) ->
+    url = "http://#{hostname}/httpAuth/app/rest/buildTypes/id:#{id}"
+    msg.http(url)
+      .headers(getAuthHeader())
+      .get() (err, res, body) ->
+        err = body unless res.statusCode = 200
+        buildName = JSON.parse(body).name unless err
+        callback err, msg, buildName
+
   robot.respond /show me builds/i, (msg) ->
     getCurrentBuild msg, (err, builds, msg) ->
       if typeof(builds)=='string'
@@ -122,10 +131,11 @@ getCurrentBuild = (msg, type, callback) ->
         return
 
       for build in builds['build']
-        baseMessage = "##{build.number} of #{build.branchName} #{build.webUrl}"
-        status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
-        message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
-        msg.send message
+        mapBuildTypeIdToName msg, build['buildTypeId'], (err, msg, name)->
+          baseMessage = "##{build.number} of #{name} #{build.webUrl}"
+          status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
+          message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
+          msg.send message
 
   robot.respond /tc build start (.*)/i, (msg) ->
     configuration = buildName = msg.match[1]
@@ -194,13 +204,14 @@ getCurrentBuild = (msg, type, callback) ->
             msg.send "Could not find builds for #{option}"
             return
 
-          for build in builds             
-            baseMessage = "##{build.number} of #{build.branchName} #{build.webUrl}"
-            if build.running
-              status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
-              message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
-            else
-              status = if build.status == "SUCCESS" then "OK!" else "__FAILED__"
-              message = "#{status} :: #{baseMessage}"
+          for build in builds
+            mapBuildTypeIdToName msg, build['buildTypeId'], (err, msg, name)->
+              baseMessage = "##{build.number} of #{name} #{build.webUrl}"
+              if build.running
+                status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
+                message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
+              else
+                status = if build.status == "SUCCESS" then "OK!" else "__FAILED__"
+                message = "#{status} :: #{baseMessage}"
 
-            msg.send message
+              msg.send message
