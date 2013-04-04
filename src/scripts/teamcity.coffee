@@ -47,13 +47,18 @@ module.exports = (robot) ->
         err = body unless res.statusCode == 200
         callback err, body, msg
 
-  getCurrentBuild = (msg, type, callback) ->
-    url = "#{base_url}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
-    msg.http(url)
-      .headers(getAuthHeader())
-      .get() (err, res, body) ->
-        err = body unless res.statusCode == 200
-        callback err, body, msg
+getCurrentBuild = (msg, type, callback) ->
+  if (arguments.length == 2)
+    if (Object.prototype.toString.call(type) == "[object Function]")
+      callback = type
+      url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=running:true"
+  else
+    url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
+  msg.http(url)
+    .headers(getAuthHeader())
+    .get() (err, res, body) ->
+    err = body unless res.statusCode == 200
+    callback err, body, msg
 
 
   getProjects = (msg, callback) ->
@@ -107,6 +112,20 @@ module.exports = (robot) ->
 
     getBuildTypes msg, project, (err, msg, buildTypes) ->
       callback msg, execute(buildTypes)
+
+  robot.respond /show me builds/i, (msg) ->
+    getCurrentBuild msg, (err, builds, msg) ->
+      if typeof(builds)=='string'
+        builds=JSON.parse(builds)
+      if builds['count']==0
+        msg.send "No builds are currently running"
+        return
+
+      for build in builds['build']
+        baseMessage = "##{build.number} of #{build.branchName} #{build.webUrl}"
+        status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
+        message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
+        msg.send message
 
   robot.respond /tc build start (.*)/i, (msg) ->
     configuration = buildName = msg.match[1]
