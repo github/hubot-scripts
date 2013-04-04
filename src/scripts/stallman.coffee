@@ -47,7 +47,7 @@ wisdom = [
   "Richard Stallman's anti-virus programs cures HIV."
   "Richard Stallman's computer doesn't have a clock; it defines what time it is."
   "Richard Stallman wrote a program to compute the last digit of pi."
-  "Richard Stallman doesn't use web browsers. He sends a link to a daemon that uses wget to fetch the page and sends it back to him."
+  "Richard Stallman doesn't use web browsers. He sends a link to a daemon that uses something like wget to fetch the page and sends it back to him."
   "Richard Stallman can solve the halting problem... in polynomial time."
   "For Richard Stallman, polynomial time is O(1)."
   "Richard Stallman didn't \"write\" Emacs or created it in his own image. Richard Stallman made Emacs an instance of himself."
