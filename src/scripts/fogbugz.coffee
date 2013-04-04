@@ -40,7 +40,7 @@ module.exports = (robot) ->
           (new Parser()).parseString body, (err,json) ->
             truncate = (text,length=60,suffix="...") ->
               if text.length > length then (text.substr(0,length-suffix.length) + suffix) else text
-            bug = json.cases?[0].case[0]
+            bug = json.response.cases?[0].case[0]
             if bug
               msg.send "https://#{env.HUBOT_FOGBUGZ_HOST}/?#{bug.ixBug[0]}"
               details = [
