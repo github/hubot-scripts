@@ -62,7 +62,7 @@ module.exports = (robot) ->
     url = msg.match[0]
     return if recentLinks.contains url
     recentLinks.add url
-    msg.http(url).get() (err, res, body) ->
+    msg.http(url).headers('User-Agent': 'hubot').get() (err, res, body) ->
       if err
         console.log "Errors getting url: #{url}"
         return   
