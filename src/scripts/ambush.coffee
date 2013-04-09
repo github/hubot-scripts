@@ -35,6 +35,8 @@ module.exports = (robot) ->
       msg.send "#{msg.match[1]}? Never heard of 'em"
   
   robot.hear /./i, (msg) ->
+    if (!robot.brain.data.ambushes)
+      return
     if (ambushes = robot.brain.data.ambushes[msg.message.user.name])
       msg.send "Hey, " + msg.message.user.name + ", while you were out:"
       for ambush in ambushes
