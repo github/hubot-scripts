@@ -22,7 +22,7 @@ module.exports = (robot) ->
   robot.respond /who do you know(\?)?$/i, (msg) ->
     theReply = "Here is who I know:\n"
 
-    for own key, user of robot.brain.users
+    for own key, user of robot.brain.users()
       if(user.githubLogin)
         theReply += user.name + " is " + user.githubLogin + "\n"
 

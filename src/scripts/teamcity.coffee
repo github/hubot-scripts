@@ -8,6 +8,7 @@
 #   HUBOT_TEAMCITY_USERNAME = <user name>
 #   HUBOT_TEAMCITY_PASSWORD = <password>
 #   HUBOT_TEAMCITY_HOSTNAME = <host : port>
+#   HUBOT_TEAMCITY_SCHEME = <http || https> defaults to http if not set.
 #
 # Commands:
 #   hubot show me builds - Show status of currently running builds
@@ -20,7 +21,7 @@
 #   hubot tc build start <buildType> of <project> - Adds a build to the queue for the specified build type of the specified project
 #
 # Author:
-#   Micah Martin
+#   Micah Martin and Jens Jahnke
 
 util  = require 'util'
 _     = require 'underscore'
@@ -29,6 +30,8 @@ module.exports = (robot) ->
   username = process.env.HUBOT_TEAMCITY_USERNAME
   password = process.env.HUBOT_TEAMCITY_PASSWORD
   hostname = process.env.HUBOT_TEAMCITY_HOSTNAME
+  scheme = process.env.HUBOT_TEAMCITY_SCHEME || "http"
+  base_url = "#{scheme}://#{hostname}"
 
   buildTypes = []
 
@@ -36,7 +39,7 @@ module.exports = (robot) ->
     return Authorization: "Basic #{new Buffer("#{username}:#{password}").toString("base64")}", Accept: "application/json"
 
   getBuildType = (msg, type, callback) ->
-    url = "http://#{hostname}/httpAuth/app/rest/buildTypes/#{type}"
+    url = "#{base_url}/httpAuth/app/rest/buildTypes/#{type}"
     console.log "sending request to #{url}"
     msg.http(url)
       .headers(getAuthHeader())
@@ -44,17 +47,22 @@ module.exports = (robot) ->
         err = body unless res.statusCode == 200
         callback err, body, msg
 
-  getCurrentBuild = (msg, type, callback) ->
+getCurrentBuild = (msg, type, callback) ->
+  if (arguments.length == 2)
+    if (Object.prototype.toString.call(type) == "[object Function]")
+      callback = type
+      url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=running:true"
+  else
     url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
-    msg.http(url)
-      .headers(getAuthHeader())
-      .get() (err, res, body) ->
-        err = body unless res.statusCode == 200
-        callback err, body, msg
+  msg.http(url)
+    .headers(getAuthHeader())
+    .get() (err, res, body) ->
+    err = body unless res.statusCode == 200
+    callback err, body, msg
 
 
   getProjects = (msg, callback) ->
-    url = "http://#{hostname}/httpAuth/app/rest/projects"
+    url = "#{base_url}/httpAuth/app/rest/projects"
     msg.http(url)
       .headers(getAuthHeader())
       .get() (err, res, body) ->
@@ -66,7 +74,7 @@ module.exports = (robot) ->
     projectSegment = ''
     if project?
       projectSegment = '/projects/name:' + encodeURIComponent project
-    url = "http://#{hostname}/httpAuth/app/rest#{projectSegment}/buildTypes"
+    url = "#{base_url}/httpAuth/app/rest#{projectSegment}/buildTypes"
     console.log url
     msg.http(url)
       .headers(getAuthHeader())
@@ -80,7 +88,7 @@ module.exports = (robot) ->
     if project?
       projectSegment = "/projects/name:#{encodeURIComponent(project)}"
 
-    url = "http://#{hostname}/httpAuth/app/rest#{projectSegment}/buildTypes/name:#{encodeURIComponent(configuration)}/builds"
+    url = "#{base_url}/httpAuth/app/rest#{projectSegment}/buildTypes/name:#{encodeURIComponent(configuration)}/builds"
     msg.http(url)
       .headers(getAuthHeader())
       .query(locator: ["lookupLimit:5","running:any"].join(","))
@@ -105,6 +113,30 @@ module.exports = (robot) ->
     getBuildTypes msg, project, (err, msg, buildTypes) ->
       callback msg, execute(buildTypes)
 
+  mapBuildTypeIdToName = (msg, id, callback) ->
+    url = "http://#{hostname}/httpAuth/app/rest/buildTypes/id:#{id}"
+    msg.http(url)
+      .headers(getAuthHeader())
+      .get() (err, res, body) ->
+        err = body unless res.statusCode = 200
+        buildName = JSON.parse(body).name unless err
+        callback err, msg, buildName
+
+  robot.respond /show me builds/i, (msg) ->
+    getCurrentBuild msg, (err, builds, msg) ->
+      if typeof(builds)=='string'
+        builds=JSON.parse(builds)
+      if builds['count']==0
+        msg.send "No builds are currently running"
+        return
+
+      for build in builds['build']
+        mapBuildTypeIdToName msg, build['buildTypeId'], (err, msg, name)->
+          baseMessage = "##{build.number} of #{name} #{build.webUrl}"
+          status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
+          message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
+          msg.send message
+
   robot.respond /tc build start (.*)/i, (msg) ->
     configuration = buildName = msg.match[1]
     project = null
@@ -120,7 +152,7 @@ module.exports = (robot) ->
         msg.send "Build type #{buildName} was not found"
         return
 
-      url = "http://#{hostname}/httpAuth/action.html?add2Queue=#{buildType}"
+      url = "#{base_url}/httpAuth/action.html?add2Queue=#{buildType}"
       msg.http(url)
         .headers(getAuthHeader())
         .get() (err, res, body) ->
@@ -172,13 +204,14 @@ module.exports = (robot) ->
             msg.send "Could not find builds for #{option}"
             return
 
-          for build in builds             
-            baseMessage = "##{build.number} of #{build.branchName} #{build.webUrl}"
-            if build.running
-              status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
-              message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
-            else
-              status = if build.status == "SUCCESS" then "OK!" else "__FAILED__"
-              message = "#{status} :: #{baseMessage}"
+          for build in builds
+            mapBuildTypeIdToName msg, build['buildTypeId'], (err, msg, name)->
+              baseMessage = "##{build.number} of #{name} #{build.webUrl}"
+              if build.running
+                status = if build.status == "SUCCESS" then "**Winning**" else "__FAILING__"
+                message = "#{status} #{build.percentageComplete}% Complete :: #{baseMessage}"
+              else
+                status = if build.status == "SUCCESS" then "OK!" else "__FAILED__"
+                message = "#{status} :: #{baseMessage}"
 
-            msg.send message
+              msg.send message
