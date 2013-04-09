@@ -6,7 +6,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_KEEP_ALIVE_FREQUENCY
 #
 # Commands:
 #   hubot keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
@@ -19,7 +19,7 @@
 HTTP = require "http"
 URL  = require "url"
 
-frequency = 60000
+frequency = process.env.HUBOT_KEEP_ALIVE_FREQUENCY || 60000
 
 ping = (url) ->
   parsedUrl = URL.parse(url)
