@@ -10,14 +10,21 @@
 #   hubot pager me problems - return all open inicidents
 #   hubot pager me ack 24 - ack incident #24
 #   hubot pager me resolve 24 - resolve incident #24
-
-# Configuration
+#
+# Dependencies:
+#  "moment": "1.6.2"
+# 
+# Configuration:
 #
 #   HUBOT_PAGERDUTY_USERNAME
 #   HUBOT_PAGERDUTY_PASSWORD
 #   HUBOT_PAGERDUTY_SUBDOMAIN
 #   HUBOT_PAGERDUTY_APIKEY     Service API Key from a 'General API Service'
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
+
+inspect = require('util').inspect
+
+moment = require('moment')
 
 pagerDutyUsers = {}
 pagerDutyUsername    = process.env.HUBOT_PAGERDUTY_USERNAME
@@ -29,21 +36,40 @@ pagerDutyApiKey      = process.env.HUBOT_PAGERDUTY_APIKEY
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
 
+    emailNote = if msg.message.user.pagerdutyEmail
+                  "You've told me your PagerDuty email is #{msg.message.user.pagerdutyEmail}"
+                else if msg.message.user.email_address
+                  "I'm assuming your PagerDuty email is #{msg.message.user.email_address}. Change it with `hubot pager me as you@yourdomain.com`"
+                else
+                  "I don't know your PagerDuty email. Change it with `hubot pager me as you@yourdomain.com`"
+
     cmds = robot.helpCommands()
     cmds = (cmd for cmd in cmds when cmd.match(/(pager me |who's on call)/))
-    msg.send cmds.join("\n")
+    msg.send emailNote, cmds.join("\n")
+
+  robot.respond /pager(?: me)? as (.*)$/i, (msg) ->
+    email = msg.match[1]
+    msg.message.user.pagerdutyEmail = email
+    msg.send "Okay, I'll remember your PagerDuty email is #{email}"
 
   # Assumes your Campfire usernames and PagerDuty names are identical
   robot.respond /pager( me)? (\d+)/i, (msg) ->
     withPagerDutyUsers msg, (users) ->
-      username  = msg.message.user.name
-      if username == "Shell"
-        username = process.env.USER
-      userId    = users[username].id
+      email  = msg.message.user.pagerdutyEmail || msg.message.user.email_address
+      unless email
+        msg.send "Sorry, I can't figure out your email address :( Can you tell me with `hubot pager me as you@yourdomain.com`?"
+        return
+
+      userId    = users[email].id
+
+      unless userId
+        msg.send "Sorry, I couldn't find a PagerDuty user for #{email}. Double check you have a user, and that I know your PagerDuty email with `hubot pager me as you@yourdomain.com`"
+        return
+
       now       = new Date()
-      start     = now.toISOString()
+      start     = moment().format()
       minutes   = parseInt msg.match[2]
-      end       = now.addMinutes(minutes).toISOString()
+      end       = moment().add('minutes', minutes).format()
       override  = {
         'start':     start,
         'end':       end,
@@ -53,7 +79,9 @@ module.exports = (robot) ->
         data = { 'override': override }
         pagerDutyPost msg, "/schedules/#{process.env.HUBOT_PAGERDUTY_SCHEDULE_ID}/overrides", data, (json) ->
           if json.override
-            msg.send "rejoice, #{old_username}! #{json.override.user.name} has the pager from #{json.override.start} until #{json.override.end}"
+            start = moment(json.override.start)
+            end = moment(json.override.end)
+            msg.send "Rejoice, #{old_username}! #{json.override.user.name} has the pager from #{start.calendar()} until #{end.calendar()}"
 
   robot.respond /(pager|major)( me)? (inc|incidents|sup|problems)$/i, (msg) ->
     pagerDutyIncidents msg, (incidents) ->
@@ -158,9 +186,9 @@ pagerDutyPost = (msg, url, data, cb) ->
       cb json_body
 
 withCurrentOncall = (msg, cb) ->
-  now = new Date()
-  oneHour = now.addHours(1).toISOString()
-  now = now.toISOString()
+  oneHour = moment().add('hours', 1).format()
+  now = moment().format()
+
   query = {
     since: now,
     until: oneHour,
@@ -175,7 +203,8 @@ withPagerDutyUsers = (msg, cb) ->
     pagerDutyGet msg, "/users", {}, (json) ->
       pagerDutyUsers['loaded'] = true
       for user in json.users
-        pagerDutyUsers[user.id]   = user
+        pagerDutyUsers[user.id] = user
+        pagerDutyUsers[user.email] = user
         pagerDutyUsers[user.name] = user
       cb(pagerDutyUsers)
   else
