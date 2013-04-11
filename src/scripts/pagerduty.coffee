@@ -4,13 +4,14 @@
 # Commands:
 #
 #   hubot who's on call - return the username of who's on call
-#   hubot pager me page <msg> - create a new incident with <msg>
+#   hubot pager me trigger <msg> - create a new incident with <msg>
 #   hubot pager me 60 - take the pager for 60 minutes
 #   hubot pager me as you@yourdomain.com - remember your pager email is you@yourdomain.com
 #   hubot pager me incidents - return the current incidents
+#   hubot pager me note <incident> <content> - add note to incident #<incident> with <content>
 #   hubot pager me problems - return all open inicidents
-#   hubot pager me ack 24 - ack incident #24
-#   hubot pager me resolve 24 - resolve incident #24
+#   hubot pager me ack <incident> - ack incident #<incident>
+#   hubot pager me resolve <incident> - resolve incident #<incident>
 #
 # Dependencies:
 #  "moment": "1.6.2"
@@ -101,7 +102,7 @@ module.exports = (robot) ->
       else
         msg.send "Chillin"
 
-  robot.respond /(pager|major)( me)? page (.+)$/i, (msg) ->
+  robot.respond /(pager|major)( me)? trigger (.+)$/i, (msg) ->
     pagerDutyIntegrationAPI msg, "trigger", msg.match[3], (json) ->
       msg.reply "#{json.status}, key: #{json.incident_key}"
 
