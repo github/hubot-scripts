@@ -4,7 +4,7 @@
 # Commands:
 #
 #   hubot who's on call - return the username of who's on call
-#   hubot pager me page <msg> - create a new incident
+#   hubot pager me page <msg> - create a new incident with <msg>
 #   hubot pager me 60 - take the pager for 60 minutes
 #   hubot pager me as you@yourdomain.com - remember your pager email is you@yourdomain.com
 #   hubot pager me incidents - return the current incidents
