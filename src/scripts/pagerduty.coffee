@@ -70,7 +70,6 @@ module.exports = (robot) ->
         msg.send "Sorry, I couldn't find a PagerDuty user for #{email}. Double check you have a user, and that I know your PagerDuty email with `hubot pager me as you@yourdomain.com`"
         return
 
-      now       = new Date()
       start     = moment().format()
       minutes   = parseInt msg.match[2]
       end       = moment().add('minutes', minutes).format()
