@@ -6,6 +6,7 @@
 #   hubot who's on call - return the username of who's on call
 #   hubot pager me page <msg> - create a new incident
 #   hubot pager me 60 - take the pager for 60 minutes
+#   hubot pager me as you@yourdomain.com - remember your pager email is you@yourdomain.com
 #   hubot pager me incidents - return the current incidents
 #   hubot pager me problems - return all open inicidents
 #   hubot pager me ack 24 - ack incident #24
@@ -32,6 +33,7 @@ pagerDutyPassword    = process.env.HUBOT_PAGERDUTY_PASSWORD
 pagerDutySubdomain   = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
 pagerDutyBaseUrl     = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
 pagerDutyApiKey      = process.env.HUBOT_PAGERDUTY_APIKEY
+pagerDutyScheduleId  = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
@@ -77,7 +79,7 @@ module.exports = (robot) ->
       }
       withCurrentOncall msg, (old_username) ->
         data = { 'override': override }
-        pagerDutyPost msg, "/schedules/#{process.env.HUBOT_PAGERDUTY_SCHEDULE_ID}/overrides", data, (json) ->
+        pagerDutyPost msg, "/schedules/#{pagerDutyScheduleId}/overrides", data, (json) ->
           if json.override
             start = moment(json.override.start)
             end = moment(json.override.end)
@@ -194,7 +196,7 @@ withCurrentOncall = (msg, cb) ->
     until: oneHour,
     overflow: 'true'
   }
-  pagerDutyGet msg, "/schedules/#{process.env.HUBOT_PAGERDUTY_SCHEDULE_ID}/entries", query, (json) ->
+  pagerDutyGet msg, "/schedules/#{pagerDutyScheduleId}/entries", query, (json) ->
     if json.entries and json.entries.length > 0
       cb(json.entries[0].user.name)
 
