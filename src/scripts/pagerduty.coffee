@@ -37,6 +37,8 @@ pagerDutyScheduleId  = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
+    if missingEnvironmentForApi(msg)
+      return
 
     emailNote = if msg.message.user.pagerdutyEmail
                   "You've told me your PagerDuty email is #{msg.message.user.pagerdutyEmail}"
@@ -125,6 +127,9 @@ missingEnvironmentForApi = (msg) ->
     missingAnything |= true
   unless pagerDutyPassword?
     msg.send "PagerDuty password is missing:  Ensure that HUBOT_PAGERDUTY_PASSWORD is set."
+    missingAnything |= true
+  unless pagerDutyScheduleId?
+    msg.send "PagerDuty schedule is missing:  Ensure that HUBOT_PAGERDUTY_SCHEDULE_ID is set."
     missingAnything |= true
   missingAnything
 
