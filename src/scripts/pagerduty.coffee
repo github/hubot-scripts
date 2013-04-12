@@ -93,7 +93,7 @@ module.exports = (robot) ->
       else
         msg.send "No open incidents"
 
-  robot.respond /(pager|major)( me)? trigger (.+)$/i, (msg) ->
+  robot.respond /(pager|major)( me)? (?:trigger|page) (.+)$/i, (msg) ->
     pagerDutyIntegrationAPI msg, "trigger", msg.match[3], (json) ->
       msg.reply "#{json.status}, key: #{json.incident_key}"
 
