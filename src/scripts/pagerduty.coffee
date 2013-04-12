@@ -18,10 +18,9 @@
 # 
 # Configuration:
 #
-#   HUBOT_PAGERDUTY_USERNAME
-#   HUBOT_PAGERDUTY_PASSWORD
+#   HUBOT_PAGERDUTY_API_KEY - API Access Key
 #   HUBOT_PAGERDUTY_SUBDOMAIN
-#   HUBOT_PAGERDUTY_APIKEY     Service API Key from a 'General API Service'
+#   HUBOT_PAGERDUTY_SERVICE_API_KEY - Service API Key from a 'General API Service'
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
 
 inspect = require('util').inspect
@@ -29,12 +28,11 @@ inspect = require('util').inspect
 moment = require('moment')
 
 pagerDutyUsers = {}
-pagerDutyUsername    = process.env.HUBOT_PAGERDUTY_USERNAME
-pagerDutyPassword    = process.env.HUBOT_PAGERDUTY_PASSWORD
-pagerDutySubdomain   = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
-pagerDutyBaseUrl     = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
-pagerDutyApiKey      = process.env.HUBOT_PAGERDUTY_APIKEY
-pagerDutyScheduleId  = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
+pagerDutyApiKey        = process.env.HUBOT_PAGERDUTY_API_KEY
+pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
+pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
+pagerDutyServiceApiKey = process.env.HUBOT_PAGERDUTY_SERVICE_API_KEY
+pagerDutyScheduleId    = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
@@ -136,14 +134,11 @@ module.exports = (robot) ->
     unless pagerDutySubdomain?
       msg.send "PagerDuty Subdomain is missing:  Ensure that HUBOT_PAGERDUTY_SUBDOMAIN is set."
       missingAnything |= true
-    unless pagerDutyUsername?
-      msg.send "PagerDuty username is missing:  Ensure that HUBOT_PAGERDUTY_USERNAME is set."
-      missingAnything |= true
-    unless pagerDutyPassword?
-      msg.send "PagerDuty password is missing:  Ensure that HUBOT_PAGERDUTY_PASSWORD is set."
+    unless pagerDutyApiKey?
+      msg.send "PagerDuty API Key is missing:  Ensure that HUBOT_PAGERDUTY_API_KEY is set."
       missingAnything |= true
     unless pagerDutyScheduleId?
-      msg.send "PagerDuty schedule is missing:  Ensure that HUBOT_PAGERDUTY_SCHEDULE_ID is set."
+      msg.send "PagerDuty Schedule ID is missing:  Ensure that HUBOT_PAGERDUTY_SCHEDULE_ID is set."
       missingAnything |= true
     missingAnything
 
@@ -166,7 +161,7 @@ module.exports = (robot) ->
     if missingEnvironmentForApi(msg)
       return
   
-    auth = 'Basic ' + new Buffer(pagerDutyUsername + ':' + pagerDutyPassword).toString('base64')
+    auth = "Token token=#{pagerDutyApiKey}"
     msg.http(pagerDutyBaseUrl + url)
       .query(query)
       .headers(Authorization: auth, Accept: 'application/json')
@@ -185,7 +180,7 @@ module.exports = (robot) ->
       return
   
     json = JSON.stringify(data)
-    auth = 'Basic ' + new Buffer(pagerDutyUsername + ':' + pagerDutyPassword).toString('base64')
+    auth = "Token token=#{pagerDutyApiKey}"
     msg.http(pagerDutyBaseUrl + url)
       .headers(Authorization: auth, Accept: 'application/json')
       .header("content-type","application/json")
@@ -205,7 +200,7 @@ module.exports = (robot) ->
       return
   
     json = JSON.stringify(data)
-    auth = 'Basic ' + new Buffer(pagerDutyUsername + ':' + pagerDutyPassword).toString('base64')
+    auth = "Token token=#{pagerDutyApiKey}"
     msg.http(pagerDutyBaseUrl + url)
       .headers(Authorization: auth, Accept: 'application/json')
       .header("content-type","application/json")
@@ -253,15 +248,15 @@ module.exports = (robot) ->
       cb(json.incidents)
   
   pagerDutyIntegrationAPI = (msg, cmd, args, cb) ->
-    unless pagerDutyApiKey?
+    unless pagerDutyServiceApiKey?
       msg.send "PagerDuty API service key is missing."
-      msg.send "Ensure that HUBOT_PAGERDUTY_APIKEY is set."
+      msg.send "Ensure that HUBOT_PAGERDUTY_SERVICE_API_KEY is set."
       return
   
     data = null
     switch cmd
       when "trigger"
-        data = JSON.stringify { service_key: pagerDutyApiKey, event_type: "trigger", description: "#{args}"}
+        data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: "#{args}"}
         pagerDutyIntergrationPost msg, data, (json) ->
           cb(json)
   
@@ -282,33 +277,38 @@ module.exports = (robot) ->
       ""
   
   updateIncident = (msg, incident_number, status) ->
-    pagerDutyIncidents msg, (incidents) ->
-      foundIncidents = []
-      for incident in incidents
-        if "#{incident.incident_number}" == incident_number
-          foundIncidents = [ incident ]
-          # loljson
-          data = {
-            incidents: [
-              {
-                'id':     incident.id,
-                'status': status
-              }
-            ]
-          }
-          pagerDutyPut msg, "/incidents", data, (json) ->
-            if incident = json.incidents[0]
-              msg.reply "Incident #{incident.incident_number} #{incident.status}."
-            else
-              msg.reply "Problem updating incident #{incident_number}"
-      if foundIncidents.length == 0
-        msg.reply "Couldn't find incident #{incident_number}"
+    withPagerDutyUsers msg, (users) ->
+      userId = pagerDutyUserId(msg, users)
+      return unless userId
+
+      pagerDutyIncidents msg, (incidents) ->
+        foundIncidents = []
+        for incident in incidents
+          if "#{incident.incident_number}" == incident_number
+            foundIncidents = [ incident ]
+            # loljson
+            data = {
+              requester_id: userId
+              incidents: [
+                {
+                  'id':     incident.id,
+                  'status': status
+                }
+              ]
+            }
+            pagerDutyPut msg, "/incidents", data, (json) ->
+              if incident = json.incidents[0]
+                msg.reply "Incident #{incident.incident_number} #{incident.status}."
+              else
+                msg.reply "Problem updating incident #{incident_number}"
+        if foundIncidents.length == 0
+          msg.reply "Couldn't find incident #{incident_number}"
   
   
   pagerDutyIntergrationPost = (msg, json, cb) ->
     msg.http('https://events.pagerduty.com/generic/2010-04-15/create_event.json')
       .header("content-type","application/json")
-      .header("content-length",json.length)
+      .header("content-length", json.length)
       .post(json) (err, res, body) ->
         switch res.statusCode
           when 200
