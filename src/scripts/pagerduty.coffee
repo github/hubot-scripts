@@ -9,6 +9,7 @@
 #   hubot pager me as <email> - remember your pager email is <email>
 #   hubot pager me incidents - return the current incidents
 #   hubot pager me note <incident> <content> - add note to incident #<incident> with <content>
+#   hubot pager me notes <incident> <content> - show notes for incident #<incident>
 #   hubot pager me problems - return all open inicidents
 #   hubot pager me ack <incident> - ack incident #<incident>
 #   hubot pager me resolve <incident> - resolve incident #<incident>
@@ -102,6 +103,15 @@ module.exports = (robot) ->
 
   robot.respond /(pager|major)( me)? res(olve)?(d)? (.+)$/i, (msg) ->
     updateIncident(msg, msg.match[5], 'resolved')
+
+  robot.respond /(pager|major)( me)? notes (.+)$/i, (msg) ->
+    incidentId = msg.match[3]
+    pagerDutyGet msg, "/incidents/#{incidentId}/notes", {}, (json) ->
+      buffer = ""
+      for note in json.notes
+        buffer += "#{note.created_at} #{note.user.name}: #{note.content}\n"
+      msg.send buffer
+
 
   robot.respond /(pager|major)( me)? note ([\d\w]+) (.+)$/i, (msg) ->
     incidentId = msg.match[3]
