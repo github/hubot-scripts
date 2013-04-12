@@ -37,3 +37,14 @@ module.exports = (robot) ->
         msg.send ccout
       else
         msg.send "Drush experienced and error."
+
+  robot.respond /enabled modules (.*)$/i, (msg) ->
+    pmlOut = '\n'
+    pml = spawn("drush", [msg.match[1], "pml", "--status=enabled", "--no-core"])
+    pml.stdout.on "data", (data) ->
+      pmlOut = pmlOut + data
+    pml.stderr.on "data", (data) ->
+      pmlOut = pmlOut + data
+    pml.on "exit", (code) ->
+      msg.send pmlOut
+
