@@ -60,16 +60,9 @@ module.exports = (robot) ->
   # Assumes your Campfire usernames and PagerDuty names are identical
   robot.respond /pager( me)? (\d+)/i, (msg) ->
     withPagerDutyUsers msg, (users) ->
-      email  = msg.message.user.pagerdutyEmail || msg.message.user.email_address
-      unless email
-        msg.send "Sorry, I can't figure out your email address :( Can you tell me with `hubot pager me as you@yourdomain.com`?"
-        return
 
-      userId    = users[email].id
-
-      unless userId
-        msg.send "Sorry, I couldn't find a PagerDuty user for #{email}. Double check you have a user, and that I know your PagerDuty email with `hubot pager me as you@yourdomain.com`"
-        return
+      userId = pagerDutyUserId(msg, users)
+      return unless userId
 
       start     = moment().format()
       minutes   = parseInt msg.match[2]
@@ -100,7 +93,7 @@ module.exports = (robot) ->
             buffer = buffer + formatIncident(incident)
         msg.send buffer
       else
-        msg.send "Chillin"
+        msg.send "No open incidents"
 
   robot.respond /(pager|major)( me)? trigger (.+)$/i, (msg) ->
     pagerDutyIntegrationAPI msg, "trigger", msg.match[3], (json) ->
@@ -111,6 +104,27 @@ module.exports = (robot) ->
 
   robot.respond /(pager|major)( me)? res(olve)?(d)? (.+)$/i, (msg) ->
     updateIncident(msg, msg.match[5], 'resolved')
+
+  robot.respond /(pager|major)( me)? note ([\d\w]+) (.+)$/i, (msg) ->
+    incidentId = msg.match[3]
+    content = msg.match[4]
+
+    withPagerDutyUsers msg, (users) ->
+
+      userId = pagerDutyUserId(msg, users)
+      return unless userId
+
+      data =
+        note:
+          content: content
+        requester_id: userId
+
+      pagerDutyPost msg, "/incidents/#{incidentId}/notes", data, (json) ->
+        if json && json.note
+          msg.send "Got it! Note created: #{json.note.content}"
+        else
+          msg.send "Sorry, I couldn't do it :("
+
 
   # who is on call?
   robot.respond /who('s|s| is)? (on call|oncall)/i, (msg) ->
@@ -133,6 +147,20 @@ missingEnvironmentForApi = (msg) ->
     missingAnything |= true
   missingAnything
 
+
+pagerDutyUserId = (msg, users) ->
+  email  = msg.message.user.pagerdutyEmail || msg.message.user.email_address
+  unless email
+    msg.send "Sorry, I can't figure out your email address :( Can you tell me with `hubot pager me as you@yourdomain.com`?"
+    return
+
+  userId = users[email].id
+
+  unless userId
+    msg.send "Sorry, I couldn't find a PagerDuty user for #{email}. Double check you have a user, and that I know your PagerDuty email with `hubot pager me as you@yourdomain.com`"
+    return
+
+  userId
 
 pagerDutyGet = (msg, url, query, cb) ->
   if missingEnvironmentForApi(msg)
