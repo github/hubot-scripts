@@ -16,18 +16,36 @@
 
 module.exports = (robot) ->
 
+  robot.respond /what is @?([\w .\-]+) working on(\?)?$/i, (msg) ->
+    name = msg.match[1].trim()
 
-  robot.respond /(what\'s|what is) (everyone|everybody) working on(\?)?/i, (msg) ->
-    messageText = '';
-    users = robot.brain.users()
-    for k, u of users
-        if u.workingon
-            messageText += "#{u.name} is working on #{u.workingon}\n"
+    if name is "you"
+      msg.send "I dunno, robot things I guess."
+    else if name.toLowerCase() is robot.name.toLowerCase()
+      msg.send "World domination!"
+    else if name.match(/(everybody|everyone)/i)
+      messageText = '';
+      users = robot.brain.users()
+      for k, u of users
+          if u.workingon
+              messageText += "#{u.name} is working on #{u.workingon}\n"
+          else
+              messageText += ""
+      if messageText.trim() is "" then messageText = "Nobody told me a thing."
+      msg.send messageText
+    else
+      users = robot.brain.usersForFuzzyName(name)
+      if users.length is 1
+        user = users[0]
+        user.workingon = user.workingon or [ ]
+        if user.workingon.length > 0
+          msg.send "#{name} is working on #{user.workingon}."
         else
-            messageText += ""
-    if messageText.trim() is "" then messageText = "Nobody told me a thing."
-    msg.send messageText
-
+          msg.send "#{name} is slacking off."
+      else if users.length > 1
+        msg.send getAmbiguousUserText users
+      else
+        msg.send "#{name}? Who's that?"
 
   robot.respond /(i\'m|i am|im) working on (.*)/i, (msg) ->
     name = msg.message.user.name
@@ -40,4 +58,4 @@ module.exports = (robot) ->
       msg.send "I found #{user.length} people named #{name}"
     else
       msg.send "I have never met #{name}"
-      
+
