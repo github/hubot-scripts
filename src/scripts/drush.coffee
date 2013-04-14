@@ -11,11 +11,36 @@ drush_interface = ->
   site_aliases = []
   allowed_commands = ["sa", "cc", "pml", "unif", "pmi", "ws", "vget", "rq"]
 
+  # helper method to propigate the site aliases in memory
+  update_aliases = (msg) ->
+    output = ''
+    raw_aliases = ''
+    fetch_aliases = spawn("drush", ["sa"])
+    fetch_aliases.stdout.on "data", (data) ->
+      raw_aliases += data
+    fetch_aliases.stderr.on "data", (data) ->
+      output = "Update experienced an error: " + data
+    fetch_aliases.on "exit", (code) ->
+      if code is 0
+        site_aliases = raw_aliases.split('\n')
+        output = "Alias update complete."
+      unless msg is `undefined`
+        msg.send output
+
+  # run the update script upon construction
+  update_aliases()
+
   # Our allowed commands
   commands =
-    drush_sa: (msg) ->
-      msg.send "Aliases we have in memory, if this list is empty or is unexpected update aliases."
-      msg.send site_aliases.join("\n")
+    # site aliases, the only command that does not need an alias prefix
+    drush_sa: (msg, args) ->
+      #msg.send "extra arguments: " + args.join(' ')
+      if args.indexOf('--update-aliases') is -1
+        msg.send "If this list is empty or has unexpected results update aliases ('drush sa --update-aliases')."
+        msg.send "Aliases we have in memory:\n" + site_aliases.join("\n")
+      else
+        msg.send "Updating aliases..."
+        update_aliases(msg)
 
   # parsing the user input after "drush "
   parse_command = (user_command) ->
@@ -30,34 +55,21 @@ drush_interface = ->
     else
       `undefined`
 
-  # Begin our public facing methods
-  update_aliases: (msg) ->
-    output = ''
-    raw_aliases = ''
-    fetch_aliases = spawn("drush", ["sa"])
-    fetch_aliases.stdout.on "data", (data) ->
-      raw_aliases += data
-    fetch_aliases.stderr.on "data", (data) ->
-      output = "Update experienced an error: " + data
-    fetch_aliases.on "exit", (code) ->
-      if code is 0
-        site_aliases = raw_aliases.split('\n')
-        output = "drush aliases updated"
-      unless msg is `undefined`
-        msg.send output
+  # BEGIN public facing methods
 
   # The main method, fire this when we recieve a "drush " command.
   execute: (msg) ->
-    msg.send "we got args: " + msg.match[1]
+    #msg.send "we got args: " + msg.match[1]
     command = parse_command(msg.match[1])
     unless command is `undefined`
-      commands[command.cmnd](msg)
+      commands[command.cmnd](msg, command.extra_args)
     else
       msg.send "'drush " + msg.match[1] + "' is and invalid command. Please try again."
 
+# Instanciate the drush interface
 drush = drush_interface()
-drush.update_aliases()
 
+# Hook in with hobot
 module.exports = (robot) ->
   robot.respond /drush (.*)$/i, (msg) ->
     msg.send "drush fired!"
