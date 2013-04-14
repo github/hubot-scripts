@@ -7,38 +7,61 @@
 util = require("util")
 spawn = require("child_process").spawn
 
-drush_ui = ->
+drush_interface = ->
   site_aliases = []
   allowed_commands = ["sa", "cc", "pml", "unif", "pmi", "ws", "vget", "rq"]
 
+  # Our allowed commands
+  commands =
+    drush_sa: (msg) ->
+      msg.send "Aliases we have in memory, if this list is empty or is unexpected update aliases."
+      msg.send site_aliases.join("\n")
+
+  # parsing the user input after "drush "
+  parse_command = (user_command) ->
+    args = user_command.split(' ')
+    command = "drush_" + args.shift()
+    if typeof commands[command] is "function"
+      return (
+        cmnd: command
+        extra_args: args
+      )
+      command
+    else
+      `undefined`
+
+  # Begin our public facing methods
   update_aliases: (msg) ->
     output = ''
+    raw_aliases = ''
     fetch_aliases = spawn("drush", ["sa"])
     fetch_aliases.stdout.on "data", (data) ->
-      output = output + data
+      raw_aliases += data
     fetch_aliases.stderr.on "data", (data) ->
       output = "Update experienced an error: " + data
     fetch_aliases.on "exit", (code) ->
       if code is 0
-        site_aliases = output.split('\n')
-        msg.send "aliases updated first element: " + site_aliases[1]
-      else
+        site_aliases = raw_aliases.split('\n')
+        output = "drush aliases updated"
+      unless msg is `undefined`
         msg.send output
 
-  show_stored_aliases: (msg) ->
-    msg.send "Aliases we have in memory, if this list is empty or is unexpected update aliases."
-    msg.send site_aliases.join("\n")
+  # The main method, fire this when we recieve a "drush " command.
+  execute: (msg) ->
+    msg.send "we got args: " + msg.match[1]
+    command = parse_command(msg.match[1])
+    unless command is `undefined`
+      commands[command.cmnd](msg)
+    else
+      msg.send "'drush " + msg.match[1] + "' is and invalid command. Please try again."
 
-drush_instance = drush_ui()
+drush = drush_interface()
+drush.update_aliases()
 
 module.exports = (robot) ->
-  robot.respond /drush update-aliases$/i, (msg) ->
+  robot.respond /drush (.*)$/i, (msg) ->
     msg.send "drush fired!"
-    drush_instance.update_aliases(msg)
-
-  robot.respond /drush sa$/i, (msg) ->
-    msg.send "drush fired!"
-    drush_instance.show_stored_aliases(msg)
+    drush.execute(msg)
 
 #module.exports = (robot) ->
 #  robot.respond /drush sa$/i, (msg) ->
