@@ -33,23 +33,49 @@ drush_interface = ->
   # Our allowed commands
   commands =
     # site aliases, the only command that does not need an alias prefix
-    drush_sa: (msg, args) ->
-      #msg.send "extra arguments: " + args.join(' ')
-      if args.indexOf('--update-aliases') is -1
+    drush_sa: (msg, command) ->
+      if command.args.indexOf('--update-aliases') is -1
         msg.send "If this list is empty or has unexpected results update aliases ('drush sa --update-aliases')."
         msg.send "Aliases we have in memory:\n" + site_aliases.join("\n")
       else
         msg.send "Updating aliases..."
         update_aliases(msg)
 
+    drush_cc: (msg, command) ->
+      output = ''
+      clearcache = spawn("drush", [command.alias, "cc", "all"])
+      clearcache.stdout.on "data", (data) ->
+        output += data
+      clearcache.stderr.on "data", (data) ->
+        output = "We've experienced and error clearing cache."
+      clearcache.on "exit", (code) ->
+        if code is 0
+          output += "Cache clear complete."
+        msg.send output
+
+    drush_pml: (msg, command) ->
+      output = ''
+      # @TODO loop through command.args and append args that appear in allowed_options
+      allowed_options = ['--enabled', '--disabled', '--core', '--no-core']
+      spawn_options = [command.alias, "pml", "--pipe"]
+      pml = spawn("drush", [command.alias, "pml", "--status=enabled", "--no-core"])
+
   # parsing the user input after "drush "
   parse_command = (user_command) ->
-    args = user_command.split(' ')
-    command = "drush_" + args.shift()
+    extra_args = user_command.split(' ')
+    site_alias = extra_args.shift()
+    command_suff = ''
+    if site_alias.charAt(0) is "@"
+      command_suff = extra_args.shift()
+    else
+      command_suff = site_alias
+      site_alias = ''
+    command = "drush_" + command_suff
     if typeof commands[command] is "function"
       return (
         cmnd: command
-        extra_args: args
+        alias: site_alias
+        args: extra_args
       )
       command
     else
@@ -59,10 +85,9 @@ drush_interface = ->
 
   # The main method, fire this when we recieve a "drush " command.
   execute: (msg) ->
-    #msg.send "we got args: " + msg.match[1]
     command = parse_command(msg.match[1])
     unless command is `undefined`
-      commands[command.cmnd](msg, command.extra_args)
+      commands[command.cmnd](msg, command)
     else
       msg.send "'drush " + msg.match[1] + "' is and invalid command. Please try again."
 
