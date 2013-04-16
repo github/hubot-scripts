@@ -32,11 +32,13 @@ module.exports = (robot) ->
         msg.send "https://bitbucket.com/#{repo}"
         send = 5
         for c in data.events
-          if send
-            d = new Date(Date.parse(c.created_on)).toFormat("MM/DD/YY HH24:MI")
-            stamp = "#{d}"
-            # events aren't always related to a user, do only conditionally add in the username
-            stamp = stamp + " -> #{c.user.username}" if c.user
-            
-            msg.send "[#{stamp}] #{c.description}"
-            send -= 1
+          if send and c.description != null
+            for commit in c.description.commits
+               d = new Date(Date.parse(c.created_on)).toFormat("MM/DD/YY HH24:MI")
+               stamp = "#{d}"
+               # events aren't always related to a user, do only conditionally add in the username
+               stamp = stamp + " -> #{c.user.username}" if c.user
+               # msg.send "#{JSON.stringify(c)}"
+               msg.send "[#{stamp}] #{commit.description}"
+               send -= 1
+
