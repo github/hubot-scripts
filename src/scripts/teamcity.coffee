@@ -47,18 +47,18 @@ module.exports = (robot) ->
         err = body unless res.statusCode == 200
         callback err, body, msg
 
-getCurrentBuild = (msg, type, callback) ->
-  if (arguments.length == 2)
-    if (Object.prototype.toString.call(type) == "[object Function]")
-      callback = type
-      url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=running:true"
-  else
-    url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
-  msg.http(url)
-    .headers(getAuthHeader())
-    .get() (err, res, body) ->
-    err = body unless res.statusCode == 200
-    callback err, body, msg
+  getCurrentBuild = (msg, type, callback) ->
+    if (arguments.length == 2)
+      if (Object.prototype.toString.call(type) == "[object Function]")
+        callback = type
+        url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=running:true"
+    else
+      url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
+    msg.http(url)
+      .headers(getAuthHeader())
+      .get() (err, res, body) ->
+        err = body unless res.statusCode == 200
+        callback err, body, msg
 
 
   getProjects = (msg, callback) ->
