@@ -23,8 +23,10 @@
 #   hubot tc build stop all <buildType> of <project> - Stops all currently running builds of a given buildType. Project parameter is optional.
 #   hubot tc build stop <buildType> <buildId> of <project> - Stops the build type of project with the buildId if currently running. Project parameter is optional.
 #
-# Autho:
+# Author:
 #   Micah Martin and Jens Jahnke
+#Contributors:
+#  Abraham Polishchuk
 
 util           = require 'util'
 _              = require 'underscore'
