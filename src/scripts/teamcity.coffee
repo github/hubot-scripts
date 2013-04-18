@@ -16,17 +16,15 @@
 #   hubot tc list projects - Show all available projects
 #   hubot tc list buildTypes - Show all available build types
 #   hubot tc list buildTypes of <project> - Show all available build types for the specified project
-#   hubot tc list builds <buildType> <number> - Show the status of the last <number> builds. Number defaults to five.
-#   hubot tc list builds of <buildType> of <project> <number>- Show the status of the last <number> builds of the specified build type of the specified project. <number> Defined to 5
+#   hubot tc list builds <buildType> <number> - Show the status of the last <number> builds.  Number defaults to five.
+#   hubot tc list builds of <buildType> of <project> <number>- Show the status of the last <number> builds of the specified build type of the specified project. Number can only follow the last variable, so if project is not passed, number must follow buildType directly. <number> Defaults to 5
 #   hubot tc build start <buildType> - Adds a build to the queue for the specified build type
 #   hubot tc build start <buildType> of <project> - Adds a build to the queue for the specified build type of the specified project
 #   hubot tc build stop all <buildType> of <project> - Stops all currently running builds of a given buildType. Project parameter is optional.
 #   hubot tc build stop <buildType> <buildId> of <project> - Stops the build type of project with the buildId if currently running. Project parameter is optional.
 #
-# Authors:
+# Autho:
 #   Micah Martin and Jens Jahnke
-#Contributors:
-#   Abraham Polishchuk
 
 util           = require 'util'
 _              = require 'underscore'
@@ -88,7 +86,7 @@ module.exports = (robot) ->
         buildTypes = JSON.parse(body).buildType unless err
         callback err, msg, buildTypes
 
-  getBuilds = (msg, project, configuration, callback) ->
+  getBuilds = (msg, project, configuration, amount, callback) ->
     projectSegment = ''
     if project?
       projectSegment = "/projects/name:#{encodeURIComponent(project)}"
@@ -96,7 +94,7 @@ module.exports = (robot) ->
     url = "#{base_url}/httpAuth/app/rest#{projectSegment}/buildTypes/name:#{encodeURIComponent(configuration)}/builds"
     msg.http(url)
       .headers(getAuthHeader())
-      .query(locator: ["lookupLimit:5","running:any"].join(","))
+      .query(locator: ["lookupLimit:#{amount}","running:any"].join(","))
       .get() (err, res, body) ->
         err = body unless res.statusCode == 200
         builds = JSON.parse(body).build unless err
@@ -184,7 +182,7 @@ module.exports = (robot) ->
           if err
             msg.send "Fail! Something went wrong. Couldn't start the build for some reason"
           else
-            msg.send "Dropped a build in the queue for #{buildName}. Run `tc list builds #{buildName}` to check the status"
+            msg.send "Dropped a build in the queue for #{buildName}. Run `tc list builds of #{buildName}` to check the status"
 
   robot.respond /tc list (projects|buildTypes|builds) ?(.*)?/i, (msg) ->
     type = msg.match[1]
@@ -216,20 +214,38 @@ module.exports = (robot) ->
         configuration = option
         project = null
 
-        buildTypeRE = /^\s*of (.*?) of (.*)/i
+        buildTypeRE = /^\s*of (.*?) of (.*) (\d*)/i
 
         buildTypeMatches = option.match buildTypeRE
         if buildTypeMatches?
           configuration = buildTypeMatches[1]
           project = buildTypeMatches[2]
+          amount = parseInt(buildTypeMatches[3])
+          console.log amount
         else
-          buildTypeRE = /^\s*of (.*)/i
+          buildTypeRE = /^\s*of (.*) (\d*)/i
           buildTypeMatches = option.match buildTypeRE
-          if buildTypeMatches
+          if buildTypeMatches?
             configuration = buildTypeMatches[1]
+            amount = parseInt(buildTypeMatches[2])
             project = null
+          else
+            amount = 5
+            buildTypeRE = /^\s*of (.*?) of (.*)/i
 
-        getBuilds msg, project, configuration, (err, msg, builds) ->
+            buildTypeMatches = option.match buildTypeRE
+            if buildTypeMatches?
+              configuration = buildTypeMatches[1]
+              project = buildTypeMatches[2]
+            else
+              buildTypeRE = /^\s*of (.*)/i
+              buildTypeMatches = option.match buildTypeRE
+              if buildTypeMatches?
+                configuration = buildTypeMatches[1]
+                project = null
+
+
+        getBuilds msg, project, configuration, amount, (err, msg, builds) ->
           if not builds
             msg.send "Could not find builds for #{option}"
             return
