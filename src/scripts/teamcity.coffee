@@ -223,7 +223,6 @@ module.exports = (robot) ->
           configuration = buildTypeMatches[1]
           project = buildTypeMatches[2]
           amount = parseInt(buildTypeMatches[3])
-          console.log amount
         else
           buildTypeRE = /^\s*of (.*) (\d*)/i
           buildTypeMatches = option.match buildTypeRE
