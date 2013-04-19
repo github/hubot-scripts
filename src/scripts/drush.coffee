@@ -41,7 +41,7 @@ drush_interface = ->
 
     drush_cc: (msg, command) ->
       output = ''
-      msg.send "This may take a minute..."
+      msg.send "This may take a moment..."
       clearcache = spawn("drush", [command.alias, "cc", "all"])
       clearcache.stdout.on "data", (data) ->
         output += data
@@ -52,12 +52,35 @@ drush_interface = ->
           output += "Cache clear complete."
         msg.send output
 
-#   drush_pml: (msg, command) ->
-#     output = ''
-#     # @TODO loop through command.args and append args that appear in allowed_options
-#     allowed_options = ['--enabled', '--disabled', '--core', '--no-core']
-#     spawn_options = [command.alias, "pml", "--pipe"]
-#     pml = spawn("drush", [command.alias, "pml", "--status=enabled", "--no-core"])
+    drush_pml: (msg, command) ->
+      output = ''
+      modules_state = "--status=enabled"
+      modules_core = "--no-core"
+      unless command.args.indexOf("--disabled") is -1
+        modules_state = "--status=disabled"
+      unless command.args.indexOf("--core") is -1
+        modules_core = "--core"
+
+      msg.send "This may take a moment..."
+
+      # @TODO loop through command.args and append args that appear in allowed_options
+      spawn_options = [command.alias, "pml", "--pipe", modules_state, modules_core]
+      pml = spawn("drush", spawn_options)
+      pml.stdout.on "data", (data) ->
+        output += data
+      pml.stderr.on "data", (data) ->
+        output = "We've experienced and error fetching module list."
+      pml.on "exit", (code) ->
+        if code is 0
+          output += "Module list complete."
+        msg.send output
+
+  # verify alias before firing the command, saves us time on waiting for an err from drush
+  verify_alias = (check_alias) ->
+    if site_aliases.indexOf(check_alias) is -1
+      false
+    else
+      true
 
   # parsing the user input after "drush "
   parse_command = (user_command) ->
@@ -65,7 +88,10 @@ drush_interface = ->
     site_alias = extra_args.shift()
     command_suff = ''
     if site_alias.charAt(0) is "@"
-      command_suff = extra_args.shift()
+      unless verify_alias(site_alias) is false
+        command_suff = extra_args.shift()
+      else
+        `undefined`
     else
       command_suff = site_alias
       site_alias = ''
@@ -95,5 +121,4 @@ drush = drush_interface()
 # Hook in with hobot
 module.exports = (robot) ->
   robot.respond /drush (.*)$/i, (msg) ->
-    msg.send "drush fired!"
     drush.execute(msg)
