@@ -1,8 +1,19 @@
 # Description:
 #   Playing with Drush integration.
 #
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
 # Commands:
-#   hubot drush cc <site alias> - Clears the cache for a given site alias.
+#   hubot drush sa - show the list of available sites ( --update-aliases will refresh this list )
+#   hubot drush <site alias> cc - Clears 'all' cache for a given site alias.
+#   hubot drush <site alias> pml - Lists the site modules ( "enabled" and "non-core" by default this can be changed with --disbaled or --core )
+#
+# Author:
+#   rho_
 
 util = require("util")
 spawn = require("child_process").spawn
