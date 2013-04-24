@@ -1,14 +1,23 @@
 # Description:
-#   Playing with Drush integration.
+#   Playing with Drush integration. Simple implementation of informational drush commands, and a base
+#   interface for further drush command integration.
 #
 # Dependencies:
 #   None
 #
 # Configuration:
-#   None
+#   The hubot user will need permissions to run drush on the server that it is installed on.
+#   If the site aliases are to remote servers (likely the case) then the hubot user will also need
+#   ssh keys setup in order to access these sites.
+#
+# Notes:
+#   It would have been easier and more elegant to simply allow the user to funnel drush commands directly
+#   to the spawn method.  However that is a colossal security risk, so I opted to limit the commands that
+#   can be executed as well as the options provided to those commands.
 #
 # Commands:
 #   hubot drush sa - show the list of available sites ( --update-aliases will refresh this list )
+#   hubot drush rq - show pending core requirements at a warning level or above
 #   hubot drush <site alias> cc - Clears 'all' cache for a given site alias.
 #   hubot drush <site alias> pml - Lists the site modules ( "enabled" and "non-core" by default this can be changed with --disbaled or --core )
 #
