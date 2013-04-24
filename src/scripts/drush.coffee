@@ -20,7 +20,7 @@ spawn = require("child_process").spawn
 
 drush_interface = ->
   site_aliases = []
-  #allowed_commands = ["sa", "cc", "pml", "unif", "pmi", "ws", "vget", "rq"]
+  #allowed_commands = ["sa", "cc", "pml", "uinf", "pmi", "ws", "vget", "rq"]
 
   # helper method to propigate the site aliases in memory
   update_aliases = (msg) ->
@@ -57,10 +57,23 @@ drush_interface = ->
       clearcache.stdout.on "data", (data) ->
         output += data
       clearcache.stderr.on "data", (data) ->
-        output = "We've experienced and error clearing cache."
+        output += data
       clearcache.on "exit", (code) ->
         if code is 0
           output += "Cache clear complete."
+        msg.send output
+
+    drush_rq: (msg, command) ->
+      output = ''
+      msg.send "This may take a moment..."
+      clearcache = spawn("drush", [command.alias, "rq", "--severity=1"])
+      clearcache.stdout.on "data", (data) ->
+        output += data
+      clearcache.stderr.on "data", (data) ->
+        output += data
+      clearcache.on "exit", (code) ->
+        if code is 0
+          output += "Core Requirements complete."
         msg.send output
 
     drush_pml: (msg, command) ->
@@ -74,8 +87,7 @@ drush_interface = ->
 
       msg.send "This may take a moment..."
 
-      # @TODO loop through command.args and append args that appear in allowed_options
-      spawn_options = [command.alias, "pml", "--pipe", modules_state, modules_core]
+      spawn_options = [command.alias, "pml", modules_state, modules_core]
       pml = spawn("drush", spawn_options)
       pml.stdout.on "data", (data) ->
         output += data
