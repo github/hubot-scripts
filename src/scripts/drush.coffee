@@ -22,7 +22,7 @@
 #   hubot drush <site alias> pml - Lists the site modules ( "enabled" and "non-core" by default this can be changed with --disbaled or --core )
 #
 # Author:
-#   rho_
+#   rh0
 
 util = require("util")
 spawn = require("child_process").spawn
