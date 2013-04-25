@@ -13,7 +13,8 @@
 # Notes:
 #   It would have been easier and more elegant to simply allow the user to funnel drush commands directly
 #   to the spawn method.  However that is a colossal security risk, so I opted to limit the commands that
-#   can be executed as well as the options provided to those commands.
+#   can be executed as well as the options provided to those commands. By default this is limited to
+#   relatively harmless "info" commands.
 #
 # Commands:
 #   hubot drush sa - show the list of available sites ( --update-aliases will refresh this list )
@@ -28,7 +29,6 @@
 # Author:
 #   rh0
 
-util = require("util")
 spawn = require("child_process").spawn
 
 drush_interface = ->
@@ -67,6 +67,8 @@ drush_interface = ->
       msg.send output
 
   # the commands that we are allowing drush to execute
+  # NOTE: If you decide to augment the commands here plese carefully consider what you are opening to the people
+  #       interacting with hubot.
   allowed_commands =
     drush_sa: (msg, command) ->
       if command.args.indexOf('--update-aliases') is -1
