@@ -12,14 +12,14 @@
 #
 # Notes:
 #   It would have been easier and more elegant to simply allow the user to funnel drush commands directly
-#   to the spawn method.  However that is a colossal security risk, so I opted to limit the commands that
+#   to the spawn method; however, being that is a colossal security risk, I opted to limit the commands that
 #   can be executed as well as the options provided to those commands. By default this is limited to
 #   relatively harmless "info" commands.
 #
 # Commands:
 #   hubot drush sa - show the list of available sites ( --update-aliases will refresh this list )
 #   hubot drush rq - show pending core requirements at a warning level or above
-#   hubot drush <site alias> cc - Clears 'all' cache for a given site alias.
+#   hubot drush <site alias> cc - Clears "all" cache for a given site alias.
 #   hubot drush <site alias> pml - Lists the site modules ( "enabled" and "non-core" by default this can be changed with --disbaled or --core )
 #   hubot drush <site alias> pmi <module/theme> - Show detailed info about a module or theme
 #   hubot drush <site alias> uinf <user> - Display information about the user specified by uid, email, or username
@@ -34,7 +34,7 @@ spawn = require("child_process").spawn
 drush_interface = ->
   site_aliases = []
 
-  # helper method to propigate the site aliases in memory
+  # helper method to propagate the site aliases in memory
   update_aliases = (msg) ->
     output = ''
     raw_aliases = ''
@@ -53,7 +53,7 @@ drush_interface = ->
   # run the update script
   update_aliases()
 
-  # generalised spawn method
+  # generalized spawn method
   execute_drush = (msg, drush_args) ->
     output = ''
     msg.send "This may take a moment..."
@@ -67,7 +67,7 @@ drush_interface = ->
       msg.send output
 
   # the commands that we are allowing drush to execute
-  # NOTE: If you decide to augment the commands here plese carefully consider what you are opening to the people
+  # NOTE: If you decide to augment the commands here please carefully consider what you are opening to the people
   #       interacting with hubot.
   allowed_commands =
     drush_sa: (msg, command) ->
@@ -130,8 +130,8 @@ drush_interface = ->
         command_suff = extra_args.shift()
       else
         `undefined`
-    # Kinda gross but the site-alias command is the only one that does not need a site alias
-    # so lets check before we fire up drush to fail.
+    # Kind of gross but the site-alias command is the only one that does not need a site alias
+    # so let's check before we fire up drush to fail.
     else unless site_alias is "sa"
       `undefined`
     else
@@ -149,7 +149,7 @@ drush_interface = ->
 
   # BEGIN public facing methods
 
-  # The main method, fire this when we recieve a "drush " command.
+  # The main method, fire this when we receive a "drush " command.
   execute: (msg) ->
     command = parse_command(msg.match[1])
     unless command is `undefined`
