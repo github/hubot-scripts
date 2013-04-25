@@ -2,7 +2,8 @@
 #   Show some help to git noobies
 #
 # Dependencies:
-#   None
+#   jsdom
+#   jquery
 #
 # Configuration:
 #   None
@@ -11,32 +12,31 @@
 #   git help <topic>
 #
 # Author:
-#   vquaiato
+#   vquaiato, Jens Jahnke
+
+jsdom = require("jsdom").jsdom
 
 module.exports = (robot) ->
-	git_help = new Array()
+  robot.respond /git help (.+)$/i, (msg) ->
+    topic = msg.match[1].toLowerCase()
 
-	git_help["create"] = "create a new repository -> git init\nclone local repository -> git clone /path/to/repository\nclone remote repository -> git clone username@host:/path/to/repository"
+    url = 'http://git-scm.com/docs/git-' + topic
+    msg.http(url).get() (err, res, body) ->
+      window = (jsdom body, null,
+        features:
+          FetchExternalResources: false
+          ProcessExternalResources: false
+          MutationEvents: false
+          QuerySelector: false
+      ).createWindow()
 
-	git_help["clone"] = git_help["create"]
-	
-	git_help["add"] = "add changes to INDEX -> git add <filename>\nadd all changes to INDEX -> git add * \nremove or delete -> git rm <filename>"
+      $ = require("jquery").create(window)
+      name = $.trim $('#header .sectionbody .paragraph').text()
+      desc = $.trim $('#_synopsis + .sectionbody').text()
 
-	git_help["remove"] = git_help["add"]
-			
-	git_help["commit"] = "commit changes -> git commit -m \"Commit message\"\npush changes to remote repository -> git push origin master\nconnect local repository to remote repository -> git remote add origin <server>\nupdate local repository with remote changes -> git pull"
-
-	git_help["synchronize"] = git_help["commit"]
-
-	git_help["branch"] = "create new branch -> git checkout -b <name>\nswitch to master branch -> git checkout master\ndelete branch -> git branch -d <name>\npush branch to remote repository -> git push origin <branch name>"
-	
-	git_help["merge"] = "merge changes from another branch -> git merge <branch>\nview changes between two branches -> git diff <source branch> <target branch>"
-		
-	git_help["tag"] = "create tag -> git tag <tag name> <commit ID>\nget commit IDs -> git log"
-			
-	git_help["restore"] = "replace working copy with latest from HEAD -> git checkout --<file name>"
-		
-	robot.hear /^git help (create|clone|add|remove|commit|synchronize|branch|merge|tag|restore)$/i, (msg) ->
-		help = git_help[msg.match[1]]
-		
-		msg.send help
+      if name and desc
+        msg.send name
+        msg.send desc
+        msg.send "See #{url} for details."
+      else
+        msg.send "No git help page found for #{topic}."

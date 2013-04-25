@@ -29,9 +29,10 @@ module.exports = (robot) ->
 
     res.end('')
 
-    user = {}
-    user.room = query.room if query.room
-    user.type = query.type if query.type
+    envelope = {}
+    envelope.user = {}
+    envelope.room = query.room if query.room
+    envelope.user.type = query.type if query.type
 
     try
       for key of req.body
@@ -40,16 +41,16 @@ module.exports = (robot) ->
       if data.build.phase == 'FINISHED'
         if data.build.status == 'FAILURE'
           if data.name in @failing
-            build = "STILL"
+            build = "is still"
           else
-            build = "STARTED"
-          robot.send user, "#{build} FAILING: #{data.name} ##{data.build.number} (#{encodeURI(data.build.full_url)})"
+            build = "started"
+          robot.send envelope, "#{data.name} build ##{data.build.number} #{build} failing (#{encodeURI(data.build.full_url)})"
           @failing.push data.name unless data.name in @failing
         if data.build.status == 'SUCCESS'
           if data.name in @failing
             index = @failing.indexOf data.name
             @failing.splice index, 1 if index isnt -1
-            robot.send user, "BUILD RESTORED: #{data.name} ##{data.build.number} (#{encodeURI(data.build.full_url)})"
+            robot.send envelope, "#{data.name} build was restored ##{data.build.number} (#{encodeURI(data.build.full_url)})"
 
     catch error
       console.log "jenkins-notify error: #{error}. Data: #{req.body}"

@@ -73,7 +73,7 @@ module.exports = (robot) ->
       else
         msg.reply "can't help you right now."
 
-  robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))?/i, (msg) ->
+  robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i, (msg) ->
     app     = msg.match[1]
     branch  = msg.match[3] || "master"
     room_id = msg.message.user.room
@@ -88,7 +88,7 @@ module.exports = (robot) ->
 
       msg.send response
 
-  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s?([\.\-_a-z0-9]+))?(\s?([\.\-_a-z0-9]+))?/i, (msg) ->
+  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s?([\.\-_a-z0-9]+))?/i, (msg) ->
     nwo     = msg.match[1]
     params  = "?nwo=#{nwo}"
     if msg.match[3] != undefined
@@ -135,7 +135,7 @@ module.exports = (robot) ->
       else
         msg.send("who knows")
 
-  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))?/i, (msg) ->
+  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i, (msg) ->
     app    = msg.match[2]
     count  = 5
     branch = msg.match[4] || 'master'

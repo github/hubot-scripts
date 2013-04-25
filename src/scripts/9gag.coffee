@@ -25,7 +25,10 @@ module.exports = (robot)->
 send_meme = (message, location, response_handler)->
   meme_domain = "http://9gag.com"
   location  ||= "/random"
-  url         = meme_domain + location
+  if location.substr(0, 4) != "http"
+    url = meme_domain + location
+  else
+    url = location
 
   message.http( url ).get() (error, response, body)->
     return response_handler "Sorry, something went wrong" if error
@@ -36,7 +39,7 @@ send_meme = (message, location, response_handler)->
 
     img_src = get_meme_image( body, ".img-wrap img" )
 
-    if img_src.substr 0,4 != "http"
+    if img_src.substr(0, 4) != "http"
       img_src = "http:#{img_src}"
 
     response_handler img_src
