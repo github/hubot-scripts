@@ -79,18 +79,27 @@ module.exports = (robot) ->
 
 memeGenerator = (msg, imageName, text1, text2, callback) ->
   imageUrl = "http://memecaptain.com/" + imageName
-  msg.http("http://memecaptain.com/g")
-  .query(
-    u: imageUrl,
-    t1: text1,
-    t2: text2
-  ).get() (err, res, body) ->
+
+  processResult = (err, res, body) ->
     return msg.send err if err
-    result = JSON.parse(body)
+    if res.statusCode == 301
+      msg.http(res.headers.location).get() processResult
+      return
+    if res.statusCode > 300
+      msg.reply "Sorry, I couldn't generate that meme. Unexpected status from memecaption.com: #{res.statusCode}"
+      return
+    try
+      result = JSON.parse(body)
+    catch error
+      msg.reply "Sorry, I couldn't generate that meme. Unexpected response from memecaptain.com: #{body}"
     if result? and result['imageUrl']?
       callback result['imageUrl']
     else
       msg.reply "Sorry, I couldn't generate that meme."
 
-
-
+  msg.http("http://memecaptain.com/g")
+  .query(
+    u: imageUrl,
+    t1: text1,
+    t2: text2
+  ).get() processResult

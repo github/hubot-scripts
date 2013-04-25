@@ -30,7 +30,7 @@ save = (robot) ->
 
 module.exports = (robot) ->
     robot.brain.on 'loaded', ->
-        points = robot.brain.data.points
+        points = robot.brain.data.points or {}
 
     robot.respond /give (\d+) points to (.*?)\s?$/i, (msg) ->
         award_points(msg, msg.match[2], msg.match[1])

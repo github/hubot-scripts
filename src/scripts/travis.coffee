@@ -17,6 +17,7 @@
 # Author:
 #   sferik
 #   nesQuick
+#   sergeylukin
 
 url = require('url')
 querystring = require('querystring')
@@ -46,8 +47,12 @@ module.exports = (robot) ->
     user.room = query.room if query.room
     user.type = query.type if query.type
 
-    payload = JSON.parse req.body.payload
+    try
+      payload = JSON.parse req.body.payload
 
-    if payload.status isnt 0
-        gitio payload.compare_url, (err, data) ->
-            robot.send user, "#{payload.author_name} broke the build (#{payload.build_url}) of #{payload.repository.name} with commit (#{if err then payload.compare_url else data})!"
+      gitio payload.compare_url, (err, data) ->
+        robot.send user, "#{payload.status_message.toUpperCase()} build (#{payload.build_url}) on #{payload.repository.name}:#{payload.branch} by #{payload.author_name} with commit (#{if err then payload.compare_url else data})"
+
+    catch error
+      console.log "travis hook error: #{error}. Payload: #{req.body.payload}"
+

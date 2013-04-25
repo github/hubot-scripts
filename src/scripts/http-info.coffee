@@ -25,8 +25,8 @@ module.exports = (robot) ->
   if process.env.HUBOT_HTTP_INFO_IGNORE_USERS?
     ignoredusers = process.env.HUBOT_HTTP_INFO_IGNORE_USERS.split(',')
 
-  robot.hear /http(s?):\/\/(.*)/i, (msg) ->
-    url = msg.match[0]
+  robot.hear /(http(?:s?):\/\/(\S*))/i, (msg) ->
+    url = msg.match[1]
 
     username = msg.message.user.name
     if _.some(ignoredusers, (user) -> user == username)
@@ -42,9 +42,9 @@ module.exports = (robot) ->
 
     unless ignore
       jsdom.env(
-        html: msg.match[0]
+        html: url
         scripts: [
-          'http://code.jquery.com/jquery-1.7.2.min.js'
+          'http://code.jquery.com/jquery-1.9.1.min.js'
         ]
         done: (errors, window) ->
           unless errors

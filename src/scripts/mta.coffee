@@ -30,12 +30,12 @@ mtaMe = (msg) ->
         throw err
       re = new RegExp(msg.match[1], 'gi')
       if msg.match[1].length is 1 or msg.match[1].toUpperCase() is 'SIR'
-        for k in res.service.subway.line
-          str = k.name
+        for k in res.service.subway[0].line
+          str = k.name[0]
           if str.match(re)
-            if k.status == 'GOOD SERVICE'
+            if k.status[0] == 'GOOD SERVICE'
               msg.send 'the ' + str + ' train is ok!'
-            else if k.status == 'PLANNED WORK'
+            else if k.status[0] == 'PLANNED WORK'
               msg.send 'heads up, the ' + str + ' train has planned work.'
             else
               msg.send 'the ' + str + ' train is all kinds of messed up'

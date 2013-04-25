@@ -36,19 +36,19 @@ module.exports = (robot) ->
           token: env.HUBOT_FOGBUGZ_TOKEN
           q: msg.match[1]
           cols: "ixBug,sTitle,sStatus,sProject,sArea,sPersonAssignedTo,ixPriority,sPriority,sLatestTextSummary"
-        .post() (err, res, body) ->
+        .get() (err, res, body) ->
           (new Parser()).parseString body, (err,json) ->
             truncate = (text,length=60,suffix="...") ->
               if text.length > length then (text.substr(0,length-suffix.length) + suffix) else text
-            bug = json.cases?.case
+            bug = json.response.cases?[0].case[0]
             if bug
-              msg.send "https://#{env.HUBOT_FOGBUGZ_HOST}/?#{bug.ixBug}"
+              msg.send "https://#{env.HUBOT_FOGBUGZ_HOST}/?#{bug.ixBug[0]}"
               details = [
-                "FogBugz #{bug.ixBug}: #{bug.sTitle}"
-                "  Priority: #{bug.ixPriority} - #{bug.sPriority}"
-                "  Project: #{bug.sProject} (#{bug.sArea})"
-                "  Status: #{bug.sStatus}"
-                "  Assigned To: #{bug.sPersonAssignedTo}"
-                "  Latest Comment: #{truncate bug.sLatestTextSummary}"
+                "FogBugz #{bug.ixBug[0]}: #{bug.sTitle[0]}"
+                "  Priority: #{bug.ixPriority[0]} - #{bug.sPriority[0]}"
+                "  Project: #{bug.sProject[0]} (#{bug.sArea[0]})"
+                "  Status: #{bug.sStatus[0]}"
+                "  Assigned To: #{bug.sPersonAssignedTo[0]}"
+                "  Latest Comment: #{truncate bug.sLatestTextSummary[0]}"
               ]
               msg.send details.join("\n")

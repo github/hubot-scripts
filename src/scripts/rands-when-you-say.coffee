@@ -88,9 +88,13 @@ module.exports = (robot) ->
     "When you say, “You‘re the boss” I hear “We got together and all agree that you‘re about to screw this up” http://twitter.com/rands/statuses/6090022746",
     "When you say “It wasn’t meant to happen”, I hear “We don’t know or can’t explain how we screwed up.” http://twitter.com/rands/statuses/144102532220858368",
     "When you say “The last thing I want to happen is”, I hear “This is what I expect to occur”. http://twitter.com/rands/statuses/83340096601993216",
-    "When you say “Well, you‘re lucky that..”, I hear “Well, I have absolutely no control or influence over this situation”. http://twitter.com/rands/statuses/52036340375764992"
+    "When you say “Well, you‘re lucky that..”, I hear “Well, I have absolutely no control or influence over this situation”. http://twitter.com/rands/statuses/52036340375764992",
+    "When you say “No Meeting Wednesday,” I hear, “We’ve let meetings take over.” https://twitter.com/rands/status/294480995644743680",
+    "When you say “Sinus infection,” I hear, “I’m fully in denial that I am sick.” https://twitter.com/rands/status/306933143703781377",
+    "@IAmRoot When you say “management consultants,” I die a little inside. https://twitter.com/rands/status/300290819913555972"
   ]
   robot.respond /rands$/i, (msg) ->
     msg.send msg.random wisdom
   robot.respond /rands count$/i, (msg) ->
     msg.send("I currently have #{wisdom.length} Randisms in my database.")
+
