@@ -20,6 +20,10 @@
 #   hubot drush rq - show pending core requirements at a warning level or above
 #   hubot drush <site alias> cc - Clears 'all' cache for a given site alias.
 #   hubot drush <site alias> pml - Lists the site modules ( "enabled" and "non-core" by default this can be changed with --disbaled or --core )
+#   hubot drush <site alias> pmi <module/theme> - Show detailed info about a module or theme
+#   hubot drush <site alias> uinf <user> - Display information about the user specified by uid, email, or username
+#   hubot drush <site alias> ws - Show the 10 most recent watchdog messages
+#   hubot drush <site alias> vget <variable name> - Show the value of a given variable
 #
 # Author:
 #   rh0
@@ -46,21 +50,23 @@ drush_interface = ->
       unless msg is `undefined`
         msg.send output
 
-  # run the update script upon construction
+  # run the update script
   update_aliases()
 
+  # generalised spawn method
   execute_drush = (msg, drush_args) ->
     output = ''
     msg.send "This may take a moment..."
-    clearcache = spawn("drush", drush_args)
-    clearcache.stdout.on "data", (data) ->
+    drush_spawn = spawn("drush", drush_args)
+    drush_spawn.stdout.on "data", (data) ->
       output += data
-    clearcache.stderr.on "data", (data) ->
+    drush_spawn.stderr.on "data", (data) ->
       output += data
-    clearcache.on "exit", (code) ->
+    drush_spawn.on "exit", (code) ->
       output += "Command complete."
       msg.send output
 
+  # the commands that we are allowing drush to execute
   allowed_commands =
     drush_sa: (msg, command) ->
       if command.args.indexOf('--update-aliases') is -1
