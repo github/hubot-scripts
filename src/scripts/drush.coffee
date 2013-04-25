@@ -29,7 +29,6 @@ spawn = require("child_process").spawn
 
 drush_interface = ->
   site_aliases = []
-  #allowed_commands = ["sa", "cc", "pml", "uinf", "pmi", "ws", "vget", "rq"]
 
   # helper method to propigate the site aliases in memory
   update_aliases = (msg) ->
@@ -50,6 +49,18 @@ drush_interface = ->
   # run the update script upon construction
   update_aliases()
 
+  execute_drush = (msg, drush_args) ->
+    output = ''
+    msg.send "This may take a moment..."
+    clearcache = spawn("drush", drush_args)
+    clearcache.stdout.on "data", (data) ->
+      output += data
+    clearcache.stderr.on "data", (data) ->
+      output += data
+    clearcache.on "exit", (code) ->
+      output += "Command complete."
+      msg.send output
+
   allowed_commands =
     drush_sa: (msg, command) ->
       if command.args.indexOf('--update-aliases') is -1
@@ -60,52 +71,39 @@ drush_interface = ->
         update_aliases(msg)
 
     drush_cc: (msg, command) ->
-      output = ''
-      msg.send "This may take a moment..."
-      clearcache = spawn("drush", [command.alias, "cc", "all"])
-      clearcache.stdout.on "data", (data) ->
-        output += data
-      clearcache.stderr.on "data", (data) ->
-        output += data
-      clearcache.on "exit", (code) ->
-        if code is 0
-          output += "Cache clear complete."
-        msg.send output
+      execute_drush(msg, [command.alias, "cc", "all"])
 
     drush_rq: (msg, command) ->
-      output = ''
-      msg.send "This may take a moment..."
-      clearcache = spawn("drush", [command.alias, "rq", "--severity=1"])
-      clearcache.stdout.on "data", (data) ->
-        output += data
-      clearcache.stderr.on "data", (data) ->
-        output += data
-      clearcache.on "exit", (code) ->
-        if code is 0
-          output += "Core Requirements complete."
-        msg.send output
+      execute_drush(msg, [command.alias, "rq", "--severity=1"])
 
     drush_pml: (msg, command) ->
-      output = ''
-      modules_state = "--status=enabled"
-      modules_core = "--no-core"
-      unless command.args.indexOf("--disabled") is -1
-        modules_state = "--status=disabled"
-      unless command.args.indexOf("--core") is -1
-        modules_core = "--core"
+      allowed_options = ["--status=enabled", "--status=disabled", "--no-core", "--core"]
+      filtered_options = command.args.filter((elem) ->
+        allowed_options.indexOf(elem) isnt -1
+      )
+      filtered_options.unshift(command.alias, "pml")
+      execute_drush(msg, filtered_options)
 
-      msg.send "This may take a moment..."
+    drush_uinf: (msg, command) ->
+      user_search = command.args.shift()
+      execute_drush(msg, [command.alias, "uinf", user_search])
 
-      spawn_options = [command.alias, "pml", modules_state, modules_core]
-      pml = spawn("drush", spawn_options)
-      pml.stdout.on "data", (data) ->
-        output += data
-      pml.stderr.on "data", (data) ->
-        output = "We've experienced and error fetching module list."
-      pml.on "exit", (code) ->
-        if code is 0
-          output += "Module list complete."
-        msg.send output
+    drush_pmi: (msg, command) ->
+      extension_search = command.args.shift()
+      execute_drush(msg, [command.alias, "pmi", extension_search])
+
+    drush_ws: (msg, command) ->
+      allowed_options = ["--full"]
+      filtered_options = command.args.filter((elem) ->
+        allowed_options.indexOf(elem) isnt -1
+      )
+      filtered_options.unshift(command.alias, "ws")
+      execute_drush(msg, filtered_options)
+
+    drush_vget: (msg, command) ->
+      variable_search = command.args.shift()
+      # forcing this to --exact to prevent channel flood from a huge search
+      execute_drush(msg, [command.alias, "vget", variable_search, "--exact"])
 
   # verify alias before firing the command, saves us time on waiting for an err from drush
   verify_alias = (check_alias) ->
@@ -124,6 +122,10 @@ drush_interface = ->
         command_suff = extra_args.shift()
       else
         `undefined`
+    # Kinda gross but the site-alias command is the only one that does not need a site alias
+    # so lets check before we fire up drush to fail.
+    else unless site_alias is "sa"
+      `undefined`
     else
       command_suff = site_alias
       site_alias = ''
