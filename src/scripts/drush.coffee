@@ -157,7 +157,7 @@ drush_interface = ->
     else
       msg.send "'drush " + msg.match[1] + "' is and invalid command. Please try again."
 
-# Instanciate the drush interface
+# Instantiate the drush interface
 drush = drush_interface()
 
 # Hook in with hobot
