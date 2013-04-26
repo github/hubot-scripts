@@ -18,16 +18,18 @@
 
 util = require 'util'
 child_process = require 'child_process'
-exec = child_process.exec
 
 module.exports = (robot) ->
   emailTime = null
   sendEmail = (recipients, subject, msg, from) ->
-    mailCommand = """echo '#{msg}' | mail -s '#{subject}' -r '#{from}' '#{recipients}'"""
-    exec mailCommand, (error, stdout, stderr) ->
+    mailArgs = ['-s', subject, '-a', "From: #{from}", '--']
+    mailArgs = mailArgs.concat recipients
+    p = child_process.execFile 'mail', mailArgs, {}, (error, stdout, stderr) ->
       util.print 'stdout: ' + stdout
       util.print 'stderr: ' + stderr
+    p.stdin.write "#{msg}\n"
+    p.stdin.end()
 
   robot.respond /email (.*) -s (.*) -m (.*)/i, (msg) ->
-    sendEmail msg.match[1], msg.match[2], msg.match[3], msg.message.user.id
+    sendEmail msg.match[1].split(" "), msg.match[2], msg.match[3], msg.message.user.id
     msg.send "email sent"
