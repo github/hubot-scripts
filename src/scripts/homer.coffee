@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   robotUsername = your robot's name to ignore hearing messages from it
 #
 # Commands:
 #   beer - replies with random beer quote
@@ -15,6 +15,7 @@
 #
 # Author:
 #   bhankus
+robotUsername = 'YOUR_ROBOTS_USERNAME'
 
 beerQuotes = [
   "Beer... Now there's a temporary solution.",
@@ -35,12 +36,22 @@ internetQuotes = [
   "The Internet? Is that thing still around?"
 ]
 
+notRobot = (user) ->
+  if user isnt robotUsername then true else false
+
 module.exports = (robot) ->
   robot.hear /beer/i, (msg) ->
-    msg.send msg.random beerQuotes
+    if notRobot(msg.message.user.name)
+      msg.send msg.random beerQuotes
+
   robot.hear /bacon|bagel|barbecue|burger|candy|chocolate|donut|sandwich|breakfast|lunch|dinner|food|grub/i, (msg) ->
-    msg.send "Mmmm... " + msg.match[0]
+    if notRobot(msg.message.user.name)
+      msg.send "Mmmm... " + msg.match[0]
+
   robot.hear /try/i, (msg) ->
-    msg.send msg.random tryQuotes
+    if notRobot(msg.message.user.name)
+      msg.send msg.random tryQuotes
+
   robot.hear /internet/i, (msg) ->  
-    msg.send msg.random internetQuotes
+    if notRobot(msg.message.user.name)
+      msg.send msg.random internetQuotes
