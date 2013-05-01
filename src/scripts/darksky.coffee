@@ -7,6 +7,7 @@
 # Configuration
 #   HUBOT_DARK_SKY_API_KEY
 #   HUBOT_DARK_SKY_DEFAULT_LOCATION
+#   HUBOT_DARK_SKY_UNITS (optional - us, si, ca, or uk)
 #
 # Commands:
 #   hubot weather - Get the weather for HUBOT_DARK_SKY_DEFAULT_LOCATION
@@ -40,6 +41,8 @@ module.exports = (robot) ->
 
 darkSkyMe = (msg, lat, lng, cb) ->
   url = "https://api.forecast.io/forecast/#{process.env.HUBOT_DARK_SKY_API_KEY}/#{lat},#{lng}/"
+  if process.env.HUBOT_DARK_SKY_UNITS
+    url += "?units=#{process.env.HUBOT_DARK_SKY_UNITS}"
   msg.http(url)
     .get() (err, res, body) ->
       result = JSON.parse(body)
@@ -48,7 +51,7 @@ darkSkyMe = (msg, lat, lng, cb) ->
         cb "#{result.error}"
         return
 
-      response = "Currently: #{result.currently.summary} (#{result.currently.temperature}F)"
+      response = "Currently: #{result.currently.summary} (#{result.currently.temperature}°)"
       response += "\nNext hour: #{result.hourly.summary}"
       response += "\nToday: #{result.daily.summary}"
       cb response
