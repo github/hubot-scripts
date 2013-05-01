@@ -19,5 +19,4 @@ rubyRules = [
 
 module.exports = (robot) ->
   robot.respond /(what are )?the ruby (rules|laws)/i, (msg) ->
-    text = msg.message.text
     msg.send rubyRules.join('\n')
