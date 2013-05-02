@@ -12,8 +12,9 @@
 #   HUBOT_GITHUB_API
 #
 # Commands:
-#   Listens for #nnn or repo-name#nnn and links to the issue on github. 
-#   Defaults to issues in HUBOT_GITHUB_REPO, unless a repo is specified
+#   #nnn - link to GitHub issue nnn for HUBOT_GITHUB_REPO project
+#   repo#nnn - link to GitHub issue nnn for repo project
+#   user/repo#nnn - link to GitHub issue nnn for user/repo project
 #
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
