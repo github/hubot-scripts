@@ -147,7 +147,7 @@ module.exports = (robot) ->
               issues.fields.assignee.value.displayName
             else
               "no assignee"
-          status: issues.fields.status.value.name
+          status: issues.fields.status.value?.name?
           fixVersion: ->
             if issues.fields.fixVersions? and issues.fields.fixVersions.value != undefined
               issues.fields.fixVersions.value.map((fixVersion) -> return fixVersion.name).join(", ")
