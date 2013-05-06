@@ -3,7 +3,6 @@
 #
 # Dependencies:
 #   "underscore": "1.3.3"
-#   "async": "0.2.7"
 #
 # Configuration:
 #   HUBOT_TEAMCITY_USERNAME = <user name>
@@ -20,17 +19,15 @@
 #   hubot tc list builds of <buildType> of <project> <number>- Show the status of the last <number> builds of the specified build type of the specified project. Number can only follow the last variable, so if project is not passed, number must follow buildType directly. <number> Defaults to 5
 #   hubot tc build start <buildType> - Adds a build to the queue for the specified build type
 #   hubot tc build start <buildType> of <project> - Adds a build to the queue for the specified build type of the specified project
-#   hubot tc build stop all <buildType> of <project> - Stops all currently running builds of a given buildType. Project parameter is optional.
-#   hubot tc build stop <buildType> <buildId> of <project> - Stops the build type of project with the buildId if currently running. Project parameter is optional.
+#   hubot tc build stop all <buildType> id <buildId> of <project> - Stops all currently running builds of a given buildType. Project parameter is optional. Please note that the special 'all' keyword will kill all currently running builds ignoring all further parameters. hubot tc build stop all all
 #
 # Author:
 #   Micah Martin and Jens Jahnke
-#Contributors:
-#  Abraham Polishchuk
+#Contributor:
+#   Abraham Polishchuk
 
 util           = require 'util'
 _              = require 'underscore'
-asynchron      = require 'async'
 
 module.exports = (robot) ->
   username = process.env.HUBOT_TEAMCITY_USERNAME
@@ -100,6 +97,7 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         err = body unless res.statusCode == 200
         builds = JSON.parse(body).build unless err
+        builds.splice(amount)
         callback err, msg, builds
 
   mapNameToIdForBuildType = (msg, project, name, callback) ->
@@ -118,7 +116,7 @@ module.exports = (robot) ->
     getBuildTypes msg, project, (err, msg, buildTypes) ->
       callback msg, execute(buildTypes)
 
-  mapBuildToName = (build, callback) ->
+  mapBuildToNameList = (build) ->
     id = build['buildTypeId']
     msg = build['messengerBot']
     url = "http://#{hostname}/httpAuth/app/rest/buildTypes/id:#{id}"
@@ -135,19 +133,34 @@ module.exports = (robot) ->
           else
             status = if build.status == "SUCCESS" then "OK!" else "__FAILED__"
             message = "#{status} :: #{baseMessage}"
-          callback null, message
-        else
-          callback err, null
+          msg.send message
 
-  createAndPublishBuildMap = (builds, msg, callback) ->
+  createAndPublishBuildMap = (builds, msg) ->
     for build in builds
       build['messengerBot'] = msg
-    asynchron.map(builds, mapBuildToName, (err, results) ->
-      for result in results
-        msg.send result
+      mapBuildToNameList(build)
 
-    )
-
+  mapAndKillBuilds = (msg, name, id, project) ->
+    comment = "killed by hubot"
+    getCurrentBuilds msg, (err, builds, msg) ->
+      if typeof(builds)=='string'
+        builds=JSON.parse(builds)
+      if builds['count']==0
+        msg.send "No builds are currently running"
+        return
+      mapNameToIdForBuildType msg, project, name, (msg, buildType) ->
+        buildName = buildType
+        for build in builds['build']
+          if name == 'all' or (build['id'] == parseInt(id) and id?) or (build['buildTypeId'] == buildName and buildName? and !id?)
+            url = "#{base_url}/ajax.html?comment=#{comment}&submit=Stop&buildId=#{build['id']}&kill"
+            msg.http(url)
+              .headers(getAuthHeader())
+              .get() (err, res, body) ->
+                err = body unless res.statusCode == 200
+                if err
+                  msg.send "Fail! Something went wrong. Couldn't stop the build for some reason"
+                else
+                  msg.send "The requested builds have been killed"
 
   robot.respond /show me builds/i, (msg) ->
     getCurrentBuilds msg, (err, builds, msg) ->
@@ -157,9 +170,7 @@ module.exports = (robot) ->
         msg.send "No builds are currently running"
         return
 
-      createAndPublishBuildMap(builds['build'], msg, (err, msg, message)->
-        msg.send message
-      )
+      createAndPublishBuildMap(builds['build'], msg)
 
   robot.respond /tc build start (.*)/i, (msg) ->
     configuration = buildName = msg.match[1]
@@ -216,15 +227,14 @@ module.exports = (robot) ->
         configuration = option
         project = null
 
-        buildTypeRE = /^\s*of (.*?) of (.*) (\d*)/i
-
+        buildTypeRE = /^\s*of (.*?) of (.+) (\d+)/i
         buildTypeMatches = option.match buildTypeRE
         if buildTypeMatches?
           configuration = buildTypeMatches[1]
           project = buildTypeMatches[2]
           amount = parseInt(buildTypeMatches[3])
         else
-          buildTypeRE = /^\s*of (.*) (\d*)/i
+          buildTypeRE = /^\s*of (.+) (\d+)/i
           buildTypeMatches = option.match buildTypeRE
           if buildTypeMatches?
             configuration = buildTypeMatches[1]
@@ -251,3 +261,42 @@ module.exports = (robot) ->
             msg.send "Could not find builds for #{option}"
             return
           createAndPublishBuildMap(builds, msg)
+
+  robot.respond /tc build stop all (.*)/i, (msg) ->
+    getCurrentBuilds msg, (err, builds, msg) ->
+      if typeof(builds)=='string'
+        builds=JSON.parse(builds)
+      if builds['count']==0
+        msg.send "No builds are currently running"
+        return
+
+      configuration = buildName = msg.match[1]
+      project = null
+      id = null
+      buildTypeRE = /(.*) if (.*) of (.*)/i
+      buildTypeMatches = buildName.match buildTypeRE
+      if buildTypeMatches?
+        configuration = buildTypeMatches[1]
+        id = buildTypeMatches[2]
+        project = buildTypeMatches[3]
+
+      else
+        buildTypeRE = /(.*) of (.*)/i
+        buildTypeMatches = buildName.match buildTypeRE
+        if buildTypeMatches?
+          configuration = buildTypeMatches[1]
+          project = buildTypeMatches[2]
+
+        else
+          buildTypeRE = /(.*) id (.*)/
+          buildTypeMatches = buildName.match buildTypeRE
+          if buildTypeMatches?
+            configuration = buildTypeMatches[1]
+            id = buildTypeMatches[2]
+          else
+            buildTypeRE= /(.*)/
+            buildTypeMatches = buildName.match buildTypeRE
+            if buildTypeMatches?
+              configuration = buildTypeMatches[1]
+
+      mapAndKillBuilds(msg, configuration, id, project)
