@@ -10,7 +10,7 @@
 #   hubot pager me incidents - return the current incidents
 #   hubot pager me note <incident> <content> - add note to incident #<incident> with <content>
 #   hubot pager me notes <incident> - show notes for incident #<incident>
-#   hubot pager me problems - return all open inicidents
+#   hubot pager me problems - return all open incidents
 #   hubot pager me ack <incident> - ack incident #<incident>
 #   hubot pager me resolve <incident> - resolve incident #<incident>
 #
