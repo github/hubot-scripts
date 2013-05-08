@@ -10,7 +10,7 @@
 #   hubot pager me incidents - return the current incidents
 #   hubot pager me note <incident> <content> - add note to incident #<incident> with <content>
 #   hubot pager me notes <incident> - show notes for incident #<incident>
-#   hubot pager me problems - return all open inicidents
+#   hubot pager me problems - return all open incidents
 #   hubot pager me ack <incident> - ack incident #<incident>
 #   hubot pager me resolve <incident> - resolve incident #<incident>
 #
@@ -276,7 +276,7 @@ module.exports = (robot) ->
      #   SERVICEDESC: 'snapshot_repositories',
      #   SERVICESTATE: 'CRITICAL',
      #   HOSTSTATE: 'UP' },
-    if inc.incident_number
+    if inc.incident_number && inc.trigger_summary_data
       if inc.trigger_summary_data.description
         "#{inc.incident_number}: #{inc.trigger_summary_data.description} - assigned to #{inc.assigned_to_user.name}\n"
       else if inc.trigger_summary_data.pd_nagios_object == 'service'
