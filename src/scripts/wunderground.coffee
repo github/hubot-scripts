@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_WUNDERGROUND_API_KEY Sign up at http://www.wunderground.com/weather/api/.
 #
 # Commands:
 #   hubot weather me <location> - short-term forecast
