@@ -14,11 +14,10 @@
 #   jmoses
 
 appendAmbush = (data, toUser, fromUser, message) ->
-  if data[toUser.name]
-    data[toUser.name].push message
-  else
-    data[toUser.name] = [[fromUser.name, message]]
-
+  data[toUser.name] or= []
+  
+  data[toUser.name].push [fromUser.name, message]
+  
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}
