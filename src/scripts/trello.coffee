@@ -15,7 +15,8 @@
 # Notes:
 #   To get your key, go to: https://trello.com/1/appKey/generate
 #   To get your token, go to: https://trello.com/1/authorize?key=<<your key>>&name=Hubot+Trello&expiration=never&response_type=token&scope=read,write
-#   To get your list ID, go to: https://trello.com/1/members/my/cards?key=<<your key>>&token=<<your token>> and find a card on the list you'd like to use. The ID is the idList attribute
+#   Figure out what board you want to use, grab it's id from the url (https://trello.com/board/<<board name>>/<<board id>>)
+#   To get your list ID, go to: https://trello.com/1/boards/<<board id>>/lists?key=<<your key>>&token=<<your token>>  "id" elements are the list ids.
 #
 # Author:
 #   carmstrong
