@@ -18,6 +18,7 @@
   },
 
   "dependencies": {
-    "redis": "0.8.2"
+    "redis": "0.8.2",
+    "tag-cloud-client": "0.0.4"
   }
 }
