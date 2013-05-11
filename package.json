@@ -7,6 +7,8 @@
   "keywords":    ["hubot", "plugin", "scripts", "campfire", "bot", "robot"],
   "description": "Allows you to opt in to a variety of scripts",
 
+  "main": "./lib/load_scripts.coffee",
+
   "licenses":     [{
     "type":       "MIT",
     "url":        "http://github.com/github/hubot-scripts/raw/master/LICENSE"
