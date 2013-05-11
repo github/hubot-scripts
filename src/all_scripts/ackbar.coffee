@@ -1,5 +1,5 @@
 # Description:
-#   Bring forth zombies
+#   None
 #
 # Dependencies:
 #   None
@@ -8,15 +8,15 @@
 #   None
 #
 # Commands:
-#   (zombie) - Call in a zombie
+#   trap - Display an Admiral Ackbar piece of wonder
 #
 # Author:
-#   solap
+#   brilliantfantastic
 
 Client = require 'tag-cloud-client'
 
 module.exports = (robot) ->
-  robot.hear /zombi(e|es)/i, (msg) ->
+  robot.hear /it'?s a trap\b/i, (msg) ->
     tag_cloud = new Client()
-    tag_cloud.GetRandomValue 'zombie-images', (data)->
+    tag_cloud.GetRandomValue 'ackbar-images', (data)->
       msg.send data.value

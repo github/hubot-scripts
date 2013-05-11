@@ -34,5 +34,8 @@ module.exports = (robot) ->
       "http://i.imgur.com/jNyXL.jpg",
       "http://i.imgur.com/K09cJ.jpg",
       "http://i.imgur.com/mO0UE.jpg",
+      "http://i.imgur.com/zy2vyMD.gif",
+      "http://i.imgur.com/Cbo4LAd.gif",
+      "http://i.imgur.com/Gl3oWZZ.jpg",
       "http://i.imgur.com/9hhkx.jpg"]
     msg.send msg.random images

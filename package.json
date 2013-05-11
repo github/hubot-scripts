@@ -7,6 +7,8 @@
   "keywords":    ["hubot", "plugin", "scripts", "campfire", "bot", "robot"],
   "description": "Allows you to opt in to a variety of scripts",
 
+  "main": "./lib/load_scripts.coffee",
+
   "licenses":     [{
     "type":       "MIT",
     "url":        "http://github.com/github/hubot-scripts/raw/master/LICENSE"
@@ -18,6 +20,7 @@
   },
 
   "dependencies": {
-    "redis": "0.8.2"
+    "redis": "0.8.2",
+    "tag-cloud-client": "0.0.4"
   }
 }

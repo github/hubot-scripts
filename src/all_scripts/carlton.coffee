@@ -1,5 +1,5 @@
 # Description:
-#   Bring forth zombies
+#   Carlton Celebration
 #
 # Dependencies:
 #   None
@@ -8,15 +8,15 @@
 #   None
 #
 # Commands:
-#   (zombie) - Call in a zombie
+#   dance - Display a dancing Carlton
 #
 # Author:
-#   solap
+#   pingles
 
 Client = require 'tag-cloud-client'
 
 module.exports = (robot) ->
-  robot.hear /zombi(e|es)/i, (msg) ->
+  robot.hear /\b(dance|happy)\b/i, (msg) ->
     tag_cloud = new Client()
-    tag_cloud.GetRandomValue 'zombie-images', (data)->
+    tag_cloud.GetRandomValue 'happy-images', (data)->
       msg.send data.value
