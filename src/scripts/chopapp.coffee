@@ -1,5 +1,5 @@
 # Description:
-#   Returns a link to your chopapp.com code
+#   Return a link to your chopapp.com code
 #
 # Dependencies:
 #   None
