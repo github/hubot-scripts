@@ -5,8 +5,8 @@
 #   None
 #
 # Configuration:
-#   HUBOT_MEMEGENERATOR_USER -- Username on MemeGenerator.net
-#   HUBOT_MEMEGENERATOR_PASS -- Password for account on MemeGenerator.net
+#   HUBOT_MEMEGENERATOR_USERNAME -- Username on MemeGenerator.net
+#   HUBOT_MEMEGENERATOR_PASSWORD -- Password for account on MemeGenerator.net
 #
 # Commands:
 #   not sure if <something> or <something else> - Generates a Futurama Fry meme
@@ -62,13 +62,13 @@ module.exports = (robot) ->
       msg.send rand.instanceImageUrl
 
 generateMeme = (msg, generatorID, imageID, msg1, msg2) ->
-  if not process.env.HUBOT_MEMEGENERATOR_USER
+  if not process.env.HUBOT_MEMEGENERATOR_USERNAME
     msg.send "Error: You must specify your MemeGenerator.net username"
-  if not process.env.HUBOT_MEMEGENERATOR_PASS
+  if not process.env.HUBOT_MEMEGENERATOR_PASSWORD
     msg.send "Error: You must specify your MemeGenerator.net pasword"
-  if not (process.env.HUBOT_MEMEGENERATOR_USER and process.env.HUBOT_MEMEGENERATOR_PASS)
+  if not (process.env.HUBOT_MEMEGENERATOR_USERNAME and process.env.HUBOT_MEMEGENERATOR_PASSWORD)
     return
-  url = "http://version1.api.memegenerator.net/Instance_Create?username=#{ process.env.HUBOT_MEMEGENERATOR_USER }&password=#{ process.env.HUBOT_MEMEGENERATOR_PASS }&languageCode=en&generatorID=#{ generatorID }&imageID=#{ imageID }&text0=#{ encodeURIComponent(msg1) }&text1=#{ encodeURIComponent(msg2) }"
+  url = "http://version1.api.memegenerator.net/Instance_Create?username=#{ process.env.HUBOT_MEMEGENERATOR_USERNAME }&password=#{ process.env.HUBOT_MEMEGENERATOR_PASSWORD }&languageCode=en&generatorID=#{ generatorID }&imageID=#{ imageID }&text0=#{ encodeURIComponent(msg1) }&text1=#{ encodeURIComponent(msg2) }"
   msg.http(url).get() (err, res, body) ->
     resp = JSON.parse(body)
     msg.send resp.result.instanceImageUrl
