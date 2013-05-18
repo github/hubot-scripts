@@ -2,10 +2,20 @@
 #   Set your availability status so people know whether they're able to come
 #   over and chat with you or ping you over IM.
 #
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
 # Commands:
 #   hubot is <user> available - Find out if the specified user is available or not
 #   hubot i am <available|free|not busy|at hand> - Set that you are available
 #   hubot i am <unavailable|dnd|do not disturb|busy|in the zone> - Setthat you are not available
+#
+# Author:
+#   tombell
+
 module.exports = (robot) ->
 
   # Find the user by user name from hubot's brain.
