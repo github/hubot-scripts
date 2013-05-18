@@ -4,6 +4,8 @@
 # Dependencies:
 #   "htmlparser": "1.7.6"
 #   "soupselect: "0.2.0"
+#   "underscore": "1.3.3"
+#   "underscore.string": "2.3.0"
 #
 # Configuration:
 #   None
@@ -21,14 +23,14 @@ HTMLParser = require "htmlparser"
 
 module.exports = (robot) ->
   robot.respond /(wiki)( me)? (.*)/i, (msg) ->
-    wikiMe msg, msg.match[3], (text, url) ->
+    wikiMe robot, msg.match[3], (text, url) ->
       msg.send text
       msg.send url if url
 
-wikiMe = (msg, query, cb) ->
+wikiMe = (robot, query, cb) ->
   articleURL = makeArticleURL(makeTitleFromQuery(query))
 
-  msg.http(articleURL)
+  robot.http(articleURL)
     .header('User-Agent', 'Hubot Wikipedia Script')
     .get() (err, res, body) ->
       return cb "Sorry, the tubes are broken." if err
