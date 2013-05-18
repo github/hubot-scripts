@@ -27,6 +27,7 @@
 #   hubot memegen <text> you're gonna have a bad time - Bad Time Ski Instructor
 #   hubot memegen one does not simply <text> - Lord of the Rings Boromir
 #   hubot memegen it looks like (you|you're) <text> - Generates Clippy
+#	hubot memegen AM I THE ONLY ONE AROUND HERE <text> - The Big Lebowski
 #
 # Author:
 #   skalnik
@@ -108,6 +109,11 @@ module.exports = (robot) ->
         regex: /(memegen )?(it looks like you're|it looks like you) (.*)/i,
         generatorID: 20469,
         imageID: 1159769
+      },
+      {
+      	regex: /(memegen )?(AM I THE ONLY ONE AROUND HERE) (.*)/i,
+      	generatorID: 953639,
+      	imageID: 4240352
       }
     ]
 
