@@ -3,10 +3,9 @@
 #
 # Dependencies:
 #   "jsdom": "0.2.15"
+#   "underscore": "1.3.3"
 #
 # Configuration:
-#
-# Optional Configuration:
 #   HUBOT_HTTP_INFO_IGNORE_URLS - RegEx used to exclude Urls
 #   HUBOT_HTTP_INFO_IGNORE_USERS - Comma separated list of users to ignore
 #
