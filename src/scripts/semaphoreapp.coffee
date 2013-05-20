@@ -83,7 +83,6 @@ module.exports = (robot) ->
           project = projects[0]
 
       unless project?
-        x for x in projects when x.name is projectName
         for x in projects
           if x.name is projectName
               project = x
