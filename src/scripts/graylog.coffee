@@ -17,6 +17,9 @@
 #   hubot graylog <stream> <count> - output some messages from given stream
 #   hubot graylog host <host> <count> - output some messages from given host
 #
+# Notes
+#   Output format: "[timestamp] message content"
+#
 # Author:
 #   spajus
 
