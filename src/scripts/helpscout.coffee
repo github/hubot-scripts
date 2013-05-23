@@ -5,9 +5,9 @@
 #   HUBOT_HELPSCOUT_API_KEY - Go to Your Profile -> API Keys
 #
 # Commands:
-#   hubot helpscout mailboxes - list Helpscout mailboxes
-#   hubot helpscout count MAILBOX_ID - Return the number of active tickets in a mailbox
-#   hubot helpscout users MAILBOX_ID - List the number of active tickets each user has in a mailbox
+#   hubot hs mailboxes - list Helpscout mailboxes
+#   hubot hs count MAILBOX_ID - Return the number of active tickets in a mailbox
+#   hubot hs users MAILBOX_ID - List the number of active tickets each user has in a mailbox
 #
 # Author:
 #   Brett Hardin (http://bretthard.in)
@@ -26,7 +26,7 @@ getRequest = (msg, path, callback) ->
 
 module.exports = (robot) ->
   # hubot helpscout users FOLDER_ID
-  robot.hear /^helpscout users\s?(@\w+)?(.*)/i, (msg) ->
+  robot.respond /hs users\s?(@\w+)?(.*)/i, (msg) ->
     if api_key
       mailboxId = msg.match[2] # Second Term
 
@@ -55,7 +55,7 @@ module.exports = (robot) ->
       msg.send "Don't have the HUBOT_HELPSCOUT_API_KEY."
 
   # hubot helpscout count FOLDER_ID
-  robot.hear /^helpscout count\s?(@\w+)?(.*)/i, (msg) ->
+  robot.respond /hs count\s?(@\w+)?(.*)/i, (msg) ->
     if api_key
       mailboxId = msg.match[2] # Second Term
 
@@ -67,7 +67,7 @@ module.exports = (robot) ->
       msg.send "Don't have the HUBOT_HELPSCOUT_API_KEY."
 
   # hubot helpscout mailboxes  
-  robot.hear /^helpscout mailboxes\s?(.*)?/i, (msg) ->
+  robot.respond /hs mailboxes\s?(.*)?/i, (msg) ->
     if api_key
       getRequest msg, "/mailboxes.json", (err, res, body) ->
         response = JSON.parse body
