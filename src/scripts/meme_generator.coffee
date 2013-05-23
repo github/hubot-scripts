@@ -27,8 +27,11 @@
 #   hubot memegen <text> you're gonna have a bad time - Bad Time Ski Instructor
 #   hubot memegen one does not simply <text> - Lord of the Rings Boromir
 #   hubot memegen it looks like (you|you're) <text> - Generates Clippy
-#	hubot memegen AM I THE ONLY ONE AROUND HERE <text> - The Big Lebowski
-#
+#   hubot memegen AM I THE ONLY ONE AROUND HERE <text> - The Big Lebowski
+#   hubot memegen <text> NOT IMPRESSED - Generates McKayla Maroney
+#   hubot memegen PREPARE YOURSELF <text> - Generates GoT
+#   hubot memegen WHAT IF I TOLD YOU <text> - Generates Morpheus
+#   hubot memegen <text> BETTER DRINK MY OWN PISS - Generates Bear Grylls
 # Author:
 #   skalnik
 
@@ -111,9 +114,29 @@ module.exports = (robot) ->
         imageID: 1159769
       },
       {
-      	regex: /(memegen )?(AM I THE ONLY ONE AROUND HERE) (.*)/i,
-      	generatorID: 953639,
-      	imageID: 4240352
+        regex: /(memegen )?(AM I THE ONLY ONE AROUND HERE) (.*)/i,
+        generatorID: 953639,
+        imageID: 4240352
+      }
+      {
+        regex: /(memegen)?(.*)(NOT IMPRESSED*)/i,
+        generatorID: 1420809,
+        imageID: 5883168
+      },
+      {
+        regex: /(memegen)?(PREPARE YOURSELF) (.*)/i,
+        generatorID: 414926,
+        imageID: 2295701
+      },
+      {
+        regex: /(memegen)?(WHAT IF I TOLD YOU) (.*)/i,
+        generatorID: 1118843,
+        imageID: 4796874
+      },
+      {
+        regex: /(memegen)?(.*) (BETTER DRINK MY OWN PISS)/i,
+        generatorID: 92,
+        imageID: 89714
       }
     ]
 
