@@ -24,7 +24,7 @@
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  robot.hear /.*( (\S*)?#(\d+)).*/, (msg) ->
+  robot.hear /((\S*|^)?#(\d+)).*/, (msg) ->
     issue_number = msg.match[3]
     if isNaN(issue_number)
       return
