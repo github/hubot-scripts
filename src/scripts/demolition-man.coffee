@@ -10,11 +10,13 @@
 # Commands:
 #
 # Author:
-#   whitman
+#   whitman, jan0sch
 
 module.exports = (robot) ->
 
   words = [
+    'arsch',
+    'arschloch',
     'arse',
     'ass',
     'bastard',
@@ -26,15 +28,22 @@ module.exports = (robot) ->
     'cunt',
     'damn',
     'damnit',
+    'depp',
     'dick',
     'douche',
     'fag',
+    'fotze',
     'fuck',
     'fucked',
     'fucking',
+    'kacke',
     'piss',
+    'pisse',
+    'scheisse',
+    'schlampe',
     'shit',
-    'wank'
+    'wank',
+    'wichser'
   ]
   regex = new RegExp('(?:^|\\s)(' + words.join('|') + ')(?:\\s|\\.|\\?|!|$)', 'i');
 
