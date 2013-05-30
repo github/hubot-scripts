@@ -6,12 +6,16 @@
 #
 # Configuration:
 #   HUBOT_WWO_API_KEY
+#   HUBOT_WWO_API_URL
 #
 # Commands:
 #   hubot time in <city> - Get current time in city
 #
 # Notes
 #   Request an WWO API KEY in http://www.worldweatheronline.com/
+#
+#   Default API URL: http://www.worldweatheronline.com/feed/tz.ashx
+#   Free API URL: http://api.worldweatheronline.com/free/v1/tz.ashx
 #
 #   City parameter can be:
 #     city
@@ -27,7 +31,7 @@ module.exports = (robot) ->
     unless process.env.HUBOT_WWO_API_KEY
       msg.send 'Please, set HUBOT_WWO_API_KEY environment variable'
       return
-    msg.http('http://www.worldweatheronline.com/feed/tz.ashx')
+    msg.http(process.env.HUBOT_WWO_API_URL)
       .query({
         q: msg.match[1]
         key: process.env.HUBOT_WWO_API_KEY
