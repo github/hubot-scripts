@@ -31,6 +31,7 @@ module.exports = (robot) ->
       return
     unless process.env.HUBOT_WWO_API_URL
       msg.send 'Please, set HUBOT_WWO_API_URL environment variable'
+      return
     msg.http(process.env.HUBOT_WWO_API_URL)
       .query({
         q: msg.match[1]
