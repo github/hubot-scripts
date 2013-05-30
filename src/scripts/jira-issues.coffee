@@ -1,6 +1,8 @@
 # Description:
 #   Looks up jira issues when they're mentioned in chat
 #
+#   Will ignore users set in HUBOT_JIRA_IGNORE_USERS (by default, JIRA and GitHub).
+#
 # Dependencies:
 #   None
 #
@@ -9,6 +11,7 @@
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
+#   HUBOT_JIRA_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
 #
 # Commands:
 # 
@@ -26,6 +29,10 @@ module.exports = (robot) ->
   if jiraUsername != undefined && jiraUsername.length > 0
     auth = "#{jiraUsername}:#{jiraPassword}"
 
+  jiraIgnoreUsers = process.env.HUBOT_JIRA_ISSUES_IGNORE_USERS
+  if jiraIgnoreUsers == undefined
+    jiraIgnoreUsers = "jira|github"
+
   http.get {host: jiraDomain, auth: auth, path: "/rest/api/2/project"}, (res) ->
     data = ''
     res.on 'data', (chunk) ->
@@ -40,6 +47,8 @@ module.exports = (robot) ->
         jiraPattern += "i"
 
       robot.hear eval(jiraPattern), (msg) ->
+        return if msg.message.user.name.match(new RegExp(jiraIgnoreUsers, "gi"))
+
         for i in msg.match
           issue = i.toUpperCase()
           now = new Date().getTime()
