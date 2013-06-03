@@ -6,21 +6,22 @@
 #
 # Configuration:
 #   HUBOT_ASANA_API_KEY - find this in Account Settings -> API
-#   
+#
 #   HUBOT_ASANA_WORKSPACE_ID - list all workspaces using
 #   curl -u <api_key>: https://app.asana.com/api/1.0/workspaces
-#   (note the colon after the api key)  
-# 
+#   (note the colon after the api key)
+#
 #   HUBOT_ASANA_PROJECT_ID - list all projects in the workspace using:
 #   curl -u <api_key>: https://app.asana.com/api/1.0/workspaces/<workspace id>/projects
 #
 # Commands:
 #   todo: @name? <task directive> - public message starting with todo: will add task, optional @name to assign task
 #   hubot todo users - Message the bot directly to list all available users in the workspace
-# 
+#
 # Author:
 #   idpro
 #   abh1nav
+#   rajiv
 
 url  = 'https://app.asana.com/api/1.0'
 
@@ -86,6 +87,14 @@ module.exports = (robot) ->
           addTask msg, taskName, '/tasks', params, false
     else
       addTask msg, taskName, '/tasks', params, false
+
+# show task title
+  robot.hear /https:\/\/app\.asana\.com\/(\d+)\/(\d+)\/(\d+)/, (msg) ->
+    taskId = msg.match[3]
+    getRequest msg, "/tasks/#{taskId}", (err, res, body) ->
+      response = JSON.parse body
+      name = response.data.name
+      msg.send "#{taskId}: #{name}"
 
 # List all Users
   robot.respond /(todo users)/i, (msg) ->
