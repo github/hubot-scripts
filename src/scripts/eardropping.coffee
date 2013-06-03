@@ -48,7 +48,7 @@ module.exports = (robot) ->
 
   robot.respond /stop ear *dropping$/i, (msg) ->
     earDropping.deleteAll()
-    msg.send 'Okay, fine. :(  I am keep my ears shut.'
+    msg.send 'Okay, fine. :( I will keep my ears shut.'
 
   robot.respond /stop ear *dropping (for|on) (.+?)$/i, (msg) ->
     pattern = msg.match[2]
