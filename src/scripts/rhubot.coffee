@@ -6,7 +6,7 @@
 #
 # Configuration:
 #   RHUBOT_PATH - Path to Rhubot
-#   HUBOT_URL - Path to Hubot HTTP router - http://192.168.0.0:8080
+#   HUBOT_URL - URL to Hubot HTTP router - http://192.168.0.0:8080
 #
 # Commands:
 #   rb <cmd> <args> - Runs a Ruby script named <cmd> sending the arguments <args>.
