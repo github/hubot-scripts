@@ -7,10 +7,9 @@
 #
 # Configuration:
 #   You will have to do the following:
-#   1. Test your room/type configuration using "hubot test pull request in <room> [type]"
-#   2. Get an API token: curl -u 'username' -d '{"scopes":["repo"],"note":"Hooks management"}' \
+#   1. Get an API token: curl -u 'username' -d '{"scopes":["repo"],"note":"Hooks management"}' \
 #                         https://api.github.com/authorizations
-#   3. Add <HUBOT_URL>:<PORT>/hubot/gh-pull-requests?room=<room>[&type=<type>] url hook via API:
+#   2. Add <HUBOT_URL>:<PORT>/hubot/gh-pull-requests?room=<room>[&type=<type>] url hook via API:
 #      curl -H "Authorization: token <your api token>" \
 #      -d '{"name":"web","active":true,"events":["pull_request"],"config":{"url":"<this script url>","content_type":"json"}}' \
 #      https://api.github.com/repos/<your user>/<your repo>/hooks
