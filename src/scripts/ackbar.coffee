@@ -21,7 +21,6 @@ ackbars = [
   "http://6.asset.soup.io/asset/0610/8774_242b_500.jpeg",
   "http://files.g4tv.com/ImageDb3/279875_S/steampunk-ackbar.jpg",
   "http://farm6.staticflickr.com/5126/5725607070_b80e61b4b3_z.jpg",
-  "http://www.x929.ca/shows/newsboy/wp-content/uploads/admiral-ackbar-mouse-trap.jpg",
   "http://farm6.static.flickr.com/5291/5542027315_ba79daabfb.jpg",
   "http://farm5.staticflickr.com/4074/4751546688_5c76b0e308_z.jpg",
   "http://farm6.staticflickr.com/5250/5216539895_09f963f448_z.jpg"
