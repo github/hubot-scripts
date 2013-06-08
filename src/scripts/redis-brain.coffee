@@ -41,6 +41,7 @@ module.exports = (robot) ->
 
   robot.brain.on 'save', (data = {}) ->
     client.set 'hubot:storage', JSON.stringify data
+    console.log data
 
   robot.brain.on 'close', ->
     client.quit()
