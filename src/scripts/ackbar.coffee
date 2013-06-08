@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   trap - Display an Admiral Ackbar piece of wonder
+#   it's a trap - Display an Admiral Ackbar piece of wonder
 #
 # Author:
 #   brilliantfantastic
