@@ -34,12 +34,21 @@ module.exports = (robot) ->
       if err
         throw err
       else if reply
+        robot.logger.info "Brain data retrieved from redis-brain storage"
         robot.brain.mergeData JSON.parse(reply.toString())
       else
         robot.logger.info "Initializing new redis-brain storage"
         robot.brain.mergeData {}
 
+      robot.logger.info "Enabling brain auto-saving"
+      robot.brain.setAutoSave true
+
+  # Prevent autosaves until connect has occured
+  robot.logger.info "Disabling brain auto-saving"
+  robot.brain.setAutoSave false
+
   robot.brain.on 'save', (data = {}) ->
+    robot.logger.debug "Saving brain data"
     client.set 'hubot:storage', JSON.stringify data
 
   robot.brain.on 'close', ->
