@@ -1,5 +1,5 @@
 # Description:
-#   Rally information for bugs, stories, and users
+#   Rally information for artifacts
 #
 # Dependencies:
 #   None
@@ -9,13 +9,12 @@
 #   HUBOT_RALLY_PASSWORD
 #
 # Commands:
-#   hubot rally me <defect id | task id | story id> - Lookup a task, story or defect from Rally
+#   hubot rally me <formattedID> - Lookup a task, story, defect, etc. from Rally
 #
 # Notes:
 #   Since Rally supports rich text for description fields, it will come back as HTML
 #   to pretty print this we can run it through lynx. Make sure you have lynx installed
 #   and PATH accessible, otherwise we will degrade to just showing the html description.
-#   ENV Variables Required:
 #
 # Author:
 #   brianmichel
@@ -24,107 +23,156 @@ exec = require('child_process').exec
 
 user = process.env.HUBOT_RALLY_USERNAME
 pass = process.env.HUBOT_RALLY_PASSWORD
-api_version = '1.40'
+api_version = 'v2.0'
+
+logger = null
+
+typeInfoByPrefix =
+  DE:
+    name: 'defect'
+    extraOutputFields: [
+      'State'
+      'ScheduleState'
+      'Severity'
+    ]
+  DS:
+    name: 'defectsuite'
+    extraOutputFields: [
+      'ScheduleState'
+    ]
+  F:
+    name: 'feature'
+    queryName: 'portfolioitem/feature'
+    linkName: 'portfolioitem/feature'
+    extraOutputFields: [
+      'State._refObjectName'
+      'Parent._refObjectName'
+    ]
+  I:
+    name: 'initiative'
+    queryName: 'portfolioitem/initiative'
+    linkName: 'portfolioitem/initiative'
+    extraOutputFields: [
+      'State._refObjectName'
+      'Parent._refObjectName'
+    ]
+  T:
+    name: 'theme'
+    queryName: 'portfolioitem/theme'
+    linkName: 'portfolioitem/theme'
+    extraOutputFields: [
+      'State._refObjectName'
+      'Parent._refObjectName'
+    ]
+  TA:
+    name: 'task'
+    extraOutputFields: [
+      'State'
+      'WorkProduct._refObjectName'
+    ]
+  TC:
+    name: 'testcase'
+    extraOutputFields: [
+      'WorkProduct._refObjectName'
+      'Type'
+    ]
+  US:
+    name: 'story'
+    queryName: 'hierarchicalrequirement'
+    linkName: 'userstory'
+    extraOutputFields: [
+      'ScheduleState'
+      'Parent._refObjectName'
+      'Feature._refObjectName'
+    ]
+
 
 module.exports = (robot) ->
-	robot.respond /(rally)( me)? (.*)/i, (msg) ->
-		if user && pass
-			switch msg.match[3].toUpperCase().substring(0,1)
-				when "D" then bugRequest msg, msg.match[3], (string) ->
-					msg.send string
-				when "T" then taskRequest msg, msg.match[3], (string) ->
-					msg.send string
-				when "S" then storyRequest msg, msg.match[3], (string) ->
-					msg.send string
-				else msg.send "Uhh, that doesn't work"
-		else
-		  msg.send "You need to set HUBOT_RALLY_USERNAME & HUBOT_RALLY_PASSWORD before making requests!"
+  logger = robot.logger
+  robot.respond /(rally)( me)? ([a-z]+)(\d+)/i, (msg) ->
+    if user && pass
+      idPrefix = msg.match[3].toUpperCase()
+      idNumber = msg.match[4]
+      if typeInfoByPrefix.hasOwnProperty(idPrefix)
+        queryRequest msg, typeInfoByPrefix[idPrefix], idNumber, (string) ->
+          msg.send string
+      else
+        msg.send "Uhh, I don't know that formatted ID prefix"
+    else
+      msg.send 'You need to set HUBOT_RALLY_USERNAME & HUBOT_RALLY_PASSWORD before making requests!'
 
-bugRequest = (msg, defectId, cb) ->
-	query_string = "/defect.js?query=(FormattedID = #{defectId})&fetch=true"
-	rallyRequest msg, query_string, (json) ->
-		if json && json.QueryResult.TotalResultCount > 0
-			getLinkToItem msg, json.QueryResult.Results[0], "defect"
-			description = "No Description"
-			if json.QueryResult.Results[0].Description
-				prettifyDescription json.QueryResult.Results[0].Description, (output) ->
-					description = output
-					return_array = [
-						"#{json.QueryResult.Results[0].FormattedID} - #{json.QueryResult.Results[0]._refObjectName}"
-						"Owner - #{ if json.QueryResult.Results[0].Owner then json.QueryResult.Results[0].Owner._refObjectName else "No Owner" }"
-						"Project - #{ if json.QueryResult.Results[0].Project then json.QueryResult.Results[0].Project._refObjectName else "No Project" }"
-						"Severity - #{json.QueryResult.Results[0].Severity}"
-						"State - #{json.QueryResult.Results[0].State}"
-						"#{description}"
-						]
-					cb return_array.join("\n")
-		else
-			cb "Aww snap, I couldn't find that bug!"
+queryRequest = (msg, typeInfo, idNumber, cb) ->
+  queryName = typeInfo.queryName || typeInfo.name
+  queryString = "/#{queryName}.js?query=(FormattedID = #{idNumber})&fetch=true"
+  rallyRequest msg, queryString, (json) ->
+    if json && json.QueryResult.TotalResultCount > 0
+      result = json.QueryResult.Results[0]
+      linkName = typeInfo.linkName || typeInfo.name
+      getLinkToItem msg, result, linkName
+      description = 'No Description'
+      prettifyDescription result.Description, (output) ->
+        description = output || description
+        returnArray = [
+          "#{result.FormattedID} - #{result.Name}"
+          labeledField(result, 'Owner._refObjectName')
+          labeledField(result, 'Project._refObjectName')
+        ]
+        returnArray.push(labeledField(result, field)) for field in typeInfo.extraOutputFields
+        returnArray.push("Description:")
+        returnArray.push("#{description}")
+        cb returnArray.join("\n")
+    else
+      cb "Aww snap, I couldn't find that #{typeInfo.name}!"
 
-taskRequest = (msg, taskId, cb) ->
-	query_string = "/task.js?query=(FormattedID = #{taskId})&fetch=true"
-	rallyRequest msg, query_string, (json) ->
-		if json && json.QueryResult.TotalResultCount > 0
-			getLinkToItem msg, json.QueryResult.Results[0], "task"
-			return_array = [
-				"#{json.QueryResult.Results[0].FormattedID} - #{json.QueryResult.Results[0].Name}"
-				"Owner - #{ if json.QueryResult.Results[0].Owner then json.QueryResult.Results[0].Owner._refObjectName else "No Owner" }"
-				"Project - #{ if json.QueryResult.Results[0].Project then json.QueryResult.Results[0].Project._refObjectName else "No Project" }"
-				"State - #{json.QueryResult.Results[0].State}"
-				"Feature - #{if json.QueryResult.Results[0].WorkProduct ? json.QueryResult.Results[0].WorkProduct._refObjectName  else "Not associated with any feature"}"
-				]
-			cb return_array.join("\n")
-		else
-			cb "Aww snap, I couldn't find that task!"
+labeledField = (result, field) ->
+  match = field.match(/^(\w+)\._refObjectName$/)
+  if match
+    "#{match[1]}: #{refObjectName(result, match[1])}"
+  else
+    "#{field}: #{result[field]}"
 
-storyRequest = (msg, storyId, cb) ->
-	query_string = "/hierarchicalrequirement.js?query=(FormattedID = #{storyId})&fetch=true"
-	rallyRequest msg, query_string, (json) ->
-		if json && json.QueryResult.TotalResultCount > 0
-			getLinkToItem msg, json.QueryResult.Results[0], "userstory"
-			description = "No Description"
-			prettifyDescription json.QueryResult.Results[0].Description, (output) ->
-				description = output || description
-				return_array = [
-					"#{json.QueryResult.Results[0].FormattedID} - #{json.QueryResult.Results[0].Name}"
-					"Owner - #{ if json.QueryResult.Results[0].Owner then json.QueryResult.Results[0].Owner._refObjectName else "No Owner" }"
-					"Project - #{ if json.QueryResult.Results[0].Project then json.QueryResult.Results[0].Project._refObjectName else "No Project" }"
-					"ScheduleState - #{json.QueryResult.Results[0].ScheduleState}"
-					"#{description}"
-					]
-				cb return_array.join("\n")
-		else
-			cb "Aww snap, I couldn't find that story!"
+refObjectName = (result, field) ->
+  if result[field] then result[field]._refObjectName else "No #{field}"
 
 rallyRequest = (msg, query, cb) ->
-	rally_url = 'https://rally1.rallydev.com/slm/webservice/' + api_version + query
-	basicAuthRequest msg, rally_url, (json) ->
-		cb json
+  rally_url = 'https://rally1.rallydev.com/slm/webservice/' + api_version + query
+#  logger.debug "rally_url = #{rally_url}"
+  basicAuthRequest msg, rally_url, (json) ->
+#    if json
+#      logger.debug "json = #{JSON.stringify(json)}"
+    cb json
 
 basicAuthRequest = (msg, url, cb) ->
-	auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
-	msg.http(url)
-		.headers(Authorization: auth, Accept: 'application/json')
-		.get() (err, res, body) ->
-			json_body = null
-			switch res.statusCode
-				when 200 then json_body = JSON.parse(body)
-				else json_body = null
-			cb json_body
+  auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
+  msg.http(url)
+    .headers(Authorization: auth, Accept: 'application/json')
+    .get() (err, res, body) ->
+      json_body = null
+      switch res.statusCode
+        when 200 then json_body = JSON.parse(body)
+        else json_body = null
+      cb json_body
 
 getLinkToItem = (msg, object, type) ->
-	project = if object && object.Project then object.Project else null
-	if project
-		objectId = object.ObjectID
-		jsPos = project._ref.lastIndexOf ".js"
-		lastSlashPos = project._ref.lastIndexOf "/"
-		projectId = project._ref[(lastSlashPos+1)..(jsPos-1)]
-		msg.send "https://rally1.rallydev.com/slm/rally.sp#/#{projectId}/detail/#{type}/#{objectId}"
-	else
-		#do nothing
+  project = if object && object.Project then object.Project else null
+  if project
+    objectId = object.ObjectID
+    jsPos = project._ref.lastIndexOf '.js'
+    lastSlashPos = project._ref.lastIndexOf '/'
+    projectId = project._ref[(lastSlashPos+1)..(jsPos-1)]
+    msg.send "https://rally1.rallydev.com/#/#{projectId}/detail/#{type}/#{objectId}"
+  else
+    #do nothing
+
 prettifyDescription = (html_description, cb) ->
-	child = exec "echo \"#{html_description}\" | lynx -dump -stdin", (error, stdout, stderr) ->
-		return_text = html_description
-		if !error
-		  return_text = stdout
-		cb return_text
+  child = exec "echo \"#{html_description}\" | lynx -dump -stdin", (error, stdout, stderr) ->
+    return_text = html_description
+    if !error
+      return_text = stdout
+    cb return_text
+
+stripHtml = (html, cb) ->
+  return_text = html.replace(/<style.+\/style>/g, '')
+  return_text = return_text.replace(/<\/?.+?>/g, '').replace(/<br ?\/?>/g, "\n\n").replace(/&nbsp;/g, ' ').replace(/[ ]+/g, ' ').replace(/%22/g, '"').replace(/&amp;/g, '&')
+  return_text = return_text.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
+  cb return_text
