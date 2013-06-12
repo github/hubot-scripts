@@ -30,6 +30,10 @@ module.exports = (robot) ->
 
   key = process.env.HUBOT_TWITTER_CONSUMER_KEY
   secret = process.env.HUBOT_TWITTER_CONSUMER_SECRET
+  if not key or not secret
+    console.log "twitter_mention.coffee: HUBOT_TWITTER_CONSUMER_KEY and HUBOT_TWITTER_CONSUMER_SECRET are required. Get your tokens here: https://dev.twitter.com/apps"
+    return
+
   twitterauth = new oauth.OAuth2(key, secret, "https://api.twitter.com/", null, "oauth2/token", null)
 
   twitterauth.getOAuthAccessToken "", {grant_type:"client_credentials"}, (e, access_token, refresh_token, results) ->
