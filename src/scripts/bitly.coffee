@@ -30,7 +30,7 @@ module.exports = (robot) ->
         msg.send if response.status_code is 200 then response.data.url else response.status_txt
 
    #TODO: can we make this list more expansive/dynamically generated?
-   robot.hear /(https?:\/\/(bit\.ly|yhoo\.it|j\.mp|pep\.si)\/[0-9a-z]+)/ig, (msg) ->
+   robot.hear /(https?:\/\/(bit\.ly|yhoo\.it|j\.mp|pep\.si|amzn\.to)\/[0-9a-z\-]+)/ig, (msg) ->
     msg
       .http("http://api.bitly.com/v3/expand")
       .query
