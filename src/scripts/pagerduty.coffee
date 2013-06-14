@@ -16,7 +16,7 @@
 #
 # Dependencies:
 #  "moment": "1.6.2"
-# 
+#
 # Configuration:
 #
 #   HUBOT_PAGERDUTY_API_KEY - API Access Key
@@ -43,7 +43,7 @@ module.exports = (robot) ->
     emailNote = if msg.message.user.pagerdutyEmail
                   "You've told me your PagerDuty email is #{msg.message.user.pagerdutyEmail}"
                 else if msg.message.user.email_address
-                  "I'm assuming your PagerDuty email is #{msg.message.user.email_address}. Change it with `hubot pager me as you@yourdomain.com`"
+                  "I'm assuming your PagerDuty email is #{msg.message.user.email_address}. Change it with `#{robot.name} pager me as you@yourdomain.com`"
                 else
                   "I don't know your PagerDuty email. Change it with `#{robot.name} pager me as you@yourdomain.com`"
 
@@ -158,19 +158,19 @@ module.exports = (robot) ->
     unless email
       msg.send "Sorry, I can't figure out your email address :( Can you tell me with `#{robot.name} pager me as you@yourdomain.com`?"
       return
-  
+
     user = users[email]
-  
+
     unless user
       msg.send "Sorry, I couldn't find a PagerDuty user for #{email}. Double check you have a user, and that I know your PagerDuty email with `#{robot.name} pager me as you@yourdomain.com`"
       return
-  
+
     users[email].id
-  
+
   pagerDutyGet = (msg, url, query, cb) ->
     if missingEnvironmentForApi(msg)
       return
-  
+
     auth = "Token token=#{pagerDutyApiKey}"
     msg.http(pagerDutyBaseUrl + url)
       .query(query)
@@ -184,11 +184,11 @@ module.exports = (robot) ->
             console.log body
             json_body = null
         cb json_body
-  
+
   pagerDutyPut = (msg, url, data, cb) ->
     if missingEnvironmentForApi(msg)
       return
-  
+
     json = JSON.stringify(data)
     auth = "Token token=#{pagerDutyApiKey}"
     msg.http(pagerDutyBaseUrl + url)
@@ -204,11 +204,11 @@ module.exports = (robot) ->
             console.log body
             json_body = null
         cb json_body
-  
+
   pagerDutyPost = (msg, url, data, cb) ->
     if missingEnvironmentForApi(msg)
       return
-  
+
     json = JSON.stringify(data)
     auth = "Token token=#{pagerDutyApiKey}"
     msg.http(pagerDutyBaseUrl + url)
@@ -224,11 +224,11 @@ module.exports = (robot) ->
             console.log body
             json_body = null
         cb json_body
-  
+
   withCurrentOncall = (msg, cb) ->
     oneHour = moment().add('hours', 1).format()
     now = moment().format()
-  
+
     query = {
       since: now,
       until: oneHour,
@@ -237,7 +237,7 @@ module.exports = (robot) ->
     pagerDutyGet msg, "/schedules/#{pagerDutyScheduleId}/entries", query, (json) ->
       if json.entries and json.entries.length > 0
         cb(json.entries[0].user.name)
-  
+
   withPagerDutyUsers = (msg, cb) ->
     if pagerDutyUsers['loaded'] != true
       pagerDutyGet msg, "/users", {}, (json) ->
@@ -249,27 +249,27 @@ module.exports = (robot) ->
         cb(pagerDutyUsers)
     else
       cb(pagerDutyUsers)
-  
+
   pagerDutyIncidents = (msg, cb) ->
     query =
       status:  "triggered,acknowledged"
       sort_by: "incident_number:asc"
     pagerDutyGet msg, "/incidents", query, (json) ->
       cb(json.incidents)
-  
+
   pagerDutyIntegrationAPI = (msg, cmd, args, cb) ->
     unless pagerDutyServiceApiKey?
       msg.send "PagerDuty API service key is missing."
       msg.send "Ensure that HUBOT_PAGERDUTY_SERVICE_API_KEY is set."
       return
-  
+
     data = null
     switch cmd
       when "trigger"
         data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: "#{args}"}
         pagerDutyIntergrationPost msg, data, (json) ->
           cb(json)
-  
+
   formatIncident = (inc) ->
      # { pd_nagios_object: 'service',
      #   HOSTNAME: 'fs1a',
@@ -285,7 +285,7 @@ module.exports = (robot) ->
          "#{inc.incident_number}: #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE} - assigned to #{inc.assigned_to_user.name}\n"
     else
       ""
-  
+
   updateIncident = (msg, incident_number, status) ->
     withPagerDutyUsers msg, (users) ->
       userId = pagerDutyUserId(msg, users)
@@ -313,8 +313,8 @@ module.exports = (robot) ->
                 msg.reply "Problem updating incident #{incident_number}"
         if foundIncidents.length == 0
           msg.reply "Couldn't find incident #{incident_number}"
-  
-  
+
+
   pagerDutyIntergrationPost = (msg, json, cb) ->
     msg.http('https://events.pagerduty.com/generic/2010-04-15/create_event.json')
       .header("content-type","application/json")
