@@ -6,7 +6,7 @@
 #
 # Configuration:
 #   REDISTOGO_URL
-#   HUBOT_BRAIN_AUTOSAVE=true                  -Enables Auto Saving of the redis brain
+#   HUBOT_BRAIN_AUTOSAVE=false                  -Enables/Disables Auto Saving of the redis brain, default is true
 #   HUBOT_BRAIN_AUTOSAVE_INTERVAL=<seconds>    -Sets the Auto Save interval to <seconds> seconds, default is 5s
 #
 # Commands:
