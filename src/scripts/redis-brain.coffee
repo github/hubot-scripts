@@ -50,7 +50,7 @@ module.exports = (robot) ->
         robot.brain.setAutoSave true
 
         # Set autosave interval if supplied by config
-        if autoSaveInterval
+        if parseInt(autoSaveInterval) != 'NaN'
           robot.logger.info "Setting brain auto-saving interval to " + autoSaveInterval + "s"
           robot.brain.resetSaveInterval parseInt autoSaveInterval
 
