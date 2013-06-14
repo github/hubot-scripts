@@ -21,7 +21,7 @@ Redis = require "redis"
 # sets up hooks to persist the brain into redis.
 module.exports = (robot) ->
   info = Url.parse process.env.REDISTOGO_URL || 'redis://localhost:6379'
-  autoSave = process.env.HUBOT_BRAIN_AUTOSAVE || false
+  autoSave = process.env.HUBOT_BRAIN_AUTOSAVE || true
   autoSaveInterval = process.env.HUBOT_BRAIN_AUTOSAVE_INTERVAL || false
   client = Redis.createClient(info.port, info.hostname)
 
