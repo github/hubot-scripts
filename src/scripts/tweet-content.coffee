@@ -5,18 +5,33 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_TWITTER_CONSUMER_KEY
+#   HUBOT_TWITTER_CONSUMER_SECRET
+#   HUBOT_TWITTER_ACCESS_TOKEN_KEY
+#   HUBOT_TWITTER_ACCES_TOKEN_SECRET
 #
 # Commands:
+#   None
 #
 # Author:
-#   Vrtak-CZ
+#   Vrtak-CZ, kdaigle
+
+ntwitter = require 'ntwitter'
 
 module.exports = (robot) ->
-	robot.hear /https?:\/\/(mobile\.)?twitter\.com\/.*?\/status\/([0-9]+)/i, (msg) ->
-		msg.http("https://api.twitter.com/1/statuses/show/#{msg.match[2]}.json").get() (err, res, body) ->
-			return if err or (res.statusCode != 200)
+  auth =
+    consumer_key:           process.env.HUBOT_TWITTER_CONSUMER_KEY,
+    consumer_secret:        process.env.HUBOT_TWITTER_CONSUMER_SECRET,
+    access_token_key:       process.env.HUBOT_TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret:    process.env.HUBOT_TWITTER_ACCES_TOKEN_SECRET,
+    rest_base:              'https://api.twitter.com/1.1'
 
-			tweet = JSON.parse(body)
+  twit = new ntwitter auth
 
-			msg.send "@#{tweet.user.screen_name}: #{tweet.text}"
+  robot.hear /https?:\/\/(mobile\.)?twitter\.com\/.*?\/status\/([0-9]+)/i, (msg) ->
+    twit.getStatus msg.match[2], (err, tweet) ->
+      if err
+        console.log err
+        return
+
+      msg.send "@#{tweet.user.screen_name}: #{tweet.text}"
