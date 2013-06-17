@@ -23,7 +23,7 @@ module.exports = (robot) ->
     consumer_key:           process.env.HUBOT_TWITTER_CONSUMER_KEY,
     consumer_secret:        process.env.HUBOT_TWITTER_CONSUMER_SECRET,
     access_token_key:       process.env.HUBOT_TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret:    process.env.HUBOT_TWITTER_ACCES_TOKEN_SECRET,
+    access_token_secret:    process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET,
     rest_base:              'https://api.twitter.com/1.1'
 
   twit = new ntwitter auth
