@@ -15,7 +15,7 @@
 #   mattgraham
 
 requestImage = (msg, url) ->
-  msg.http(url).get() (err, res, body) ->
+  robot.http(url).get() (err, res, body) ->
     if res.statusCode == 302 && res.headers.location
       requestImage msg, res.headers.location
     
@@ -28,7 +28,7 @@ module.exports = (robot) ->
   robot.respond /(depress|dribbble|inspire)( me)? (.*)/i, (msg) ->
     query = msg.match[4]
     query ||= 'popular'
-    msg.http("http://api.dribbble.com/shots/#{query}")
+    robot.http("http://api.dribbble.com/shots/#{query}")
       .get() (err, res, body) ->
         data = JSON.parse(body)
         idx = Math.floor(Math.random() * (data.shots.length - 2))

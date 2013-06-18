@@ -15,7 +15,7 @@
 
 module.exports = (robot) ->
   robot.respond /ascii( me)? (.+)/i, (msg) ->
-    msg
+    robot
       .http("http://asciime.heroku.com/generate_ascii")
       .query(s: msg.match[2])
       .get() (err, res, body) ->

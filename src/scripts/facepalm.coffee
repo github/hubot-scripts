@@ -23,11 +23,11 @@ module.exports = (robot) ->
         msg.send url
 
 facepalmMe = (msg, cb) ->
-  msg.http('http://facepalm.org/img.php').get() (err, res, body) ->
+  robot.http('http://facepalm.org/img.php').get() (err, res, body) ->
     cb "http://facepalm.org/#{res.headers['location']}#.png"
 
 imageMe = (msg, query, cb) ->
-  msg.http('http://ajax.googleapis.com/ajax/services/search/images')
+  robot.http('http://ajax.googleapis.com/ajax/services/search/images')
     .query(v: "1.0", rsz: '8', q: query, safe: 'active')
     .get() (err, res, body) ->
       images = JSON.parse(body)
