@@ -14,10 +14,10 @@
 # Author:
 #   mattgraham
 
-requestImage = (msg, url) ->
+requestImage = (robot, msg, url) ->
   robot.http(url).get() (err, res, body) ->
     if res.statusCode == 302 && res.headers.location
-      requestImage msg, res.headers.location
+      requestImage robot, msg, res.headers.location
     
     else
       data = JSON.parse(body)
@@ -37,4 +37,4 @@ module.exports = (robot) ->
   
   robot.hear /^https?:\/\/((www\.)?dribbble\.com\/shots\/?([0-9]+))|(drbl\.in\/([a-zA-Z0-9]+))/, (msg) ->
     query = msg.match[3] || msg.match[5]
-    requestImage msg, "http://api.dribbble.com/shots/#{query}"
+    requestImage robot, msg, "http://api.dribbble.com/shots/#{query}"

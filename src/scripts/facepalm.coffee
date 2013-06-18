@@ -16,17 +16,17 @@ module.exports = (robot) ->
   robot.hear /facepalm/i, (msg) ->
     # Randomly use facepalm.org or a Google Image search for "facepalm".
     if msg.random([0, 1])
-      facepalmMe msg, (url) ->
+      facepalmMe robot, (url) ->
         msg.send url
     else
-      imageMe msg, "facepalm", (url) ->
+      imageMe robot, msg, "facepalm", (url) ->
         msg.send url
 
-facepalmMe = (msg, cb) ->
+facepalmMe = (robot, cb) ->
   robot.http('http://facepalm.org/img.php').get() (err, res, body) ->
     cb "http://facepalm.org/#{res.headers['location']}#.png"
 
-imageMe = (msg, query, cb) ->
+imageMe = (robot, msg, query, cb) ->
   robot.http('http://ajax.googleapis.com/ajax/services/search/images')
     .query(v: "1.0", rsz: '8', q: query, safe: 'active')
     .get() (err, res, body) ->
