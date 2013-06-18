@@ -18,7 +18,7 @@ module.exports = (robot) ->
     unless process.env.BREWERYDB_API_KEY?
       msg.send "Please specify your BreweyDB API key in BREWERYDB_API_KEY"
       return
-    msg.http("http://api.brewerydb.com/v2/search")
+    robot.http("http://api.brewerydb.com/v2/search")
       .query
         type: "beer"
         withBreweries: "Y"

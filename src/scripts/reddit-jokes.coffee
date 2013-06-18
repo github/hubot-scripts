@@ -16,7 +16,7 @@
 module.exports = (robot) ->
 
   robot.respond /joke me/i, (msg) ->
-    msg.http('http://www.reddit.com/r/jokes.json')
+    robot.http('http://www.reddit.com/r/jokes.json')
       .get() (err, res, body) ->
         try
           data = JSON.parse body

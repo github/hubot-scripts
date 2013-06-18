@@ -30,7 +30,7 @@ formatString = (string) ->
   decodeURIComponent(string.replace(/(\n)/gm," "))
 
 status = (msg) ->
-  msg.http('https://status.github.com/api/status.json')
+  robot.http('https://status.github.com/api/status.json')
     .get() (err, res, body) ->
       json = JSON.parse(body)
       now = new Date()
@@ -39,7 +39,7 @@ status = (msg) ->
       msg.send "Status: #{json['status']} (#{secondsAgo} seconds ago)"
 
 lastMessage = (msg) ->
-  msg.http('https://status.github.com/api/last-message.json')
+  robot.http('https://status.github.com/api/last-message.json')
     .get() (err, res, body) ->
       json = JSON.parse(body)
       date = new Date(json['created_on'])
@@ -48,7 +48,7 @@ lastMessage = (msg) ->
                "Date: #{date.toLocaleString()}"
 
 statusMessages = (msg) ->
-  msg.http('https://status.github.com/api/messages.json')
+  robot.http('https://status.github.com/api/messages.json')
     .get() (err, res, body) ->
       json = JSON.parse(body)
       buildMessage = (message) ->

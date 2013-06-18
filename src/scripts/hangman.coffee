@@ -120,7 +120,7 @@ play = (msg, game, callback) ->
     callback(game)
 
 generateWord = (msg, callback) ->
-  msg.http("http://api.wordnik.com/v4/words.json/randomWord")
+  robot.http("http://api.wordnik.com/v4/words.json/randomWord")
     .query
       hasDictionaryDef: true
       minDictionaryCount: 3
@@ -137,7 +137,7 @@ generateWord = (msg, callback) ->
       defineWord(msg, word, callback)
 
 defineWord = (msg, word, callback) ->
-  msg.http("http://api.wordnik.com/v4/word.json/#{escape(word)}/definitions")
+  robot.http("http://api.wordnik.com/v4/word.json/#{escape(word)}/definitions")
     .header("api_key", process.env.WORDNIK_API_KEY)
     .get() (err, res, body) ->
       definitions = JSON.parse(body)

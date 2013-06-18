@@ -25,7 +25,7 @@ module.exports = (robot) ->
 
     googleurl = "http://maps.googleapis.com/maps/api/geocode/json"
     q = sensor: false, address: location
-    msg.http(googleurl)
+    robot.http(googleurl)
       .query(q)
       .get() (err, res, body) ->
         result = JSON.parse(body)
@@ -43,7 +43,7 @@ darkSkyMe = (msg, lat, lng, cb) ->
   url = "https://api.forecast.io/forecast/#{process.env.HUBOT_DARK_SKY_API_KEY}/#{lat},#{lng}/"
   if process.env.HUBOT_DARK_SKY_UNITS
     url += "?units=#{process.env.HUBOT_DARK_SKY_UNITS}"
-  msg.http(url)
+  robot.http(url)
     .get() (err, res, body) ->
       result = JSON.parse(body)
 

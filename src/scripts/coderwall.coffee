@@ -16,7 +16,7 @@
 module.exports = (robot) ->
   robot.respond /(coderwall)( me)? (.*)/i, (msg) ->
     user = msg.match[3]
-    msg.http("https://coderwall.com/"+user+".json")
+    robot.http("https://coderwall.com/"+user+".json")
       .get() (err, res, body) ->
         # If not response bad username
         if res.headers['content-length'] <= 1

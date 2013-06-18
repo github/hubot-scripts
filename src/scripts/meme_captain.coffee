@@ -83,7 +83,7 @@ memeGenerator = (msg, imageName, text1, text2, callback) ->
   processResult = (err, res, body) ->
     return msg.send err if err
     if res.statusCode == 301
-      msg.http(res.headers.location).get() processResult
+      robot.http(res.headers.location).get() processResult
       return
     if res.statusCode > 300
       msg.reply "Sorry, I couldn't generate that meme. Unexpected status from memecaption.com: #{res.statusCode}"
@@ -97,9 +97,9 @@ memeGenerator = (msg, imageName, text1, text2, callback) ->
     else
       msg.reply "Sorry, I couldn't generate that meme."
 
-  msg.http("http://memecaptain.com/g")
-  .query(
-    u: imageUrl,
-    t1: text1,
-    t2: text2
-  ).get() processResult
+  robot.http("http://memecaptain.com/g")
+    .query(
+      u: imageUrl,
+      t1: text1,
+      t2: text2
+    ).get() processResult

@@ -28,7 +28,7 @@ module.exports = (robot) ->
     statusIssue msg, id
 
 status = (msg) ->
-  msg.http("https://status.heroku.com/api/v3/current-status")
+  robot.http("https://status.heroku.com/api/v3/current-status")
     .get() (err, res, body) ->
       try
         json = JSON.parse(body)
@@ -39,7 +39,7 @@ status = (msg) ->
 
 statusIssues = (msg, limit) ->
   limit = msg.match[1] or 5
-  msg.http("https://status.heroku.com/api/v3/issues?limit=#{limit}")
+  robot.http("https://status.heroku.com/api/v3/issues?limit=#{limit}")
     .get() (err, res, body) ->
       try
         json = JSON.parse(body)
@@ -51,11 +51,11 @@ statusIssues = (msg, limit) ->
         msg.send "Uh oh, I had trouble figuring out what the Heroku cloud is up to."
 
 statusIssue = (msg, id) ->
-  msg.http("https://status.heroku.com/api/v3/issues/#{id}")
+  robot.http("https://status.heroku.com/api/v3/issues/#{id}")
     .get() (err, res, body) ->
       try
         json = JSON.parse(body)
-        msg.send "Title:     #{json['title']}\n" +
+        msg.send "Title:    #{json['title']}\n" +
                  "Resolved: #{json['resolved']}\n" +
                  "Created:  #{json['created_at']}\n" +
                  "Updated:  #{json['updated_at']}\n" +

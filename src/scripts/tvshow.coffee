@@ -17,7 +17,7 @@ xml2js = require "xml2js"
 module.exports = (robot) ->
   robot.respond /tvshow(?: me)? (.*)/i, (msg) ->
     query = encodeURIComponent(msg.match[1])
-    msg.http("http://services.tvrage.com/feeds/full_search.php?show=#{query}")
+    robot.http("http://services.tvrage.com/feeds/full_search.php?show=#{query}")
       .get() (err, res, body) ->
         if res.statusCode is 200 and !err?
           parser = new xml2js.Parser()
@@ -36,7 +36,7 @@ module.exports = (robot) ->
                 msg.reply response
               else
                 # get more info
-                msg.http("http://services.tvrage.com/feeds/episode_list.php?sid=#{show.showid}")
+                robot.http("http://services.tvrage.com/feeds/episode_list.php?sid=#{show.showid}")
                   .get() (err, res, details) ->
                     if res.statusCode is 200 and !err?
                       parser = new xml2js.Parser()
