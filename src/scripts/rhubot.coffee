@@ -37,7 +37,7 @@ module.exports = (robot) ->
 
 
   robot.router.post routerPost, (req, res) ->
-    user = robot.userForId 'broadcast'
+    user = robot.brain.userForId 'broadcast'
     user.room = req.body.room
     user.type = 'groupchat'
     result = req.body.result
