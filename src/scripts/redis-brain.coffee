@@ -32,20 +32,16 @@ module.exports = (robot) ->
 
     client.get "hubot:storage", (err, reply) ->
       if err
-        throw err
+        robot.logger.error "Unable to connect to redis:\n#{err.stack}"
+        process.exit 1
       else if reply
         robot.logger.info "Brain data retrieved from redis-brain storage"
         robot.brain.mergeData JSON.parse(reply.toString())
+        robot.brain.emit 'connected'
       else
         robot.logger.info "Initializing new redis-brain storage"
         robot.brain.mergeData {}
-
-      robot.logger.info "Enabling brain auto-saving"
-      robot.brain.setAutoSave true
-
-  # Prevent autosaves until connect has occured
-  robot.logger.info "Disabling brain auto-saving"
-  robot.brain.setAutoSave false
+        robot.brain.emit 'connected'
 
   robot.brain.on 'save', (data = {}) ->
     robot.logger.debug "Saving brain data"
