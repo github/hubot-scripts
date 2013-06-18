@@ -10,6 +10,9 @@
 #   HUBOT_TWITTER_ACCESS_TOKEN_KEY
 #   HUBOT_TWITTER_ACCES_TOKEN_SECRET
 #
+# Dependencies:
+#  "ntwitter" : "0.2.10",
+#
 # Commands:
 #   None
 #
