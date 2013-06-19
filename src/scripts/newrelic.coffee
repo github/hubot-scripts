@@ -29,7 +29,7 @@ module.exports = (robot) ->
     apiKey    = process.env.HUBOT_NEWRELIC_API_KEY
     Parser = require("xml2js").Parser
     
-    msg.http("https://rpm.newrelic.com/accounts/#{accountId}/applications/#{appId}/threshold_values.xml?api_key=#{apiKey}")
+    msg.http("https://rpm.newrelic.com/accounts/#{accountId}/applications/#{appId}/threshold_values?api_key=#{apiKey}")
       .get() (err, res, body) ->
         if err
           msg.send "New Relic says: #{err}"
