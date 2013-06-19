@@ -45,6 +45,10 @@ module.exports = (robot) ->
 
 announcePullRequest = (data, cb) ->
   if data.action == 'opened'
-    cb "New pull request \"#{data.pull_request.title}\" by #{data.pull_request.user.login}: #{data.pull_request.html_url}"
-
+    mentioned = data.pull_request.body.match(/(@\w+)/g)
+    if mentioned
+      mentioned_line = "\nMentioned: #{mentioned.join(", ")}"
+    else
+      mentioned_line = ''
+    cb "New pull request \"#{data.pull_request.title}\" by #{data.pull_request.user.login}: #{data.pull_request.html_url}#{mentioned_line}"
 
