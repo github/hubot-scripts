@@ -278,11 +278,11 @@ module.exports = (robot) ->
      #   HOSTSTATE: 'UP' },
     if inc.incident_number && inc.trigger_summary_data
       if inc.trigger_summary_data.description
-        "#{inc.incident_number}: #{inc.trigger_summary_data.description} - assigned to #{inc.assigned_to_user.name}\n"
+        "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.description} - assigned to #{inc.assigned_to_user.name}\n"
       else if inc.trigger_summary_data.pd_nagios_object == 'service'
-         "#{inc.incident_number}: #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.SERVICEDESC} - assigned to #{inc.assigned_to_user.name}\n"
+         "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.SERVICEDESC} - assigned to #{inc.assigned_to_user.name}\n"
       else if inc.trigger_summary_data.pd_nagios_object == 'host'
-         "#{inc.incident_number}: #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE} - assigned to #{inc.assigned_to_user.name}\n"
+         "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE} - assigned to #{inc.assigned_to_user.name}\n"
     else
       ""
 
