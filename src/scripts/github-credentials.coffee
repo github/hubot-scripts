@@ -23,20 +23,20 @@ module.exports = (robot) ->
     theReply = "Here is who I know:\n"
 
     for own key, user of robot.brain.users()
-      if(user.githubLogin)
-        theReply += user.name + " is " + user.githubLogin + "\n"
+      if user.githubLogin
+        theReply += "#{user.name} is #{user.githubLogin}\n"
 
     msg.send theReply
 
   robot.respond /i am ([a-z0-9-]+)\s*$/i, (msg) ->
     githubLogin = msg.match[1]
     msg.message.user.githubLogin = githubLogin
-    msg.send "Ok, you are " + githubLogin + " on GitHub"
+    msg.send "Ok, you are #{githubLogin} on GitHub"
 
   robot.respond /who am i\s*$/i, (msg) ->
     user = msg.message.user
     if user.githubLogin
-      msg.reply "You are known as " + user.githubLogin + " on GitHub"
+      msg.reply "You are known as #{user.githubLogin} on GitHub"
     else
       msg.reply "I don't know who you are. You should probably identify yourself with your GitHub login"
 
