@@ -5,7 +5,7 @@
 #   "jsdom": "~0.2.13"
 #
 # Configuration:
-#   None
+#   HUBOT_MORE_PIZZA - Show pizza GIFs even when it's not directed at hubot
 #
 # Commands:
 #   hubot pizza - Show a pizza gif
@@ -17,7 +17,8 @@ jsdom = require "jsdom"
 PIZZA = "http://animatedpizzagifs.com"
 
 module.exports = (robot) ->
-  robot.respond /pizza/i, (msg) ->
+  func = if env.HUBOT_MORE_PIZZA then 'hear' else 'respond'
+  robot[func] /pizza/i, (msg) ->
     msg.http(PIZZA)
       .path("/")
       .get() (err, res, body) ->
