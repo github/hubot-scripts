@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_TUMBLR_API_KEY
+#   HUBOT_TUMBLR_API_KEY - A Tumblr OAuth Consumer Key will work fine
 #
 # Commands:
 #   hubot movie me - Displays a moving still from IWDRM
