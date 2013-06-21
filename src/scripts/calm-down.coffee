@@ -1,6 +1,9 @@
 # Description:
 #   Calm down
 #
+# Configuration:
+#   HUBOT_LESS_MANATEES
+#
 # Commands:
 #   hubot calm me | manatee me - Reply with Manatee
 #   calm down | simmer down | that escalated quickly - Reply with Manatee
