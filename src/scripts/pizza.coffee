@@ -2,10 +2,11 @@
 #   Displays a random pizza gif from animatedpizzagifs.com
 #
 # Dependencies:
-#   "jsdom": "~0.2.13"
+#   "tumblrbot": "0.1.0"
 #
 # Configuration:
-#   None
+#   HUBOT_TUMBLR_API_TOKEN
+#   HUBOT_MORE_PIZZA
 #
 # Commands:
 #   hubot pizza - Show a pizza gif
@@ -13,14 +14,12 @@
 # Author:
 #   iangreenleaf
 
-jsdom = require "jsdom"
-PIZZA = "http://animatedpizzagifs.com"
+tumblr = require 'tumblrbot'
+PIZZA = "pizzagifs.tumblr.com"
 
 module.exports = (robot) ->
-  robot.respond /pizza/i, (msg) ->
-    msg.http(PIZZA)
-      .path("/")
-      .get() (err, res, body) ->
-        document = jsdom.jsdom body, null, features: { "QuerySelector": true, 'ProcessExternalResources': false }
-        img = msg.random document.querySelectorAll "li img"
-        msg.send "#{PIZZA}/#{img.src}"
+  func = if process.env.HUBOT_MORE_PIZZA then 'hear' else 'respond'
+  robot[func](/pizza/i, (msg) ->
+    tumblr.photos(PIZZA).random (post) ->
+      msg.send post.photos[0].original_size.url
+  )
