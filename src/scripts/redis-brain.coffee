@@ -18,7 +18,7 @@ Redis = require "redis"
 
 # sets up hooks to persist the brain into redis.
 module.exports = (robot) ->
-  info   = Url.parse process.env.REDISTOGO_URL || 'redis://localhost:6379'
+  info   = Url.parse process.env.REDISTOGO_URL || process.env.BOXEN_REDIS_URL || 'redis://localhost:6379'
   client = Redis.createClient(info.port, info.hostname)
 
   if info.auth
