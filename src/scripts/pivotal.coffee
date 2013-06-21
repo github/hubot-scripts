@@ -15,9 +15,10 @@
 # Author:
 #   assaf
 
+Parser = require("xml2js").Parser
+
 module.exports = (robot) ->
   robot.respond /show\s+(me\s+)?stories(\s+for\s+)?(.*)/i, (msg)->
-    Parser = require("xml2js").Parser
     token = process.env.HUBOT_PIVOTAL_TOKEN
     project_name = msg.match[3]
     if project_name == ""
@@ -47,7 +48,6 @@ module.exports = (robot) ->
         msg.send "No project #{project_name}"
 
   robot.respond /(pivotal story)? (.*)/i, (msg)->
-    Parser = require("xml2js").Parser
     token = process.env.HUBOT_PIVOTAL_TOKEN
     project_id = process.env.HUBOT_PIVOTAL_PROJECT
     story_id = msg.match[2]
