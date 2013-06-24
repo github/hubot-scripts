@@ -276,15 +276,25 @@ module.exports = (robot) ->
      #   SERVICEDESC: 'snapshot_repositories',
      #   SERVICESTATE: 'CRITICAL',
      #   HOSTSTATE: 'UP' },
-    if inc.incident_number && inc.trigger_summary_data
-      if inc.trigger_summary_data.description
-        "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.description} - assigned to #{inc.assigned_to_user.name}\n"
-      else if inc.trigger_summary_data.pd_nagios_object == 'service'
-         "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.SERVICEDESC} - assigned to #{inc.assigned_to_user.name}\n"
-      else if inc.trigger_summary_data.pd_nagios_object == 'host'
-         "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE} - assigned to #{inc.assigned_to_user.name}\n"
-    else
-      ""
+    
+    extra = if inc.trigger_summary_data
+              # email services
+              if inc.trigger_summary_data.subject
+                inc.trigger_summary_data.subject
+              else if inc.trigger_summary_data.description
+                inc.trigger_summary_data.description
+              else if inc.trigger_summary_data.pd_nagios_object == 'service'
+                 "#{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.SERVICEDESC}"
+              else if inc.trigger_summary_data.pd_nagios_object == 'host'
+                 "#{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE}"
+              else
+                ""
+                inspect inc
+            else
+              ""
+              inspect inc
+
+    "#{inc.incident_number}: #{inc.created_on} #{extra} - assigned to #{inc.assigned_to_user.name}\n"
 
   updateIncident = (msg, incident_number, status) ->
     withPagerDutyUsers msg, (users) ->
