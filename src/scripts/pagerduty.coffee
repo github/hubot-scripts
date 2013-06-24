@@ -100,7 +100,11 @@ module.exports = (robot) ->
         msg.send "No open incidents"
 
   robot.respond /(pager|major)( me)? (?:trigger|page) (.+)$/i, (msg) ->
-    pagerDutyIntegrationAPI msg, "trigger", msg.match[3], (json) ->
+    user = msg.message.user.name
+    reason = msg.match[3]
+
+    description = "#{reason} - @#{user}"
+    pagerDutyIntegrationAPI msg, "trigger", description, (json) ->
       msg.reply "#{json.status}, key: #{json.incident_key}"
 
   robot.respond /(pager|major)( me)? ack(nowledge)? (.+)$/i, (msg) ->
@@ -266,7 +270,7 @@ module.exports = (robot) ->
     pagerDutyGet msg, "/incidents", query, (json) ->
       cb(json.incidents)
 
-  pagerDutyIntegrationAPI = (msg, cmd, args, cb) ->
+  pagerDutyIntegrationAPI = (msg, cmd, description, cb) ->
     unless pagerDutyServiceApiKey?
       msg.send "PagerDuty API service key is missing."
       msg.send "Ensure that HUBOT_PAGERDUTY_SERVICE_API_KEY is set."
@@ -275,7 +279,7 @@ module.exports = (robot) ->
     data = null
     switch cmd
       when "trigger"
-        data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: "#{args}"}
+        data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: description}
         pagerDutyIntergrationPost msg, data, (json) ->
           cb(json)
 
