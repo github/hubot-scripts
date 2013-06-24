@@ -13,7 +13,11 @@
 #   hubot pager me notes <incident> - show notes for incident #<incident>
 #   hubot pager me problems - return all open incidents
 #   hubot pager me ack <incident> - ack incident #<incident>
+#   hubot pager me resolve <incident1> <incident2> ... <incidentN> - ack all specified incidents
+#   hubot pager me ack - ack all triggered incidents 
 #   hubot pager me resolve <incident> - resolve incident #<incident>
+#   hubot pager me resolve <incident1> <incident2> ... <incidentN>- resolve all specified incidents
+#   hubot pager me resolve - resolve all acknowledged incidents
 #
 # Dependencies:
 #  "moment": "1.6.2"
@@ -108,10 +112,14 @@ module.exports = (robot) ->
       msg.reply "#{json.status}, key: #{json.incident_key}"
 
   robot.respond /(pager|major)( me)? ack(nowledge)? (.+)$/i, (msg) ->
-    updateIncident(msg, msg.match[4], 'acknowledged')
+    incidentNumbers = msg.match[4].split(/[ ,]+/).filter (incidentNumber) ->
+      !incidentNumber
+    updateIncidents(msg, incidentNumbers, 'acknowledged')
 
   robot.respond /(pager|major)( me)? res(olve)?(d)? (.+)$/i, (msg) ->
-    updateIncident(msg, msg.match[5], 'resolved')
+    incidentNumbers = msg.match[5].split(/[ ,]+/).filter (incidentNumber) ->
+      !incidentNumber
+    updateIncidents(msg, incidentNumbers, 'resolved')
 
   robot.respond /(pager|major)( me)? notes (.+)$/i, (msg) ->
     incidentId = msg.match[3]
@@ -312,19 +320,7 @@ module.exports = (robot) ->
 
     "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
 
-  formatIncidentForIncidentsPut = (requesterId, incident, status) ->
-    # loljson
-    data = {
-      requester_id: requesterId
-      incidents: [
-        {
-          'id':     incident.id,
-          'status': status
-        }
-      ]
-    }
-
-  updateIncident = (msg, incident_number, status) ->
+  updateIncidents = (msg, incidentNumbers, status) ->
     withPagerDutyUsers msg, (users) ->
       requesterId = pagerDutyUserId(msg, users)
       return unless requesterId
@@ -332,18 +328,31 @@ module.exports = (robot) ->
       pagerDutyIncidents msg, "triggered,acknowledged", (incidents) ->
         foundIncidents = []
         for incident in incidents
-          if "#{incident.incident_number}" == incident_number
-            foundIncidents = [ incident ]
+          if incidentNumbers.indexOf("#{incident.incident_number}")
+            foundIncidents.push(incident)
 
-            data = formatIncidentForIncidentsPut(requesterId, incident, status)
-            pagerDutyPut msg, "/incidents", data , (json) ->
-              if incident = json.incidents[0]
-                msg.reply "Incident #{incident.incident_number} #{incident.status}."
-              else
-                msg.reply "Problem updating incident #{incident_number}"
-            break
         if foundIncidents.length == 0
           msg.reply "Couldn't find incident #{incident_number}"
+        else
+          # loljson
+          data = {
+            requester_id: requesterId
+            incidents: foundIncidents.map (incident) ->
+              {
+                'id':     incident.id,
+                'status': status
+              }
+          }
+          pagerDutyPut msg, "/incidents", data , (json) ->
+            if json.incidents
+              buffer = "Incident"
+              buffer += "s" if json.incidents.length > 1
+              buffer += " "
+              buffer += (incident.incident_number for incident in incidents).join(", ")
+              buffer += " #{incident.status}"
+              msg.reply buffer
+            else
+              msg.reply "Problem updating incidents #{incidentNumbers.join(',')}"
 
 
   pagerDutyIntergrationPost = (msg, json, cb) ->
