@@ -85,7 +85,7 @@ module.exports = (robot) ->
       msg.send formatIncident(incident)
 
   robot.respond /(pager|major)( me)? (inc|incidents|sup|problems)$/i, (msg) ->
-    pagerDutyIncidents msg, (incidents) ->
+    pagerDutyIncidents msg, "triggered,acknowledged", (incidents) ->
       if incidents.length > 0
         buffer = "Triggered:\n----------\n"
         for junk, incident of incidents.reverse()
@@ -263,9 +263,9 @@ module.exports = (robot) ->
     pagerDutyGet msg, "/incidents/#{encodeURIComponent incident}", {}, (json) ->
       cb(json)
 
-  pagerDutyIncidents = (msg, cb) ->
+  pagerDutyIncidents = (msg, status, cb) ->
     query =
-      status:  "triggered,acknowledged"
+      status:  status
       sort_by: "incident_number:asc"
     pagerDutyGet msg, "/incidents", query, (json) ->
       cb(json.incidents)
@@ -312,31 +312,36 @@ module.exports = (robot) ->
 
     "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
 
+  formatIncidentForIncidentsPut = (requesterId, incident, status) ->
+    # loljson
+    data = {
+      requester_id: requesterId
+      incidents: [
+        {
+          'id':     incident.id,
+          'status': status
+        }
+      ]
+    }
+
   updateIncident = (msg, incident_number, status) ->
     withPagerDutyUsers msg, (users) ->
-      userId = pagerDutyUserId(msg, users)
-      return unless userId
+      requesterId = pagerDutyUserId(msg, users)
+      return unless requesterId
 
-      pagerDutyIncidents msg, (incidents) ->
+      pagerDutyIncidents msg, "triggered,acknowledged", (incidents) ->
         foundIncidents = []
         for incident in incidents
           if "#{incident.incident_number}" == incident_number
             foundIncidents = [ incident ]
-            # loljson
-            data = {
-              requester_id: userId
-              incidents: [
-                {
-                  'id':     incident.id,
-                  'status': status
-                }
-              ]
-            }
-            pagerDutyPut msg, "/incidents", data, (json) ->
+
+            data = formatIncidentForIncidentsPut(requesterId, incident, status)
+            pagerDutyPut msg, "/incidents", data , (json) ->
               if incident = json.incidents[0]
                 msg.reply "Incident #{incident.incident_number} #{incident.status}."
               else
                 msg.reply "Problem updating incident #{incident_number}"
+            break
         if foundIncidents.length == 0
           msg.reply "Couldn't find incident #{incident_number}"
 
