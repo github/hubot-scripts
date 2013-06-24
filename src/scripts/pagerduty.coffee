@@ -8,6 +8,7 @@
 #   hubot pager me 60 - take the pager for 60 minutes
 #   hubot pager me as <email> - remember your pager email is <email>
 #   hubot pager me incidents - return the current incidents
+#   hubot pager me incident NNN - return the incident NNN
 #   hubot pager me note <incident> <content> - add note to incident #<incident> with <content>
 #   hubot pager me notes <incident> - show notes for incident #<incident>
 #   hubot pager me problems - return all open incidents
