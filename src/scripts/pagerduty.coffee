@@ -79,6 +79,10 @@ module.exports = (robot) ->
             end = moment(json.override.end)
             msg.send "Rejoice, #{old_username}! #{json.override.user.name} has the pager until #{end.format()}"
 
+  robot.respond /(pager|major)( me)? incident (.*)$/, (msg) ->
+    pagerDutyIncident msg, msg.match[3], (incident) ->
+      msg.send formatIncident(incident)
+
   robot.respond /(pager|major)( me)? (inc|incidents|sup|problems)$/i, (msg) ->
     pagerDutyIncidents msg, (incidents) ->
       if incidents.length > 0
@@ -250,6 +254,10 @@ module.exports = (robot) ->
     else
       cb(pagerDutyUsers)
 
+  pagerDutyIncident = (msg, incident, cb) ->
+    pagerDutyGet msg, "/incidents/#{encodeURIComponent incident}", {}, (json) ->
+      cb(json)
+
   pagerDutyIncidents = (msg, cb) ->
     query =
       status:  "triggered,acknowledged"
@@ -277,7 +285,7 @@ module.exports = (robot) ->
      #   SERVICESTATE: 'CRITICAL',
      #   HOSTSTATE: 'UP' },
     
-    extra = if inc.trigger_summary_data
+    summary = if inc.trigger_summary_data
               # email services
               if inc.trigger_summary_data.subject
                 inc.trigger_summary_data.subject
@@ -289,12 +297,15 @@ module.exports = (robot) ->
                  "#{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE}"
               else
                 ""
-                inspect inc
             else
               ""
-              inspect inc
+    assigned_to = if inc.assigned_to_user
+                    "- assigned to #{inc.assigned_to_user.name}"
+                  else
+                    ""
+                    
 
-    "#{inc.incident_number}: #{inc.created_on} #{extra} - assigned to #{inc.assigned_to_user.name}\n"
+    "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
 
   updateIncident = (msg, incident_number, status) ->
     withPagerDutyUsers msg, (users) ->
