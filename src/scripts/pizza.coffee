@@ -5,8 +5,8 @@
 #   "tumblrbot": "0.1.0"
 #
 # Configuration:
-#   HUBOT_MORE_PIZZA
 #   HUBOT_TUMBLR_API_KEY - A Tumblr OAuth Consumer Key will work fine
+#   HUBOT_MORE_PIZZA - Show pizza whenever anyone mentions it (default: false)
 #
 # Commands:
 #   hubot pizza - Show a pizza gif
