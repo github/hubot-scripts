@@ -111,15 +111,38 @@ module.exports = (robot) ->
     pagerDutyIntegrationAPI msg, "trigger", description, (json) ->
       msg.reply "#{json.status}, key: #{json.incident_key}"
 
-  robot.respond /(pager|major)( me)? ack(nowledge)? (.+)$/i, (msg) ->
-    incidentNumbers = msg.match[4].split(/[ ,]+/).filter (incidentNumber) ->
-      !incidentNumber
-    updateIncidents(msg, incidentNumbers, 'acknowledged')
+  robot.respond /(?:pager|major)(?: me)? ack(?:nowledge)? (.+)$/i, (msg) ->
+    incidentNumbers = parseIncidentNumbers(msg.match[1])
 
-  robot.respond /(pager|major)( me)? res(olve)?(d)? (.+)$/i, (msg) ->
-    incidentNumbers = msg.match[5].split(/[ ,]+/).filter (incidentNumber) ->
-      !incidentNumber
-    updateIncidents(msg, incidentNumbers, 'resolved')
+    # only acknowledge triggered things, since it doesn't make sense to re-acknowledge if it's already in re-acknowledge
+    # if it ever doesn't need acknowledge again, it means it's timed out and has become 'triggered' again anyways
+    updateIncidents(msg, incidentNumbers, 'triggered,acknowledged', 'acknowledged')
+
+  robot.respond /(pager|major)( me)? ack(nowledge)?$/i, (msg) ->
+    pagerDutyIncidents msg, 'triggered,acknwowledged', (incidents) ->
+      incidentNumbers = (incident.incident_number for incident in incidents)
+      if incidentNumbers.length < 1
+        msg.send "Nothing to acknowledge"
+        return
+
+      # only acknowledge triggered things
+      updateIncidents(msg, incidentNumbers, 'triggered,acknowledged', 'acknowledged')
+
+  robot.respond /(?:pager|major)(?: me)? res(?:olve)?(?:d)? (.+)$/i, (msg) ->
+    incidentNumbers = parseIncidentNumbers(msg.match[1])
+
+    # allow resolving of triggered and acknowedlge, since being explicit
+    updateIncidents(msg, incidentNumbers, 'triggered,acknowledged', 'resolved')
+
+  robot.respond /(pager|major)( me)? res(olve)?(d)?$/i, (msg) ->
+    pagerDutyIncidents msg, "acknowledged", (incidents) ->
+      incidentNumbers = (incident.incident_number for incident in incidents)
+      if incidentNumbers.length < 1
+        msg.send "Nothing to resolve"
+        return
+
+      # only resolve things that are acknowledged 
+      updateIncidents(msg, incidentNumbers, 'acknowledged', 'resolved')
 
   robot.respond /(pager|major)( me)? notes (.+)$/i, (msg) ->
     incidentId = msg.match[3]
@@ -155,6 +178,10 @@ module.exports = (robot) ->
   robot.respond /who('s|s| is)? (on call|oncall)/i, (msg) ->
     withCurrentOncall msg, (username) ->
       msg.reply "#{username} is on call"
+
+  parseIncidentNumbers = (match) ->
+    match.split(/[ ,]+/).map (incidentNumber) ->
+      parseInt(incidentNumber)
 
   missingEnvironmentForApi = (msg) ->
     missingAnything = false
@@ -320,19 +347,20 @@ module.exports = (robot) ->
 
     "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
 
-  updateIncidents = (msg, incidentNumbers, status) ->
+  updateIncidents = (msg, incidentNumbers, statusFilter, updatedStatus) ->
     withPagerDutyUsers msg, (users) ->
       requesterId = pagerDutyUserId(msg, users)
       return unless requesterId
 
-      pagerDutyIncidents msg, "triggered,acknowledged", (incidents) ->
+      pagerDutyIncidents msg, statusFilter, (incidents) ->
         foundIncidents = []
         for incident in incidents
-          if incidentNumbers.indexOf("#{incident.incident_number}")
+          # FIXME this isn't working very consistently
+          if incidentNumbers.indexOf(incident.incident_number) > -1
             foundIncidents.push(incident)
 
         if foundIncidents.length == 0
-          msg.reply "Couldn't find incident #{incident_number}"
+          msg.reply "Couldn't find incidents #{incidentNumbers.join(', ')} in #{inspect incidents}"
         else
           # loljson
           data = {
@@ -340,16 +368,17 @@ module.exports = (robot) ->
             incidents: foundIncidents.map (incident) ->
               {
                 'id':     incident.id,
-                'status': status
+                'status': updatedStatus
               }
           }
+
           pagerDutyPut msg, "/incidents", data , (json) ->
-            if json.incidents
+            if json?.incidents
               buffer = "Incident"
               buffer += "s" if json.incidents.length > 1
               buffer += " "
-              buffer += (incident.incident_number for incident in incidents).join(", ")
-              buffer += " #{incident.status}"
+              buffer += (incident.incident_number for incident in json.incidents).join(", ")
+              buffer += " #{updatedStatus}"
               msg.reply buffer
             else
               msg.reply "Problem updating incidents #{incidentNumbers.join(',')}"
