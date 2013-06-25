@@ -8,11 +8,16 @@
 #   hubot pager me 60 - take the pager for 60 minutes
 #   hubot pager me as <email> - remember your pager email is <email>
 #   hubot pager me incidents - return the current incidents
+#   hubot pager me incident NNN - return the incident NNN
 #   hubot pager me note <incident> <content> - add note to incident #<incident> with <content>
 #   hubot pager me notes <incident> - show notes for incident #<incident>
 #   hubot pager me problems - return all open incidents
 #   hubot pager me ack <incident> - ack incident #<incident>
+#   hubot pager me resolve <incident1> <incident2> ... <incidentN> - ack all specified incidents
+#   hubot pager me ack - ack all triggered incidents 
 #   hubot pager me resolve <incident> - resolve incident #<incident>
+#   hubot pager me resolve <incident1> <incident2> ... <incidentN>- resolve all specified incidents
+#   hubot pager me resolve - resolve all acknowledged incidents
 #
 # Dependencies:
 #  "moment": "1.6.2"
@@ -79,8 +84,12 @@ module.exports = (robot) ->
             end = moment(json.override.end)
             msg.send "Rejoice, #{old_username}! #{json.override.user.name} has the pager until #{end.format()}"
 
+  robot.respond /(pager|major)( me)? incident (.*)$/, (msg) ->
+    pagerDutyIncident msg, msg.match[3], (incident) ->
+      msg.send formatIncident(incident)
+
   robot.respond /(pager|major)( me)? (inc|incidents|sup|problems)$/i, (msg) ->
-    pagerDutyIncidents msg, (incidents) ->
+    pagerDutyIncidents msg, "triggered,acknowledged", (incidents) ->
       if incidents.length > 0
         buffer = "Triggered:\n----------\n"
         for junk, incident of incidents.reverse()
@@ -95,14 +104,45 @@ module.exports = (robot) ->
         msg.send "No open incidents"
 
   robot.respond /(pager|major)( me)? (?:trigger|page) (.+)$/i, (msg) ->
-    pagerDutyIntegrationAPI msg, "trigger", msg.match[3], (json) ->
+    user = msg.message.user.name
+    reason = msg.match[3]
+
+    description = "#{reason} - @#{user}"
+    pagerDutyIntegrationAPI msg, "trigger", description, (json) ->
       msg.reply "#{json.status}, key: #{json.incident_key}"
 
-  robot.respond /(pager|major)( me)? ack(nowledge)? (.+)$/i, (msg) ->
-    updateIncident(msg, msg.match[4], 'acknowledged')
+  robot.respond /(?:pager|major)(?: me)? ack(?:nowledge)? (.+)$/i, (msg) ->
+    incidentNumbers = parseIncidentNumbers(msg.match[1])
 
-  robot.respond /(pager|major)( me)? res(olve)?(d)? (.+)$/i, (msg) ->
-    updateIncident(msg, msg.match[5], 'resolved')
+    # only acknowledge triggered things, since it doesn't make sense to re-acknowledge if it's already in re-acknowledge
+    # if it ever doesn't need acknowledge again, it means it's timed out and has become 'triggered' again anyways
+    updateIncidents(msg, incidentNumbers, 'triggered,acknowledged', 'acknowledged')
+
+  robot.respond /(pager|major)( me)? ack(nowledge)?$/i, (msg) ->
+    pagerDutyIncidents msg, 'triggered,acknwowledged', (incidents) ->
+      incidentNumbers = (incident.incident_number for incident in incidents)
+      if incidentNumbers.length < 1
+        msg.send "Nothing to acknowledge"
+        return
+
+      # only acknowledge triggered things
+      updateIncidents(msg, incidentNumbers, 'triggered,acknowledged', 'acknowledged')
+
+  robot.respond /(?:pager|major)(?: me)? res(?:olve)?(?:d)? (.+)$/i, (msg) ->
+    incidentNumbers = parseIncidentNumbers(msg.match[1])
+
+    # allow resolving of triggered and acknowedlge, since being explicit
+    updateIncidents(msg, incidentNumbers, 'triggered,acknowledged', 'resolved')
+
+  robot.respond /(pager|major)( me)? res(olve)?(d)?$/i, (msg) ->
+    pagerDutyIncidents msg, "acknowledged", (incidents) ->
+      incidentNumbers = (incident.incident_number for incident in incidents)
+      if incidentNumbers.length < 1
+        msg.send "Nothing to resolve"
+        return
+
+      # only resolve things that are acknowledged 
+      updateIncidents(msg, incidentNumbers, 'acknowledged', 'resolved')
 
   robot.respond /(pager|major)( me)? notes (.+)$/i, (msg) ->
     incidentId = msg.match[3]
@@ -138,6 +178,10 @@ module.exports = (robot) ->
   robot.respond /who('s|s| is)? (on call|oncall)/i, (msg) ->
     withCurrentOncall msg, (username) ->
       msg.reply "#{username} is on call"
+
+  parseIncidentNumbers = (match) ->
+    match.split(/[ ,]+/).map (incidentNumber) ->
+      parseInt(incidentNumber)
 
   missingEnvironmentForApi = (msg) ->
     missingAnything = false
@@ -250,14 +294,18 @@ module.exports = (robot) ->
     else
       cb(pagerDutyUsers)
 
-  pagerDutyIncidents = (msg, cb) ->
+  pagerDutyIncident = (msg, incident, cb) ->
+    pagerDutyGet msg, "/incidents/#{encodeURIComponent incident}", {}, (json) ->
+      cb(json)
+
+  pagerDutyIncidents = (msg, status, cb) ->
     query =
-      status:  "triggered,acknowledged"
+      status:  status
       sort_by: "incident_number:asc"
     pagerDutyGet msg, "/incidents", query, (json) ->
       cb(json.incidents)
 
-  pagerDutyIntegrationAPI = (msg, cmd, args, cb) ->
+  pagerDutyIntegrationAPI = (msg, cmd, description, cb) ->
     unless pagerDutyServiceApiKey?
       msg.send "PagerDuty API service key is missing."
       msg.send "Ensure that HUBOT_PAGERDUTY_SERVICE_API_KEY is set."
@@ -266,7 +314,7 @@ module.exports = (robot) ->
     data = null
     switch cmd
       when "trigger"
-        data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: "#{args}"}
+        data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: description}
         pagerDutyIntergrationPost msg, data, (json) ->
           cb(json)
 
@@ -276,43 +324,64 @@ module.exports = (robot) ->
      #   SERVICEDESC: 'snapshot_repositories',
      #   SERVICESTATE: 'CRITICAL',
      #   HOSTSTATE: 'UP' },
-    if inc.incident_number && inc.trigger_summary_data
-      if inc.trigger_summary_data.description
-        "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.description} - assigned to #{inc.assigned_to_user.name}\n"
-      else if inc.trigger_summary_data.pd_nagios_object == 'service'
-         "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.SERVICEDESC} - assigned to #{inc.assigned_to_user.name}\n"
-      else if inc.trigger_summary_data.pd_nagios_object == 'host'
-         "#{inc.incident_number}: #{inc.created_on} #{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE} - assigned to #{inc.assigned_to_user.name}\n"
-    else
-      ""
+    
+    summary = if inc.trigger_summary_data
+              # email services
+              if inc.trigger_summary_data.subject
+                inc.trigger_summary_data.subject
+              else if inc.trigger_summary_data.description
+                inc.trigger_summary_data.description
+              else if inc.trigger_summary_data.pd_nagios_object == 'service'
+                 "#{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.SERVICEDESC}"
+              else if inc.trigger_summary_data.pd_nagios_object == 'host'
+                 "#{inc.trigger_summary_data.HOSTNAME}/#{inc.trigger_summary_data.HOSTSTATE}"
+              else
+                ""
+            else
+              ""
+    assigned_to = if inc.assigned_to_user
+                    "- assigned to #{inc.assigned_to_user.name}"
+                  else
+                    ""
+                    
 
-  updateIncident = (msg, incident_number, status) ->
+    "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
+
+  updateIncidents = (msg, incidentNumbers, statusFilter, updatedStatus) ->
     withPagerDutyUsers msg, (users) ->
-      userId = pagerDutyUserId(msg, users)
-      return unless userId
+      requesterId = pagerDutyUserId(msg, users)
+      return unless requesterId
 
-      pagerDutyIncidents msg, (incidents) ->
+      pagerDutyIncidents msg, statusFilter, (incidents) ->
         foundIncidents = []
         for incident in incidents
-          if "#{incident.incident_number}" == incident_number
-            foundIncidents = [ incident ]
-            # loljson
-            data = {
-              requester_id: userId
-              incidents: [
-                {
-                  'id':     incident.id,
-                  'status': status
-                }
-              ]
-            }
-            pagerDutyPut msg, "/incidents", data, (json) ->
-              if incident = json.incidents[0]
-                msg.reply "Incident #{incident.incident_number} #{incident.status}."
-              else
-                msg.reply "Problem updating incident #{incident_number}"
+          # FIXME this isn't working very consistently
+          if incidentNumbers.indexOf(incident.incident_number) > -1
+            foundIncidents.push(incident)
+
         if foundIncidents.length == 0
-          msg.reply "Couldn't find incident #{incident_number}"
+          msg.reply "Couldn't find incidents #{incidentNumbers.join(', ')} in #{inspect incidents}"
+        else
+          # loljson
+          data = {
+            requester_id: requesterId
+            incidents: foundIncidents.map (incident) ->
+              {
+                'id':     incident.id,
+                'status': updatedStatus
+              }
+          }
+
+          pagerDutyPut msg, "/incidents", data , (json) ->
+            if json?.incidents
+              buffer = "Incident"
+              buffer += "s" if json.incidents.length > 1
+              buffer += " "
+              buffer += (incident.incident_number for incident in json.incidents).join(", ")
+              buffer += " #{updatedStatus}"
+              msg.reply buffer
+            else
+              msg.reply "Problem updating incidents #{incidentNumbers.join(',')}"
 
 
   pagerDutyIntergrationPost = (msg, json, cb) ->
