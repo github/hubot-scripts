@@ -30,6 +30,8 @@ lookupAddress = (msg, location, cb) ->
 
 lookupWeather = (msg, coords, err) ->
   return msg.send err if err
+  return msg.send "You need to set env.HUBOT_FORECAST_API_KEY to get weather data" if not env.HUBOT_FORECAST_API_KEY
+
   url = forecastIoUrl + coords.lat + ',' + coords.lng
 
   msg.http(url).query(units: 'ca').get() (err, res, body) ->
@@ -39,13 +41,14 @@ lookupWeather = (msg, coords, err) ->
       current = body.currently
     catch err
       return msg.send "Could not parse weather data."
-    humidity = current.humidity * 100
+    humidity = (current.humidity * 100).toFixed 0
     temperature = getTemp(current.temperature)
     text = "It is currently #{temperature} #{current.summary}, #{humidity}% humidity"
     msg.send text
 
 lookupForecast = (msg, coords, err) ->
   return msg.send err if err
+  return msg.send "You need to set env.HUBOT_FORECAST_API_KEY to get weather data" if not env.HUBOT_FORECAST_API_KEY
 
   url = forecastIoUrl + coords.lat + ',' + coords.lng
   msg.http(url).query(units: 'ca').get() (err, res, body) ->
@@ -64,11 +67,11 @@ lookupForecast = (msg, coords, err) ->
       dateToday = new Date(data.time * 1000)
       month = dateToday.getMonth() + 1
       day = dateToday.getDate()
-      humidity = data.humidity * 100
+      humidity = (data.humidity * 100).toFixed 0
       maxTemp = getTemp data.temperatureMax
       minTemp = getTemp data.temperatureMin
 
-      text += "#{month}/#{day} - High of #{maxTemp}ºc, low of: #{minTemp}ºc "
+      text += "#{month}/#{day} - High of #{maxTemp}, low of: #{minTemp} "
       text += "#{data.summary} #{humidity}% humidity\n"
       text
 
@@ -79,8 +82,8 @@ lookupForecast = (msg, coords, err) ->
 
 getTemp = (c) ->
   if env.HUBOT_WEATHER_CELSIUS
-    return c.toFixed(2) + "ºC"
-  return ((c * 1.8) + 32) + "ºF"
+    return c.toFixed(0) + "ºC"
+  return ((c * 1.8) + 32).toFixed(0) + "ºF"
 
 
 module.exports = (robot) ->
