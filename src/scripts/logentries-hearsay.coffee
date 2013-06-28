@@ -4,7 +4,7 @@
 #
 #  Example broadcast for an Exit timeout alert:
 #
-#    "Logentries (Production Alert): Exit timeout"
+#    "[<Your Logentries App Name> Logs]: Exit timeout"
 #
 # Dependencies:
 #   None
@@ -29,23 +29,21 @@
 #
 #        {
 #            "alert": {
-#                "name": "500 error" // Alert name
+#                "name": "Logentries Alert Name"
 #            },
 #            "host": {
-#                "name": "Web", // Host name
-#                "hostname": "web.example.com" // Host DNS name
+#                "name": "Host name",
+#                "hostname": "web.example.com"
 #            },
-#            "log": {
-#                "name": "access.log" // Log name
-#            },
-#            "event": <event hash>, // Trigerring event
-#            "context": [ // Events in context
-#                <event hashes>
-#            ]
+#            "log": {"name": "Logentries application name"},
+#            "event": <triggering event information object>,
+#            "context": [<context event information objects>]
 #        }
 
 # TODO: move rooms into request path: hubot/<room-numbers>/logentries/
 #       as to not require the ENV var.
+#
+# TODO: add link to go to logentries log from broadcast
 
 module.exports = (robot) ->
   robot.router.post "/hubot/logentries", (req, res) ->
@@ -53,6 +51,7 @@ module.exports = (robot) ->
     if req.body.payload
       data = JSON.parse req.body.payload
       alert = data.alert.name
+      name = data.log.name
 
       robot.logger.info "Alert POSTed from LogEntries: #{alert}"
 
@@ -61,7 +60,7 @@ module.exports = (robot) ->
         user.room = process.env.LOGENTRIES_ROOM
       user.type = 'groupchat'
 
-      robot.send user, "Logentries (Production Alert): #{alert}"
+      robot.send user, "[#{name} Logs]: #{alert}"
 
       res.writeHead 200, {'Content-Type': 'text/plain'}
       res.end 'Thanks\n'
