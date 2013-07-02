@@ -323,13 +323,14 @@ class BuddhaLounge
       player = k
       return_str += @playerstats(v)
     msg.reply return_str
-  
-  reset: -> 
-    @playerdata = []
-    @robot.brain.data.playerdata = []
+
+  reset: (msg, player) ->
+    delete @playerdata[player.id]
+    msg.reply "Your stats have been reset."
+    @save()
 
 module.exports = (robot) ->
-  
+
   buddha = new BuddhaLounge robot
   
   robot.hear /buddha start|dice start|bdstart/i, (msg) ->
@@ -342,7 +343,7 @@ module.exports = (robot) ->
     buddha.stats msg
 
   robot.hear /buddha reset|dice reset/i, (msg) ->
-    buddha.reset msg
-    
+    buddha.reset msg, msg.message.user
+
   robot.hear /(buddha take|dice take|bdt) ([\w .-]+)/i, (msg) ->
     buddha.take msg, msg.message.user, msg.match[2]
