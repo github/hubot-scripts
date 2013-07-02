@@ -14,20 +14,32 @@
 #   dice take <dice letters> - takes dice at given levels
 #   dice stats - displays the stats for the game
 #
-# Author:
+# Authors:
 #   zbowling
+#   sukima
 
 dieMap = ['A','B','C','D','E','F']
 
 
 class BuddhaGame
-  constructor: (@robot,@player) ->
+  constructor: () ->
     @diceLeft = 6
     @diceTaken = []
     @lastDice = []
     @steps = 0
-    
-  
+
+  toJSON: ->
+    diceLeft:  @diceLeft
+    diceTaken: @diceTaken
+    lastDice:  @lastDice
+    steps:     @steps
+
+  @build: (data) ->
+    buddha = new BuddhaGame
+    for id, value of data
+      buddha[id] = value
+    buddha
+
   rollRemainingDice: () ->
     @lastDice = []
     printlines = ['','','','','','','']
@@ -223,29 +235,30 @@ class BuddhaGame
 
 class BuddhaLounge
   constructor: (@robot) ->
-    @games = []
-    @playerdata = []
-    @players = []
-    
+    @games = {}
+    @playerdata = {}
+    @players = {}
+
     @robot.brain.on 'loaded', =>
       if @robot.brain.data.buddhagames?
-        @games = @robot.brain.data.buddhagames
+        for id, game_data of @robot.brain.data.buddhagames
+          @games[id] = BuddhaGame.build game_data
       if @robot.brain.data.playerdata?
         @playerdata = @robot.brain.data.playerdata
-  
+
   startGame: (msg, player) ->
-    game = new BuddhaGame @robot, player 
+    game = new BuddhaGame
     msg.reply "\n" + game.roll()
     @games[player.id] = game
-    @robot.brain.data.buddhagames = @games
     if not @players[player.id]?
       @players[player.id] = player
-    
-    if not @playerdata[player.id]? 
+
+    if not @playerdata[player.id]?
       @playerdata[player.id] = { totalScore: 0, totalGamesStarted: 0, totalGamesFinished: 0, lastScore:0}
     @playerdata[player.id].totalGamesStarted += 1;
-    @robot.brain.data.playerdata = @playerdata 
-  
+
+    @save()
+
   playsound: (player,sound) ->
     if @robot.bot?
       @robot.bot.Room(player.room).sound sound, (err, data) =>
@@ -280,21 +293,24 @@ class BuddhaLounge
         @playerdata[player.id].lastScore = scoreValue.score
         @playerdata[player.id].totalScore = scoreValue.score + @playerdata[player.id].totalScore
         @playerdata[player.id].totalGamesFinished = @playerdata[player.id].totalGamesFinished + 1
-        @robot.brain.data.playerdata = @playerdata 
         delete @games[player.id]
     else
       msg.reply "you aren't playing a game."
-    
-    @robot.brain.data.buddhagames = @games
-      
+
+    @save()
+
   playerstats: (player) ->
     "\n#{player.name}: \n
 \tlast score: #{@playerdata[player.id].lastScore}\n
 \taverage score: #{@playerdata[player.id].totalScore/@playerdata[player.id].totalGamesFinished}\n
 \ttotal games finished: #{@playerdata[player.id].totalGamesFinished}\n
 \ttotal games started: #{@playerdata[player.id].totalGamesStarted}\n"
-  
-  
+
+
+  save: ->
+    @robot.brain.data.buddhagames = @games
+    @robot.brain.data.playerdata = @playerdata
+
   stats: (msg) ->
     return_str = ""
     for k,v of @players
