@@ -307,11 +307,12 @@ class BuddhaLounge
       data.totalScore / data.totalGamesFinished
     else
       0
-    "#{player.name}: \n
-\tlast score: #{data.lastScore}\n
-\taverage score: #{average}\n
-\ttotal games finished: #{data.totalGamesFinished}\n
-\ttotal games started: #{data.totalGamesStarted}\n"
+    """
+    \n\tlast score: #{data.lastScore}
+    \taverage score: #{average}
+    \ttotal games finished: #{data.totalGamesFinished}
+    \ttotal games started: #{data.totalGamesStarted}
+    """
 
   save: ->
     @robot.brain.data.buddhagames = @games
