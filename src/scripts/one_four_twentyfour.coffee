@@ -12,7 +12,8 @@
 # Commands:
 #   dice start - starts a game of one, four, twenty four
 #   dice take <dice letters> - takes dice at given levels
-#   dice stats - displays the stats for the game
+#   dice stats - displays your statistics
+#   dice stats all - displays all players' statistics
 #
 # Authors:
 #   zbowling
@@ -300,12 +301,17 @@ class BuddhaLounge
     @save()
 
   playerstats: (player) ->
-    "\n#{player.name}: \n
-\tlast score: #{@playerdata[player.id].lastScore}\n
-\taverage score: #{@playerdata[player.id].totalScore/@playerdata[player.id].totalGamesFinished}\n
-\ttotal games finished: #{@playerdata[player.id].totalGamesFinished}\n
-\ttotal games started: #{@playerdata[player.id].totalGamesStarted}\n"
-
+    data = @playerdata[player.id]
+    return "You have not played a game yet." unless data?
+    average = if data.totalGamesFinished > 0
+      data.totalScore / data.totalGamesFinished
+    else
+      0
+    "#{player.name}: \n
+\tlast score: #{data.lastScore}\n
+\taverage score: #{average}\n
+\ttotal games finished: #{data.totalGamesFinished}\n
+\ttotal games started: #{data.totalGamesStarted}\n"
 
   save: ->
     @robot.brain.data.buddhagames = @games
@@ -328,10 +334,13 @@ module.exports = (robot) ->
   
   robot.hear /buddha start|dice start|bdstart/i, (msg) ->
     buddha.startGame msg, msg.message.user
-    
-  robot.hear /buddha stats|dice stats|bdstat/i, (msg) ->
+
+  robot.hear /buddha stats|dice stats/i, (msg) ->
+    msg.reply buddha.playerstats(msg.message.user)
+
+  robot.hear /buddha stats all|dice stats all|bdstat/i, (msg) ->
     buddha.stats msg
-    
+
   robot.hear /buddha reset|dice reset/i, (msg) ->
     buddha.reset msg
     
