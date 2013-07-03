@@ -12,22 +12,35 @@
 # Commands:
 #   dice start - starts a game of one, four, twenty four
 #   dice take <dice letters> - takes dice at given levels
-#   dice stats - displays the stats for the game
+#   dice stats - displays your statistics
+#   dice stats all - displays all players' statistics
 #
-# Author:
+# Authors:
 #   zbowling
+#   sukima
 
 dieMap = ['A','B','C','D','E','F']
 
 
 class BuddhaGame
-  constructor: (@robot,@player) ->
+  constructor: () ->
     @diceLeft = 6
     @diceTaken = []
     @lastDice = []
     @steps = 0
-    
-  
+
+  toJSON: ->
+    diceLeft:  @diceLeft
+    diceTaken: @diceTaken
+    lastDice:  @lastDice
+    steps:     @steps
+
+  @build: (data) ->
+    buddha = new BuddhaGame
+    for id, value of data
+      buddha[id] = value
+    buddha
+
   rollRemainingDice: () ->
     @lastDice = []
     printlines = ['','','','','','','']
@@ -223,101 +236,110 @@ class BuddhaGame
 
 class BuddhaLounge
   constructor: (@robot) ->
-    @games = []
-    @playerdata = []
-    @players = []
-    
+    @games = {}
+    @playerdata = {}
+    @players = {}
+
     @robot.brain.on 'loaded', =>
       if @robot.brain.data.buddhagames?
-        @games = @robot.brain.data.buddhagames
+        for id, game_data of @robot.brain.data.buddhagames
+          @games[id] = BuddhaGame.build game_data
       if @robot.brain.data.playerdata?
         @playerdata = @robot.brain.data.playerdata
-  
+
   startGame: (msg, player) ->
-    game = new BuddhaGame @robot, player 
+    game = new BuddhaGame
     msg.reply "\n" + game.roll()
     @games[player.id] = game
-    @robot.brain.data.buddhagames = @games
     if not @players[player.id]?
       @players[player.id] = player
-    
-    if not @playerdata[player.id]? 
+
+    if not @playerdata[player.id]?
       @playerdata[player.id] = { totalScore: 0, totalGamesStarted: 0, totalGamesFinished: 0, lastScore:0}
     @playerdata[player.id].totalGamesStarted += 1;
-    @robot.brain.data.playerdata = @playerdata 
-  
-  playsound: (player,sound) ->
-    if @robot.bot?
-      @robot.bot.Room(player.room).sound sound, (err, data) =>
-        console.log "campfire error: #{err}" if err
-  
+
+    @save()
+
   take: (msg, player, take) ->
     if @games[player.id]?
       game = @games[player.id]
       msg.reply "\n" + game.take(take)
-      
+
       scoreValue = game.scoreValue()
       if scoreValue.taken.length == 4 and not (scoreValue.hasOne and scoreValue.hasFour)
-        @playsound player, "drama"
-      
+        msg.play "drama"
+
       if game.gameover()
         if scoreValue.score == 24
           if scoreValue.taken.steps == 1
-            @playsound player, "yeah"
+            msg.play "yeah"
           else
-            @playsound player, "pushit"
+            msg.play "pushit"
         else if scoreValue.taken.steps == 1 and scoreValue.hasOne and scoreValue.hasFour
-          @playsound player, "live"
+          msg.play "live"
         else if scoreValue.score >= 22
-          @playsound player, "tada"
+          msg.play "tada"
         else if scoreValue.score >= 18
-          @playsound player, "greatjob"
+          msg.play "greatjob"
         else if scoreValue.score > 0
-          @playsound player, "crickets"
+          msg.play "crickets"
         else
-          @playsound player, "trombone"
-            
+          msg.play "trombone"
+
         @playerdata[player.id].lastScore = scoreValue.score
         @playerdata[player.id].totalScore = scoreValue.score + @playerdata[player.id].totalScore
         @playerdata[player.id].totalGamesFinished = @playerdata[player.id].totalGamesFinished + 1
-        @robot.brain.data.playerdata = @playerdata 
         delete @games[player.id]
     else
       msg.reply "you aren't playing a game."
-    
-    @robot.brain.data.buddhagames = @games
-      
+
+    @save()
+
   playerstats: (player) ->
-    "\n#{player.name}: \n
-\tlast score: #{@playerdata[player.id].lastScore}\n
-\taverage score: #{@playerdata[player.id].totalScore/@playerdata[player.id].totalGamesFinished}\n
-\ttotal games finished: #{@playerdata[player.id].totalGamesFinished}\n
-\ttotal games started: #{@playerdata[player.id].totalGamesStarted}\n"
-  
-  
+    data = @playerdata[player.id]
+    return "You have not played a game yet." unless data?
+    average = if data.totalGamesFinished > 0
+      data.totalScore / data.totalGamesFinished
+    else
+      0
+    """
+    \n\tlast score: #{data.lastScore}
+    \taverage score: #{average}
+    \ttotal games finished: #{data.totalGamesFinished}
+    \ttotal games started: #{data.totalGamesStarted}
+    """
+
+  save: ->
+    @robot.brain.data.buddhagames = @games
+    @robot.brain.data.playerdata = @playerdata
+
   stats: (msg) ->
     return_str = ""
     for k,v of @players
       player = k
       return_str += @playerstats(v)
     msg.reply return_str
-  
-  reset: -> 
-    @playerdata = []
-    @robot.brain.data.playerdata = []
+
+  reset: (msg, player) ->
+    delete @playerdata[player.id]
+    msg.reply "Your stats have been reset."
+    @save()
 
 module.exports = (robot) ->
-  
+
   buddha = new BuddhaLounge robot
   
   robot.hear /buddha start|dice start|bdstart/i, (msg) ->
     buddha.startGame msg, msg.message.user
-    
-  robot.hear /buddha stats|dice stats|bdstat/i, (msg) ->
+
+  robot.hear /buddha stats|dice stats/i, (msg) ->
+    msg.reply buddha.playerstats(msg.message.user)
+
+  robot.hear /buddha stats all|dice stats all|bdstat/i, (msg) ->
     buddha.stats msg
-    
+
   robot.hear /buddha reset|dice reset/i, (msg) ->
-    buddha.reset msg
-    
+    buddha.reset msg, msg.message.user
+
   robot.hear /(buddha take|dice take|bdt) ([\w .-]+)/i, (msg) ->
     buddha.take msg, msg.message.user, msg.match[2]
