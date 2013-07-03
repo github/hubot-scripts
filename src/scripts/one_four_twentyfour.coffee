@@ -260,37 +260,32 @@ class BuddhaLounge
 
     @save()
 
-  playsound: (player,sound) ->
-    if @robot.bot?
-      @robot.bot.Room(player.room).sound sound, (err, data) =>
-        console.log "campfire error: #{err}" if err
-  
   take: (msg, player, take) ->
     if @games[player.id]?
       game = @games[player.id]
       msg.reply "\n" + game.take(take)
-      
+
       scoreValue = game.scoreValue()
       if scoreValue.taken.length == 4 and not (scoreValue.hasOne and scoreValue.hasFour)
-        @playsound player, "drama"
-      
+        msg.play "drama"
+
       if game.gameover()
         if scoreValue.score == 24
           if scoreValue.taken.steps == 1
-            @playsound player, "yeah"
+            msg.play "yeah"
           else
-            @playsound player, "pushit"
+            msg.play "pushit"
         else if scoreValue.taken.steps == 1 and scoreValue.hasOne and scoreValue.hasFour
-          @playsound player, "live"
+          msg.play "live"
         else if scoreValue.score >= 22
-          @playsound player, "tada"
+          msg.play "tada"
         else if scoreValue.score >= 18
-          @playsound player, "greatjob"
+          msg.play "greatjob"
         else if scoreValue.score > 0
-          @playsound player, "crickets"
+          msg.play "crickets"
         else
-          @playsound player, "trombone"
-            
+          msg.play "trombone"
+
         @playerdata[player.id].lastScore = scoreValue.score
         @playerdata[player.id].totalScore = scoreValue.score + @playerdata[player.id].totalScore
         @playerdata[player.id].totalGamesFinished = @playerdata[player.id].totalGamesFinished + 1
