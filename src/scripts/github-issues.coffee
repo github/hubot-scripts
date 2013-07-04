@@ -4,7 +4,7 @@
 # Dependencies:
 #   "underscore": "1.3.3"
 #   "underscore.string": "2.1.1"
-#   "githubot": "0.2.0"
+#   "githubot": "0.4.0"
 #
 # Configuration:
 #   HUBOT_GITHUB_TOKEN
