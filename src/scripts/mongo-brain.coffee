@@ -17,9 +17,9 @@
 #   None
 #
 # Author:
-#   ajacksified
+#   ajacksified, maxbeatty
 
-
+Util = require "util"
 mongodb = require "mongodb"
 Server = mongodb.Server
 Collection = mongodb.Collection
@@ -35,37 +35,37 @@ module.exports = (robot) ->
   error = (err) ->
     console.log "==MONGO BRAIN UNAVAILABLE==\n==SWITCHING TO MEMORY BRAIN=="
     console.log err
-    robot.brain.emit 'loaded', {}
 
-  server = new Server(host, port, { })
-  db = new Db(dbname, server, { w: 1, native_parser: true })
+  server = new Server host, port, {}
+  db = new Db dbname, server, { w: 1, native_parser: true }
 
-  db.open((err, client) ->
-    if err
-      error(err)
-    else
-      db.authenticate(user, pass, (err, success) ->
-        if err
-          error(err)
+  db.open (err, client) ->
+    return error err if err
+
+    robot.logger.debug 'Successfully opened connection to mongo'
+
+    db.authenticate user, pass, (err, success) ->
+      return error err if err
+
+      robot.logger.debug 'Successfully authenticated with mongo'
+
+      collection = new Collection client, 'hubot_storage'
+
+      collection.find().limit(1).toArray (err, results) ->
+        return error err if err
+
+        robot.logger.debug 'Successfully queried mongo'
+        robot.logger.debug Util.inspect(results, false, 4)
+
+        if results.length > 0
+          robot.brain.data = results[0]
+          robot.brain.emit 'loaded', results[0]
         else
-          collection = new Collection(client, 'hubot_storage')
+          robot.logger.debug 'No results found'
 
-          collection.find().limit(1).toArray((err, results) ->
-            if results
-              robot.brain.data = results[0]
-              robot.brain.emit 'loaded', results[0]
-            else
-              robot.brain.emit 'save', {}
-              robot.brain.emit 'loaded', {}
-          )
+      robot.brain.on 'save', (data) ->
+        robot.logger.debug 'Save event caught by mongo'
+        robot.logger.debug Util.inspect(robot.brain.data, false, 4)
 
-          robot.brain.on('save', () ->
-            collection.save(robot.brain.data, (err) ->
-              console.warn err if err?
-            )
-          )
-        )
-      )
-
-
-
+        collection.save robot.brain.data, (err) ->
+          console.warn err if err?
