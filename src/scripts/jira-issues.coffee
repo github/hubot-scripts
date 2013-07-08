@@ -8,6 +8,8 @@
 #
 # Configuration:
 #   HUBOT_JIRA_DOMAIN
+#   HUBOT_JIRA_PROTOCOL (optional, format: "http|https"; default is "https")
+#   HUBOT_JIRA_PORT (optional; default is 80)
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
@@ -21,8 +23,14 @@
 module.exports = (robot) ->
   cache = []
   jiraDomain = process.env.HUBOT_JIRA_DOMAIN
-  jiraUrl = "https://" + jiraDomain
-  http = require 'https'
+  jiraProtocol = process.env.HUBOT_JIRA_PROTOCOL || "https"
+  jiraPort = process.env.HUBOT_JIRA_PORT || 80
+  jiraUrl = "#{jiraProtocol}://#{jiraDomain}:#{jiraPort}"
+
+  if jiraProtocol == 'https'
+    http = require 'https'
+  else
+    http = require 'http'
 
   jiraUsername = process.env.HUBOT_JIRA_USERNAME
   jiraPassword = process.env.HUBOT_JIRA_PASSWORD
@@ -33,7 +41,7 @@ module.exports = (robot) ->
   if jiraIgnoreUsers == undefined
     jiraIgnoreUsers = "jira|github"
 
-  http.get {host: jiraDomain, auth: auth, path: "/rest/api/2/project"}, (res) ->
+  request = http.get {host: jiraDomain, port: jiraPort, auth: auth, path: "/rest/api/2/project"}, (res) ->
     data = ''
     res.on 'data', (chunk) ->
       data += chunk.toString()
