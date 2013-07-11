@@ -5,20 +5,20 @@
 #   "redis": "0.7.2"
 #
 # Configuration:
-#   REDISTOGO_URL
+#   REDISTOGO_URL || BOXEN_REDIS_URL || REDISCLOUD_URL
 #
 # Commands:
 #   None
 #
 # Author:
-#   atmos
+#   atmos, jan0sch
 
 Url   = require "url"
 Redis = require "redis"
 
 # sets up hooks to persist the brain into redis.
 module.exports = (robot) ->
-  info   = Url.parse process.env.REDISTOGO_URL || process.env.BOXEN_REDIS_URL || 'redis://localhost:6379'
+  info   = Url.parse process.env.REDISTOGO_URL || process.env.BOXEN_REDIS_URL || process.env.REDISCLOUD_URL || 'redis://localhost:6379'
   client = Redis.createClient(info.port, info.hostname)
 
   if info.auth
