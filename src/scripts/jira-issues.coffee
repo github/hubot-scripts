@@ -20,7 +20,10 @@
 
 module.exports = (robot) ->
   cache = []
-  jiraUrl = process.env.HUBOT_JIRA_URL
+
+  # In case someone upgrades form the previous version, we'll default to the 
+  # previous behavior.
+  jiraUrl = process.env.HUBOT_JIRA_URL || "https://#{process.env.HUBOT_JIRA_DOMAIN}"
   jiraUsername = process.env.HUBOT_JIRA_USERNAME
   jiraPassword = process.env.HUBOT_JIRA_PASSWORD
   
