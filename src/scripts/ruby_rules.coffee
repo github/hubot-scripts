@@ -14,7 +14,7 @@ rubyRules = [
   "3. You can pass no more than 4 parameters and you can’t just make it one big hash.",
   "4. In your rails controller, you can only instantiate 1 object to do whatever it is that needs to be done.",
   "5. Your rails view can only know about 1 instance variable",
-  "6. You can break this rules if you can explain to your pair or in your pull request why it makes sense."
+  "6. You can break these rules if you can explain to your pair or in your pull request why it makes sense."
 ]
 
 module.exports = (robot) ->
