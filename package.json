@@ -1,20 +1,28 @@
 {
-  "name":        "hubot-scripts",
-  "version":     "2.4.8",
+  "name": "hubot-scripts",
+  "version": "2.5.0",
 
-  "author":      "hubot",
+  "author": "hubot",
 
-  "keywords":    ["hubot", "plugin", "scripts", "campfire", "bot", "robot"],
+  "keywords": [
+    "hubot",
+    "plugin",
+    "scripts",
+    "campfire",
+    "bot",
+    "robot"
+  ],
+
   "description": "Allows you to opt in to a variety of scripts",
 
-  "licenses":     [{
-    "type":       "MIT",
-    "url":        "http://github.com/github/hubot-scripts/raw/master/LICENSE"
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/github/hubot-scripts/raw/master/LICENSE"
   }],
 
   "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/github/hubot-scripts.git"
+    "type": "git",
+    "url": "https://github.com/github/hubot-scripts.git"
   },
 
   "dependencies": {

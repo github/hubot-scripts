@@ -1,9 +1,31 @@
+v2.5.0
+======
+
+https://github.com/github/hubot-scripts/compare/v2.4.8...v2.5.0
+
+v2.4.8
+======
+
+https://github.com/github/hubot-scripts/compare/v2.4.7...v2.4.8
+
+v2.4.7
+======
+
+https://github.com/github/hubot-scripts/compare/v2.4.6...v2.4.7
+
+v2.4.6
+======
+
+https://github.com/github/hubot-scripts/compare/v2.4.5...v2.4.6
+
 v2.4.5
 ======
+
 https://github.com/github/hubot-scripts/compare/v2.4.3...v2.4.5
 
 v2.4.3
 ======
+
 https://github.com/github/hubot-scripts/compare/v2.4.2...v2.4.3
 
 v2.4.2
