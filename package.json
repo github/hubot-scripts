@@ -18,6 +18,6 @@
   },
 
   "dependencies": {
-    "redis": "0.8.2"
+    "redis": "0.8.4"
   }
 }
