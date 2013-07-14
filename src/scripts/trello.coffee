@@ -59,4 +59,4 @@ showCards = (msg) ->
       return
 
     msg.send "Cards in " + data.name + ":"
-    msg.send "- " + card.name + for card in data.cards
+    msg.send "- " + card.name for card in data.cards
