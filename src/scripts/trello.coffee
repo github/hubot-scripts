@@ -11,6 +11,7 @@
 #
 # Commands:
 #   hubot trello card <name> - Create a new Trello card
+#   hubot trello show - Show cards on list
 #
 # Notes:
 #   To get your key, go to: https://trello.com/1/appKey/generate
@@ -36,6 +37,9 @@ module.exports = (robot) ->
     if not (process.env.HUBOT_TRELLO_KEY and process.env.HUBOT_TRELLO_TOKEN and process.env.HUBOT_TRELLO_LIST)
       return
     createCard msg, cardName
+    
+  robot.respond /trello show/i, (msg) ->
+    showCards msg
 
 createCard = (msg, cardName) ->
   Trello = require("node-trello")
@@ -45,3 +49,14 @@ createCard = (msg, cardName) ->
       msg.send "There was an error creating the card"
       return
     msg.send data.url
+
+showCards = (msg) ->
+  Trello = require("node-trello")
+  t = new Trello(process.env.HUBOT_TRELLO_KEY, process.env.HUBOT_TRELLO_TOKEN)
+  t.get "/1/lists/"+process.env.HUBOT_TRELLO_LIST, {cards: "open"}, (err, data) ->
+    if err
+      msg.send "There was an error showing the list."
+      return
+
+    msg.send "Cards in " + data.name + ":"
+    msg.send "- " + card.name + for card in data.cards
