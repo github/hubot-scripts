@@ -28,5 +28,6 @@ module.exports = (robot) ->
           $ = cheerio.load(body)
           fact = $(".fact").find(".ftext").text()
 
-          fact = fact.replace /raji?ni(kanth?)?/ig, user if !!user
+          if !!user
+            fact = fact.replace /raji?ni(kanth?)?/ig, user 
           msg.send fact
