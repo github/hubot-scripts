@@ -63,8 +63,7 @@ module.exports = (robot) ->
     envelope.user.type = query.type if query.type
     envelope.notstrat = query.notstrat if query.notstrat 
     try
-      for key of req.body
-        data = JSON.parse key
+      data = req.body
 
       if data.build.phase == 'FINISHED'
         robot.send envelope, data.name
