@@ -16,15 +16,6 @@
 
 module.exports = (robot) ->
 
-  findUser = (name) ->
-    users = robot.usersForFuzzyName name
-    if users.length is 1
-      users[0]
-    else if users.length > 1
-      users
-    else
-      false
-
 
   robot.respond /(what\'s|what is) (everyone|everybody) working on(\?)?/i, (msg) ->
     messageText = '';
