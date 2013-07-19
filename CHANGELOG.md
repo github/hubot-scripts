@@ -1,3 +1,8 @@
+v2.5.1
+======
+
+https://github.com/github/hubot-scripts/compare/v2.5.0...v2.5.1
+
 v2.5.0
 ======
 
