@@ -12,7 +12,7 @@
 #   None
 #
 # URLS:
-#   POST /hubot/jenkins-notify?room=<room>[&type=<type>][notstrat=<notificationSTrategy>]
+#   POST /hubot/jenkins-notify?room=<room>[&type=<type>][&notstrat=<notificationSTrategy>]
 #
 # Notification Strategy is [Ff][Ss] which stands for "Failure" and "Success"
 # Capitalized letter means: notify always
@@ -66,7 +66,6 @@ module.exports = (robot) ->
       data = req.body
 
       if data.build.phase == 'FINISHED'
-        robot.send envelope, data.name
         if data.build.status == 'FAILURE'
           if data.name in @failing
             build = "is still"
@@ -77,9 +76,8 @@ module.exports = (robot) ->
         if data.build.status == 'SUCCESS'
           if data.name in @failing
             build = "was restored"
-            robot.send envelope, "woop2"
           else
-            build = "suceeded"
+            build = "succeeded"
           robot.send envelope, "#{data.name} build ##{data.build.number} #{build} (#{encodeURI(data.build.full_url)})"  if shouldNotify(envelope.notstrat, data, @failing)
           index = @failing.indexOf data.name
           @failing.splice index, 1 if index isnt -1
