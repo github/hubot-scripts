@@ -32,13 +32,13 @@ module.exports = (robot) ->
 
   robot.respond /(twitter|lasttweet)\s+(\S+)\s?(\d?)/i, (msg) ->
     unless config.consumer_key
-      msg.send "Please set the HUBOT_TWITTER_STREAM_CONSUMER_KEY environment variable."
+      msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
       return
     unless config.consumer_secret
-      msg.send "Please set the HUBOT_TWITTER_STREAM_CONSUMER_SECRET environment variable."
+      msg.send "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
       return
     unless config.access_token
-      msg.send "Please set the HUBOT_TWITTER_STREAM_ACCESS_TOKEN environment variable."
+      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN environment variable."
       return
     unless config.access_token_secret
       msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
