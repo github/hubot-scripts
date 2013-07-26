@@ -9,10 +9,10 @@
 #   None
 #
 # Commands:
-#   achewood - A random Achewood comic   
-#   achewood current - The most recent Achewood comic
-#   achewood <date> - Achewood comic from <date> - mm/dd/yyyy format
-#   saddest thing - The saddest thing, according to Lie Bot
+#   hubot achewood - A random Achewood comic
+#   hubot achewood current - The most recent Achewood comic
+#   hubot achewood <date> - Achewood comic from <date> - mm/dd/yyyy format
+#   hubot saddest thing - The saddest thing, according to Lie Bot
 #
 # Author:
 #   1000hz
