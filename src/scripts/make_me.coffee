@@ -12,7 +12,7 @@
 #
 # Commands:
 #   hubot 3d me <url..url_n> [options] - 3D Print the URLs
-#   hubot 3d?                          - Show some help
+#   hubot 3d? - Show some help
 #
 # Notes:
 #   None
