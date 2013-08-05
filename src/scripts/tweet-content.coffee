@@ -48,6 +48,6 @@ module.exports = (robot) ->
           tweet_text = tweet_text.replace(url.url, url.expanded_url)
       if tweet.entities.media?
         for media in tweet.entities.media
-          tweet_text = tweet_text.replace(media.url, media.expanded_url)
+          tweet_text = tweet_text.replace(media.url, media.media_url)
 
       msg.send "@#{tweet.user.screen_name}: #{tweet_text}"
