@@ -42,4 +42,12 @@ module.exports = (robot) ->
         console.log err
         return
 
-      msg.send "@#{tweet.user.screen_name}: #{tweet.text}"
+      tweet_text = tweet.text
+      if tweet.entities.urls?
+        for url in tweet.entities.urls
+          tweet_text = tweet_text.replace(url.url, url.expanded_url)
+      if tweet.entities.media?
+        for media in tweet.entities.media
+          tweet_text = tweet_text.replace(media.url, media.expanded_url)
+
+      msg.send "@#{tweet.user.screen_name}: #{tweet_text}"
