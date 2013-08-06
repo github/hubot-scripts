@@ -22,7 +22,7 @@ module.exports = (robot) ->
         if res.statusCode is 200 and !err?
           parser = new xml2js.Parser()
           parser.parseString body, (err, result) ->
-            if result.show?
+            if result.Results and (result = result.Results).show?
               if result.show.length?
                 show = result.show[0]
               else
@@ -41,19 +41,23 @@ module.exports = (robot) ->
                     if res.statusCode is 200 and !err?
                       parser = new xml2js.Parser()
                       parser.parseString details, (err, showdetails) ->
+                        showdetails = showdetails.Show
                         now = new Date();
                         ecb = (season_arr) ->
                           for episode in season_arr.episode
                             edate = new Date()
                             edate.setTime(Date.parse(episode.airdate+' '+show.airtime))
                             if edate.getTime() > now.getTime()
+                              episode.season = season_arr.$.no
                               return episode
-                        if showdetails.Episodelist.Season.length?
-                          unaired = ecb season for season in showdetails.Episodelist.Season
+
+                        if showdetails.Episodelist[0].Season.length?
+                          unaired = ecb season for season in showdetails.Episodelist[0].Season
                         else
-                          unaired = ecb showdetails.Episodelist.Season
+                          unaired = ecb showdetails.Episodelist[0].Season
+
                         if unaired
-                          response = "#{show.name} is a #{show.status} which started airing #{show.started}. The next show, titled \"#{unaired.title}\" is scheduled for #{unaired.airdate}"
+                          response = "#{show.name} is a #{show.status} which started airing #{show.started}. The next show, titled \"#{unaired.title}\" (S#{unaired.season}E#{unaired.seasonnum}) is scheduled for #{unaired.airdate}"
                           response += " #{show.day}" if show.day?
                           response += " at #{show.airtime}" if show.airtime?
                           response += " on #{show.network['#']}" if show.network? and show.network['#']
