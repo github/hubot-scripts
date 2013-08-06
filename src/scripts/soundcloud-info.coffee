@@ -32,6 +32,10 @@ fetchUrl = (msg, url) ->
       if res.statusCode is 302
         data = JSON.parse(body)
         showInfo msg, data.location
+      else if res.statusCode is 401
+        msg.reply "SoundCloud Error: API sent #{res.statusCode}, check your HUBOT_SOUNDCLOUD_CLIENTID setting"
+      else
+        msg.reply "SoundCloud Error: API resolve returned #{res.statusCode}"
 
 showInfo = (msg, url) ->
   msg.http(url)
@@ -44,7 +48,7 @@ showInfo = (msg, url) ->
           tracks = if data.track_count? then "#{data.track_count} tracks, " else ''
           msg.send "SoundCloud #{data.kind}: #{data.user.username} - #{data.title} (#{tracks}#{getDuration(data.duration)})"
       else
-        msg.send "Soundcloud: error: #{url} returned #{res.statusCode}"
+        msg.reply "SoundCloud Error: API lookup returned #{res.statusCode}"
 
 getDuration = (time) ->
   time = time / 1000
