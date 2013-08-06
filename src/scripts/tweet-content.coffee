@@ -2,16 +2,14 @@
 #   Detect tweet URL and send tweet content
 #
 # Dependencies:
-#   None
+#  "ntwitter": "0.2.10"
+#  "underscore": "1.5.1"
 #
 # Configuration:
 #   HUBOT_TWITTER_CONSUMER_KEY
 #   HUBOT_TWITTER_CONSUMER_SECRET
 #   HUBOT_TWITTER_ACCESS_TOKEN_KEY
 #   HUBOT_TWITTER_ACCESS_TOKEN_SECRET
-#
-# Dependencies:
-#  "ntwitter" : "0.2.10",
 #
 # Commands:
 #   None
@@ -20,6 +18,7 @@
 #   Vrtak-CZ, kdaigle
 
 ntwitter = require 'ntwitter'
+_ = require 'underscore'
 
 module.exports = (robot) ->
   auth =
@@ -42,7 +41,7 @@ module.exports = (robot) ->
         console.log err
         return
 
-      tweet_text = tweet.text
+      tweet_text = _.unescape(tweet.text)
       if tweet.entities.urls?
         for url in tweet.entities.urls
           tweet_text = tweet_text.replace(url.url, url.expanded_url)
