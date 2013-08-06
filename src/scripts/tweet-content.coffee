@@ -2,16 +2,13 @@
 #   Detect tweet URL and send tweet content
 #
 # Dependencies:
-#   None
+#  "ntwitter" : "0.2.10",
 #
 # Configuration:
 #   HUBOT_TWITTER_CONSUMER_KEY
 #   HUBOT_TWITTER_CONSUMER_SECRET
 #   HUBOT_TWITTER_ACCESS_TOKEN_KEY
 #   HUBOT_TWITTER_ACCESS_TOKEN_SECRET
-#
-# Dependencies:
-#  "ntwitter" : "0.2.10",
 #
 # Commands:
 #   None
