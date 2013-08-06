@@ -15,16 +15,16 @@
 #   Set the environment var HUBOT_SOUNDCLOUD_CLIENTID to your SoundCloud API client_id for this to work
 #
 # Author:
-#   w33ble
+#   Joe Fleming (@w33ble)
 
 module.exports = (robot) ->
-  if not process.env.HUBOT_SOUNDCLOUD_CLIENTID?
-    console.error "HUBOT_SOUNDCLOUD_CLIENTID is not defined"
-  else
-    robot.hear /(https?:\/\/(www\.)?soundcloud\.com\/)([\d\w\-\/]+)/i, (msg) ->
-      fetchUrl msg, msg.match[0]
+  robot.hear /(https?:\/\/(www\.)?soundcloud\.com\/)([\d\w\-\/]+)/i, (msg) ->
+    fetchUrl msg, msg.match[0]
 
 fetchUrl = (msg, url) ->
+  if not process.env.HUBOT_SOUNDCLOUD_CLIENTID
+    return msg.reply "HUBOT_SOUNDCLOUD_CLIENTID must be defined, see http://developers.soundcloud.com/ to get one"
+
   msg.http("http://api.soundcloud.com/resolve.json?client_id=#{process.env.HUBOT_SOUNDCLOUD_CLIENTID}&url=#{url}")
     .query({
       alt: 'json'
