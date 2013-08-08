@@ -8,6 +8,8 @@
 #   HUBOT_JENKINS_URL
 #   HUBOT_JENKINS_AUTH
 #
+#   Auth should be in the "user:password" format.
+#
 # Commands:
 #   hubot jenkins b <jobNumber> - builds the job specified by jobNumber. List jobs to get number.
 #   hubot jenkins build <job> - builds the specified Jenkins job
