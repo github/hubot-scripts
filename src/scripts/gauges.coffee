@@ -114,14 +114,3 @@ module.exports = (robot) ->
 
       when "data"
           gauges.getViewsForDate data.day, handler
-
-
-
-
-
-
-
-
-
-
-
