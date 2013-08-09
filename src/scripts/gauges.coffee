@@ -28,7 +28,6 @@ class Gauges
             title: g.title
             views: g.today.views
             people: g.today.people
-
         callback null, gauges
 
   getViewsForYesterday: (callback) ->
@@ -73,36 +72,46 @@ class Gauges
         else
           callback "Could not get gauges for today"
 
+
 module.exports = (robot) ->
 
   robot.respond /gauges for (today|yesterday)/i, (msg) ->
-    gauges = new Gauges robot, process.env.HUBOT_GAUGES_TOKEN
     day = msg.match[1]
-
-    switch day
-      when "today"
-        gauges.getViewsForToday (err, gauges) ->
-          if err?
-            msg.send "#{err}"
-          else
-            for g in gauges
-              msg.send "#{g.title}: Views #{g.views}, People #{g.people}"
-
-      when "yesterday"
-        gauges.getViewsForYesterday (err, gauges) ->
-          if err?
-            msg.send "#{err}"
-          else
-            for g in gauges
-              msg.send "#{g.title}: Views #{g.views} People #{g.people}"
+    robot.emit "gauges", { user: msg.user, for: day }
 
   robot.respond /gauges for (\d{4}-\d{2}-\d{2})/i, (msg) ->
-    gauges = new Gauges robot, process.env.HUBOT_GAUGES_TOKEN
     day = msg.match[1]
+    robot.emit "gauges", { user: msg.user, for: 'data' , day: day }
 
-    gauges.getViewsForDate day, (err, gauges) ->
+  # handle gauges events, can be emited by other script
+  robot.on "gauges", (data) ->
+    gauges = new Gauges robot, process.env.HUBOT_GAUGES_TOKEN
+
+    #handle a list of gauges
+    handler = (err, list) ->
       if err?
-        msg.send "#{err}"
+        robot.send data.user, "#{err}"
       else
-        for g in gauges
-          msg.send "#{g.title}: Views #{g.views} People #{g.people}"
+        for g in list
+          robot.send data.user, "#{g.title}: Views #{g.views} People #{g.people}"
+
+    switch data.for
+      when "today"
+        gauges.getViewsForToday handler
+
+      when "yesterday"
+        gauges.getViewsForYesterday handler
+
+      when "data"
+          gauges.getViewsForDate data.day, handler
+
+
+
+
+
+
+
+
+
+
+
