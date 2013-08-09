@@ -11,6 +11,16 @@
 #   hubot gauges for (today|yesterday) - Get views/people from today or yesterday
 #   hubot gauges for YYYY-MM-DD - Get views/people for the specified date
 #
+# Notes:
+#   Also you can trigger a event to call gauges in another script
+#     Example:
+#
+#       module.exports = (robot) ->
+#         robot.respond /emit gauges/i, (msg) ->
+#            robot.emit "gauges", { user: msg.user, for: 'today' }
+#
+#
+#
 # Author:
 #   tombell
 
