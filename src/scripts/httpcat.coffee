@@ -31,7 +31,7 @@ module.exports = (robot) ->
         if (codes.indexOf( status ) > -1)
             msg.send 'http://httpcats.herokuapp.com/' + status + '.jpg'
         else
-            msg.send 'I only recognize the following status codes: ' + codes
+            msg.send "That's not a valid HTTP status code, sorry amigo!"
 
 
     robot.respond /httpcat help/i, (msg) ->
