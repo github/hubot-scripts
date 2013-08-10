@@ -82,11 +82,11 @@ module.exports = (robot) ->
   cash = new Cash robot
   optf = new OutputFormatter()
 
-  robot.respond /cash (left|on hand)( is)? (.+)$/i, (msg) ->
+  robot.respond /cash (left|on hand):? (.+)$/i, (msg) ->
     amount = cash.set_on_hand msg.match[3]
     msg.send "Ok, cash on hand is #{optf.toDollars(amount)}"
 
-  robot.respond /cash burn( rate)?( is)? (.+)$/i, (msg) ->
+  robot.respond /cash burn( rate)?:? (.+)$/i, (msg) ->
     amount = cash.set_burn_rate msg.match[3]
     msg.send "Ok, our burn rate is #{optf.toDollars(amount)} per month"
 
