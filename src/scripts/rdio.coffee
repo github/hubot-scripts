@@ -17,7 +17,7 @@ crypto = require "crypto"
 http = require "http"
 
 module.exports = (robot) ->
-  robot.hear /http:\/\/rd\.io\/x\/[a-zA-Z0-9]+\//i, (msg) ->
+  robot.hear /http:\/\/rd\.io\/x\/[a-zA-Z0-9\-]+\//i, (msg) ->
     rdio.request "getObjectFromUrl", {"url": msg.match[0]}, (err, data) ->
       if err
         msg.send "Rdio response: #{err}"
