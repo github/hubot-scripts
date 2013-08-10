@@ -15,7 +15,7 @@
 #
 # Notes:
 #   There's an outstanding issue on AvianFlu/ntwitter#110 for search and the v1.1 API.
-#   sebhildebrandt is a fork that is working, so we recommend that for now. This 
+#   sebhildebrandt is a fork that is working, so we recommend that for now. This
 #   can be removed after the issue is fixed and a new release cut, along with updating the dependency
 #
 # Author:
@@ -33,7 +33,7 @@ module.exports = (robot) ->
 
   twit = undefined
 
-  robot.respond /(.*) tweet/i, (msg) ->
+  robot.respond /(.+) tweet/i, (msg) ->
     unless auth.consumer_key
       msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
       return
