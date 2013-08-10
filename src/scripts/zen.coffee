@@ -8,14 +8,12 @@
 #   None
 #
 # Commands:
-#   zen
-#   !zen
+#   zen - Display GitHub zen message
 #
 # Author:
 #   anildigital
 #
 
-# Respond with GitHub zen API message
 module.exports = (robot) ->
   robot.hear /zen/i, (msg) ->
     msg
