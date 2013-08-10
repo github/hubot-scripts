@@ -9,8 +9,8 @@
 #   HUBOT_CASH_THOUSANDS_SEPARATOR - the symbol used for splitting thousands. Default: ,
 #
 # Commands:
-#   hubot cash <left|on hand> is <amount> - set the cash on hand
-#   hubot cash burn rate is <amount> - set the burn rate
+#   hubot cash <left|on hand>: <amount> - set the cash on hand
+#   hubot cash <burn rate|burn>: <amount> - set the burn rate
 #   hubot cash <update|state|stats> - show the cash situation
 #
 # Notes:
