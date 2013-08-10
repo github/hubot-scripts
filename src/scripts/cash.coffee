@@ -1,5 +1,10 @@
 # Description:
-#   allows hubot to track the cash and burn rate and displays
+#   allows hubot to track the cash and burn rate and displays a summary
+#   of the current cash state. Also stores historical values in the
+#   hubot brain so that they can be referred to later.
+#
+#   The s3-brain is HIGHLY recommended for keeping track of historical
+#   cash values and not losing everything when hubot restarts.
 #
 # Dependencies:
 #   None
