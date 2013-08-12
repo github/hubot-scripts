@@ -22,6 +22,15 @@
 # Dependencies:
 #  "moment": "1.6.2"
 #
+# Notes: 
+#   To setup the webhooks and get the alerts in your chatrooms, you need to add the endpoint you define here (e.g /hooks) in 
+#   the service settings of your Pagerduty accounts. You also need to define the room in which you want them to appear. 
+#   (Unless you want to spam all the rooms with alerts, but we don't believe that should be the default behavior :)  
+#
+# URLS: 
+#   http://developer.pagerduty.com/documentation/rest/webhooks
+#   http://support.pagerduty.com/entries/21774694-Webhooks-
+#
 # Configuration:
 #
 #   HUBOT_PAGERDUTY_API_KEY - API Access Key
@@ -30,6 +39,10 @@
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
 #   HUBOT_PAGERDUTY_ROOM - Room in which you want the pagerduty webhook notifications to appear
 #   HUBOT_PAGERDUTY_ENDPOINT - Pagerduty Webhook listener e.g /hook
+#
+# Authors: 
+#   Jesse Newland, Josh Nicols, Jacob Bednarz, Chris Lundquist, Chris Streeter, Joseph Pierri, Greg Hoin
+#
 
 inspect = require('util').inspect
 
