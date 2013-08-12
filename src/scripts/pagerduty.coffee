@@ -416,7 +416,7 @@ module.exports = (robot) ->
             console.log body
 
   
-  # Pagerduty Webhook Integration
+  # Pagerduty Webhook Integration (For a payload example, see http://developer.pagerduty.com/documentation/rest/webhooks)
   parseWebhook = (req, res) ->
     hook = req.body
 
