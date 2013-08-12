@@ -6,7 +6,7 @@
 #
 # Configuration:
 #   HUBOT_CHARTBEAT_SITE
-#   HUBOT_CHARTBEAT_SITES <comma separated string of multiple hosts>
+#   HUBOT_CHARTBEAT_SITES <comma separated string of all
 #   HUBOT_CHARTBEAT_API_KEY <use global key for access to all sites>
 #
 # Commands:
@@ -44,18 +44,16 @@ module.exports = (robot) ->
     if (!process.env.HUBOT_CHARTBEAT_SITE && msg.match[2] == 'me')
       msg.send "You need to set a default site"
       return
+    if (!process.env.HUBOT_CHARTBEAT_SITES && msg.match[2] == 'bomb')
+      msg.send "You need to set a list of sites"
+      return
 
     sites = switch msg.match[2]
       when "me" then [process.env.HUBOT_CHARTBEAT_SITE]
+      when "bomb" then process.env.HUBOT_CHARTBEAT_SITES.split(",")
       when "*" then process.env.HUBOT_CHARTBEAT_SITES.split(",")
       else [msg.match[2]]
 
     apiKey = process.env.HUBOT_CHARTBEAT_API_KEY
 
     getChart(msg, apiKey, site) for site in sites
-
-  robot.respond /chart bomb/i, (msg) ->
-    if (!process.env.HUBOT_CHARTBEAT_SITES)
-      msg.send "You need to set a list of sites"
-      return
-    getChart(msg, process.env.HUBOT_CHARTBEAT_API_KEY, process.env.HUBOT_CHARTBEAT_SITES.split(","))
