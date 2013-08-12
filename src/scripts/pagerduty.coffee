@@ -450,7 +450,7 @@ module.exports = (robot) ->
 
 
   # Webhook listener
-  if pagerEndpoint? 
+  if pagerEndpoint && pagerRoom ? 
     robot.router.post pagerEndpoint, (req, res) ->
       robot.messageRoom(pagerRoom, parseWebhook(req,res))
       res.end()
