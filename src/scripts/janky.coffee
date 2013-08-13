@@ -128,6 +128,23 @@ module.exports = (robot) ->
       else
         msg.reply "can't predict rooms now."
 
+  robot.respond /ci builds ([0-9]+) ?(building)?$/i, (msg) ->
+    limit = msg.match[1]
+    building = msg.match[2]?
+    get "builds?limit=#{limit}&building=#{building}", {}, (err, statusCode, body) ->
+      response = ""
+      builds = JSON.parse(body)
+
+      if builds.length > 0
+        builds.forEach (build) ->
+          response += "Build ##{build.number} (#{build.sha1}) of #{build.repo}/#{build.branch} #{build.status}"
+          response += "(#{build.duration}s) #{build.compare}"
+          response += "\n"
+
+        msg.send response
+      else
+        msg.send "Builds? Sorry, there's no builds here"
+
   robot.respond /ci status$/i, (msg) ->
     get "", {}, (err, statusCode, body) ->
       if statusCode == 200
