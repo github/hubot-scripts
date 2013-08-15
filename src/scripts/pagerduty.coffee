@@ -56,7 +56,7 @@ pagerDutyServiceApiKey = process.env.HUBOT_PAGERDUTY_SERVICE_API_KEY
 pagerDutyScheduleId    = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
 pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
 # Webhook listener endpoint. Set it to whatever URL you want, and make sure it matches your pagerduty service settings 
-pagerEndpoint          = "/hook"
+pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
