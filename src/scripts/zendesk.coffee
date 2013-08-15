@@ -1,16 +1,18 @@
 # Description:
-#   Ask Zendesk for the current unsolved list of customer tickets
+#   Ask Zendesk for the current unsolved list of customer tickets. Poll every 10 minutes for new tickets and broadcast out any new tickets which are received
 #
 # Dependencies:
 #   None
 #
 # Configuration:
 #   HUBOT_ZENDESK_API_KEY
-#	HUBOT_ZENDESK_USERNAME
-#	HUBOT_ZENDESK_SUBDOMAIN
+#   HUBOT_ZENDESK_USERNAME
+#   HUBOT_ZENDESK_SUBDOMAIN
 #
 # Commands:
-#   hubot zendesk list
+#   hubot zendesk list - lists all open zendesk tickets
+#   hubot start polling - Starts polling every 10 minutes for new tickets. Warning: If it finds a new ticket it posts it to broadcast which might not work for your hubot adapter
+#   hubot stop polling - Stops the polling above
 #
 # Author:
 #   Bellspringsteen
@@ -45,7 +47,7 @@ module.exports = (robot) ->
 					current_ids.push ticket.id
 				ids_previously_reported = current_ids
 			else
-				robot.send "broadcast", "So Sorry, We had an error"
+				robot.send "broadcast", "So Sorry,Zendesk Plugin had an error"
     
 
 	
@@ -59,7 +61,7 @@ module.exports = (robot) ->
 				for ticket in response.results
 					msg.send "Ticket URL "+ticket.url+" with subject "+ticket.subject+" with description "+ticket.description
 			else
-				msg.send "So Sorry, We had an error"
+				msg.send "So Sorry, Zendesk Plugin had an error"
 	
 	robot.respond /zendesk start polling/i, (msg) ->
 		set_interval_id = setInterval(poll,600000)
