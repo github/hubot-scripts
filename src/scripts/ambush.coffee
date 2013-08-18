@@ -12,6 +12,10 @@
 #
 # Author:
 #   jmoses
+#
+# Tags:
+#   notifications
+#   utility
 
 appendAmbush = (data, toUser, fromUser, message) ->
   data[toUser.name] or= []

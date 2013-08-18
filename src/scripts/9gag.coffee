@@ -13,6 +13,11 @@
 #
 # Author:
 #   EnriqueVidal 
+#
+# Tags:
+#   memes
+#   images
+#   fun
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"

@@ -12,6 +12,11 @@
 #
 # Author:
 #   joshfrench
+#
+# Tags:
+#   memes
+#   images
+#   fun
 
 images = [
   "http://assets0.ordienetworks.com/images/GifGuide/clapping/Kurtclapping.gif",

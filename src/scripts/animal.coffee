@@ -13,6 +13,11 @@
 #
 # Author:
 #   unsay
+#
+# Tags:
+#   memes
+#   images
+#   fun
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

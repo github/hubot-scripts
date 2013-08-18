@@ -12,6 +12,10 @@
 #
 # Author:
 #   atmos
+#
+# Tags:
+#   images
+#   fun
 
 module.exports = (robot) ->
   robot.hear /^(https?:\/\/[^ #]+\.(?:png|jpg|jpeg))(?:[#]\.png)?$/i, (msg) ->

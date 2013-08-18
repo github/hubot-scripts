@@ -12,6 +12,10 @@
 #
 # Author:
 #   eliperkins
+#
+# Tags:
+#   images
+#   fun
 
 module.exports = (robot) ->
   robot.respond /aww/i, (msg) ->

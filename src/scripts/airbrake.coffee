@@ -13,6 +13,11 @@
 #
 # Author:
 #   tommeier
+#
+# Tags:
+#   monitoring
+#   notifications
+#   utility
 
 jsdom = require 'jsdom'
 env = process.env

@@ -25,6 +25,10 @@
 #
 # Author:
 #   Iristyle
+#
+# Tags:
+#   monitoring
+#   utility
 
 key = process.env.HUBOT_AWS_ACCESS_KEY_ID
 secret = process.env.HUBOT_AWS_SECRET_ACCESS_KEY
