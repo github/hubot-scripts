@@ -15,6 +15,10 @@
 #
 # Author:
 #   benpink
+#
+# Tags:
+#   music
+#   utility
 
 jsdom = require 'jsdom'
 jquery = 'http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js'

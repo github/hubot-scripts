@@ -15,6 +15,9 @@
 # Author:
 #   sleekslush
 #   drdamour
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
   robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/i, (msg) ->

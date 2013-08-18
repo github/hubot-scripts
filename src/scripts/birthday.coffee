@@ -14,6 +14,9 @@
 #
 # Author:
 #   sopel
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
 

@@ -12,6 +12,10 @@
 #
 # Author:
 #   fellix
+#
+# Tags:
+#   productivity
+#   utility
 
 module.exports = (robot) ->
   robot.hear /^basecamp calendar( (.*))?$/i, (msg) ->

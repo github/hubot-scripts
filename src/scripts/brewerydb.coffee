@@ -12,6 +12,10 @@
 #
 # Author:
 #   greggroth
+#
+# Tags:
+#   beer
+#   utility
 
 module.exports = (robot) ->
   robot.respond /beer me (.*)/i, (msg) ->

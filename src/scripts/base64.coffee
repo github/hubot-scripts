@@ -12,6 +12,9 @@
 #
 # Author:
 #   jimeh
+# 
+# Tags:
+#   utility
 
 module.exports = (robot) ->
   robot.respond /base64 encode( me)? (.*)/i, (msg) ->

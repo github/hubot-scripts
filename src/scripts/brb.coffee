@@ -12,6 +12,10 @@
 #
 # Author:
 #   jmhobbs
+#
+# Tags:
+#   communication
+#   utility
 
 module.exports = (robot) ->
 

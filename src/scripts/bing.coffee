@@ -12,6 +12,10 @@
 #
 # Author:
 #   Brandon Satrom
+#
+# Tags:
+#   search
+#   utility
 
 module.exports = (robot) ->
   robot.respond /(bing)( me)? (.*)/i, (msg) ->
