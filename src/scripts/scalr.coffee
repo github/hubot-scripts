@@ -28,7 +28,7 @@ success_message = [
   'Victory!',
 ]
 
-scalr_script_executer = "execute-scalr-script.eu01.aws.af.cm"
+scalr_script_executer = "https://execute-scalr-script.eu01.aws.af.cm"
 
 config_check = ->
   failure = (
