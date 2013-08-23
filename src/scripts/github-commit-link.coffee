@@ -36,7 +36,10 @@ module.exports = (robot) ->
         issue_title = ""
         base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
         github.get "#{base_url}/repos/#{bot_github_repo}/commits/" + commit_sha, (commit_obj) ->
-          url = commit_obj.url.replace(/api\./,'')
+          if process.env.HUBOT_GITHUB_API
+            url = commit_obj.url.replace(/api\/v3\//,'')
+          else
+            url = commit_obj.url.replace(/api\./,'')
           url = url.replace(/repos\//,'')
           url = url.replace(/commits/,'commit')
           msg.send "Commit: " + commit_obj.commit.message + " " + url
