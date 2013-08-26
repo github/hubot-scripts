@@ -10,6 +10,7 @@
 #   HUBOT_GITHUB_REPO
 #   HUBOT_GITHUB_TOKEN
 #   HUBOT_GITHUB_API
+#   HUBOT_GITHUB_ISSUE_LINK_IGNORE_USERS
 #
 # Commands:
 #   #nnn - link to GitHub issue nnn for HUBOT_GITHUB_REPO project
@@ -24,7 +25,14 @@
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
+
+  githubIgnoreUsers = process.env.HUBOT_GITHUB_ISSUE_LINK_IGNORE_USERS
+  if githubIgnoreUsers == undefined
+    githubIgnoreUsers = "github|hubot"
+
   robot.hear /((\S*|^)?#(\d+)).*/, (msg) ->
+    return if msg.message.user.name.match(new RegExp(githubIgnoreUsers, "gi"))
+    
     issue_number = msg.match[3]
     if isNaN(issue_number)
       return
