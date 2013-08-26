@@ -9,8 +9,8 @@
 #   HUBOT_KEEP_ALIVE_FREQUENCY
 #
 # Commands:
-#   hubot keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
-#   hubot don't keep `http://ninjas-20.herokuapp.com` alive - Remove inputted url to the collection of urls set to be pinged
+#   hubot keep http://ninjas-20.herokuapp.com alive - Add inputted url to the collection of urls set to be pinged
+#   hubot don't keep http://ninjas-20.herokuapp.com alive - Remove inputted url to the collection of urls set to be pinged
 #   hubot what are you keeping alive - Show list of urls being kept alive
 #
 # Author:
@@ -86,6 +86,6 @@ module.exports = (robot) ->
     robot.brain.data.keepalives ?= []
 
     if robot.brain.data.keepalives.length > 0
-      msg.send "These are the urls I'm keeping alive\n\n" + robot.brain.data.keepalives.join('\n')
+      msg.send "These are the urls I'm keeping alive:\n" + robot.brain.data.keepalives.join('\n')
     else
-      msg.send "i'm not currently keeping any urls alive. Why don't you add one."
+      msg.send "I'm not currently keeping any urls alive. Why don't you add one?"
