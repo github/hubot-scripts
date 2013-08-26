@@ -9,8 +9,8 @@
 #   HUBOT_KEEP_ALIVE_FREQUENCY
 #
 # Commands:
-#   hubot keep `http://ninjas-20.herokuapp.com` alive - Add inputted url to the collection of urls set to be pinged
-#   hubot don't keep `http://ninjas-20.herokuapp.com` alive - Remove inputted url to the collection of urls set to be pinged
+#   hubot keep http://ninjas-20.herokuapp.com alive - Add inputted url to the collection of urls set to be pinged
+#   hubot don't keep http://ninjas-20.herokuapp.com alive - Remove inputted url to the collection of urls set to be pinged
 #   hubot what are you keeping alive - Show list of urls being kept alive
 #
 # Author:
