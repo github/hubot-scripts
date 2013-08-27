@@ -3,12 +3,13 @@
 #   them
 #
 # Dependencies:
-#   None
+#   url
 #
 # Configuration:
 #   HUBOT_YOUTRACK_HOSTNAME = <host:port>
 #   HUBOT_YOUTRACK_USERNAME = <user name>
 #   HUBOT_YOUTRACK_PASSWORD = <password>
+#   HUBOT_YOUTRACK_URL      = <scheme>://<username>:<password>@<host:port>/<basepath>
 #
 # Commands:
 #   what are my issues? - Show my in progress issues
@@ -16,13 +17,28 @@
 #   #project-number - responds with a summary of the issue
 #
 # Author:
-#   Dusty Burwell and Jeremy Sellars
+#   Dusty Burwell, Jeremy Sellars and Jens Jahnke
+
+URL = require "url"
 
 http = require 'http'
+https = require 'https'
 
+yt_url   = process.env.HUBOT_YOUTRACK_URL
 host     = process.env.HUBOT_YOUTRACK_HOSTNAME
 username = process.env.HUBOT_YOUTRACK_USERNAME
 password = process.env.HUBOT_YOUTRACK_PASSWORD
+
+if yt_url?
+  url_parts = URL.parse(yt_url)
+  scheme = url_parts.protocol
+  username = url_parts.auth.split(":")[0]
+  password = url_parts.auth.split(":")[1]
+  host = url_parts.host
+  path = url_parts.pathname if url_parts.pathname?
+else
+  scheme = 'http://'
+
 
 # http://en.wikipedia.org/wiki/You_talkin'_to_me%3F
 youTalkinToMe = (msg, robot) ->
@@ -57,7 +73,7 @@ module.exports = (robot) ->
       return msg.send "I'd love to tell you about it, but there was an error looking up that issue" if err?
       if issue.field
         summary = field.value for field in issue.field when field.name == 'summary'
-        msg.send "You're talking about http://#{host}/issue/#{issueId}\r\nsummary: #{summary}"
+        msg.send "You're talking about #{scheme}#{host}/issue/#{issueId}\r\nsummary: #{summary}"
       else
         msg.send "I'd love to tell you about it, but I couldn't find that issue"
 
@@ -74,10 +90,10 @@ module.exports = (robot) ->
           state = issue.field[1].value
           issueId = issue.id
           verb = (if state.toString() == "Open" then "Start" else "Finish")
-          "#{verb} \"#{summary}\" (http://#{host}/issue/#{issueId})"
+          "#{verb} \"#{summary}\" (#{scheme}#{host}/issue/#{issueId})"
         resp += issueLines.join ',\r\nor maybe '
         if topIssues.length != issues.issue.length
-          url = "http://#{host}/issues/?q=#{filter}"
+          url = "#{scheme}#{host}/issues/?q=#{filter}"
           resp+= '\r\n' + "or maybe these #{issues.issue.length}: #{url}"
         resp
 
@@ -97,8 +113,9 @@ module.exports = (robot) ->
           Accept: 'application/json'
         }
       }
+      ask_options.path = path + ask_options.path if path?
 
-      ask_req = http.get ask_options, (ask_res) ->
+      ask_res ->
         data = ''
 
         ask_res.on 'data', (chunk) ->
@@ -111,6 +128,11 @@ module.exports = (robot) ->
         ask_res.on 'error', (err) ->
           callback err ? new Error 'Error getting answer from youtrack'
 
+      if scheme == 'https://'
+        ask_req = https.get ask_options, ask_res
+      else
+        ask_req = http.get ask_options, ask_res
+
       ask_req.on 'error', (e) ->
         callback e ? new Error 'Error asking youtrack'
 
@@ -120,6 +142,11 @@ module.exports = (robot) ->
       path: "/rest/user/login?login=#{username}&password=#{password}",
       method: "POST"
     }
+    options.path = path + options.path if path?
 
-    login_req = http.request options, handler
+    if scheme == 'https://'
+      login_req = https.request options, handler
+    else
+      login_req = http.request options, handler
+
     login_req.end()
