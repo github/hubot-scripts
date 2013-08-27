@@ -22,7 +22,7 @@ module.exports = (robot) ->
           msg.reply "Error occured generating a random user: #{err}"
         else
           try
-            data = JSON.parse(body).user
+            data = JSON.parse(body).results[0].user
             msg.send "#{data.name.first.capitalize()} #{data.name.last.capitalize()}\n" +
               "Gender: #{data.gender}\n" +
               "Email: #{data.email}\n" +
