@@ -3,7 +3,7 @@
 #   them
 #
 # Dependencies:
-#   None
+#   url
 #
 # Configuration:
 #   HUBOT_YOUTRACK_HOSTNAME = <host:port>
@@ -19,6 +19,8 @@
 # Author:
 #   Dusty Burwell, Jeremy Sellars and Jens Jahnke
 
+URL = require "url"
+
 http = require 'http'
 https = require 'https'
 
@@ -27,23 +29,13 @@ host     = process.env.HUBOT_YOUTRACK_HOSTNAME
 username = process.env.HUBOT_YOUTRACK_USERNAME
 password = process.env.HUBOT_YOUTRACK_PASSWORD
 
-base_pattern = ///
-^(http[s]?://) # scheme
-(\w+)          # username
-:
-(.[^@]+)       # password
-@
-(.[^/]+)       # hostname and port
-(/.+)?         # base path
-///
-
 if yt_url?
-  url_parts = yt_url.match(base_pattern)
-  scheme = url_parts[1]
-  username = url_parts[2]
-  password = url_parts[3]
-  host = url_parts[4]
-  path = url_parts[5] if url_parts[5]?
+  url_parts = URL.parse(yt_url)
+  scheme = url_parts.protocol
+  username = url_parts.auth.split(":")[0]
+  password = url_parts.auth.split(":")[1]
+  host = url_parts.host
+  path = url_parts.pathname if url_parts.pathname?
 else
   scheme = 'http://'
 
@@ -121,6 +113,7 @@ module.exports = (robot) ->
           Accept: 'application/json'
         }
       }
+      ask_options.path = path + ask_options.path if path?
 
       ask_res ->
         data = ''
