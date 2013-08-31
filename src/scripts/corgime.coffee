@@ -13,6 +13,10 @@
 #
 # Author:
 #   alexgodin
+#
+# Tags:
+#   fun
+#   images
 
 module.exports = (robot) ->
 

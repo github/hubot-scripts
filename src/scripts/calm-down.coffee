@@ -8,6 +8,10 @@
 #   hubot calm me | manatee me - Reply with Manatee
 #   calm down | simmer down | that escalated quickly - Reply with Manatee
 #   ALL CAPS | LONGCAPS - Reply with Manatee
+#
+# Tags:
+#   fun
+#   images
 
 module.exports = (robot) ->
   manatee = ->

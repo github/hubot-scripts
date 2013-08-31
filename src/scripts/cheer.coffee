@@ -12,6 +12,10 @@
 #
 # Author:
 #   carllerche
+#
+# Tags:
+#   fun
+#   images
 
 module.exports = (robot) ->
   robot.respond /cheer me up/i, (msg) ->

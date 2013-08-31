@@ -13,6 +13,9 @@
 #
 # Author:
 #   aaronott
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.respond /commandlinefu(?: me)? *(.*)?/i, (msg) ->

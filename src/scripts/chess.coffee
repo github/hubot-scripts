@@ -15,6 +15,9 @@
 # Author:
 #   thallium205
 #
+#
+# Tags:
+#   fun
 
 Chess = require 'chess'
 

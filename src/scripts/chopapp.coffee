@@ -12,6 +12,9 @@
 #
 # Author:
 #   kristofbc
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
 	robot.respond /chop (me )?(in )?(\w+) (.*)$/i, (msg) ->

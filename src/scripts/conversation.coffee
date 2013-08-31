@@ -12,6 +12,10 @@
 #
 # Author:
 #   pescuma
+#
+# Tags:
+#   utility
+#   notification
 
 module.exports = (robot) ->
   robot.eatListeners = {}

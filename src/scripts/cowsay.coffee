@@ -12,6 +12,9 @@
 #
 # Author:
 #   brettbuddin
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.respond /cowsay( me)? (.*)/i, (msg) ->

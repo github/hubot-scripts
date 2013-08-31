@@ -12,6 +12,9 @@
 #
 # Author:
 #   ajacksified
+#
+# Tags:
+#   utility
 
 clark = require('clark').clark
 

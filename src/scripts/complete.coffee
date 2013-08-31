@@ -12,6 +12,10 @@
 #
 # Author:
 #   aroben
+#
+# Tags:
+#   fun
+#   search
 
 XMLJS = require("xml2js")
 

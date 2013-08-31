@@ -12,6 +12,9 @@
 #
 # Author:
 #   mrtazz
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.respond /commit message/i, (msg) ->

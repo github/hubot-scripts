@@ -13,6 +13,10 @@
 #
 # Author:
 #   adtaylor
+#
+# Tags:
+#   fun
+#   sports
 
 module.exports = (robot) ->
   feed_url = "http://query.yahooapis.com/v1/public/yql?q=select%20title%20from%20rss%20where%20url%3D%22http%3A%2F%2Fstatic.cricinfo.com%2Frss%2Flivescores.xml%22&format=json&diagnostics=true&callback="
