@@ -44,7 +44,15 @@ class Reminders
           reminder = @removeFirst()
           @robot.reply reminder.msg_envelope, 'you asked me to remind you to ' + reminder.action
           @queue()
-        @current_timeout = setTimeout trigger, @cache[0].due - now
+        # setTimeout uses a 32-bit INT
+        extendTimeout = (timeout, callback) ->
+          if timeout > 0x7FFFFFFF
+            setTimeout ->
+              extendTimeout (timeout - 0x7FFFFFFF), callback
+            , 0x7FFFFFFF
+          else
+            setTimeout callback, timeout
+        @current_timeout = extendTimeout @cache[0].due - now, trigger
 
 class Reminder
   constructor: (@msg_envelope, @time, @action) ->
