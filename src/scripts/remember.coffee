@@ -8,6 +8,9 @@
 #   hubot forget <key> - Removes key from hubots brain.
 #   hubot what are your favorite memories? - Returns a list of the most remembered memories.  
 #   hubot random memory - Returns a random string
+#
+# Dependencies:
+#   "underscore": "*"
 
 _ = require('underscore')
 
