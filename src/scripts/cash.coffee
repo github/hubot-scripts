@@ -1,5 +1,10 @@
 # Description:
-#   allows hubot to track the cash and burn rate and displays
+#   allows hubot to track the cash and burn rate and displays a summary
+#   of the current cash state. Also stores historical values in the
+#   hubot brain so that they can be referred to later.
+#
+#   The s3-brain is HIGHLY recommended for keeping track of historical
+#   cash values and not losing everything when hubot restarts.
 #
 # Dependencies:
 #   None
@@ -9,8 +14,8 @@
 #   HUBOT_CASH_THOUSANDS_SEPARATOR - the symbol used for splitting thousands. Default: ,
 #
 # Commands:
-#   hubot cash <left|on hand> is <amount> - set the cash on hand
-#   hubot cash burn rate is <amount> - set the burn rate
+#   hubot cash <left|on hand>: <amount> - set the cash on hand
+#   hubot cash <burn rate|burn>: <amount> - set the burn rate
 #   hubot cash <update|state|stats> - show the cash situation
 #
 # Notes:
@@ -82,11 +87,11 @@ module.exports = (robot) ->
   cash = new Cash robot
   optf = new OutputFormatter()
 
-  robot.respond /cash (left|on hand)( is)? (.+)$/i, (msg) ->
+  robot.respond /cash (left|on hand):? (.+)$/i, (msg) ->
     amount = cash.set_on_hand msg.match[3]
     msg.send "Ok, cash on hand is #{optf.toDollars(amount)}"
 
-  robot.respond /cash burn( rate)?( is)? (.+)$/i, (msg) ->
+  robot.respond /cash burn( rate)?:? (.+)$/i, (msg) ->
     amount = cash.set_burn_rate msg.match[3]
     msg.send "Ok, our burn rate is #{optf.toDollars(amount)} per month"
 

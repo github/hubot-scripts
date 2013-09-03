@@ -7,7 +7,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_JIRA_DOMAIN
+#   HUBOT_JIRA_URL (format: "https://jira-domain.com:9090")
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
@@ -20,12 +20,13 @@
 
 module.exports = (robot) ->
   cache = []
-  jiraDomain = process.env.HUBOT_JIRA_DOMAIN
-  jiraUrl = "https://" + jiraDomain
-  http = require 'https'
 
+  # In case someone upgrades form the previous version, we'll default to the 
+  # previous behavior.
+  jiraUrl = process.env.HUBOT_JIRA_URL || "https://#{process.env.HUBOT_JIRA_DOMAIN}"
   jiraUsername = process.env.HUBOT_JIRA_USERNAME
   jiraPassword = process.env.HUBOT_JIRA_PASSWORD
+  
   if jiraUsername != undefined && jiraUsername.length > 0
     auth = "#{jiraUsername}:#{jiraPassword}"
 
@@ -33,12 +34,10 @@ module.exports = (robot) ->
   if jiraIgnoreUsers == undefined
     jiraIgnoreUsers = "jira|github"
 
-  http.get {host: jiraDomain, auth: auth, path: "/rest/api/2/project"}, (res) ->
-    data = ''
-    res.on 'data', (chunk) ->
-      data += chunk.toString()
-    res.on 'end', () ->
-      json = JSON.parse(data)
+  robot.http(jiraUrl + "/rest/api/2/project")
+    .auth(auth)
+    .get() (err, res, body) ->
+      json = JSON.parse(body)
       jiraPrefixes = ( entry.key for entry in json )
       reducedPrefixes = jiraPrefixes.reduce (x,y) -> x + "-|" + y
       jiraPattern = "/\\b(" + reducedPrefixes + "-)(\\d+)\\b/g"
@@ -56,7 +55,7 @@ module.exports = (robot) ->
             cache.shift() until cache.length is 0 or cache[0].expires >= now
           if cache.length == 0 or (item for item in cache when item.issue is issue).length == 0
             cache.push({issue: issue, expires: now + 120000})
-            msg.http(jiraUrl + "/rest/api/2/issue/" + issue)
+            robot.http(jiraUrl + "/rest/api/2/issue/" + issue)
               .auth(auth)
               .get() (err, res, body) ->
                 try

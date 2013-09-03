@@ -25,17 +25,24 @@ module.exports = (robot) ->
     query_parsed = querystring.parse(url_parsed.query)
 
     if query_parsed.v
-      api_url = "http://gdata.youtube.com/feeds/api/videos/#{query_parsed.v}"
-      msg.http(api_url)
-        .query({
-          alt: 'json'
-        }).get() (err, res, body) ->
-          if res.statusCode is 200
-            data = JSON.parse(body)
-            entry = data.entry
-            msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)})"
-          else
-            msg.send "YouTube: error: #{api_url} returned #{res.statusCode}: #{body}"
+      video_hash = query_parsed.v
+      showInfo msg, video_hash
+
+  robot.hear /(https?:\/\/youtu\.be\/)([a-z0-9]+)/i, (msg) ->
+    video_hash = msg.match[2]
+    showInfo msg, video_hash
+
+showInfo = (msg, video_hash) ->
+  msg.http("http://gdata.youtube.com/feeds/api/videos/#{video_hash}")
+    .query({
+      alt: 'json'
+    }).get() (err, res, body) ->
+      if res.statusCode is 200
+        data = JSON.parse(body)
+        entry = data.entry
+        msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)})"
+      else
+        msg.send "YouTube: error: #{video_hash} returned #{res.statusCode}: #{body}"
 
 formatTime = (seconds) ->
   min = Math.floor(seconds / 60)

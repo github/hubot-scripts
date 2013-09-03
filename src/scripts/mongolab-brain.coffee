@@ -58,7 +58,7 @@ module.exports = (robot) ->
           opts =
             safe: true
             upsert: true
-          collection.update data, opts, (err) ->
+          collection.update {}, data, opts, (err) ->
             throw err if err?
 
       robot.brain.on 'close', ->

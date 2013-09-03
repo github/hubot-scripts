@@ -42,12 +42,20 @@ class Reminders
       if @cache.length > 0
         trigger = =>
           reminder = @removeFirst()
-          @robot.send reminder.for, reminder.for.name + ', you asked me to remind you to ' + reminder.action
+          @robot.reply reminder.msg_envelope, 'you asked me to remind you to ' + reminder.action
           @queue()
-        @current_timeout = setTimeout trigger, @cache[0].due - now
+        # setTimeout uses a 32-bit INT
+        extendTimeout = (timeout, callback) ->
+          if timeout > 0x7FFFFFFF
+            @current_timeout = setTimeout ->
+              extendTimeout (timeout - 0x7FFFFFFF), callback
+            , 0x7FFFFFFF
+          else
+            @current_timeout = setTimeout callback, timeout
+        extendTimeout @cache[0].due - now, trigger
 
 class Reminder
-  constructor: (@for, @time, @action) ->
+  constructor: (@msg_envelope, @time, @action) ->
     @time.replace(/^\s+|\s+$/g, '')
 
     periods =
@@ -86,6 +94,6 @@ module.exports = (robot) ->
   robot.respond /remind me in ((?:(?:\d+) (?:weeks?|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?)[ ,]*(?:and)? +)+)to (.*)/i, (msg) ->
     time = msg.match[1]
     action = msg.match[2]
-    reminder = new Reminder msg.message.user, time, action
+    reminder = new Reminder msg.envelope, time, action
     reminders.add reminder
     msg.send 'I\'ll remind you to ' + action + ' on ' + reminder.dueDate()

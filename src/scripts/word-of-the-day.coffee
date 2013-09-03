@@ -33,21 +33,21 @@ module.exports = (robot) ->
       msg.send "Missing WOTD_PROVIDER, WORDNIK_API_KEY or DICTIONARY_API_KEY env variable"
 
 wotd_wordnik = (msg, short_response) ->
-  msg.http("http://api.wordnik.com/api/wordoftheday.json")
+  msg.http("http://api.wordnik.com/v4/words.json/wordOfTheDay")
     .header("api_key", process.env.WORDNIK_API_KEY)
     .get() (err, res, body) ->
       if err?
         lookup_error msg, err
       else
         wotd = JSON.parse(body)
-        if wotd.wordstring?
-          msg.send "Word of the day: #{wotd.wordstring}"
-        if wotd.definition?
-          for def in wotd.definition
+        if wotd.word?
+          msg.send "Word of the day: #{wotd.word}"
+        if wotd.definitions?
+          for def in wotd.definitions
             msg.send "Definition: #{def.text}"
         if not short_response
-          if wotd.example?
-            for example in wotd.example
+          if wotd.examples?
+            for example in wotd.examples
               msg.send "Example: #{example.text}"
           if wotd.note?
             msg.send "Note: #{wotd.note}"

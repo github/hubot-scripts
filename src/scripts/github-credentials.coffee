@@ -44,4 +44,4 @@ module.exports = (robot) ->
     user = msg.message.user
     user.githubLogin = null
 
-    msg.reply("Ok, I have no idea who you are anymore.")
+    msg.reply "Ok, I have no idea who you are anymore."

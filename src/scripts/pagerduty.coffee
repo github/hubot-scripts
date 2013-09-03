@@ -22,12 +22,27 @@
 # Dependencies:
 #  "moment": "1.6.2"
 #
+# Notes: 
+#   To setup the webhooks and get the alerts in your chatrooms, you need to add the endpoint you define here (e.g /hooks) in 
+#   the service settings of your Pagerduty accounts. You also need to define the room in which you want them to appear. 
+#   (Unless you want to spam all the rooms with alerts, but we don't believe that should be the default behavior :)  
+#
+# URLS: 
+#   http://developer.pagerduty.com/documentation/rest/webhooks
+#   http://support.pagerduty.com/entries/21774694-Webhooks-
+#
 # Configuration:
 #
 #   HUBOT_PAGERDUTY_API_KEY - API Access Key
 #   HUBOT_PAGERDUTY_SUBDOMAIN
 #   HUBOT_PAGERDUTY_SERVICE_API_KEY - Service API Key from a 'General API Service'
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
+#   HUBOT_PAGERDUTY_ROOM - Room in which you want the pagerduty webhook notifications to appear
+#   HUBOT_PAGERDUTY_ENDPOINT - Pagerduty Webhook listener e.g /hook
+#
+# Authors: 
+#   Jesse Newland, Josh Nicols, Jacob Bednarz, Chris Lundquist, Chris Streeter, Joseph Pierri, Greg Hoin
+#
 
 inspect = require('util').inspect
 
@@ -39,6 +54,9 @@ pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
 pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
 pagerDutyServiceApiKey = process.env.HUBOT_PAGERDUTY_SERVICE_API_KEY
 pagerDutyScheduleId    = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
+pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
+# Webhook listener endpoint. Set it to whatever URL you want, and make sure it matches your pagerduty service settings 
+pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
 
 module.exports = (robot) ->
   robot.respond /pager( me)?$/i, (msg) ->
@@ -396,3 +414,86 @@ module.exports = (robot) ->
           else
             console.log res.statusCode
             console.log body
+
+  
+  # Pagerduty Webhook Integration (For a payload example, see http://developer.pagerduty.com/documentation/rest/webhooks)
+  parseWebhook = (req, res) ->
+    hook = req.body
+
+    messages = hook.messages
+
+    if /^incident.*$/.test(messages[0].type)
+      parseIncidents(messages)
+    else
+      "No incidents in webhook"
+
+  getUserForIncident = (incident) ->
+    if incident.assigned_to_user
+      incident.assigned_to_user.email
+    else if incident.resolved_by_user
+      incident.resolved_by_user.email
+    else 
+      '(???)'
+
+  generateIncidentString = (incident, hookType) ->
+    console.log "hookType is " + hookType
+    if hookType == "incident.trigger"
+      """
+      Incident # #{incident.incident_number} :
+      #{incident.status} and assigned to #{getUserForIncident(incident)}
+       #{incident.html_url}
+      To acknowledge: @#{robot.name} pager me ack #{incident.incident_number}
+       To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      """
+    else if hookType == "incident.acknowledge"
+      """
+      Incident # #{incident.incident_number} :
+      #{incident.status} and assigned to #{getUserForIncident(incident)}
+       #{incident.html_url}
+      To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      """
+    else if hookType == "incident.resolve"
+      """
+      Incident # #{incident.incident_number} has been resolved by #{getUserForIncident(incident)}
+       #{incident.html_url}
+      """
+    else if hookType == "incident.unacknowledge"
+      """
+      #{incident.status} , unacknowledged and assigned to #{getUserForIncident(incident)}
+       #{incident.html_url}
+      To acknowledge: @#{robot.name} pager me ack #{incident.incident_number}
+       To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      """
+    else if hookType == "incident.assign"
+      """
+      Incident # #{incident.incident_number} :
+      #{incident.status} , reassigned to #{getUserForIncident(incident)}
+       #{incident.html_url}
+      To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      """
+    else if hookType == "incident.escalate"
+      """
+      Incident # #{incident.incident_number} :
+      #{incident.status} , was escalated and assigned to #{getUserForIncident(incident)}
+       #{incident.html_url}
+      To acknowledge: @#{robot.name} pager me ack #{incident.incident_number}
+       To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      """
+
+  parseIncidents = (messages) ->
+    returnMessage = []
+    count = 0
+    for message in messages
+      incident = message.data.incident
+      hookType = message.type
+      returnMessage.push(generateIncidentString(incident, hookType))
+      count = count+1
+    returnMessage.unshift("You have " + count + " PagerDuty update(s): \n")
+    returnMessage.join("\n")
+
+
+  # Webhook listener
+  if pagerEndpoint && pagerRoom
+    robot.router.post pagerEndpoint, (req, res) ->
+      robot.messageRoom(pagerRoom, parseWebhook(req,res))
+      res.end()

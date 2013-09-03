@@ -1,3 +1,23 @@
+v2.5.4
+======
+
+https://github.com/github/hubot-scripts/compare/v2.5.3...v2.5.4
+
+v2.5.3
+======
+
+https://github.com/github/hubot-scripts/compare/v2.5.2...v2.5.3
+
+v2.5.2
+======
+
+https://github.com/github/hubot-scripts/compare/v2.5.1...v2.5.2
+
+v2.5.1
+======
+
+https://github.com/github/hubot-scripts/compare/v2.5.0...v2.5.1
+
 v2.5.0
 ======
 

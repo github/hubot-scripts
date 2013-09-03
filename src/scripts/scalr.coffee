@@ -28,7 +28,7 @@ success_message = [
   'Victory!',
 ]
 
-scalr_script_executer = "https://execute-scalr-script.phpfogapp.com/"
+scalr_script_executer = "https://execute-scalr-script.eu01.aws.af.cm"
 
 config_check = ->
   failure = (

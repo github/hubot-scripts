@@ -93,7 +93,7 @@ module.exports = (robot) ->
     url = "#{base_url}/httpAuth/app/rest#{projectSegment}/buildTypes/name:#{encodeURIComponent(configuration)}/builds"
     msg.http(url)
       .headers(getAuthHeader())
-      .query(locator: ["lookupLimit:#{amount}","running:any"].join(","))
+      .query(locator: ["count:#{amount}","running:any"].join(","))
       .get() (err, res, body) ->
         err = body unless res.statusCode == 200
         builds = JSON.parse(body).build unless err
