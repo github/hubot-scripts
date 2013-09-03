@@ -28,15 +28,16 @@ module.exports = (robot) ->
 
   github = require("githubot")(robot)
 
+  unless (url_api_base = process.env.HUBOT_GITHUB_API)?
+    url_api_base = "https://api.github.com"
+
   robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i, (msg)->
     repo = github.qualified_repo msg.match[2]
     filter_reg_exp = new RegExp(msg.match[4], "i") if msg.match[3]
-    unless (url_api_base = process.env.HUBOT_GITHUB_API)?
-      url_api_base = "https://api.github.com"
 
     github.get "#{url_api_base}/repos/#{repo}/pulls", (pulls) ->
       if pulls.length == 0
-        msg.send "Achievement unlocked: open pull requests zero!"
+        summary = "Achievement unlocked: open pull requests zero!"
       else
         filtered_result = []
         for pull in pulls
@@ -45,26 +46,21 @@ module.exports = (robot) ->
           filtered_result.push(pull)
 
         if filtered_result.length == 0
-          summary = "no open pull request is found"
+          summary = "There's no open pull request for #{repo} matching your filter!"
         else if filtered_result.length == 1
-          summary = "1 open pull request is found:"
+          summary = "There's only one open pull request for #{repo}:"
         else
-          summary = "#{filtered_result.length} open pull requests are found:"
-
-        msg.send summary
+          summary = "I found #{filtered_result.length} open pull requests for #{repo}:"
 
         for pull in filtered_result
-          msg.send "\t#{pull.title} - #{pull.user.login}: #{pull.html_url}"
+          summary = summary + "\n\t#{pull.title} - #{pull.user.login}: #{pull.html_url}"
+
+      msg.send summary
 
   robot.respond /show\s+(me\s+)?org pulls/i, (msg) ->
     unless (process.env.HUBOT_GITHUB_ORG)
       msg.send "No organization specified, please set HUBOT_GITHUB_ORG accordingly."
       return
-
-    msg.send "I'll check for any open pull request within #{process.env.HUBOT_GITHUB_ORG}, just a sec..."
-
-    unless (url_api_base = process.env.HUBOT_GITHUB_API)?
-      url_api_base = "https://api.github.com"
 
     url = "#{url_api_base}/orgs/#{process.env.HUBOT_GITHUB_ORG}/issues?filter=all"
     github.get url, (issues) ->
@@ -80,11 +76,11 @@ module.exports = (robot) ->
         if filtered_result.length == 0
           summary = "Achievement unlocked: open pull requests zero!"
         else if filtered_result.length == 1
-          summary = "There's only one open pull request:"
+          summary = "There's only one open pull request for #{process.env.HUBOT_GITHUB_ORG}:"
         else
-          summary = "I got #{filtered_result.length} open pull requests for you:"
-
-        msg.send summary
+          summary = "I found #{filtered_result.length} open pull requests for #{process.env.HUBOT_GITHUB_ORG}:"
 
         for issue in filtered_result
-          msg.send " #{issue.repository.name}: #{issue.title} (#{issue.user.login}) -> #{issue.pull_request.html_url}"
+          summary = summary + "\n\t#{issue.repository.name}: #{issue.title} (#{issue.user.login}) -> #{issue.pull_request.html_url}"
+
+      msg.send summary
