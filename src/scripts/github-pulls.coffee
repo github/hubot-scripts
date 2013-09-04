@@ -12,7 +12,7 @@
 #
 # Commands:
 #   hubot show [me] <user/repo> pulls [with <regular expression>] -- Shows open pull requests for that project by filtering pull request's title.
-#   hubot show [me] hubot pulls -- Show open pulls for a given user IFF HUBOT_GITHUB_USER is configured
+#   hubot show [me] <repo> pulls -- Show open pulls for HUBOT_GITHUB_USER/<repo>, if HUBOT_GITHUB_USER is configured
 #   hubot show [me] org pulls -- Show open pulls for an organization, if HUBOT_GITHUB_ORG is configured
 #
 # Notes:
