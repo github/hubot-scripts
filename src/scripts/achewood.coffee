@@ -53,7 +53,6 @@ module.exports = (robot) ->
       msg.http("http://www.ohnorobot.com/index.pl?comic=636&lucky=1&s=#{query}")
           .get() (err, res, body) ->
             fetchAchewood(msg, res.headers['location'])
-        
 
   robot.respond /.*saddest thing\?*/i, (msg) ->
     saddest = msg.random ["06022003", "11052001", "09052006", "07302007"]
