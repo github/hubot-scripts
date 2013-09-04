@@ -48,6 +48,11 @@ module.exports = (robot) ->
     else if arg.match /\d{2}.?\d{2}.?\d{4}/
       date = arg.replace /\D/g, ''
       fetchAchewood(msg, withDate(date))
+    else
+      query = arg
+      msg.http("http://www.ohnorobot.com/index.pl?comic=636&lucky=1&s=#{query}")
+          .get() (err, res, body) ->
+            fetchAchewood(msg, res.headers['location'])
         
 
   robot.respond /.*saddest thing\?*/i, (msg) ->
