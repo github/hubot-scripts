@@ -13,7 +13,7 @@
 # Commands:
 #   hubot show [me] <user/repo> pulls [with <regular expression>] -- Shows open pull requests for that project by filtering pull request's title.
 #   hubot show [me] <repo> pulls -- Show open pulls for HUBOT_GITHUB_USER/<repo>, if HUBOT_GITHUB_USER is configured
-#   hubot show [me] org pulls -- Show open pulls for an organization, if HUBOT_GITHUB_ORG is configured
+#   hubot show [me] org-pulls [for <organization>] -- Show open pulls for all repositories of an organization, default is HUBOT_GITHUB_ORG
 #
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
@@ -57,12 +57,15 @@ module.exports = (robot) ->
 
       msg.send summary
 
-  robot.respond /show\s+(me\s+)?org pulls/i, (msg) ->
-    unless (process.env.HUBOT_GITHUB_ORG)
-      msg.send "No organization specified, please set HUBOT_GITHUB_ORG accordingly."
-      return
+  robot.respond /show\s+(me\s+)?org\-pulls(\s+for\s+)?(.*)?/i, (msg) ->
 
-    url = "#{url_api_base}/orgs/#{process.env.HUBOT_GITHUB_ORG}/issues?filter=all"
+    org_name = msg.match[3] || process.env.HUBOT_GITHUB_ORG
+
+    unless (org_name)
+      msg.send "No organization specified, please provide one or set HUBOT_GITHUB_ORG accordingly."
+    return
+
+    url = "#{url_api_base}/orgs/#{org_name}/issues?filter=all"
     github.get url, (issues) ->
       if issues.length == 0
         summary = "Achievement unlocked: open pull requests zero!"
@@ -76,9 +79,9 @@ module.exports = (robot) ->
         if filtered_result.length == 0
           summary = "Achievement unlocked: open pull requests zero!"
         else if filtered_result.length == 1
-          summary = "There's only one open pull request for #{process.env.HUBOT_GITHUB_ORG}:"
+          summary = "There's only one open pull request for #{org_name}:"
         else
-          summary = "I found #{filtered_result.length} open pull requests for #{process.env.HUBOT_GITHUB_ORG}:"
+          summary = "I found #{filtered_result.length} open pull requests for #{org_name}:"
 
         for issue in filtered_result
           summary = summary + "\n\t#{issue.repository.name}: #{issue.title} (#{issue.user.login}) -> #{issue.pull_request.html_url}"
