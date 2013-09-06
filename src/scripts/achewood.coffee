@@ -12,6 +12,7 @@
 #   hubot achewood - A random Achewood comic
 #   hubot achewood current - The most recent Achewood comic
 #   hubot achewood <date> - Achewood comic from <date> - mm/dd/yyyy format
+#   hubot achewood <keyword> - Achewood comic for keyword
 #   hubot saddest thing - The saddest thing, according to Lie Bot
 #
 # Author:
@@ -36,16 +37,22 @@ module.exports = (robot) ->
       msg.send "http://achewood.com" + comic.src + "#.png"
       msg.send comic.title
 
-  robot.respond /achewood\s?((0[1-9]|1[0-2]).(0[1-9]|[1-2][0-9]|3[0-1]).(20\d{2})$|current)?/i, (msg) ->
-    if msg.match[1] == undefined
+    robot.respond /achewood\s?((?:0[1-9]|1[0-2]).?(?:0[1-9]|[1-2][0-9]|3[0-1]).?(?:20\d{2})$|.*)?/i, (msg) ->
+    arg = msg.match[1]
+    if arg == undefined
       msg.http("http://www.ohnorobot.com/random.pl?comic=636")
           .get() (err, res, body) ->
             fetchAchewood(msg, res.headers['location'])
-    else if msg.match[1] == "current"
+    else if arg == "current"
       fetchAchewood(msg, "http://achewood.com")
-    else
-      date = "#{msg.match[2]}#{msg.match[3]}#{msg.match[4]}"
+    else if arg.match /\d{2}.?\d{2}.?\d{4}/
+      date = arg.replace /\D/g, ''
       fetchAchewood(msg, withDate(date))
+    else
+      query = arg
+      msg.http("http://www.ohnorobot.com/index.pl?comic=636&lucky=1&s=#{query}")
+          .get() (err, res, body) ->
+            fetchAchewood(msg, res.headers['location'])
 
   robot.respond /.*saddest thing\?*/i, (msg) ->
     saddest = msg.random ["06022003", "11052001", "09052006", "07302007"]
