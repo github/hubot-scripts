@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   KARMA_ALLOW_SELF
 #
 # Commands:
 #   <thing>++ - give thing some karma
@@ -55,6 +55,13 @@ class Karma
   decrementResponse: ->
      @decrement_responses[Math.floor(Math.random() * @decrement_responses.length)]
 
+  selfDeniedResponses: (name) ->
+    @self_denied_responses = [
+      "Hey everyone! #{name} is a narcissist!",
+      "I might just allow that next time, but no.",
+      "I can't do that #{name}."
+    ]
+
   get: (thing) ->
     k = if @cache[thing] then @cache[thing] else 0
     return k
@@ -75,20 +82,31 @@ class Karma
 
 module.exports = (robot) ->
   karma = new Karma robot
+  allow_self = process.env.KARMA_ALLOW_SELF or "true"
+
   robot.hear /(\S+[^+:\s])[: ]*\+\+(\s|$)/, (msg) ->
     subject = msg.match[1].toLowerCase()
-    karma.increment subject
-    msg.send "#{subject} #{karma.incrementResponse()} (Karma: #{karma.get(subject)})"
+    if allow_self is true or msg.message.user.name.toLowerCase() != subject
+      karma.increment subject
+      msg.send "#{subject} #{karma.incrementResponse()} (Karma: #{karma.get(subject)})"
+    else
+      msg.send msg.random karma.selfDeniedResponses(msg.message.user.name)
 
   robot.hear /(\S+[^-:\s])[: ]*--(\s|$)/, (msg) ->
     subject = msg.match[1].toLowerCase()
-    karma.decrement subject
-    msg.send "#{subject} #{karma.decrementResponse()} (Karma: #{karma.get(subject)})"
+    if allow_self is true or msg.message.user.name.toLowerCase() != subject
+      karma.decrement subject
+      msg.send "#{subject} #{karma.decrementResponse()} (Karma: #{karma.get(subject)})"
+    else
+      msg.send msg.random karma.selfDeniedResponses(msg.message.user.name)
 
   robot.respond /karma empty ?(\S+[^-\s])$/i, (msg) ->
     subject = msg.match[1].toLowerCase()
-    karma.kill subject
-    msg.send "#{subject} has had its karma scattered to the winds."
+    if allow_self is true or msg.message.user.name.toLowerCase() != subject
+      karma.kill subject
+      msg.send "#{subject} has had its karma scattered to the winds."
+    else
+      msg.send msg.random karma.selfDeniedResponses(msg.message.user.name)
 
   robot.respond /karma( best)?$/i, (msg) ->
     verbiage = ["The Best"]
