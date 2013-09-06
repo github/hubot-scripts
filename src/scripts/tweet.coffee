@@ -53,7 +53,7 @@ module.exports = (robot) ->
 
     twit.verifyCredentials (err, data) ->
       if err
-        msg.send "Encountered a problem verifing twitter credentials:(", inspect err
+        msg.send "Encountered a problem verifying twitter credentials :(", inspect err
         return
 
       q = escape(msg.match[1])
