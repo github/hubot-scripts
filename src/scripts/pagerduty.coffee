@@ -48,7 +48,6 @@ inspect = require('util').inspect
 
 moment = require('moment')
 
-pagerDutyUsers = {}
 pagerDutyApiKey        = process.env.HUBOT_PAGERDUTY_API_KEY
 pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
 pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
@@ -305,18 +304,6 @@ module.exports = (robot) ->
     pagerDutyGet msg, "/schedules/#{pagerDutyScheduleId}/entries", query, (json) ->
       if json.entries and json.entries.length > 0
         cb(json.entries[0].user.name)
-
-  withPagerDutyUsers = (msg, cb) ->
-    if pagerDutyUsers['loaded'] != true
-      pagerDutyGet msg, "/users", {}, (json) ->
-        pagerDutyUsers['loaded'] = true
-        for user in json.users
-          pagerDutyUsers[user.id] = user
-          pagerDutyUsers[user.email] = user
-          pagerDutyUsers[user.name] = user
-        cb(pagerDutyUsers)
-    else
-      cb(pagerDutyUsers)
 
   pagerDutyIncident = (msg, incident, cb) ->
     pagerDutyGet msg, "/incidents/#{encodeURIComponent incident}", {}, (json) ->
