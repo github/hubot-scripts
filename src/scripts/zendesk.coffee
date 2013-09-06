@@ -22,7 +22,7 @@
 #   ticket <ID> - returns information about the specified ticket
 
 sys = require 'sys' # Used for debugging
-
+tickets_url = "https://#{process.env.HUBOT_ZENDESK_SUBDOMAIN}.zendesk.com/tickets"
 queries =
   unsolved: "search.json?query=status<solved+type:ticket"
   open: "search.json?query=status:open+type:ticket"
@@ -38,8 +38,7 @@ zendesk_request = (msg, url, handler) ->
   zendesk_password = "#{process.env.HUBOT_ZENDESK_PASSWORD}"
   auth = new Buffer("#{zendesk_user}:#{zendesk_password}").toString('base64')
   zendesk_url = "https://#{process.env.HUBOT_ZENDESK_SUBDOMAIN}.zendesk.com/api/v2"
-  # Ticket URL
-  z_url = "https://#{process.env.HUBOT_ZENDESK_SUBDOMAIN}.zendesk.com/tickets"
+
   msg.http("#{zendesk_url}/#{url}")
     .headers(Authorization: "Basic #{auth}", Accept: "application/json")
       .get() (err, res, body) ->
@@ -64,12 +63,12 @@ module.exports = (robot) ->
     zendesk_request msg, queries.unsolved, (results) ->
       ticket_count = results.count
       msg.send "#{ticket_count} unsolved tickets"
-  
+
   robot.respond /pending tickets$/i, (msg) ->
     zendesk_request msg, queries.pending, (results) ->
       ticket_count = results.count
       msg.send "#{ticket_count} unsolved tickets"
-  
+
   robot.respond /new tickets$/i, (msg) ->
     zendesk_request msg, queries.new, (results) ->
       ticket_count = results.count
@@ -89,27 +88,27 @@ module.exports = (robot) ->
   robot.respond /list (all )?tickets$/i, (msg) ->
     zendesk_request msg, queries.unsolved, (results) ->
       for result in results.results
-        msg.send "Ticket #{result.id} is #{result.status}: #{z_url}/#{result.id}"
+        msg.send "Ticket #{result.id} is #{result.status}: #{tickets_url}/#{result.id}"
 
   robot.respond /list new tickets$/i, (msg) ->
     zendesk_request msg, queries.new, (results) ->
       for result in results.results
-        msg.send "Ticket #{result.id} is #{result.status}: #{z_url}/#{result.id}"
-  
+        msg.send "Ticket #{result.id} is #{result.status}: #{tickets_url}/#{result.id}"
+
   robot.respond /list pending tickets$/i, (msg) ->
     zendesk_request msg, queries.pending, (results) ->
       for result in results.results
-        msg.send "Ticket #{result.id} is #{result.status}: #{z_url}/#{result.id}"
+        msg.send "Ticket #{result.id} is #{result.status}: #{tickets_url}/#{result.id}"
 
   robot.respond /list escalated tickets$/i, (msg) ->
     zendesk_request msg, queries.escalated, (results) ->
       for result in results.results
-        msg.send "Ticket #{result.id} is escalated and #{result.status}: #{z_url}/#{result.id}"
+        msg.send "Ticket #{result.id} is escalated and #{result.status}: #{tickets_url}/#{result.id}"
 
   robot.respond /list open tickets$/i, (msg) ->
     zendesk_request msg, queries.open, (results) ->
       for result in results.results
-        msg.send "Ticket #{result.id} is #{result.status}: #{z_url}/#{result.id}"
+        msg.send "Ticket #{result.id} is #{result.status}: #{tickets_url}/#{result.id}"
 
   robot.respond /ticket ([\d]+)$/i, (msg) ->
     ticket_id = msg.match[1]
@@ -117,7 +116,7 @@ module.exports = (robot) ->
       if result.error
         msg.send result.description
         return
-      message = "#{z_url}/#{result.ticket.id} ##{result.ticket.id} (#{result.ticket.status.toUpperCase()})"
+      message = "#{tickets_url}/#{result.ticket.id} ##{result.ticket.id} (#{result.ticket.status.toUpperCase()})"
       message += "\nUpdated: #{result.ticket.updated_at}"
       message += "\nAdded: #{result.ticket.created_at}"
       message += "\nDescription:\n-------\n#{result.ticket.description}\n--------"
