@@ -48,7 +48,6 @@ inspect = require('util').inspect
 
 moment = require('moment')
 
-pagerDutyUsers = {}
 pagerDutyApiKey        = process.env.HUBOT_PAGERDUTY_API_KEY
 pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
 pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
@@ -63,16 +62,22 @@ module.exports = (robot) ->
     if missingEnvironmentForApi(msg)
       return
 
-    emailNote = if msg.message.user.pagerdutyEmail
-                  "You've told me your PagerDuty email is #{msg.message.user.pagerdutyEmail}"
-                else if msg.message.user.email_address
-                  "I'm assuming your PagerDuty email is #{msg.message.user.email_address}. Change it with `#{robot.name} pager me as you@yourdomain.com`"
-                else
-                  "I don't know your PagerDuty email. Change it with `#{robot.name} pager me as you@yourdomain.com`"
+
+    withPagerDutyUser msg, (user) ->
+      emailNote = if msg.message.user.pagerdutyEmail
+                    "You've told me your PagerDuty email is #{msg.message.user.pagerdutyEmail}"
+                  else if msg.message.user.email_address
+                    "I'm assuming your PagerDuty email is #{msg.message.user.email_address}. Change it with `#{robot.name} pager me as you@yourdomain.com`"
+      if user
+        msg.send "I found your PagerDuty user https://#{pagerDutySubdomain}.pagerduty.com#{user.user_url}, #{emailNote}"
+      else
+        msg.send "I couldn't find your user :( #{emailNote}"
+
+
 
     cmds = robot.helpCommands()
     cmds = (cmd for cmd in cmds when cmd.match(/(pager me |who's on call)/))
-    msg.send emailNote, cmds.join("\n")
+    msg.send cmds.join("\n")
 
   robot.respond /pager(?: me)? as (.*)$/i, (msg) ->
     email = msg.match[1]
@@ -81,9 +86,9 @@ module.exports = (robot) ->
 
   # Assumes your Campfire usernames and PagerDuty names are identical
   robot.respond /pager( me)? (\d+)/i, (msg) ->
-    withPagerDutyUsers msg, (users) ->
+    withPagerDutyUser msg, (user) ->
 
-      userId = pagerDutyUserId(msg, users)
+      userId = user.id
       return unless userId
 
       start     = moment().format()
@@ -175,9 +180,8 @@ module.exports = (robot) ->
     incidentId = msg.match[3]
     content = msg.match[4]
 
-    withPagerDutyUsers msg, (users) ->
-
-      userId = pagerDutyUserId(msg, users)
+    withPagerDutyUser msg, (user) ->
+      userId = user.id
       return unless userId
 
       data =
@@ -215,19 +219,20 @@ module.exports = (robot) ->
     missingAnything
 
 
-  pagerDutyUserId = (msg, users) ->
+  withPagerDutyUser = (msg, cb) ->
+
     email  = msg.message.user.pagerdutyEmail || msg.message.user.email_address
     unless email
       msg.send "Sorry, I can't figure out your email address :( Can you tell me with `#{robot.name} pager me as you@yourdomain.com`?"
       return
 
-    user = users[email]
+    pagerDutyGet msg, "/users", {query: email}, (json) ->
+      if json.users.length isnt 1
+        msg.send "Sorry, I expected to get 1 user back for #{email}, but got #{json.users.length} :sweat:"
+        return
 
-    unless user
-      msg.send "Sorry, I couldn't find a PagerDuty user for #{email}. Double check you have a user, and that I know your PagerDuty email with `#{robot.name} pager me as you@yourdomain.com`"
-      return
+      cb(json.users[0])
 
-    users[email].id
 
   pagerDutyGet = (msg, url, query, cb) ->
     if missingEnvironmentForApi(msg)
@@ -300,18 +305,6 @@ module.exports = (robot) ->
       if json.entries and json.entries.length > 0
         cb(json.entries[0].user.name)
 
-  withPagerDutyUsers = (msg, cb) ->
-    if pagerDutyUsers['loaded'] != true
-      pagerDutyGet msg, "/users", {}, (json) ->
-        pagerDutyUsers['loaded'] = true
-        for user in json.users
-          pagerDutyUsers[user.id] = user
-          pagerDutyUsers[user.email] = user
-          pagerDutyUsers[user.name] = user
-        cb(pagerDutyUsers)
-    else
-      cb(pagerDutyUsers)
-
   pagerDutyIncident = (msg, incident, cb) ->
     pagerDutyGet msg, "/incidents/#{encodeURIComponent incident}", {}, (json) ->
       cb(json)
@@ -366,8 +359,9 @@ module.exports = (robot) ->
     "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
 
   updateIncidents = (msg, incidentNumbers, statusFilter, updatedStatus) ->
-    withPagerDutyUsers msg, (users) ->
-      requesterId = pagerDutyUserId(msg, users)
+    withPagerDutyUser msg, (user) ->
+
+      requesterId = user.id
       return unless requesterId
 
       pagerDutyIncidents msg, statusFilter, (incidents) ->
@@ -432,7 +426,7 @@ module.exports = (robot) ->
       incident.assigned_to_user.email
     else if incident.resolved_by_user
       incident.resolved_by_user.email
-    else 
+    else
       '(???)'
 
   generateIncidentString = (incident, hookType) ->
