@@ -37,7 +37,7 @@ module.exports = (robot) ->
       msg.send "http://achewood.com" + comic.src + "#.png"
       msg.send comic.title
 
-    robot.respond /achewood\s?((?:0[1-9]|1[0-2]).?(?:0[1-9]|[1-2][0-9]|3[0-1]).?(?:20\d{2})$|.*)?/i, (msg) ->
+  robot.respond /achewood\s?((?:0[1-9]|1[0-2]).?(?:0[1-9]|[1-2][0-9]|3[0-1]).?(?:20\d{2})$|.*)?/i, (msg) ->
     arg = msg.match[1]
     if arg == undefined
       msg.http("http://www.ohnorobot.com/random.pl?comic=636")
