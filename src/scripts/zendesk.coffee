@@ -43,9 +43,18 @@ zendesk_request = (msg, url, handler) ->
     .headers(Authorization: "Basic #{auth}", Accept: "application/json")
       .get() (err, res, body) ->
         if err
-          msg.send "zendesk says: #{err}"
+          msg.send "Zendesk says: #{err}"
           return
+
         content = JSON.parse(body)
+
+        if content.error
+          if content.error.title
+            msg.send "Zendesk says: #{content.error.title}"
+          else
+            msg.send "Zendesk says: #{content.error}"
+          return
+
         handler content
 
 # FIXME this works about as well as a brick floats
@@ -81,7 +90,6 @@ module.exports = (robot) ->
 
   robot.respond /open tickets$/i, (msg) ->
     zendesk_request msg, queries.open, (results) ->
-     # console.log results
       ticket_count = results.count
       msg.send "#{ticket_count} open tickets"
 
