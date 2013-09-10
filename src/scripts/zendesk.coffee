@@ -90,7 +90,6 @@ module.exports = (robot) ->
 
   robot.respond /open tickets$/i, (msg) ->
     zendesk_request msg, queries.open, (results) ->
-      console.log results
       ticket_count = results.count
       msg.send "#{ticket_count} open tickets"
 
