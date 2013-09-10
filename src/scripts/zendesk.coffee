@@ -48,8 +48,8 @@ zendesk_request = (msg, url, handler) ->
 
         content = JSON.parse(body)
 
-        if content.error
-          if content.error.title
+        if content.error?
+          if content.error?.title
             msg.send "Zendesk says: #{content.error.title}"
           else
             msg.send "Zendesk says: #{content.error}"
@@ -90,6 +90,7 @@ module.exports = (robot) ->
 
   robot.respond /open tickets$/i, (msg) ->
     zendesk_request msg, queries.open, (results) ->
+      console.log results
       ticket_count = results.count
       msg.send "#{ticket_count} open tickets"
 
