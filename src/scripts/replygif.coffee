@@ -35,10 +35,9 @@ module.exports = (robot) ->
   robot.respond /replygif( me)? (\D+)/i, (msg) ->
     replyGifByTag(msg, msg.match[2])
 
-
 replyGifByTag = (msg, tag) ->
   msg
-    .http("http://replygif.net/t/#{tag}")
+    .http("http://replygif.net/t/#{tagify(tag)}")
     .header('User-Agent: ReplyGIF for Hubot (+https://github.com/github/hubot-scripts)')
     .get() (err, res, body) ->
       if not err and res.statusCode is 200
@@ -50,3 +49,6 @@ getGifs = (body) ->
   $ = cheerio.load(body)
   $('img.gif[src]').map (i, elem) ->
     elem.attribs.src.replace(/thumbnail/, 'i')
+
+tagify = (s) ->
+  s.toLowerCase().replace(/\s+/g, '-').replace(/[^-a-z]/g, '')
