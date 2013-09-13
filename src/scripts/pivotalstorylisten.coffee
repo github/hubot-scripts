@@ -14,29 +14,28 @@
 #   christianchristensen
 
 module.exports = (robot) ->
-   robot.hear /(sid-|SID-|pivotaltracker.com\/story\/show)/i, (msg) ->
-    Parser = require("xml2js").Parser
+  robot.hear /(sid-|SID-|pivotaltracker.com\/story\/show)/i, (msg) ->
     token = process.env.HUBOT_PIVOTAL_TOKEN
     story_id = msg.message.text.match(/\d+$/) # look for some numbers in the string
 
-    msg.http("http://www.pivotaltracker.com/services/v3/projects").headers("X-TrackerToken": token).get() (err, res, body) ->
-      if err
-        msg.send "Pivotal says: #{err}"
-        return
-      (new Parser).parseString body, (err, json)->
-        for project in json.project
-          msg.http("https://www.pivotaltracker.com/services/v3/projects/#{project.id}/stories/#{story_id}").headers("X-TrackerToken": token).get() (err, res, body) ->
-            if err
-              msg.send "Pivotal says: #{err}"
-              return
-            if res.statusCode != 500
-              (new Parser).parseString body, (err, story)->
-                if !story.id
-                  return
-                message = "##{story.id['#']} #{story.name}"
-                message += " (#{story.owned_by})" if story.owned_by
-                message += " is #{story.current_state}" if story.current_state && story.current_state != "unstarted"
-                msg.send message
-                storyReturned = true
-                return
-    return
+    msg.http("https://www.pivotaltracker.com/services/v5/projects").headers("X-TrackerToken": token).get() (err, res, body) ->
+      return msg.send "Pivotal says: #{err}" if err
+
+      try
+        projects = JSON.parse(body)
+      catch e
+        return msg.send "Error parsing pivotal projects body: #{e}"
+
+      for project in projects
+        msg.http("https://www.pivotaltracker.com/services/v5/projects/#{project.id}/stories/#{story_id}").headers("X-TrackerToken": token).get() (err, res, body) ->
+          return msg.send "Pivotal says: #{err}" if err
+          return if res.statusCode == 404 # No story found in this project
+
+          try
+            story = JSON.parse(body)
+          catch e
+            return msg.send "Error parsing pivotal story body: #{e}"
+
+          message = "##{story.id} #{story.name}"
+          message += " is #{story.current_state}" if story.current_state && story.current_state != "unstarted"
+          msg.send message
