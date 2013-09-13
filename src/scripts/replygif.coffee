@@ -41,7 +41,10 @@ replyGifByTag = (msg, tag) ->
     .http("http://replygif.net/t/#{tag}")
     .header('User-Agent: ReplyGIF for Hubot (+https://github.com/github/hubot-scripts)')
     .get() (err, res, body) ->
-      msg.send msg.random getGifs(body)
+      if not err and res.statusCode is 200
+        msg.send msg.random getGifs(body)
+      else
+        msg.send 'No GIF for you, human.'
 
 getGifs = (body) ->
   $ = cheerio.load(body)
