@@ -8,23 +8,39 @@
 #   None
 #
 # Commands:
-#   stagehand who - Show who has booked the staging server and how much time they have left
-#   stagehand book [minutes] - Book the staging server and optionally specify usage time. Default is 30min
-#   stagehand cancel - Cancel the current booking
+#   stagehand who [env] - Show who has booked the staging server and how much time they have left
+#   stagehand book [env] [minutes] - Book the staging server and optionally specify usage time. Default is 30min
+#   stagehand cancel [env] - Cancel the current booking
 #
 # Author:
 #   tinifni
 
-bookStaging = (data, user, minutes) ->
+class Message
+  constructor: (env, minutes) ->
+    @env = env
+    @minutes = minutes
+  getEnv: ->
+    if @env == undefined
+      return 'staging'
+    else
+      return @env
+
+  getMinutes: ->
+    if @minutes == undefined
+      return 30
+    else
+      return Number(@minutes)
+
+bookEnv = (data, user, minutes) ->
   return false if data.user != user && new Date() < data.expires
   unless data.user == user && new Date() < data.expires
     data.user = user
     data.expires = new Date()
   data.expires = new Date(data.expires.getTime() + minutes * 1000 * 60)
 
-status = (data) ->
-  return 'Staging is free for use.' unless new Date() < data.expires
-  data.user + ' has staging booked for the next ' \
+status = (env, data) ->
+  return env + ' is free for use.' unless new Date() < data.expires
+  data.user + ' has ' + env + ' booked for the next ' \
             + Math.ceil((data.expires - new Date())/(60*1000)) \
             + ' minutes.'
 
@@ -33,19 +49,27 @@ cancelBooking = (data) ->
 
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
-    robot.brain.data.stagehand ||= { user: "initial", expires: new Date(0) }
+    for env in ['staging', 'development', 'production']
+      do (env) ->
+        robot.brain.data.stagehand[env] ||= { user: "initial", expires: new Date(0) }
 
-  robot.respond /stagehand book( \d+)*/i, (msg) ->
-    if msg.match[1] == undefined
-      minutes = 30
-    else
-      minutes = Number(msg.match[1])
-    bookStaging(robot.brain.data.stagehand, msg.message.user.name, minutes)
-    msg.send status(robot.brain.data.stagehand)
+  robot.respond /stagehand book\s?([A-Za-z]+)*\s?(\d+)*/i, (msg) ->
+    message = new Message(msg.match[1], msg.match[2])
+    env = message.getEnv()
+    minutes = message.getMinutes()
 
-  robot.respond /stagehand who/i, (msg) ->
-    msg.send status(robot.brain.data.stagehand)
+    bookEnv(robot.brain.data.stagehand[env], msg.message.user.name, minutes)
+    msg.send status(env, robot.brain.data.stagehand[env])
 
-  robot.respond /stagehand cancel/i, (msg) ->
-    cancelBooking(robot.brain.data.stagehand)
-    msg.send status(robot.brain.data.stagehand)
+  robot.respond /stagehand who\s?([A-Za-z]+)*/i, (msg) ->
+    message = new Message(msg.match[1])
+    env = message.getEnv()
+
+    msg.send status(env, robot.brain.data.stagehand[env])
+
+  robot.respond /stagehand cancel\s?([A-Za-z]+)*/i, (msg) ->
+    message = new Message(msg.match[1])
+    env = message.getEnv()
+
+    cancelBooking(robot.brain.data.stagehand[env])
+    msg.send status(env, robot.brain.data.stagehand[env])
