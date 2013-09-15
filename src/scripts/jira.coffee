@@ -9,7 +9,7 @@
 #   HUBOT_JIRA_USER
 #   HUBOT_JIRA_PASSWORD
 #   Optional environment variables:
-#   HUBOT_JIRA_USE_V2
+#   HUBOT_JIRA_USE_V2 (defaults to "true", set to "false" for JIRA earlier than 5.0)
 #   HUBOT_JIRA_MAXLIST
 #   HUBOT_JIRA_ISSUEDELAY
 #   HUBOT_JIRA_IGNOREUSERS
@@ -90,7 +90,7 @@ class RecentIssues
 module.exports = (robot) ->
   filters = new IssueFilters robot
 
-  useV2 = process.env.HUBOT_JIRA_USE_V2 || false
+  useV2 = process.env.HUBOT_JIRA_USE_V2 != "false"
   # max number of issues to list during a search
   maxlist = process.env.HUBOT_JIRA_MAXLIST || 10
   # how long (seconds) to wait between repeating the same JIRA issue link
