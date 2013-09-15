@@ -23,6 +23,9 @@
 #
 # Author:
 #   alexwilliamsca
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
   admin = process.env.HUBOT_AUTH_ADMIN

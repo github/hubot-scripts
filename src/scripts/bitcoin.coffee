@@ -12,6 +12,10 @@
 #
 # Author:
 #   Fred Wu
+#
+# Tags:
+#   finance
+#   utility
 
 cheerio = require('cheerio')
 

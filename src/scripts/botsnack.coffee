@@ -13,6 +13,9 @@
 # Author:
 #   richo
 #   locherm
+#
+# Tags:
+#   fun
 
 responses = [
   "Om nom nom!",

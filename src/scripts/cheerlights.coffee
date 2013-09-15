@@ -12,6 +12,9 @@
 #
 # Author:
 #   marciotoshio
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.respond /cheerlights/i, (msg) ->

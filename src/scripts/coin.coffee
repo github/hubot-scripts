@@ -12,6 +12,9 @@
 #
 # Author:
 #   mrtazz
+#
+# Tags:
+#   utility
 
 thecoin = ["heads", "tails"]
 

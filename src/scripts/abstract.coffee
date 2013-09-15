@@ -12,6 +12,9 @@
 #
 # Author:
 #   tantalor
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
   robot.respond /(abs|abstract) (.+)/i, (res) ->

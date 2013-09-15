@@ -11,6 +11,9 @@
 #
 # Author:
 #   mrtazz
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.hear /bij/i, (msg) ->

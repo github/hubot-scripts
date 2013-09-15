@@ -18,8 +18,11 @@
 #   hubot list links - List all of the links that are being tracked
 #   hubot feed me - get the URL to subscribe to your bookmark rss
 #
-# Author
+# Author:
 #   mm53bar
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
   robot.respond /feed me/i, (msg) ->

@@ -13,6 +13,9 @@
 #
 # Author:
 #   facto
+#
+# Tags:
+#   fun
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"

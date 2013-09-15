@@ -15,6 +15,9 @@
 #
 # Author:
 #   tombell
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
 

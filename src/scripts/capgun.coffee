@@ -17,6 +17,10 @@
 #
 # Author:
 #   monde
+#
+# Tags:
+#   utility
+#   images
 
 module.exports = (robot) ->
   robot.respond /cap (.*)/i, (msg) ->

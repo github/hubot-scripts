@@ -15,6 +15,11 @@
 #
 # Author:
 # whyjustin
+#
+# Tags:
+#   beer
+#   utility
+#   fun
 
 module.exports = (robot) ->
     robot.respond /beer (a|advocate)?( me)?/i, (msg) ->

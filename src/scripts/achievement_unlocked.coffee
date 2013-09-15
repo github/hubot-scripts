@@ -12,6 +12,11 @@
 #
 # Author:
 #   Chris
+#
+# Tags:
+#   images
+#   memes
+#   fun
 
 module.exports = (robot) ->
   robot.hear /achievement (get|unlock(ed)?) (.+?)(\s*[^@\s]+@[^@\s]+)?\s*$/i, (msg) ->

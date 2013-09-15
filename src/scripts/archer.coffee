@@ -11,6 +11,10 @@
 #
 # Author:
 #   rrix
+#
+# Tags:
+#   quotes
+#   fun
 
 scraper = require 'scraper'
 

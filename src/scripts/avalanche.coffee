@@ -11,6 +11,10 @@
 #
 # Author:
 #   Alastair Brunton
+# 
+# Tags:
+#   weather
+#   utility
 
 jsdom = require 'jsdom'
 

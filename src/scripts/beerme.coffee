@@ -12,6 +12,11 @@
 #
 # Author:
 #  houndbee
+#
+# Tags:
+#   beer
+#   images
+#   fun
 
 beers = [
   "http://organicxbenefits.com/wp-content/uploads/2011/11/organic-beer-health-benefits.jpg",

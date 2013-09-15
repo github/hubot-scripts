@@ -15,6 +15,11 @@
 #
 # Author:
 #   kimf
+#
+# Tags:
+#   text messaging
+#   notification
+#   utliity
 
 QS      = require "querystring"
 module.exports = (robot) ->

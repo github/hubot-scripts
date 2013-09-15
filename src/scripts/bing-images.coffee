@@ -12,6 +12,10 @@
 #
 # Author:
 #   Brandon Satrom
+#
+# Tags:
+#   images
+#   fun
 
 bingAccountKey = process.env.HUBOT_BING_ACCOUNT_KEY
 unless bingAccountKey

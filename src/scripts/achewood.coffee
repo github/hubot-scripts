@@ -17,6 +17,11 @@
 #
 # Author:
 #   1000hz
+#
+# Tags:
+#   images
+#   comics
+#   fun
 
 htmlparser = require "htmlparser"
 Select = require("soupselect").select

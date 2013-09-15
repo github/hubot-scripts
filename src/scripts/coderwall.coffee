@@ -12,6 +12,10 @@
 #
 # Author:
 #   mexitek
+#
+# Tags:
+#   fun
+#   monitoring
 
 module.exports = (robot) ->
   robot.respond /(coderwall)( me)? (.*)/i, (msg) ->

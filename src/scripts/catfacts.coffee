@@ -12,6 +12,9 @@
 #
 # Author:
 #   scottmeyer
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
 	robot.respond /CATFACT$/i, (msg) ->

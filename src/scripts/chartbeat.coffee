@@ -21,6 +21,11 @@
 #
 # Author:
 #   Drew Delianides
+#
+# Tags:
+#   utility
+#   monitoring
+
 
 getChart = (msg, apiKey, site) ->
   msg.robot.http("http://api.chartbeat.com/live/quickstats/v3/?apikey=#{apiKey}&host=#{site}")

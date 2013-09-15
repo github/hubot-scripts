@@ -12,6 +12,9 @@
 #
 # Author:
 #   GantMan
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.respond /chat/i, (msg) ->

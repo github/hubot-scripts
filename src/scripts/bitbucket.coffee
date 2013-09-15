@@ -12,6 +12,11 @@
 #
 # Author:
 #   JRusbatch
+#
+# Tags:
+#   notification
+#   productivity
+#   utility
 
 module.exports = (robot) ->
   robot.router.post '/hubot/bitbucket/:room', (req, res) ->

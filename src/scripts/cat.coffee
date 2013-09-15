@@ -16,6 +16,10 @@
 #
 # Author:
 #   simon
+#
+# Tags:
+#   utility
+#   messaging
 
 dgram = require "dgram"
 server = dgram.createSocket "udp4"

@@ -12,6 +12,9 @@
 #
 # Author:
 #   atmos
+#
+# Tags:
+#   fun
 
 module.exports = (robot) ->
   robot.respond /ascii( me)? (.+)/i, (msg) ->

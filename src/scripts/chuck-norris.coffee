@@ -13,6 +13,11 @@
 #
 # Author:
 #   dlinsin
+#
+# Tags:
+#   fun
+#   images
+#   memes
 
 module.exports = (robot) ->
 

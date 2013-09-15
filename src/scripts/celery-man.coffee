@@ -11,6 +11,10 @@
 #
 # Author:
 #   danryan
+#
+# Tags:
+#   fun
+#   images
 
 module.exports = (robot) ->
   robot.respond /.*celery\s?man/i, (msg) ->

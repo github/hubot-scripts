@@ -1,6 +1,9 @@
 # Gets border waiting times to US.
 #
 # crossing <port_name>
+#
+# Tags:
+#   utility
 
 parser = require('xml2json');
 

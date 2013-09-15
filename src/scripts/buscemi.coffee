@@ -13,6 +13,11 @@
 #
 # Author:
 #   dylanegan
+#
+# Tags:
+#   memes
+#   images
+#   fun
 
 module.exports = (robot) ->
   robot.respond /buscemi?(?: me)? (.*)/i, (msg) ->

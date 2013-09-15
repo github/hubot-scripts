@@ -17,6 +17,10 @@
 #
 # Author:
 #   eliperkins
+#
+# Tags:
+#   productivity
+#   utility
 
 module.exports = (robot) ->
 

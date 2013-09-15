@@ -12,6 +12,10 @@
 #
 # Author:
 #   pingles
+#
+# Tags:
+#   fun
+#   images
 
 carltons = [
   "http://media.tumblr.com/tumblr_lrzrlymUZA1qbliwr.gif",

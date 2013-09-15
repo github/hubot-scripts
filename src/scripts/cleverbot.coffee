@@ -12,6 +12,9 @@
 #
 # Author:
 #   ajacksified
+#
+# Tags:
+#   fun
 
 cleverbot = require('cleverbot-node')
 

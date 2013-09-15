@@ -16,6 +16,9 @@
 # Author:
 #   pengwynn
 #
+# Tags:
+#   fun
+
 getAdvice = (msg, query) ->
   msg.http("http://api.adviceslip.com/advice/search/#{query}")
     .get() (err, res, body) ->

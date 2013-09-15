@@ -12,6 +12,11 @@
 #
 # Author:
 #   atmos
+#
+# Tags:
+#   memes
+#   images
+#   fun
 
 module.exports = (robot) ->
   robot.hear /bee+s?\b/i, (message) ->

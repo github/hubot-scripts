@@ -13,6 +13,10 @@
 #
 # Author:
 #   froots
+#
+# Tags:
+#   fun
+#   twitter
 
 module.exports = (robot) ->
   robot.hear /cumberbatch/i, (msg) ->

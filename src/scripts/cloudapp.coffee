@@ -12,6 +12,9 @@
 #
 # Author:
 #   lmarburger
+#
+# Tags:
+#   utility
 
 module.exports = (robot) ->
   robot.hear /(https?:\/\/cl.ly\/image\/[A-Za-z0-9]+)(\/[^\/]+)?/i, (msg) ->

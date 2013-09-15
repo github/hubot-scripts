@@ -17,6 +17,10 @@
 #
 # URLS:
 #   /broadcast/create - Send a message to designated, comma-separated rooms.
+#
+# Tags:
+#   notification
+#   utility
 
 module.exports = (robot) ->
 
