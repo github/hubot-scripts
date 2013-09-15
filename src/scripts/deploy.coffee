@@ -40,7 +40,7 @@ module.exports = (robot) ->
     message += " version " + version if version
 
     robot.send(user, message)
-    if robot.adapter.bot?
+    if robot.adapter.bot?.Room?
       robot.adapter.bot.Room(user.room).sound "trombone", (err, data) =>
         console.log "campfire error: #{err}" if err
 
