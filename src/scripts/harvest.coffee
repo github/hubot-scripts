@@ -244,7 +244,7 @@ module.exports = (robot) ->
     catch error
       msg.reply "Failed to start timer: fatal error: #{error}"
 
-  robot.respond /start harvest/i, (msg) ->
+  robot.respond /start harvest$/i, (msg) ->
     unless user = check_user(robot, msg)
       return
 
