@@ -25,5 +25,5 @@ module.exports = (robot) ->
         match = body.match /http:\/\/media.peopleofwalmart.com\/wp-content\/uploads\/\d\d\d\d\/\d\d\/.+?\.jpg/g
         if (match) 
           total_pics = match.length
-		  random_pic = Math.floor(Math.random() * total_pics)
-		  msg.send match[random_pic]
+          random_pic = Math.floor(Math.random() * total_pics)
+          msg.send match[random_pic]
