@@ -32,7 +32,7 @@ module.exports = (robot)->
         count++
         quake = quake.properties
         time  = build_time quake
-        url   = [ lookup_site, quake.url ].join ''
+        url   = quake.url
 
         message.send "Magnitude: #{ quake.mag }, Location: #{ quake.place }, Time: #{ time } - #{ url }"
 
