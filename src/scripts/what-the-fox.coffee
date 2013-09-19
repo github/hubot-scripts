@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   what does the fox say?
+#   what the fox say?
 #
 # Author:
 #   hartmamt
