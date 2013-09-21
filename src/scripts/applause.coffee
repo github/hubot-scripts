@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#   (applause|applaud|bravo|slow clap) - Get applause
-#   (sarcastic applause|clap) - Get sarcastic applause
+#   applause|applaud|bravo|slow clap - Get applause
+#   sarcastic applause|clap - Get sarcastic applause
 #
 # Author:
 #   joshfrench
@@ -62,5 +62,6 @@ images =
   ]
 
 module.exports = (robot) ->
-  robot.hear /applau(d|se)|bravo|slow clap/i, (msg) ->
-    msg.send msg.random images.sincere
+  robot.hear /applau(d|se)|bravo|sarcastic applause|(slow|sarcastic) clap/i, (msg) ->
+    type = if (/sarcastic/i).test(msg.message.text) then images.insincere else images.sincere
+    msg.send msg.random type
