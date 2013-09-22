@@ -13,8 +13,10 @@
 #   hubot sprintly [product_id] #42 - show item #42
 #   hubot sprintly [product_id] #42 tasks - list unfinished subtasks of story #42
 #   hubot sprintly [product_id] <action> #42 - carry out action on item #42 (available actions: start, stop, finish, accept, reject, delete)
+#   hubot sprintly [product_id] [environment] deploy 4,8,15,16,23,42 - mark items as deployed to an environment
 #   hubot sprintly token <email:apitoken> - set/update credentials for user (required for other commands to work)
 #   hubot sprintly default 1234 - set default product_id
+#   hubot sprintly default_env production - set default environment (used for deploy)
 #
 # Author:
 #   lackac
@@ -37,6 +39,11 @@ module.exports = (robot) ->
     robot.brain.data.sprintly ?= {}
     robot.brain.data.sprintly.product_id = msg.match[1]
     msg.send "Default Product ID set to #{msg.match[1]}"
+
+  robot.respond /sprintly +default_env +(.*)/i, (msg) ->
+    robot.brain.data.sprintly ?= {}
+    robot.brain.data.sprintly.env = msg.match[1]
+    msg.send "Default environment set to #{msg.match[1]}"
 
   robot.respond /sprintly *(?: +(\d+))?(?: +(backlog|in-progress|completed|accepted))?(?: +(\d+))? *$/i, (msg) ->
     query = status: msg.match[2] ? 'in-progress'
@@ -105,6 +112,23 @@ module.exports = (robot) ->
           else
             msg.send "Something came up: #{body}"
 
+  robot.respond /sprintly *(?: +(\d+))?(?: +(.*))?deploy +([\d]+(,[\d]+)*)/i, (msg) ->
+    query =
+      environment: msg.match[2] ? msg.robot.brain.data.sprintly?.env
+      numbers: msg.match[3]
+
+    if query.environment?
+      sprintly(msg).product()
+        .scope('deploys.json')
+        .post(qs.stringify(query)) (err, res, body) ->
+          if res.statusCode < 400
+            apiRes = JSON.parse body
+            msg.send "Successfully marked #{apiRes.items.length} items as deployed"
+          else
+            msg.send "Something came up: #{body}"
+    else
+      msg.send "No environment has been specified, you can set a default with 'sprintly default_env production'"
+
 DummyClient = ->
 self = -> this
 for method in ['scope', 'query', 'product']
@@ -118,7 +142,7 @@ sprintlyUser = (msg) ->
 
 sprintly = (msg, auth) ->
   if auth ?= sprintlyUser(msg).auth
-    client = msg.http('https://sprint.ly')
+    client = msg.robot.http('https://sprint.ly')
       .header('accept', 'application/json')
       .header('authorization', "Basic #{new Buffer(auth).toString('base64')}")
       .path('/api')
