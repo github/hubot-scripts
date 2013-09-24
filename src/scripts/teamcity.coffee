@@ -96,8 +96,7 @@ module.exports = (robot) ->
       .query(locator: ["count:#{amount}","running:any"].join(","))
       .get() (err, res, body) ->
         err = body unless res.statusCode == 200
-        builds = JSON.parse(body).build unless err
-        builds.splice(amount)
+        builds = JSON.parse(body).build.splice(amount) unless err
         callback err, msg, builds
 
   mapNameToIdForBuildType = (msg, project, name, callback) ->
