@@ -4,7 +4,7 @@
 #   Defaults to issues in HUBOT_GITHUB_REPO, unless a repo is specified Eg. "Hey guys, check out awesome-repo#273"
 #
 # Dependencies:
-#   "githubot": "0.2.0"
+#   "githubot": "0.4.x"
 #
 # Configuration:
 #   HUBOT_GITHUB_REPO
