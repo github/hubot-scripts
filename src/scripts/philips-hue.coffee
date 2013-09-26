@@ -105,17 +105,6 @@ getGenInfo = (msg, url, callback) ->
            callback res.statusCode
 
 
-#getStatus = (msg, url, callback) ->
-#    msg.http(url)
-#      .headers(Accept: 'application/json')
-#      .get() (err, res, body) ->
-#         if 200 <= res.statusCode <= 299
-#           json = JSON.parse(body)
-#           callback " name: #{json.name}\n state:\n   on: #{json.state.on}\n   bri: #{json.state.bri}\n   hue: #{json.state.hue}\n   sat: #{json.state.sat}\n   alert: #{json.state.alert}\n   effect: #{json.state.effect}\n   reachable: #{json.state.reachable}\n"
-#         else
-#           callback res.statusCode
-
-
 setInfo = (msg, url, jsonParams, callback) ->
     msg.http(url)
       .put(JSON.stringify(jsonParams)) (err, res, body) ->
