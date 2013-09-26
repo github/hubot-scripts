@@ -60,7 +60,7 @@ module.exports = (robot) ->
         user.room = process.env.LOGENTRIES_ROOM
       user.type = 'groupchat'
 
-      robot.send user, "[#{name} Logs]: #{alert}"
+      robot.send user, "[#{name} #{alert} #{data.host.name}]: #{data.event.m}"
 
       res.writeHead 200, {'Content-Type': 'text/plain'}
       res.end 'Thanks\n'
