@@ -10,8 +10,8 @@
 #
 # Commands:
 #   hubot is <user> available - Find out if the specified user is available or not
-#   hubot i am <available|free|not busy|at hand> - Set that you are available
-#   hubot i am <unavailable|dnd|do not disturb|busy|in the zone> - Setthat you are not available
+#   hubot i am <available|free|not busy|at hand> - Set that you are available - (the 'i am' is optional)
+#   hubot i am <unavailable|dnd|do not disturb|busy|in the zone> - Setthat you are not available - (the 'i am' is optional)
 #
 # Author:
 #   tombell
@@ -49,7 +49,7 @@ module.exports = (robot) ->
       msg.send "I have never met #{name}"
 
 
-  robot.respond /i am (available|free|not busy|at hand)/i, (msg) ->
+  robot.respond /((i am ))?(available|free|not busy|at hand)/i, (msg) ->
     name = msg.message.user.name
     user = findUser name
 
@@ -62,7 +62,7 @@ module.exports = (robot) ->
       msg.send "I have never met #{name}"
 
 
-  robot.respond /i am (unavailable|dnd|do not disturb|busy|in the zone)/i, (msg) ->
+  robot.respond /((i am ))? (unavailable|dnd|do not disturb|busy|in the zone)/i, (msg) ->
     name = msg.message.user.name
     user = findUser name
 
