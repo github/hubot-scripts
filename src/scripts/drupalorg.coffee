@@ -3,6 +3,7 @@
 #
 # Dependencies:
 #   "jsdom" : ">0.2.1"
+#   "request" : ""
 #
 # Configuration:
 #   NONE
@@ -19,6 +20,7 @@
 #   guyoron
 
 
+request = require 'request'
 jsdom = require 'jsdom'
 jquery = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
 
@@ -62,7 +64,7 @@ module.exports = (robot) ->
     url = msg.match[0]
     return if recentLinks.contains url
     recentLinks.add url
-    msg.http(url).headers('User-Agent': 'hubot').get() (err, res, body) ->
+    request {url: url, headers: {'User-Agent': 'hubot'}}, (err, res, body) ->
       if err
         console.log "Errors getting url: #{url}"
         return   
@@ -105,4 +107,4 @@ module.exports = (robot) ->
         msg.send "#{url} => #{results[0]} [#{results[1]}, #{results[2]}]"
 
   # listen for page links
-  robot.hear /http:\/\/drupal.org\/node\/(\d+)/, fetchPage
+  robot.hear /https?:\/\/(www.)?drupal.org\/node\/(\d+)/, fetchPage
