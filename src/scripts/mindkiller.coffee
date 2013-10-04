@@ -11,7 +11,7 @@
 # Commands:
 #   fear|afraid - Recite the Litany Against Fear
 #
-# Authors:
+# Author:
 #   wgibbs
 
 litany = "I must not fear.\n
