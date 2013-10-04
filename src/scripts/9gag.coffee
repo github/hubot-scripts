@@ -16,13 +16,13 @@
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
+JSDom       = require "jsdom"
 
 module.exports = (robot)->
   robot.respond /9gag( me)?/i, (message)->
-    send_meme message, false, (text)->
-      message.send text
+    send_meme message, false
 
-send_meme = (message, location, response_handler)->
+send_meme = (message, location)->
   meme_domain = "http://9gag.com"
   location  ||= "/random"
   if location.substr(0, 4) != "http"
@@ -35,18 +35,20 @@ send_meme = (message, location, response_handler)->
 
     if response.statusCode == 302
       location = response.headers['location']
-      return send_meme( message, location, response_handler )
+      return send_meme( message, location )
 
-    img_src = get_meme_image( body, ".badge-item-img" )
+    html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
+    html_parser   = new HTMLParser.Parser html_handler
+
+    html_parser.parseComplete body
+    img_title = Select( html_handler.dom, ".badge-item-title" )[0].children[0].raw
+    img_src = Select( html_handler.dom, ".badge-item-img" )[0].attribs.src
 
     if img_src.substr(0, 4) != "http"
       img_src = "http:#{img_src}"
 
-    response_handler img_src
+    d = JSDom.jsdom().createElement("div")
+    d.innerHTML = img_title
+    img_title = d.childNodes[0].nodeValue
 
-get_meme_image = (body, selector)->
-  html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
-  html_parser   = new HTMLParser.Parser html_handler
-
-  html_parser.parseComplete body
-  Select( html_handler.dom, selector )[0].attribs.src
+    message.send img_title, img_src
