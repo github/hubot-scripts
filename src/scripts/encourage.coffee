@@ -8,9 +8,9 @@
 #   None
 #
 # Commands:
-#   ctctbot encourage me
-#	ctctbot encourge name
-#	ctctbot encourage all
+#   hutbot encourage me
+#   hutbot encourge name
+#   hutbot encourage all
 #   
 # Author:
 #	WoogieNoogie
