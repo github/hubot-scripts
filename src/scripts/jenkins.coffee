@@ -38,12 +38,12 @@ jenkinsBuildById = (msg) ->
   else
     msg.reply "I couldn't find that job. Try `jenkins list` to get a list."
 
-jenkinsBuild = (msg) ->
+jenkinsBuild = (msg, buildWithEmptyParameters) ->
     url = process.env.HUBOT_JENKINS_URL
     job = querystring.escape msg.match[1]
     params = msg.match[3]
-
-    path = if params then "#{url}/job/#{job}/buildWithParameters?#{params}" else "#{url}/job/#{job}/build"
+    command = if buildWithEmptyParameters then "buildWithParameters" else "build"
+    path = if params then "#{url}/job/#{job}/buildWithParameters?#{params}" else "#{url}/job/#{job}/#{command}"
 
     req = msg.http(path)
 
@@ -57,6 +57,8 @@ jenkinsBuild = (msg) ->
           msg.reply "Jenkins says: #{err}"
         else if 200 <= res.statusCode < 400 # Or, not an error code.
           msg.reply "(#{res.statusCode}) Build started for #{job} #{url}/job/#{job}"
+        else if 400 == res.statusCode
+          jenkinsBuild(msg, true)
         else
           msg.reply "Jenkins says: Status #{res.statusCode} #{body}"
 
@@ -85,10 +87,10 @@ jenkinsDescribe = (msg) ->
 
             if content.description
               response += "DESCRIPTION: #{content.description}\n"
-            
+
             response += "ENABLED: #{content.buildable}\n"
             response += "STATUS: #{content.color}\n"
-            
+
             tmpReport = ""
             if content.healthReport.length > 0
               for report in content.healthReport
@@ -159,7 +161,7 @@ jenkinsList = (msg) ->
               # Add the job to the jobList
               index = jobList.indexOf(job.name)
               if index == -1
-                jobList.push(job.name) 
+                jobList.push(job.name)
                 index = jobList.indexOf(job.name)
 
               state = if job.color == "red" then "FAIL" else "PASS"
@@ -171,7 +173,7 @@ jenkinsList = (msg) ->
 
 module.exports = (robot) ->
   robot.respond /j(?:enkins)? build ([\w\.\-_ ]+)(, (.+))?/i, (msg) ->
-    jenkinsBuild(msg)
+    jenkinsBuild(msg, false)
 
   robot.respond /j(?:enkins)? b (\d+)/i, (msg) ->
     jenkinsBuildById(msg)
