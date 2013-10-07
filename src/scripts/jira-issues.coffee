@@ -1,7 +1,7 @@
 # Description:
 #   Looks up jira issues when they're mentioned in chat
 #
-#   Will ignore users set in HUBOT_JIRA_IGNORE_USERS (by default, JIRA and GitHub).
+#   Will ignore users set in HUBOT_JIRA_ISSUES_IGNORE_USERS (by default, JIRA and GitHub).
 #
 # Dependencies:
 #   None
@@ -11,7 +11,7 @@
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
-#   HUBOT_JIRA_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
+#   HUBOT_JIRA_ISSUES_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
 #
 # Commands:
 # 
