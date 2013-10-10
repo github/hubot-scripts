@@ -7,8 +7,8 @@
 # Configuration:
 #   HUBOT_TWITTER_CONSUMER_KEY
 #   HUBOT_TWITTER_CONSUMER_SECRET
-#   HUBOT_TWITTER_ACCESS_TOKEN_KEY
-#   HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+#   HUBOT_TWITTER_ACCESS_TOKEN_KEY_<USERNAME>
+#   HUBOT_TWITTER_ACCESS_TOKEN_SECRET_<USERNAME>
 #
 # Commands:
 #   hubot <keyword> tweet - Returns a link to a tweet about <keyword>
@@ -23,33 +23,18 @@
 
 ntwitter = require 'ntwitter'
 inspect = require('util').inspect
+twitterConfig = require "../twitter-config"
 
 module.exports = (robot) ->
-  auth =
-    consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
-    consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
-    access_token_key: process.env.HUBOT_TWITTER_ACCESS_TOKEN_KEY
-    access_token_secret: process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+  auth = twitterConfig.defaultCredentials()
+  unless auth
+    console.log "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
+    return
 
   twit = undefined
 
   robot.respond /(.+) tweet(\s*)?$/i, (msg) ->
-    unless auth.consumer_key
-      msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
-      return
-    unless auth.consumer_secret
-      msg.send "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
-      return
-    unless auth.access_token_key
-      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_KEY environment variable."
-      return
-    unless auth.access_token_secret
-      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
-      return
-
-
     twit ?= new ntwitter auth
-
 
     twit.verifyCredentials (err, data) ->
       if err

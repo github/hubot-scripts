@@ -7,15 +7,8 @@
 #
 #   Based on KevinTraver's twitter.coffee script: http://git.io/iCQPyA
 #
-#   HUBOT_TWEETER_ACCOUNTS should be a string that parses to a JSON
-#   object that contains access_token and access_token_secret for each
-#   twitter screen name you want to allow people to use.
-#
-#   For example:
-#   {
-#     "hubot" : { "access_token" : "", "access_token_secret" : ""},
-#     "github" : { "access_token" : "", "access_token_secret" : ""}
-#   }
+#   See here for environment variable descriptions:
+#   https://github.com/github/hubot-scripts/tree/master/src/twitter-config.js
 #
 #   This also can be installed as an npm package: hubot-tweeter
 #
@@ -28,7 +21,11 @@
 # Configuration:
 #   HUBOT_TWITTER_CONSUMER_KEY
 #   HUBOT_TWITTER_CONSUMER_SECRET
-#   HUBOT_TWEETER_ACCOUNTS
+#   HUBOT_TWITTER_ACCESS_TOKEN_KEY_<USERNAME1>
+#   HUBOT_TWITTER_ACCESS_TOKEN_SECRET_<USERNAME1>
+#   HUBOT_TWITTER_ACCESS_TOKEN_KEY_<USERNAME2>
+#   HUBOT_TWITTER_ACCESS_TOKEN_SECRET_<USERNAME2>
+#   ...
 #
 # Author:
 #   jhubert
@@ -37,17 +34,7 @@
 #   https://github.com/jhubert/hubot-tweeter
 
 Twit = require "twit"
-config =
-  consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
-  consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
-  accounts: JSON.parse(process.env.HUBOT_TWEETER_ACCOUNTS)
-
-unless config.consumer_key
-  console.log "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
-unless config.consumer_secret
-  console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
-unless config.accounts
-  console.log "Please set the HUBOT_TWEETER_ACCOUNTS environment variable."
+twitterConfig = require "../twitter-config"
 
 module.exports = (robot) ->
   robot.respond /tweet\@([^\s]+)$/i, (msg) ->
@@ -55,23 +42,19 @@ module.exports = (robot) ->
     return
 
   robot.respond /tweet\@([^\s]+)\s(.+)$/i, (msg) ->
-
     username = msg.match[1].toLowerCase()
-    update   = msg.match[2].trim()
-
-    unless config.accounts[username]
-      msg.reply "I'm not setup to send tweets on behalf of #{msg.match[1]}. Sorry."
+    credentials = twitterConfig.credentialsFor(username)
+    unless credentials
+      capsUsername = username.toUpperCase()
+      msg.reply "Please set HUBOT_TWITTER_CONSUMER_KEY_#{capsUsername} and HUBOT_TWITTER_CONSUMER_SECRET_#{capsUsername}."
       return
 
+    update = msg.match[2].trim()
     unless update and update.length > 0
       msg.reply "You can't very well tweet an empty status, can ya?"
       return
 
-    twit = new Twit
-      consumer_key: config.consumer_key
-      consumer_secret: config.consumer_secret
-      access_token: config.accounts[username].access_token
-      access_token_secret: config.accounts[username].access_token_secret
+    twit = new Twit(credentials)
 
     twit.post "statuses/update",
       status: update
