@@ -38,10 +38,13 @@ for envVar of process.env
     if secret
       handle = capsHandle.toLowerCase()
       defaultHandle ||= handle
+
+      key = process.env["HUBOT_TWITTER_ACCESS_TOKEN_KEY_#{capsHandle}"]
       credentials[handle] = {
         consumer_key: consumerKey
         consumer_secret: consumerSecret
-        access_token: process.env["HUBOT_TWITTER_ACCESS_TOKEN_KEY_#{capsHandle}"]
+        access_token: key # for twit
+        access_token_key: key # for ntwitter
         access_token_secret: secret
       }
     else
