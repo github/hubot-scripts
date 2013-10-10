@@ -7,7 +7,7 @@
 module.exports = (robot) ->
   robot.respond /(clipart)( me)? (.*)/i, (msg) ->
     clipartMe msg, msg.match[3], (url) ->
-      msg.send url
+      msg.send encodeURI(url)
 
 clipartMe = (msg, query, cb) ->
   q = query: query
