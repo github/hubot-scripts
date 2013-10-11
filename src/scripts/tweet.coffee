@@ -23,7 +23,7 @@
 
 ntwitter = require 'ntwitter'
 inspect = require('util').inspect
-twitterConfig = require "../twitter-config"
+twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
   auth = twitterConfig.defaultCredentials()

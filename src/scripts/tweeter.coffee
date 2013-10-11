@@ -34,7 +34,7 @@
 #   https://github.com/jhubert/hubot-tweeter
 
 Twit = require "twit"
-twitterConfig = require "../twitter-config"
+twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
   robot.respond /tweet\@([^\s]+)$/i, (msg) ->

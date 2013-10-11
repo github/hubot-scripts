@@ -15,52 +15,52 @@
 # Author:
 #   afeld
 
-defaultHandle = undefined
-credentials = {}
+module.exports = (env) ->
+  defaultHandle = undefined
+  credentials = {}
 
-consumerKey = process.env.HUBOT_TWITTER_CONSUMER_KEY
-consumerSecret = process.env.HUBOT_TWITTER_CONSUMER_SECRET
+  consumerKey = env.HUBOT_TWITTER_CONSUMER_KEY
+  consumerSecret = env.HUBOT_TWITTER_CONSUMER_SECRET
 
-unless consumerKey
-  console.log "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
-unless consumerSecret
-  console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
+  unless consumerKey
+    console.log "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
+  unless consumerSecret
+    console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
 
-ENV_REGEX = /^HUBOT_TWITTER_ACCESS_TOKEN_KEY_(\w+)$/
+  ENV_REGEX = /^HUBOT_TWITTER_ACCESS_TOKEN_KEY_(\w+)$/
 
-# populate the credentials
-for envVar of process.env
-  match = envVar.match(ENV_REGEX)
-  if match
-    capsHandle = match[1]
-    secret = process.env["HUBOT_TWITTER_ACCESS_TOKEN_SECRET_#{capsHandle}"]
-    # secret corresponding to the provided key must be set
-    if secret
-      handle = capsHandle.toLowerCase()
-      defaultHandle ||= handle
+  # populate the credentials
+  for envVar of env
+    match = envVar.match(ENV_REGEX)
+    if match
+      capsHandle = match[1]
+      secret = env["HUBOT_TWITTER_ACCESS_TOKEN_SECRET_#{capsHandle}"]
+      # secret corresponding to the provided key must be set
+      if secret
+        handle = capsHandle.toLowerCase()
+        defaultHandle ||= handle
 
-      key = process.env["HUBOT_TWITTER_ACCESS_TOKEN_KEY_#{capsHandle}"]
-      credentials[handle] = {
-        consumer_key: consumerKey
-        consumer_secret: consumerSecret
-        access_token: key # for twit
-        access_token_key: key # for ntwitter
-        access_token_secret: secret
-      }
-    else
-      console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET_#{capsHandle} environment variable."
+        key = env["HUBOT_TWITTER_ACCESS_TOKEN_KEY_#{capsHandle}"]
+        credentials[handle] = {
+          consumer_key: consumerKey
+          consumer_secret: consumerSecret
+          access_token: key # for twit
+          access_token_key: key # for ntwitter
+          access_token_secret: secret
+        }
+      else
+        console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET_#{capsHandle} environment variable."
 
+  {
+    credentialsFor: (handle) ->
+      if handle
+        credentials[handle.toLowerCase()]
+      else
+        throw new Error("No 'handle' provided.")
 
-module.exports = {
-  credentialsFor: (handle) ->
-    if handle
-      credentials[handle.toLowerCase()]
-    else
-      throw new Error("No 'handle' provided.")
+    defaultHandle: ->
+      defaultHandle
 
-  defaultHandle: ->
-    defaultHandle
-
-  defaultCredentials: ->
-    @credentialsFor(defaultHandle)
-}
+    defaultCredentials: ->
+      @credentialsFor(defaultHandle)
+  }

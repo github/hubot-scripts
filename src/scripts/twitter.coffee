@@ -21,7 +21,7 @@
 
 _ = require "underscore"
 Twit = require "twit"
-twitterConfig = require "../twitter-config"
+twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
   twit = undefined
