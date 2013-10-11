@@ -44,5 +44,5 @@ npm test
 If you'd like to test constantly, use
 
 ```bash
-mocha --compilers coffee:coffee-script test --watch
+npm run-script watch
 ```
