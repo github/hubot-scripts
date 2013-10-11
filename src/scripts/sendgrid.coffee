@@ -26,7 +26,7 @@ module.exports = (robot) ->
   if env.HUBOT_SENDGRID_USER and env.HUBOT_SENDGRID_KEY
     robot.respond /(sendgrid)( me)? today/i, (msg) ->
       opts =
-        days: 0
+        start_date: getTodayStr
       query msg, opts, (json) ->
         msg.send formatResponse(json[0], json[0].date)
 
@@ -128,3 +128,10 @@ formatResponse = (json, header) =>
     "  #{description}: #{json[stat]}"
   details.unshift "Stats for #{header}:"
   details.join("\n")
+
+getTodayStr = () =>
+  today = new Date();
+  cur_day = today.getDate()
+  cur_month = today.getMonth() + 1
+  cur_year = today.getFullYear()
+  tdy_string = cur_year + "-" + cur_month + "-" + cur_day
