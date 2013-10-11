@@ -27,18 +27,17 @@ twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
   auth = twitterConfig.defaultCredentials()
-  unless auth
-    console.log "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
-    return
-
-  twit = undefined
 
   robot.respond /(.+) tweet(\s*)?$/i, (msg) ->
-    twit ?= new ntwitter auth
+    unless auth
+      msg.reply "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
+      return
+
+    twit = new ntwitter auth
 
     twit.verifyCredentials (err, data) ->
       if err
-        msg.send "Encountered a problem verifying twitter credentials :(", inspect err
+        msg.reply "Encountered a problem verifying twitter credentials :(", inspect err
         return
 
       q = escape(msg.match[1])

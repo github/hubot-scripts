@@ -24,15 +24,14 @@ Twit = require "twit"
 twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
-  twit = undefined
-
   auth = twitterConfig.defaultCredentials()
-  unless auth
-    console.log "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
-    return
 
   robot.respond /(twitter|lasttweet)\s+(\S+)\s?(\d?)/i, (msg) ->
-    twit ?= new Twit(auth)
+    unless auth
+      msg.reply "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
+      return
+
+    twit = new Twit(auth)
 
     username = msg.match[2]
     if msg.match[3] then count = msg.match[3] else count = 1

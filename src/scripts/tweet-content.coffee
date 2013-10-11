@@ -23,16 +23,17 @@ twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
   auth = twitterConfig.defaultCredentials()
-  unless auth
-    console.log "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
-    return
-
-  twit = new ntwitter auth
 
   robot.hear /https?:\/\/(mobile\.)?twitter\.com\/.*?\/status\/([0-9]+)/i, (msg) ->
+    unless auth
+      msg.reply "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
+      return
+
+    twit = new ntwitter auth
+
     twit.getStatus msg.match[2], (err, tweet) ->
       if err
-        console.log err
+        msg.reply err
         return
 
       tweet_text = _.unescape(tweet.text)
