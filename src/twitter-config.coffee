@@ -18,9 +18,26 @@
 module.exports = (env) ->
   defaultHandle = undefined
   credentials = {}
+  defaultCredentials = undefined
 
   consumerKey = env.HUBOT_TWITTER_CONSUMER_KEY
   consumerSecret = env.HUBOT_TWITTER_CONSUMER_SECRET
+  # for backwards compatability
+  # https://github.com/github/hubot-scripts/pull/1179#issuecomment-26058780
+  defaultTokenKey = env.HUBOT_TWITTER_ACCESS_TOKEN_KEY
+  defaultTokenSecret = env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+
+  createCredentials = (tokenKey, tokenSecret) ->
+    {
+      consumer_key: consumerKey
+      consumer_secret: consumerSecret
+      access_token: tokenKey # for twit
+      access_token_key: tokenKey # for ntwitter
+      access_token_secret: tokenSecret
+    }
+
+  if defaultTokenKey and defaultTokenSecret
+    defaultCredentials = createCredentials(defaultTokenKey, defaultTokenSecret)
 
   unless consumerKey
     console.log "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
@@ -41,13 +58,7 @@ module.exports = (env) ->
         defaultHandle ||= handle
 
         key = env["HUBOT_TWITTER_ACCESS_TOKEN_KEY_#{capsHandle}"]
-        credentials[handle] = {
-          consumer_key: consumerKey
-          consumer_secret: consumerSecret
-          access_token: key # for twit
-          access_token_key: key # for ntwitter
-          access_token_secret: secret
-        }
+        credentials[handle] = createCredentials(key, secret)
       else
         console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET_#{capsHandle} environment variable."
 
@@ -62,5 +73,5 @@ module.exports = (env) ->
       defaultHandle
 
     defaultCredentials: ->
-      @credentialsFor(defaultHandle)
+      defaultCredentials or @credentialsFor(defaultHandle)
   }

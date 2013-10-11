@@ -7,7 +7,24 @@ describe "twitter-config", ->
       config = preConfig({})
       expect(config.defaultCredentials).to.throwException()
 
-    it "uses the first credentials it specifies", ->
+    it "uses the non-username-specific credentials if specified", ->
+      config = preConfig({
+        HUBOT_TWITTER_CONSUMER_KEY: 'consumerkey'
+        HUBOT_TWITTER_CONSUMER_SECRET: 'consumersecret'
+        HUBOT_TWITTER_ACCESS_TOKEN_KEY: 'defaultkey'
+        HUBOT_TWITTER_ACCESS_TOKEN_SECRET: 'defaultsecret'
+        HUBOT_TWITTER_ACCESS_TOKEN_KEY_FOO: 'fookey'
+        HUBOT_TWITTER_ACCESS_TOKEN_SECRET_FOO: 'foosecret'
+      })
+      expect(config.defaultCredentials()).to.eql({
+        consumer_key: 'consumerkey'
+        consumer_secret: 'consumersecret'
+        access_token: 'defaultkey'
+        access_token_key: 'defaultkey'
+        access_token_secret: 'defaultsecret'
+      })
+
+    it "uses the first username-specific credentials that are specified", ->
       config = preConfig({
         HUBOT_TWITTER_CONSUMER_KEY: 'consumerkey'
         HUBOT_TWITTER_CONSUMER_SECRET: 'consumersecret'
