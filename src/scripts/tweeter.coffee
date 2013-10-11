@@ -8,7 +8,7 @@
 #   Based on KevinTraver's twitter.coffee script: http://git.io/iCQPyA
 #
 #   See here for environment variable descriptions:
-#   https://github.com/github/hubot-scripts/tree/master/src/twitter-config.js
+#   https://github.com/github/hubot-scripts/tree/master/src/twitter-config.coffee
 #
 #   This also can be installed as an npm package: hubot-tweeter
 #
