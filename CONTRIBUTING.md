@@ -31,3 +31,18 @@ Syntax:
   * `MyClass.myMethod(my_arg)` not `myMethod( my_arg )` or `myMethod my_arg`.
   * `a = b` and not `a=b`.
   * Follow the conventions you see used in the source already.
+
+## Testing
+
+There are tests set up for the shared twitter-config module, but you are encouraged to add more.  To run the suite, use
+
+```bash
+npm install
+npm test
+```
+
+If you'd like to test constantly, use
+
+```bash
+mocha --compilers coffee:coffee-script test --watch
+```
