@@ -54,6 +54,10 @@ announcePullRequest = (data, cb) ->
         output[array[key]] = array[key] for key in [0...array.length]
         value for key, value of output
 
+      mentioned = mentioned.filter (nick) ->
+        slashes = nick.match(/\//g)
+        slashes is null or slashes.length < 2
+
       mentioned = mentioned.map (nick) -> nick.trim()
       mentioned = unique mentioned
 
