@@ -46,13 +46,17 @@ module.exports = (robot) ->
 
 announcePullRequest = (data, cb) ->
   if data.action == 'opened'
-    mentioned = data.pull_request.body.match(/(^|\s)(@[\w\-]+)/g)
+    mentioned = data.pull_request.body.match(/(^|\s)(@[\w\-\/]+)/g)
 
     if mentioned
       unique = (array) ->
         output = {}
         output[array[key]] = array[key] for key in [0...array.length]
         value for key, value of output
+
+      mentioned = mentioned.filter (nick) ->
+        slashes = nick.match(/\//g)
+        slashes is null or slashes.length < 2
 
       mentioned = mentioned.map (nick) -> nick.trim()
       mentioned = unique mentioned
