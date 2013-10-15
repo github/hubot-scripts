@@ -28,7 +28,7 @@ module.exports = (robot) ->
       video_hash = query_parsed.v
       showInfo msg, video_hash
 
-  robot.hear /(https?:\/\/youtu\.be\/)([a-z0-9]+)/i, (msg) ->
+  robot.hear /(https?:\/\/youtu\.be\/)([a-z0-9\-_]+)/i, (msg) ->
     video_hash = msg.match[2]
     showInfo msg, video_hash
 
