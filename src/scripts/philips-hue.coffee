@@ -20,7 +20,7 @@
 # Notes:
 #
 # Author:
-#   kingbin
+#   kingbin - chris.blazek@gmail.com
 
 
 module.exports = (robot) ->
