@@ -49,7 +49,8 @@ cancelBooking = (data) ->
 
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
-    for env in ['staging', 'development', 'production']
+    environments = process.env.STAGEHAND_ENVIRONMENTS.split(',') || [ 'staging', 'development', 'production' ]
+    for env in environments
       do (env) ->
         robot.brain.data.stagehand[env] ||= { user: "initial", expires: new Date(0) }
 
