@@ -13,6 +13,7 @@
 #   hue turn light <light number> <on|off> - flips the switch
 #   hue groups - groups lights together to control with one API call
 #   hue config - reads bridge config
+#   hue hash - get a hash code (press the link button)
 #   hue set config (name|linkbutton) <value>- change the name or programatically press the link button
 #   hue (alert|alerts) light <light number> - blink once or blink for 10 seconds specific light
 #
@@ -72,6 +73,17 @@ module.exports = (robot) ->
     url = "http://#{base_url}/api/#{hash}/config"
     getGenInfo msg, url, (responseText) ->
       msg.send "Config: " + responseText
+
+  robot.hear /hue hash/i, (msg) ->
+    msg.http("http://#{base_url}/api")
+      .headers(Accept: 'application/json')
+      .post(JSON.stringify({devicetype: "hubot"})) (err, res, body) ->
+        for line in JSON.parse(body)
+          do (line) ->
+            if (line.error)
+              msg.send line.error.description
+            if (line.success)
+              msg.send "Hash:" + line.success.username
 
   robot.hear /hue set config ([^\s]*) (.*)/i, (msg) ->
     [setting,val] = msg.match[1..2]
