@@ -1,5 +1,6 @@
 # Description:
-#   Display meme from "les joies du code <http://lesjoiesducode.tumblr.com>".
+#   Display meme from "les joies du code <http://lesjoiesducode.tumblr.com>"
+#   or "The coding love <http://thecodinglove.com>".
 #
 # Dependencies:
 #   "htmlparser": "1.7.6"
@@ -9,8 +10,10 @@
 #   None
 #
 # Commands:
-#   hubot joie - Returns a random meme (text and image)
+#   hubot donne moi de la joie borel - Returns a random meme (text and image)
 #   hubot dernière joie - Returns last meme (text and image). 'hubot derniere joie' also available.
+#   hubot give me some joy asshole - Return a random meme (coding love)
+#   hubot last joy - Returns last meme (coding love)
 #
 # Author:
 #   Eunomie
@@ -20,19 +23,21 @@ Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
-  robot.respond /joie/i, (message)->
-    send_meme message, '/random', (text)->
+  robot.respond /(donne moi de la )?joie( bordel)?/i, (message)->
+    send_meme message, 'http://lesjoiesducode.tumblr.com/random', (text)->
       message.send text
   robot.respond /derni[èe]re joie/i, (message)->
-    send_meme message, '', (text)->
+    send_meme message, 'http://lesjoiesducode.tumblr.com', (text)->
+      message.send text
+  robot.respond /(give me some )?joy( asshole)?/i, (message)->
+    send_meme message, 'http://thecodinglove.com/random', (text)->
+      message.send text
+  robot.respond /last joy/i, (message)->
+    send_meme message, 'http://thecodinglove.com', (text)->
       message.send text
 
 send_meme = (message, location, response_handler)->
-  meme_domain = "http://lesjoiesducode.tumblr.com"
-  if location.substr(0, 4) != "http"
-    url = meme_domain + location
-  else
-    url = location
+  url = location
 
   message.http( url ).get() (error, response, body)->
     return response_handler "Sorry, something went wrong" if error
