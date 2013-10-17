@@ -104,7 +104,7 @@ class ScoreKeeper
 module.exports = (robot) ->
   scoreKeeper = new ScoreKeeper(robot)
 
-  robot.hear /([\w\s]+)([\W\S]*)?(\+\+)$/i, (msg) ->
+  robot.hear /([\w\S]+)([\W\s]*)?(\+\+)$/i, (msg) ->
     name = msg.match[1].trim().toLowerCase()
     from = msg.message.user.name.toLowerCase()
 
@@ -112,7 +112,7 @@ module.exports = (robot) ->
 
     if newScore? then msg.send "#{name} has #{newScore} points."
 
-  robot.hear /([\w\s]+)([\W\S]*)?(\-\-)$/i, (msg) ->
+  robot.hear /([\w\S]+)([\W\s]*)?(\-\-)$/i, (msg) ->
     name = msg.match[1].trim().toLowerCase()
     from = msg.message.user.name.toLowerCase()
 
