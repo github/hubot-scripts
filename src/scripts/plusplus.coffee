@@ -125,8 +125,8 @@ module.exports = (robot) ->
 
     msg.send "#{name} has #{score} points."
 
-  robot.respond /(top|bottom) (\d+)/i, (msg) ->
-    amount = parseInt(msg.match[2])
+  robot.respond /(top|bottom)\s?(\d*)/i, (msg) ->
+    amount = parseInt(msg.match[2]) || 5
     message = []
 
     tops = scoreKeeper[msg.match[1]](amount)
@@ -139,4 +139,3 @@ module.exports = (robot) ->
       message.splice(0, 0, clark(_.first(_.pluck(tops, "score"), graphSize)))
 
     msg.send message.join("\n")
-
