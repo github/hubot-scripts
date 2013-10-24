@@ -18,7 +18,7 @@
 #   ajacksified
 
 _ = require("underscore")
-clark = require("clark").clark
+clark = require("clark")
 
 class ScoreKeeper
   constructor: (@robot) ->
