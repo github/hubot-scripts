@@ -29,33 +29,44 @@ class Factoids
       @cache = {} unless @cache
 
   add: (key, val) ->
+    input = key
+    key = key.toLowerCase()
     if @cache[key]
-      "#{key} is already #{@cache[key]}"
+      "#{input} is already #{@cache[key]}"
     else
-      this.setFactoid key, val
+      this.setFactoid input, val
 
   append: (key, val) ->
+    input = key
+    key = key.toLowerCase()
     if @cache[key]
       @cache[key] = @cache[key] + ", " + val
       @robot.brain.data.factoids = @cache
-      "Ok. #{key} is also #{val} "
+      "Ok. #{input} is also #{val} "
     else
-      "No factoid for #{key}. It can't also be #{val} if it isn't already something."
+      "No factoid for #{input}. It can't also be #{val} if it isn't already something."
 
   setFactoid: (key, val) ->
+    input = key
+    key = key.toLowerCase()
     @cache[key] = val
     @robot.brain.data.factoids = @cache
-    "OK. #{key} is #{val} "
+    "OK. #{input} is #{val} "
 
   delFactoid: (key) ->
+    input = key
+    key = key.toLowerCase()
     delete @cache[key]
     @robot.brain.data.factoids = @cache
-    "OK. I forgot about #{key}"
+    "OK. I forgot about #{input}"
 
   niceGet: (key) ->
-    @cache[key] or "No factoid for #{key}"
+    input = key
+    key = key.toLowerCase()
+    @cache[key] or "No factoid for #{input}"
 
   get: (key) ->
+    key = key.toLowerCase()
     @cache[key]
 
   list: ->
