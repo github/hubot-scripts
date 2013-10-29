@@ -47,9 +47,7 @@ module.exports = (robot) ->
         else if commits.length == 0
           msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
         else
-          unless process.env.HUBOT_GITHUB_API
-            msg.send "https://github.com/#{repo}"
-          else
-            ghe_url = base_url.replace /\/api\/v3/, ''
-            msg.send "#{ghe_url}/#{repo}"
-            response_handler commits
+          if process.env.HUBOT_GITHUB_API
+            base_url = base_url.replace /\/api\/v3/, ''
+          msg.send "#{base_url}/#{repo}"
+          response_handler commits
