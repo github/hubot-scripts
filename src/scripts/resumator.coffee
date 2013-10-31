@@ -1,6 +1,10 @@
 # Description:
 #   Get information from the Resumator API.
 #
+# Configuration:
+#   HUBOT_RESUMATOR_APIKEY
+#   HUBOT_RESUMATOR_USERNAME
+#
 # Commands:
 #   hubot job list - Returns the current list of jobs from The Resumator
 #   hubot job applicants - Returns the current list of applicants in the pipeline of the Resumator
