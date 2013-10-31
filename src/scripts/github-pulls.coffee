@@ -63,7 +63,7 @@ module.exports = (robot) ->
 
     unless (org_name)
       msg.send "No organization specified, please provide one or set HUBOT_GITHUB_ORG accordingly."
-    return
+      return
 
     url = "#{url_api_base}/orgs/#{org_name}/issues?filter=all"
     github.get url, (issues) ->
