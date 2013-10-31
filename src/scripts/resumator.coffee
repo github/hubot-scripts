@@ -11,11 +11,11 @@
 
 module.exports = (robot) ->
   robot.respond /job list$/i, (msg) ->
-    robot.http("https://api.resumatorapi.com/v1/jobs?apikey=#{process.env.RESUMATOR_APIKEY}")
+    robot.http("https://api.resumatorapi.com/v1/jobs?apikey=#{process.env.HUBOT_RESUMATOR_APIKEY}")
       .get() (err, res, body) ->
-        msg.send "#{job.title} > http://#{process.env.RESUMATOR_USERNAME}.theresumator.com/apply/#{job.board_code}" for job in JSON.parse(body)[0..10] when job.status == "Open"
+        msg.send "#{job.title} > http://#{process.env.HUBOT_RESUMATOR_USERNAME}.theresumator.com/apply/#{job.board_code}" for job in JSON.parse(body)[0..10] when job.status == "Open"
 
   robot.respond /job applicants$/i, (msg) ->
-    robot.http("https://api.resumatorapi.com/v1/applicants?apikey=#{process.env.RESUMATOR_APIKEY}")
+    robot.http("https://api.resumatorapi.com/v1/applicants?apikey=#{process.env.HUBOT_RESUMATOR_APIKEY}")
       .get() (err, res, body) ->
         msg.send "#{app.first_name} #{app.last_name} for [#{app.job_title}]" for app in JSON.parse(body)[0..10]
