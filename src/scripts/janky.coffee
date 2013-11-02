@@ -89,7 +89,7 @@ module.exports = (robot) ->
       if statusCode == 200
         msg.send body
       else
-        msg.reply "can't help you right now."
+        msg.reply "Unable to fetch help. Got HTTP status #{statusCode}"
 
   robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i, (msg) ->
     app     = msg.match[1]
@@ -102,7 +102,7 @@ module.exports = (robot) ->
         response = body
       else
         console.log body
-        response = "Can't go HAM on #{app}/#{branch}, shit's being weird."
+        response = "Can't go HAM on #{app}/#{branch}, shit's being weird. Got HTTP status #{statusCode}"
 
       msg.send response
 
@@ -118,7 +118,8 @@ module.exports = (robot) ->
       if statusCode == 201
         msg.reply body
       else
-        msg.reply "Error F7U12: Can't Setup."
+        msg.reply "Can't Setup. Make sure I have access to it."
+        msg.reply "Expected HTTP status 201, got #{statusCode}"
 
   robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     app    = msg.match[1]
@@ -127,7 +128,7 @@ module.exports = (robot) ->
       if statusCode == 200
         msg.send body
       else
-        msg.reply "failed to flip the flag.  Sorry."
+        msg.reply "Failed to flip the flag. Sorry. Got HTTP status #{statusCode}"
 
   robot.respond /ci set room ([-_0-9a-zA-Z\.]+) (.*)$/i, (msg) ->
     repo = msg.match[1]
@@ -136,7 +137,7 @@ module.exports = (robot) ->
       if [404, 403, 200].indexOf(statusCode) > -1
         msg.send body
       else
-        msg.send "you broke everything"
+        msg.send "I couldn't update the room. Got HTTP status #{statusCode}"
 
   robot.respond /ci rooms$/i, (msg) ->
     get "rooms", { }, (err, statusCode, body) ->
@@ -160,7 +161,7 @@ module.exports = (robot) ->
       if statusCode == 200
         msg.send(body)
       else
-        msg.send("who knows")
+        msg.send("Couldn't get status. Got HTTP status #{statusCode}")
 
   robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i, (msg) ->
     app    = msg.match[2]
