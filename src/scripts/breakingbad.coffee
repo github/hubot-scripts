@@ -30,7 +30,7 @@ module.exports = (robot) ->
     msg.reply "They're minerals Marie!"
 
   robot.hear /it'?s done/i, (msg) ->
-    msg.reply "We're done when I say we're done"
+    msg.reply "We're done when I say we're done."
 
   robot.hear /shops/i, (msg) ->
     msg.reply "Yo, gatorade me bitch!"
