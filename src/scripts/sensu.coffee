@@ -35,6 +35,12 @@ module.exports = (robot) ->
 ######################
 #### Info methods ####
 ######################
+  robot.respond /sensu help/i, (msg) ->
+    cmds = robot.helpCommands()
+    cmds = (cmd for cmd in cmds when cmd.match(/(sensu |silence )/))
+    msg.send cmds.join("\n")
+
+
   robot.respond /sensu info/i, (msg) ->
     msg.http(process.env.HUBOT_SENSU_API_URL + '/info')
       .get() (err, res, body) ->
