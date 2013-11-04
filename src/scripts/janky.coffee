@@ -118,8 +118,7 @@ module.exports = (robot) ->
       if statusCode == 201
         msg.reply body
       else
-        msg.reply "Can't Setup. Make sure I have access to it."
-        msg.reply "Expected HTTP status 201, got #{statusCode}"
+        msg.reply "Can't Setup. Make sure I have access to it. Expected HTTP status 201, got #{statusCode}"
 
   robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     app    = msg.match[1]
