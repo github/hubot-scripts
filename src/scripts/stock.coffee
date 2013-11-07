@@ -25,7 +25,7 @@ module.exports = (robot) ->
 
         msg.send result[0].l_cur + "(#{result[0].c})"
 
-  robot.respond /stock chart for @?([\w .-_]+)( -(\d+\w+))?/i, (msg) ->
+  robot.respond /stock chart for @?([\w]+)( -(\d+\w+))?/i, (msg) ->
     ticker = escape(msg.match[1])
-    time = msg.match[2] || '1d'
+    time = msg.match[3] || '1d'
     msg.send "http://chart.finance.yahoo.com/z?s=#{ticker}&t=#{time}&q=l&l=on&z=l&a=v&p=s&lang=en-US&region=US#.png"
