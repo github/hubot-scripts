@@ -3,7 +3,7 @@
 #
 # Dependencies:
 #   "phantom": "0.5.2"
-#   "cheerio: "0.12.1"
+#   "cheerio": "0.12.1"
 # 
 # Configuration:
 #   None
