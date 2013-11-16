@@ -73,5 +73,11 @@ module.exports = (env) ->
       defaultHandle
 
     defaultCredentials: ->
-      defaultCredentials or @credentialsFor(defaultHandle)
+      if defaultCredentials
+        defaultCredentials
+      else if defaultHandle
+        @credentialsFor(defaultHandle)
+      else
+        console.log "No default handle."
+        undefined
   }
