@@ -33,6 +33,8 @@ module.exports = (robot) ->
       $ = require("jquery").create(window)
       name = $.trim $('#header .sectionbody .paragraph').text()
       desc = $.trim $('#_synopsis + .sectionbody').text()
+      if desc == ''
+      desc = $.trim $('#_synopsis + .verseblock').text()
 
       if name and desc
         msg.send name
