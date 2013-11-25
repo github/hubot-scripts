@@ -29,6 +29,6 @@ module.exports = (robot) ->
 					break
 		)
 
-	robot.hear /\b(brb|afk|bbl)\b/i, (msg) ->
+	robot.hear /\b(brb|afk|bbl|bbiab|bbiaf)\b/i, (msg) ->
 		users_away[msg.message.user.name] = true
 
