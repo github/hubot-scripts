@@ -16,7 +16,7 @@
 # Author:
 #   yangsu
 
-
+# Data copied from https://github.com/epall/animated-caltrain/tree/master/data
 STATIONS = [
   name: 'San Francisco'
   milepost: 0.2
