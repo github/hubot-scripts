@@ -38,6 +38,6 @@ module.exports = (robot) ->
     if (ambushes = robot.brain.data.ambushes[msg.message.user.name])
       msg.send "Hey, " + msg.message.user.name + ", while you were out:"
       for ambush in ambushes
-        msg.send ambush[0] + " says: " + ambush[1]
+        msg.send ambush[0] + " said: " + ambush[1]
       msg.send "That's it. You were greatly missed."
       delete robot.brain.data.ambushes[msg.message.user.name]
