@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   botsnack - give the boot a food
+#   botsnack - give the bot a food
 #
 # Author:
 #   richo
