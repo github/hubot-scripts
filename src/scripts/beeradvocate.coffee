@@ -11,7 +11,7 @@
 #   None
 #
 # Commands:
-#   beer me - returns the latest beer discussed on beer advocate with picture
+#   hubot beer me - returns the latest beer discussed on beer advocate with picture
 #
 # Author:
 #   whyjustin
