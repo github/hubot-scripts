@@ -14,7 +14,7 @@
 #   bentona
 #
 getHTTPLinkFromSpotifyURL = (spotifyLink) ->
-  "http://open.spotify.com" + spotifyLink.split(':')[1..2].join('/')
+  "http://open.spotify.com/" + spotifyLink.split(':')[1..2].join('/')
 
 getSong = (msg, query) ->
   msg.http("http://ws.spotify.com/search/1/track.json?q=#{query}")
