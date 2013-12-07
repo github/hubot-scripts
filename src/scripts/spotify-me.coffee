@@ -1,5 +1,7 @@
 # Description:
 #   Search spotify for a song, and provide a link if found
+#   TODO: Add territory filtering so we only link songs
+#   that you can actually play
 #
 # Dependencies:
 #   None
@@ -8,7 +10,7 @@
 #   None
 #
 # Commands:
-#   hubot spotify me (.*)
+#   hubot spotify me <track> - Search spotify and return a link to a track
 #
 # Author:
 #   bentona
