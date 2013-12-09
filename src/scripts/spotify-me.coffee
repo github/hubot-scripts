@@ -35,7 +35,7 @@ getSong = (msg, query) ->
         return
       else
         results = JSON.parse body
-        numResults = results?.info?.numResults or 0
+        numResults = results?.info?.num_results or 0
         if numResults > 0
           response = getHTTPLinkFromSpotifyURL(results?.tracks?[0].href)
         else
