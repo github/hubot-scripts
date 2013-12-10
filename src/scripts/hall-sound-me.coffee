@@ -64,7 +64,9 @@ module.exports = (robot) ->
   speakIt = (msg, name, link) ->
     token = auth[msg.message.user.room_id]
     if(token)
-      data = QS.stringify({'title': "#{name}", 'picture':"http://imageshack.com/a/img31/9652/979g.png", 'message':"<audio controls><source src=\"#{link}\" type=\"audio/mpeg\">Your browser doesn't support it</audio>"})
+      data = QS.stringify({'title': "#{name}",
+        'picture':"http://imageshack.com/a/img834/1557/r5vl.gif",
+        'message':"<audio controls><source src=\"#{link}\" type=\"audio/mpeg\">Your browser doesn't support it</audio>"})
       msg.http("https://hall.com/api/1/services/generic/#{token}")
         .post(data)
     else
