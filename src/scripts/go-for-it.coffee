@@ -1,3 +1,21 @@
+# Description:
+#   Display a random gopher
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_SHIP_EXTRA_GOPHERS # Optional
+#
+# Commands:
+#   go for it
+#   went for it
+#   going for it
+#   goes for it
+#
+# Author:
+#   dylanegan
+
 gophers = [
   'http://25.media.tumblr.com/tumblr_m6k6iluYFU1qa4vxjo1_500.jpg'
   'http://www.sixprizes.com/wp-content/uploads/gopher_caddyshack.jpg'
@@ -12,7 +30,7 @@ module.exports = (robot) ->
 
   # Enable a looser regex if environment variable is set
   if process.env.HUBOT_SHIP_EXTRA_GOPHERS
-    regex = /(went|go(ing|es))? for it/i
+    regex = /(went|go(ing|es)?) for it/i
   else
     regex = /go for it/i
 

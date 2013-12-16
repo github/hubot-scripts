@@ -11,7 +11,7 @@
 #
 #   Put http://<HUBOT_URL>:<PORT>/gitlab/system as your system hook
 #   Put http://<HUBOT_URL>:<PORT>/gitlab/web as your web hook (per repository)
-#   You can also append "?target=#room1,#room2" to the URL to control the
+#   You can also append "?targets=%23room1,%23room2" to the URL to control the
 #   message destination.
 #
 # Commands:
