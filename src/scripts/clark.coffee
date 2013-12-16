@@ -13,7 +13,7 @@
 # Author:
 #   ajacksified
 
-clark = require('clark').clark
+clark = require 'clark'
 
 module.exports = (robot) ->
   robot.respond /clark (.*)/i, (msg) ->
