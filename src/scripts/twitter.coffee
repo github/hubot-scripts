@@ -8,8 +8,8 @@
 # Configuration:
 #   HUBOT_TWITTER_CONSUMER_KEY
 #   HUBOT_TWITTER_CONSUMER_SECRET
-#   HUBOT_TWITTER_ACCESS_TOKEN
-#   HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+#   HUBOT_TWITTER_ACCESS_TOKEN_KEY_<USERNAME>
+#   HUBOT_TWITTER_ACCESS_TOKEN_SECRET_<USERNAME>
 #
 # Commands:
 #   hubot twitter <twitter username> - Show last tweet from <twitter username>
@@ -21,31 +21,17 @@
 
 _ = require "underscore"
 Twit = require "twit"
-config =
-  consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
-  consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
-  access_token: process.env.HUBOT_TWITTER_ACCESS_TOKEN
-  access_token_secret: process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
+twitterConfig = require("../twitter-config")(process.env)
 
 module.exports = (robot) ->
-  twit = undefined
+  auth = twitterConfig.defaultCredentials()
 
   robot.respond /(twitter|lasttweet)\s+(\S+)\s?(\d?)/i, (msg) ->
-    unless config.consumer_key
-      msg.send "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
-      return
-    unless config.consumer_secret
-      msg.send "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
-      return
-    unless config.access_token
-      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN environment variable."
-      return
-    unless config.access_token_secret
-      msg.send "Please set the HUBOT_TWITTER_ACCESS_TOKEN_SECRET environment variable."
+    unless auth
+      msg.reply "Please set HUBOT_TWITTER_CONSUMER_KEY_<USERNAME> and HUBOT_TWITTER_CONSUMER_SECRET_<USERNAME>."
       return
 
-    unless twit
-      twit = new Twit config
+    twit = new Twit(auth)
 
     username = msg.match[2]
     if msg.match[3] then count = msg.match[3] else count = 1
