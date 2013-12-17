@@ -21,10 +21,10 @@
 
 _ = require "underscore"
 Twit = require "twit"
-twitterConfig = require("../twitter-config")(process.env)
+twitterConfig = require("hubot-twitter-config")(process.env)
 
 module.exports = (robot) ->
-  auth = twitterConfig.defaultCredentials()
+  auth = twitterConfig.defaultCredentials
 
   robot.respond /(twitter|lasttweet)\s+(\S+)\s?(\d?)/i, (msg) ->
     unless auth

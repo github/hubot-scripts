@@ -23,10 +23,10 @@
 
 ntwitter = require 'ntwitter'
 inspect = require('util').inspect
-twitterConfig = require("../twitter-config")(process.env)
+twitterConfig = require("hubot-twitter-config")(process.env)
 
 module.exports = (robot) ->
-  auth = twitterConfig.defaultCredentials()
+  auth = twitterConfig.defaultCredentials
 
   robot.respond /(.+) tweet(\s*)?$/i, (msg) ->
     unless auth

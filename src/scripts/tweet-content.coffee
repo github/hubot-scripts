@@ -19,7 +19,7 @@
 
 ntwitter = require 'ntwitter'
 _ = require 'underscore'
-twitterConfig = require("../twitter-config")(process.env)
+twitterConfig = require("hubot-twitter-config")(process.env)
 
 module.exports = (robot) ->
   auth = twitterConfig.defaultCredentials()

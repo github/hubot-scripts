@@ -22,8 +22,8 @@
     "url": "https://github.com/github/hubot-scripts.git"
   },
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script test/**/*",
-    "watch": "mocha --compilers coffee:coffee-script test/**/* --watch"
+    "test": "mocha --compilers coffee:coffee-script test/**/*.coffee",
+    "watch": "mocha --compilers coffee:coffee-script test/**/*.coffee --watch"
   },
   "dependencies": {
     "redis": "0.8.4"
