@@ -155,8 +155,9 @@ module.exports = (robot) ->
 
       msg.send response
 
-  robot.respond /ci status$/i, (msg) ->
-    get "", {}, (err, statusCode, body) ->
+  robot.respond /ci status( (\*\/[-_\+\.a-zA-z0-9\/]+))?$/i, (msg) ->
+    path = if msg.match[2] then "/#{msg.match[2]}" else ""
+    get path, {}, (err, statusCode, body) ->
       if statusCode == 200
         msg.send(body)
       else
