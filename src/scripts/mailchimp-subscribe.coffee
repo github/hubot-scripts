@@ -37,8 +37,7 @@ subscribeToList = (message) ->
 
   api.listSubscribe
     id:            listId
-    # Hack until this PR lands: https://github.com/gomfunkel/node-mailchimp/pull/21
-    email_address: encodeURIComponent(emailAddress)
+    email_address: emailAddress
     double_optin:  false
   , (error, data) ->
     if error
