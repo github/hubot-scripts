@@ -48,7 +48,7 @@ DESIGNER_EXCUSES = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /developer excuse|excuse (?: me)?/i, (msg) ->
+  robot.respond /developer excuse|excuse(?: me)?/i, (msg) ->
     robot.http("http://developerexcuses.com")
       .get() (err, res, body) ->
         matches = body.match /<a [^>]+>(.+)<\/a>/i
@@ -56,5 +56,5 @@ module.exports = (robot) ->
         if matches and matches[1]
           msg.send matches[1]
 
-  robot.respond /designer excuse (?: me)?/i, (msg) ->
+  robot.respond /designer excuse|excuse(?: me)?/i, (msg) ->
     msg.send msg.random(DESIGNER_EXCUSES)
