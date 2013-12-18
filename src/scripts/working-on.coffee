@@ -16,7 +16,7 @@
 
 module.exports = (robot) ->
 
-  robot.respond /(what\'s|what is|whats) @?([\w .\-]+) working on(\?)?$/i, (msg) ->
+  robot.respond /(?:what\'s|what is|whats) @?([\w .\-]+) working on(?:\?)?$/i, (msg) ->
     name = msg.match[1].trim()
 
     if name is "you"
@@ -47,12 +47,12 @@ module.exports = (robot) ->
       else
         msg.send "#{name}? Who's that?"
 
-  robot.respond /(i\'m|i am|im) working on (.*)/i, (msg) ->
+  robot.respond /(?:i\'m|i am|im) working on (.*)/i, (msg) ->
     name = msg.message.user.name
     user = robot.brain.userForName name
 
     if typeof user is 'object'
-      user.workingon = msg.match[2]
+      user.workingon = msg.match[1]
       msg.send "Okay #{user.name}, got it."
     else if typeof user.length > 1
       msg.send "I found #{user.length} people named #{name}"
