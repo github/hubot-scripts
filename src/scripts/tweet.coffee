@@ -64,6 +64,6 @@ module.exports = (robot) ->
 
         if data.statuses? and data.statuses.length > 0
           status = msg.random data.statuses
-          msg.send "http://twitter.com/#!/#{status.user.screen_name}/status/#{status.id_str}"
+          msg.send "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}"
         else
           msg.reply "No one is tweeting about that."
