@@ -1,9 +1,7 @@
 {
   "name": "hubot-scripts",
   "version": "2.5.7",
-
   "author": "hubot",
-
   "keywords": [
     "hubot",
     "plugin",
@@ -12,20 +10,27 @@
     "bot",
     "robot"
   ],
-
   "description": "Allows you to opt in to a variety of scripts",
-
-  "licenses": [{
-    "type": "MIT",
-    "url": "https://github.com/github/hubot-scripts/raw/master/LICENSE"
-  }],
-
-  "repository" : {
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/github/hubot-scripts/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
     "type": "git",
     "url": "https://github.com/github/hubot-scripts.git"
   },
-
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script test/**/*.coffee",
+    "watch": "mocha --compilers coffee:coffee-script test/**/*.coffee --watch"
+  },
   "dependencies": {
     "redis": "0.8.4"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.6.3",
+    "expect.js": "~0.2.0",
+    "mocha": "~1.13.0"
   }
 }
