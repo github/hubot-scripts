@@ -47,9 +47,49 @@ module.exports = (robot) ->
               msg.send "Current build status for #{project}(#{branch}): unknown"
             else
               last = response[0]
-              msg.send "Current build status for #{project}(#{last.branch}): #{last.status}"
+              msg.send "Current build status for #{project}(#{last.branch}): #{last.status} [#{last.build_num}]"
           else
             msg.send "Unknown error getting CircleCI status: #{res.statusCode}"
+
+  robot.respond /circle last (\S*)\s*(\S*)/i, (msg) ->
+    project = escape(msg.match[1])
+    branch = if msg.match[2] then escape(msg.match[2]) else 'master'
+    msg.http("https://circleci.com/api/v1/project/#{project}/tree/#{branch}?circle-token=#{process.env.HUBOT_CIRCLECI_TOKEN}")
+      .headers("Accept": "application/json")
+      .get() (err, res, body) ->
+        switch res.statusCode
+          when 401
+            msg.send 'Not authorized. Did you set HUBOT_CIRCLECI_TOKEN?'
+          when 200
+            response = JSON.parse(body)
+            if response.length == 0
+              msg.send "Current build status for #{project}(#{branch}): unknown"
+            else
+              last = response[0]
+              if last.status != 'running'
+                msg.send "Current build status for #{project}(#{last.branch}): #{last.status} [#{last.build_num}]"
+              else if last.previous && last.previous.status
+                msg.send "Last build status for #{project}(#{last.branch}): #{last.previous.status} [#{last.previous.build_num}]"
+              else
+                msg.send "Last build status for #{project}(#{branch}): unknown"
+          else
+            msg.send "Unknown error getting CircleCI status: #{res.statusCode}"
+
+  robot.respond /circle retry (.*) (.*)/i, (msg) ->
+    project = escape(msg.match[1])
+    if !msg.match[2]
+      msg.send "I can't retry without a build number"
+      return
+    build_num = escape(msg.match[2])
+    msg.http("https://circleci.com/api/v1/project/#{project}/#{build_num}/retry?circle-token=#{process.env.HUBOT_CIRCLECI_TOKEN}")
+      .headers("Accept": "application/json")
+      .post('{}') (err, res, body) ->
+        switch res.statusCode
+          when 401
+            msg.send 'Not authorized. Did you set HUBOT_CIRCLECI_TOKEN?'
+          else
+            response = JSON.parse(body)
+            msg.send "Retrying build #{build_num} for #{project}(#{response.branch})"
 
   # robot.router.post "/hubot/circle", (req, res) ->
   #   query = querystring.parse url.parse(req.url).query
