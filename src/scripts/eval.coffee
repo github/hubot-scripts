@@ -20,14 +20,16 @@
 util = require 'util'
 ready = false
 
+
 module.exports = (robot) ->
+  url = "http://api.dan.co.jp/lleval.cgi"
+
   get_languages = (robot, callback) ->
     callback or= () ->
     if not ready or robot.brain?.data?.eval_langs
       callback(robot.brain?.data?.eval_langs || {})
       return
 
-    url = "http://api.dan.co.jp/lleval.cgi"
     robot.logger.info "Loading language data from #{url}"
     robot
       .http(url)
@@ -37,6 +39,15 @@ module.exports = (robot) ->
         robot.brain.data.eval_langs = langs
         callback(langs)
         robot.logger.info "Brain received eval language list #{util.inspect(langs)}"
+
+  get_result = (msg, query) ->
+    msg
+      .http(url)
+      .query(query)
+      .get() (err, res, body) ->
+        out = JSON.parse(body)
+        ret = out.stdout or out.stderr or "error: #{out.error}"
+        msg.send ret
 
   lang_valid = (robot, lang, callback) ->
     callback or= () ->
@@ -58,14 +69,16 @@ module.exports = (robot) ->
         lang_msg += "#{id}: #{desc}\n"
       msg.send lang_msg
 
-  robot.respond /eval[,:]? +on +([a-z]+) *$/i, (msg) ->
+  robot.respond /eval[,:]? +on +([^ ]+) *$/i, (msg) ->
+    msg.send "hoge"
     robot.brain.data.eval or= {}
     lang = msg.match[1]
-    
+
     is_valid = (valid) ->
-      if not valid 
+      if not valid
         msg.send "Unknown language #{lang} - use eval list command for languages"
         return
+      msg.send(msg.message)
 
       robot.brain.data.eval[msg.message.user.name] = {
         recording: true
@@ -79,19 +92,13 @@ module.exports = (robot) ->
     return unless robot.brain.data.eval?[msg.message.user.name]?.recording
     code = robot.brain.data.eval[msg.message.user.name].code?.join("\n")
     lang = robot.brain.data.eval[msg.message.user.name].lang
-    
+
     is_valid = (valid) ->
       if not valid
         msg.send "Unknown language #{lang} - use eval list command for languages"
         return
-
-      msg
-        .http("http://api.dan.co.jp/lleval.cgi")
-        .query(s: "#!/usr/bin/#{lang}\n#{code}")
-        .get() (err, res, body) ->
-          out = JSON.parse(body)
-          ret = out.stdout or out.stderr
-          msg.send ret.split("\n")
+      q = l: lang, s: code
+      get_result(msg,q)
       delete robot.brain.data.eval[msg.message.user.name]
 
     lang_valid(robot, lang, is_valid)
@@ -108,15 +115,8 @@ module.exports = (robot) ->
       if not valid
         msg.send "Unknown language #{lang} - use eval list command for languages"
         return
-
-      msg
-        .http("http://api.dan.co.jp/lleval.cgi")
-        .query(s: "#!/usr/bin/#{lang}\n#{msg.match[3]}")
-        .get() (err, res, body) ->
-          out = JSON.parse(body)
-          ret = out.stdout or out.stderr
-          msg.send ret.split("\n")
-
+      q = l: lang, s: msg.match[3]
+      get_result(msg,q)
     lang_valid(robot, lang, is_valid)
 
   robot.catchAll (msg) ->
