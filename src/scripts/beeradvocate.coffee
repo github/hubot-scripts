@@ -21,7 +21,7 @@ module.exports = (robot) ->
         msg.http("http://beeradvocate.com/beer/")
             .get() (err, res, body) ->
                 if (res.statusCode == 200)
-                    reg = /<h6><a href="\/beer\/profile\/(.+?)\/(.+?)">(.+?)<\/a><\/h6>/i
+                    reg = /<h6><a href="\/beer\/profile\/(.+?)\/(.+?)\/?">(.+?)<\/a><\/h6>/i
                     results = body.match(reg)
                     if (results != null && results.length > 3)
                         msg.send results[3]
