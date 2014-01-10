@@ -40,14 +40,16 @@ Twit = require "twit"
 config =
   consumer_key: process.env.HUBOT_TWITTER_CONSUMER_KEY
   consumer_secret: process.env.HUBOT_TWITTER_CONSUMER_SECRET
-  accounts: JSON.parse(process.env.HUBOT_TWEETER_ACCOUNTS)
+  accounts_json: process.env.HUBOT_TWEETER_ACCOUNTS
 
 unless config.consumer_key
   console.log "Please set the HUBOT_TWITTER_CONSUMER_KEY environment variable."
 unless config.consumer_secret
   console.log "Please set the HUBOT_TWITTER_CONSUMER_SECRET environment variable."
-unless config.accounts
+unless config.accounts_json
   console.log "Please set the HUBOT_TWEETER_ACCOUNTS environment variable."
+
+config.accounts = JSON.parse(config.accounts_json || "{}")
 
 module.exports = (robot) ->
   robot.respond /tweet\@([^\s]+)$/i, (msg) ->
