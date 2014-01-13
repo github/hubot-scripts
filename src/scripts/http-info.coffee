@@ -2,7 +2,7 @@
 #   Returns title and description when links are posted
 #
 # Dependencies:
-#   "jsdom": "0.2.15"
+#   "jsdom": "0.8.10"
 #   "underscore": "1.3.3"
 #
 # Configuration:
@@ -40,21 +40,28 @@ module.exports = (robot) ->
     if !ignore && ignorePattern
       ignore = url.match(ignorePattern)
 
+    jquery = 'http://code.jquery.com/jquery-1.9.1.min.js'
+
+    done = (errors, window) ->
+      unless errors
+        $ = window.$
+        title = $('title').text()
+        description = $('meta[name=description]').attr("content") || ""
+
+        if title and description and not process.env.HUBOT_HTTP_INFO_IGNORE_DESC
+          msg.send "#{title}\n#{description}"
+
+        else if title
+          msg.send "#{title}"
+
     unless ignore
-      jsdom.env(
-        html: url
-        scripts: [
-          'http://code.jquery.com/jquery-1.9.1.min.js'
-        ]
-        done: (errors, window) ->
-          unless errors
-            $ = window.$
-            title = $('title').text()
-            description = $('meta[name=description]').attr("content") || ""
-
-            if title and description and not process.env.HUBOT_HTTP_INFO_IGNORE_DESC
-              msg.send "#{title}\n#{description}"
-
-            else if title
-              msg.send "#{title}"
-        )
+      if jsdom.version < '0.7.0'
+        jsdom.env
+          html: url
+          scripts: [ jquery ]
+          done: done
+      else
+        jsdom.env
+          url: url
+          scripts: [ jquery ]
+          done: done
