@@ -9,7 +9,7 @@
 #
 # Commands:
 #   hubot show latest from pypi for <package> - Shows latest version of Python package registered at PyPI
-#   hubot show total downloads from pypi for <package> - Shows total number of downloads accross all versions of Python package registered at PyPI
+#   hubot show total downloads from pypi for <package> - Shows total number of downloads across all versions of Python package registered at PyPI
 #
 # Author:
 #   lukaszb
