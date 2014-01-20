@@ -143,6 +143,9 @@ module.exports = (robot) ->
 
   robot.respond /(pager|major)( me)? ack(nowledge)?$/i, (msg) ->
     pagerDutyIncidents msg, 'triggered,acknwowledged', (incidents) ->
+      email  = msg.message.user.pagerdutyEmail || msg.message.user.email_address
+      incidents = incidentsForEmail(incidents, email)
+
       incidentNumbers = (incident.incident_number for incident in incidents)
       if incidentNumbers.length < 1
         msg.send "Nothing to acknowledge"
@@ -427,6 +430,10 @@ module.exports = (robot) ->
       incident.resolved_by_user.email
     else
       '(???)'
+
+  incidentsForEmail = (incidents, user_email) ->
+    incidents.filter (incident) ->
+      getUserForIncident(incident) == user_email
 
   generateIncidentString = (incident, hookType) ->
     console.log "hookType is " + hookType
