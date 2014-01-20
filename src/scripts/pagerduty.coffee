@@ -14,7 +14,7 @@
 #   hubot pager me problems - return all open incidents
 #   hubot pager me ack <incident> - ack incident #<incident>
 #   hubot pager me resolve <incident1> <incident2> ... <incidentN> - ack all specified incidents
-#   hubot pager me ack - ack all triggered incidents 
+#   hubot pager me ack - ack all triggered incidents
 #   hubot pager me resolve <incident> - resolve incident #<incident>
 #   hubot pager me resolve <incident1> <incident2> ... <incidentN>- resolve all specified incidents
 #   hubot pager me resolve - resolve all acknowledged incidents
@@ -22,12 +22,12 @@
 # Dependencies:
 #  "moment": "1.6.2"
 #
-# Notes: 
-#   To setup the webhooks and get the alerts in your chatrooms, you need to add the endpoint you define here (e.g /hooks) in 
-#   the service settings of your Pagerduty accounts. You also need to define the room in which you want them to appear. 
-#   (Unless you want to spam all the rooms with alerts, but we don't believe that should be the default behavior :)  
+# Notes:
+#   To setup the webhooks and get the alerts in your chatrooms, you need to add the endpoint you define here (e.g /hooks) in
+#   the service settings of your Pagerduty accounts. You also need to define the room in which you want them to appear.
+#   (Unless you want to spam all the rooms with alerts, but we don't believe that should be the default behavior :)
 #
-# URLS: 
+# URLS:
 #   http://developer.pagerduty.com/documentation/rest/webhooks
 #   http://support.pagerduty.com/entries/21774694-Webhooks-
 #
@@ -40,7 +40,7 @@
 #   HUBOT_PAGERDUTY_ROOM - Room in which you want the pagerduty webhook notifications to appear
 #   HUBOT_PAGERDUTY_ENDPOINT - Pagerduty Webhook listener e.g /hook
 #
-# Authors: 
+# Authors:
 #   Jesse Newland, Josh Nicols, Jacob Bednarz, Chris Lundquist, Chris Streeter, Joseph Pierri, Greg Hoin
 #
 
@@ -54,7 +54,7 @@ pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
 pagerDutyServiceApiKey = process.env.HUBOT_PAGERDUTY_SERVICE_API_KEY
 pagerDutyScheduleId    = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
 pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
-# Webhook listener endpoint. Set it to whatever URL you want, and make sure it matches your pagerduty service settings 
+# Webhook listener endpoint. Set it to whatever URL you want, and make sure it matches your pagerduty service settings
 pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
 
 module.exports = (robot) ->
@@ -164,7 +164,7 @@ module.exports = (robot) ->
         msg.send "Nothing to resolve"
         return
 
-      # only resolve things that are acknowledged 
+      # only resolve things that are acknowledged
       updateIncidents(msg, incidentNumbers, 'acknowledged', 'resolved')
 
   robot.respond /(pager|major)( me)? notes (.+)$/i, (msg) ->
@@ -335,7 +335,7 @@ module.exports = (robot) ->
      #   SERVICEDESC: 'snapshot_repositories',
      #   SERVICESTATE: 'CRITICAL',
      #   HOSTSTATE: 'UP' },
-    
+
     summary = if inc.trigger_summary_data
               # email services
               if inc.trigger_summary_data.subject
@@ -354,7 +354,7 @@ module.exports = (robot) ->
                     "- assigned to #{inc.assigned_to_user.name}"
                   else
                     ""
-                    
+
 
     "#{inc.incident_number}: #{inc.created_on} #{summary} #{assigned_to}\n"
 
@@ -409,7 +409,7 @@ module.exports = (robot) ->
             console.log res.statusCode
             console.log body
 
-  
+
   # Pagerduty Webhook Integration (For a payload example, see http://developer.pagerduty.com/documentation/rest/webhooks)
   parseWebhook = (req, res) ->
     hook = req.body
