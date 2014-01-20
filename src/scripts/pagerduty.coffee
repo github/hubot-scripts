@@ -220,7 +220,6 @@ module.exports = (robot) ->
 
 
   withPagerDutyUser = (msg, cb) ->
-
     email  = msg.message.user.pagerdutyEmail || msg.message.user.email_address
     unless email
       msg.send "Sorry, I can't figure out your email address :( Can you tell me with `#{robot.name} pager me as you@yourdomain.com`?"
@@ -431,47 +430,50 @@ module.exports = (robot) ->
 
   generateIncidentString = (incident, hookType) ->
     console.log "hookType is " + hookType
+    assigned_user   = getUserForIncident(incident)
+    incident_number = incident.incident_number
+
     if hookType == "incident.trigger"
       """
-      Incident # #{incident.incident_number} :
-      #{incident.status} and assigned to #{getUserForIncident(incident)}
+      Incident # #{incident_number} :
+      #{incident.status} and assigned to #{assigned_user}
        #{incident.html_url}
-      To acknowledge: @#{robot.name} pager me ack #{incident.incident_number}
-       To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      To acknowledge: @#{robot.name} pager me ack #{incident_number}
+      To resolve: @#{robot.name} pager me resolve #{}
       """
     else if hookType == "incident.acknowledge"
       """
-      Incident # #{incident.incident_number} :
-      #{incident.status} and assigned to #{getUserForIncident(incident)}
+      Incident # #{incident_number} :
+      #{incident.status} and assigned to #{assigned_user}
        #{incident.html_url}
-      To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      To resolve: @#{robot.name} pager me resolve #{incident_number}
       """
     else if hookType == "incident.resolve"
       """
-      Incident # #{incident.incident_number} has been resolved by #{getUserForIncident(incident)}
+      Incident # #{incident_number} has been resolved by #{assigned_user}
        #{incident.html_url}
       """
     else if hookType == "incident.unacknowledge"
       """
-      #{incident.status} , unacknowledged and assigned to #{getUserForIncident(incident)}
+      #{incident.status} , unacknowledged and assigned to #{assigned_user}
        #{incident.html_url}
-      To acknowledge: @#{robot.name} pager me ack #{incident.incident_number}
-       To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      To acknowledge: @#{robot.name} pager me ack #{incident_number}
+       To resolve: @#{robot.name} pager me resolve #{incident_number}
       """
     else if hookType == "incident.assign"
       """
-      Incident # #{incident.incident_number} :
-      #{incident.status} , reassigned to #{getUserForIncident(incident)}
+      Incident # #{incident_number} :
+      #{incident.status} , reassigned to #{assigned_user}
        #{incident.html_url}
-      To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      To resolve: @#{robot.name} pager me resolve #{incident_number}
       """
     else if hookType == "incident.escalate"
       """
-      Incident # #{incident.incident_number} :
-      #{incident.status} , was escalated and assigned to #{getUserForIncident(incident)}
+      Incident # #{incident_number} :
+      #{incident.status} , was escalated and assigned to #{assigned_user}
        #{incident.html_url}
-      To acknowledge: @#{robot.name} pager me ack #{incident.incident_number}
-       To resolve: @#{robot.name} pager me resolve #{incident.incident_number}
+      To acknowledge: @#{robot.name} pager me ack #{incident_number}
+      To resolve: @#{robot.name} pager me resolve #{incident_number}
       """
 
   parseIncidents = (messages) ->
