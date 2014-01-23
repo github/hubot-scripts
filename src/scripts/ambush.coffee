@@ -36,8 +36,6 @@ module.exports = (robot) ->
   robot.hear /./i, (msg) ->
     return unless robot.brain.data.ambushes?
     if (ambushes = robot.brain.data.ambushes[msg.message.user.name])
-      msg.send "Hey, " + msg.message.user.name + ", while you were out:"
       for ambush in ambushes
-        msg.send ambush[0] + " said: " + ambush[1]
-      msg.send "That's it. You were greatly missed."
+        msg.send msg.message.user.name + ": while you were out, " + ambush[0] + " said: " + ambush[1]
       delete robot.brain.data.ambushes[msg.message.user.name]
