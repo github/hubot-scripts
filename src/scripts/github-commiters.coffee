@@ -10,7 +10,7 @@
 #
 # Commands:
 #   hubot repo commiters <repo> - shows commiters of repository
-#   hubot repo top-commiters <repo> - shows top commiters of repository
+#   hubot repo top-commiter <repo> - shows top commiters of repository
 #
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
