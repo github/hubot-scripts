@@ -10,7 +10,7 @@
 #
 # Commands:
 #   hubot repo commiters <repo> - shows commiters of repository
-#   hubot repo top-commiter <repo> - shows top commiters of repository
+#   hubot repo top-commiters <repo> - shows top commiters of repository
 #
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
@@ -29,7 +29,7 @@ module.exports = (robot) ->
             max_length -= 1
             return unless max_length
 
-  robot.respond /repo top-commiter (.*)$/i, (msg) ->
+  robot.respond /repo top-commiters? (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           top_commiter = null
           for commit in commits
