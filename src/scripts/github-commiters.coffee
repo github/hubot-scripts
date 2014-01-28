@@ -29,7 +29,7 @@ module.exports = (robot) ->
             max_length -= 1
             return unless max_length
 
-  robot.respond /repo top-commiter (.*)$/i, (msg) ->
+  robot.respond /repo top-commiters? (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           top_commiter = null
           for commit in commits
