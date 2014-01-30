@@ -23,10 +23,14 @@ Select = require("soupselect").select
 HTMLParser = require "htmlparser"
 sanitize = require('validator').sanitize
 
+image = null
+
 module.exports = (robot) ->
   robot.respond /daily deal/i, (msg) ->
-    getDeals msg, (deal) ->
-      msg.send deal[0], deal[1]
+    getDeals msg, (responseText) ->
+      msg.send image
+      msg.send responseText
+
 
 getDeals = (msg, callback) ->
     location = "http://store.steampowered.com"
@@ -45,7 +49,6 @@ parseDeals = (body, selector) ->
     finalPrice = Select(handler.dom, '.dailydeal_content .discount_final_price')[0]
     image = "#{dealObj.children[0].attribs.src.replace /[?].*/ , ''}"
     deal = "From #{sanitize(originalPrice.children[0].data).entityDecode().trim()} to #{sanitize(finalPrice.children[0].data).entityDecode().trim()} #{dealObj.attribs.href}"
-    response = [image, deal]
   else 
     msg.send "No daily deal found"
 
