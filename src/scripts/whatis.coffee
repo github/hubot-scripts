@@ -33,7 +33,7 @@ module.exports = (robot) ->
         $ = require('jquery').create(window)
 
         definitions = []
-        $(".definition").each (idx, item) ->
+        $(".meaning").each (idx, item) ->
           definitions.push $(item).text()
 
         msgText = if definitions.length==0 then "No definition found." else (msg.random definitions)
