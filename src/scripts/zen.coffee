@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   zen - Display GitHub zen message
+#   hubot zen - Display GitHub zen message
 #
 # Author:
 #   anildigital

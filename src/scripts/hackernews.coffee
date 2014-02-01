@@ -9,8 +9,8 @@
 #
 # Commands:
 #   hubot hn top <N> - get the top N items on hacker news (or your favorite RSS feed)
-#   hn.top - refer to the top item on hn
-#   hn[i] - refer to the ith item on hn
+#   hubot hn.top - refer to the top item on hn
+#   hubot hn[i] - refer to the ith item on hn
 #
 # Author:
 #   skimbrel
@@ -35,7 +35,7 @@ module.exports = (robot) ->
           console.log(e)
           msg.send "Something's gone awry"
 
-  robot.hear /HN(\.top|\[\d+\])/i, (msg) ->
+  robot.hear /HN(\.top|\s\d+\s)/i, (msg) ->
      msg.http(hnFeedUrl).get() (err, res, body) ->
        if res.statusCode is not 200
          msg.send "Something's gone awry"

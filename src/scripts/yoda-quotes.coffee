@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   yoda quote - Returns a random yoda quote
+#   hubot yoda quote - Returns a random yoda quote
 #
 # Author:
 #   vquaiato
