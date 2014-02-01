@@ -13,9 +13,9 @@
 #   HUBOT_GITHUB_ISSUE_LINK_IGNORE_USERS
 #
 # Commands:
-#   #nnn - link to GitHub issue nnn for HUBOT_GITHUB_REPO project
-#   repo#nnn - link to GitHub issue nnn for repo project
-#   user/repo#nnn - link to GitHub issue nnn for user/repo project
+#   hubot #nnn - link to GitHub issue nnn for HUBOT_GITHUB_REPO project
+#   hubot repo#nnn - link to GitHub issue nnn for repo project
+#   hubot user/repo#nnn - link to GitHub issue nnn for user/repo project
 #
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
