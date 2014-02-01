@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#   applause|applaud|bravo|slow clap - Get applause
-#   sarcastic applause|clap - Get sarcastic applause
+#   hubot applause|applaud|bravo|slow clap - Get applause
+#   hubot sarcastic applause|clap - Get sarcastic applause
 #
 # Author:
 #   joshfrench
