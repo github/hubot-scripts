@@ -6,7 +6,7 @@
 #
 # Configuration:
 #   HUBOT_WUNDERGROUND_API_KEY Sign up at http://www.wunderground.com/weather/api/.
-#   HUBOT_WUNDERGROUND_USE_METRIC (heroku config:unset HUBOT_WUNDERGROUND_USE_METRIC to disable)
+#   HUBOT_WUNDERGROUND_USE_METRIC Set to arbitrary value to use forecasts with metric system units
 #
 # Commands:
 #   hubot weather me <location> - short-term forecast
