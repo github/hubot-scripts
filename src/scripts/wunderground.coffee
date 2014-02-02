@@ -6,6 +6,7 @@
 #
 # Configuration:
 #   HUBOT_WUNDERGROUND_API_KEY Sign up at http://www.wunderground.com/weather/api/.
+#   HUBOT_WUNDERGROUND_USE_METRIC (heroku config:unset HUBOT_WUNDERGROUND_USE_METRIC to disable)
 #
 # Commands:
 #   hubot weather me <location> - short-term forecast
@@ -87,8 +88,10 @@ get_data = (robot, msg, location, service, query, cb, lifetime, stack=0) ->
 
 send_forecast = (msg, location, data) ->
   report = data.forecast.txt_forecast.forecastday[0]
-  msg.send "#{report.title} in #{location}: #{report.fcttext} (#{formatted_ttl data})"
-
+  if not process.env.HUBOT_WUNDERGROUND_USE_METRIC?
+    msg.send "#{report.title} in #{location}: #{report.fcttext} (#{formatted_ttl data})"
+  else
+    msg.send "#{report.title} in #{location}: #{report.fcttext_metric} (#{formatted_ttl data})"
 send_radar = (msg, location, data) ->
   msg.send "#{data.radar.image_url}#.png"
 
