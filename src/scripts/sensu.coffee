@@ -16,7 +16,7 @@
 #  sensu show version 
 #  sensu show stashes
 #  sensu show (warn|crit|unknown) events 
-#  sensu ack event <path> [reason] [expire] 
+#  sensu ack event <path> "reason" expire_in_sec
 #  sensu resolve event <client> <check>
 #  sensu rm stash <path>
 #
