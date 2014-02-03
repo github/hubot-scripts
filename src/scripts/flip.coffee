@@ -44,7 +44,7 @@ module.exports = (robot) ->
     else if toUnflip == ''
       unflipped = '┬──┬'
     else
-      unflipped = flip(toUnflip)
+      unflipped = toUnflip
 
     msg.send "#{unflipped} ノ( º _ ºノ)"
 
