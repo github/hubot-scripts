@@ -27,7 +27,7 @@ jq = require("jQuery")
 
 module.exports = (robot) ->
   robot.respond /sensu help/i, (msg) ->
-    msg.reply """
+    msg.send """
               sensu help - shows help (this)
               sensu show version - displays version of sensu
               sensu show stashes - retrieves and displays stashes
@@ -42,9 +42,9 @@ module.exports = (robot) ->
     construct_url msg, stashedUrl, (url) ->
       delete_url msg, url, (httpCode) ->
         if httpCode == 204
-          msg.reply "stash removed successfully"
+          msg.send "stash removed successfully"
         else
-          msg.reply "failed to remove stash [" + httpCode + "]"
+          msg.send "failed to remove stash [" + httpCode + "]"
 
   robot.respond /sensu ack event (.*) \"(.*)\" (.*)/i, (msg) ->
     check_path = msg.match[1]
@@ -54,9 +54,9 @@ module.exports = (robot) ->
     construct_url msg, "/stashes", (url) ->
       post_url msg, url, post_data, (httpCode) ->
         if httpCode == 201
-          msg.reply "event ack successful"
+          msg.send "event ack successful"
         else
-          msg.reply "failed to ack event [" + httpCode + "]"
+          msg.send "failed to ack event [" + httpCode + "]"
 
   robot.respond /sensu resolve event (.*?) (.*)/i, (msg) ->
     client = msg.match[1]
@@ -65,9 +65,9 @@ module.exports = (robot) ->
     construct_url msg, "/resolve", (url) ->
       post_url msg, url, post_data, (httpCode) ->
         if httpCode == 202
-          msg.reply "event resolved"
+          msg.send "event resolved"
         else
-          msg.reply "failed to resolve event [" + httpCode + "]"
+          msg.send "failed to resolve event [" + httpCode + "]"
 
   robot.respond /sensu show version/i, (msg) ->
     construct_url msg, "/info", (url) ->
@@ -75,9 +75,9 @@ module.exports = (robot) ->
         isJSON results, (valid) ->
           if valid == true 
             jObj = jq.parseJSON(results)
-            msg.reply "Sensu version: " + jObj.sensu['version']
+            msg.send "Sensu version: " + jObj.sensu['version']
           else
-            msg.reply results
+            msg.send results
 
   robot.respond /sensu show stashes/i, (msg) ->
     construct_url msg, "/stashes", (url) ->
@@ -87,11 +87,11 @@ module.exports = (robot) ->
             jObj = jq.parseJSON(results)
             jq.each jObj, (idx, obj) ->
               if obj.content['timestamp']
-                msg.reply "Silenced at: " + obj.content['timestamp'] + " - " + obj.path
+                msg.send "Silenced at: " + obj.content['timestamp'] + " - " + obj.path
               else
-                msg.reply "Silenced because: " + obj.content['reason'] + " - " + obj.path
+                msg.send "Silenced because: " + obj.content['reason'] + " - " + obj.path
           else
-            msg.reply results
+            msg.send results
 
   robot.respond /sensu show\s?(warn|crit|unknown)? events/i, (msg) ->
     construct_url msg, "/events", (url) ->
@@ -106,18 +106,18 @@ module.exports = (robot) ->
               occurences = ""
               if msg.match[1] == "warn"
                 if obj.status == 1
-                  msg.reply "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
+                  msg.send "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
               else if msg.match[1] == "crit"
                 if obj.status == 2
-                  msg.reply "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
+                  msg.send "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
               else if msg.match[1] == "unknown"
                 if obj.status == 3
-                  msg.reply "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
+                  msg.send "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
               else
-                msg.reply "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
+                msg.send "path: " + obj.client + "/" + obj.check + "\ncheck_output: " + obj.output 
 
           else
-            msg.reply results
+            msg.send results
 
 
 isJSON = (data, cb) ->
@@ -148,7 +148,7 @@ post_url = (msg, apiUrl, jsonData, cb) ->
     .header('User-Agent', 'Hubot Sensu Script')
     .post(jsonData) (err, res, body) ->
       if err
-        msg.reply "Encountered an error :( #{err}"
+        msg.send "Encountered an error :( #{err}"
         return cb "000"
       cb res.statusCode 
 
@@ -157,7 +157,7 @@ delete_url = (msg, apiUrl, cb) ->
     .header('User-Agent', 'Hubot Sensu Script')
     .del() (err, res, body) ->
       if err
-        msg.reply "Encountered an error :( #{err}"
+        msg.send "Encountered an error :( #{err}"
         return cb "000"
       cb res.statusCode
 
