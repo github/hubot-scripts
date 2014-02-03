@@ -25,10 +25,8 @@ sanitize = require('validator').sanitize
 
 module.exports = (robot) ->
   robot.respond /daily deal/i, (msg) ->
-    getDeals msg, (responseText) ->
-      msg.send responseText[0]
-      msg.send responseText[1]
-
+    getDeals msg, (deal) ->
+      msg.send deal[0], deal[1]
 
 getDeals = (msg, callback) ->
     location = "http://store.steampowered.com"
