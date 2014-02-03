@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   good night
+#   hubot good night
 #
 # Author:
 #   noahhendrix

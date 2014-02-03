@@ -21,7 +21,7 @@
 #     http[s]://yourdomain.com/api/v3/ for Enterprise installations.
 #
 # Commands:
-#   Listens for <SHA> and links to the commit for your default repo on github
+#   hubot <sha1> - Listens for <SHA> and links to the commit for HUBOT_GITHUB_REPO
 #
 # Author:
 #   achiu

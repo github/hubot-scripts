@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   fml - A random message from fmylife.com
+#   hubot fml - A random message from fmylife.com
 #
 # Author:
 #   artfuldodger
