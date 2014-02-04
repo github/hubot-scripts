@@ -5,8 +5,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_BITLY_USERNAME
-#   HUBOT_BITLY_API_KEY
+#   HUBOT_BITLY_ACCESS_TOKEN
 #
 # Commands:
 #   hubot (bitly|shorten) (me) <url> - Shorten the URL using bit.ly
@@ -15,14 +14,14 @@
 # Author:
 #   sleekslush
 #   drdamour
+#   johnwyles
 
 module.exports = (robot) ->
   robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/i, (msg) ->
     msg
-      .http("http://api.bitly.com/v3/shorten")
+      .http("https://api-ssl.bitly.com/v3/shorten")
       .query
-        login: process.env.HUBOT_BITLY_USERNAME
-        apiKey: process.env.HUBOT_BITLY_API_KEY
+        access_token: process.env.HUBOT_BITLY_ACCESS_TOKEN
         longUrl: msg.match[3]
         format: "json"
       .get() (err, res, body) ->
@@ -32,10 +31,9 @@ module.exports = (robot) ->
    #TODO: can we make this list more expansive/dynamically generated?
    robot.hear /(https?:\/\/(bit\.ly|yhoo\.it|j\.mp|pep\.si|amzn\.to)\/[0-9a-z\-]+)/ig, (msg) ->
     msg
-      .http("http://api.bitly.com/v3/expand")
+      .http("https://api-ssl.bitly.com/v3/expand")
       .query
-        login: process.env.HUBOT_BITLY_USERNAME
-        apiKey: process.env.HUBOT_BITLY_API_KEY
+        access_token: process.env.HUBOT_BITLY_ACCESS_TOKEN
         shortUrl: msg.match
       .get() (err, res, body) ->
         parsedBody = JSON.parse body
