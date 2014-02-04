@@ -52,6 +52,6 @@ darkSkyMe = (msg, lat, lng, cb) ->
         return
 
       response = "Currently: #{result.currently.summary} (#{result.currently.temperature}°)"
-      response += "\nNext hour: #{result.hourly.summary}"
-      response += "\nToday: #{result.daily.summary}"
+      response += "\nToday: #{result.hourly.summary}"
+      response += "\nComing week: #{result.daily.summary}"
       cb response
