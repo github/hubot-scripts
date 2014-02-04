@@ -6,7 +6,7 @@
 #   "soupselect": "0.2.0"
 #
 # Configuration:
-#   NINEGAG_NO_GIFS (optional; default is "false")
+#   HUBOT_9GAG_NO_GIFS (optional; default is "false")
 #
 # Commands:
 #   hubot 9gag me - Returns a random meme image
@@ -40,7 +40,7 @@ send_meme = (message, location, response_handler)->
       location = response.headers['location']
       return send_meme( message, location, response_handler )
 
-    no_gifs = process.env.NINEGAG_NO_GIFS
+    no_gifs = process.env.HUBOT_9GAG_NO_GIFS
     selectors = ["a img.badge-item-img"]
     if no_gifs != '0' && no_gifs != 't' && no_gifs != 'true'
       selectors.unshift("div.badge-animated-container-animated img")
