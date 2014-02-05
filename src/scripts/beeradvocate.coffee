@@ -11,13 +11,13 @@
 #   None
 #
 # Commands:
-#   hubot beer me - returns the latest beer discussed on beer advocate with picture
+#   hubot beer advocate me - returns the latest beer discussed on beer advocate with picture
 #
 # Author:
 #   whyjustin
 
 module.exports = (robot) ->
-    robot.respond /beer (a|advocate)?( me)?/i, (msg) ->
+    robot.respond /beer (a|advocate)( me)?/i, (msg) ->
         msg.http("http://beeradvocate.com/beer/")
             .get() (err, res, body) ->
                 if (res.statusCode == 200)
