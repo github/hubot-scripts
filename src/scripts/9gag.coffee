@@ -22,8 +22,8 @@ HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
   robot.respond /9gag( me)?/i, (message)->
-    send_meme message, false, (text)->
-      message.send text
+    send_meme message, false, (title, src)->
+      message.send title, src
 
 send_meme = (message, location, response_handler)->
   meme_domain = "http://9gag.com"
@@ -45,13 +45,14 @@ send_meme = (message, location, response_handler)->
       selectors.unshift("div.badge-animated-container-animated img")
 
     img_src = get_meme_image( body, selectors )
-
     if img_src.substr(0, 4) != "http"
       img_src = "http:#{img_src}"
 
-    response_handler img_src
+    img_title = escape_html_characters( get_meme_title( body, [".badge-item-title"] ) )
 
-get_meme_image = (body, selectors)->
+    response_handler img_title, img_src
+
+select_element = (body, selectors)->
   html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
   html_parser   = new HTMLParser.Parser html_handler
 
@@ -59,4 +60,23 @@ get_meme_image = (body, selectors)->
   for selector in selectors
     img_container = Select( html_handler.dom, selector )
     if img_container && img_container[0]
-      return img_container[0].attribs.src
+      return img_container[0]
+
+get_meme_image = ( body, selectors )->
+  select_element(body, selectors).attribs.src
+
+get_meme_title = ( body, selectors )->
+  select_element(body, selectors).children[0].raw
+
+escape_html_characters = (text)->
+  replacements = [
+    [/&/g, '&amp;']
+    [/</g, '&lt;']
+    [/"/g, '&quot;']
+    [/'/g, '&#039;']
+  ]
+
+  for r in replacements
+    text = text.replace r[0], r[1]
+  return text
+
