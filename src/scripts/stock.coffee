@@ -18,6 +18,9 @@ module.exports = (robot) ->
     ticker = escape(msg.match[2])
     msg.http('http://finance.google.com/finance/info?client=ig&q=' + ticker)
       .get() (err, res, body) ->
-        result = JSON.parse(body.replace(/\/\/ /, ''))
+        if err or !body
+          msg.send 'There was an error looking up stock information.'
+        else
+          result = JSON.parse(body.replace(/\/\/ /, ''))
 
-        msg.send result[0].l_cur + "(#{result[0].c})"
+          msg.send result[0].l_cur + "(#{result[0].c})"
