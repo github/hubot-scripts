@@ -54,7 +54,7 @@ module.exports = (robot) ->
       console.log('hook', hook)
 
     user = {}
-    user.room = if query.targets then gitlabChannel + ',' + query.targets else gitlabChannel
+    user.room = if query.targets then query.targets else gitlabChannel
     user.type = query.type if query.type
 
     switch type
