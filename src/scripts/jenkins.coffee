@@ -16,6 +16,7 @@
 #   hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
 #   hubot jenkins list <filter> - lists Jenkins jobs
 #   hubot jenkins describe <job> - Describes the specified Jenkins job
+#   hubot jenkins last <job> - Details about the last build for the specified Jenkins job
 
 #
 # Author:
@@ -83,7 +84,7 @@ jenkinsDescribe = (msg) ->
           try
             content = JSON.parse(body)
             response += "JOB: #{content.displayName}\n"
-            response += "URL: #{url}/job/#{job}\n"
+            response += "URL: #{content.url}\n"
 
             if content.description
               response += "DESCRIPTION: #{content.description}\n"
@@ -115,7 +116,7 @@ jenkinsDescribe = (msg) ->
             if not content.lastBuild
               return
 
-            path = "#{content.lastBuild.url}/api/json"
+            path = "#{url}/job/#{job}/#{content.lastBuild.number}/api/json"
             req = msg.http(path)
             if process.env.HUBOT_JENKINS_AUTH
               auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
@@ -140,6 +141,36 @@ jenkinsDescribe = (msg) ->
 
           catch error
             msg.send error
+
+jenkinsLast = (msg) ->
+    url = process.env.HUBOT_JENKINS_URL
+    job = msg.match[1]
+
+    path = "#{url}/job/#{job}/lastBuild/api/json"
+
+    req = msg.http(path)
+
+    if process.env.HUBOT_JENKINS_AUTH
+      auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+      req.headers Authorization: "Basic #{auth}"
+
+    req.header('Content-Length', 0)
+    req.get() (err, res, body) ->
+        if err
+          msg.send "Jenkins says: #{err}"
+        else
+          response = ""
+          try
+            content = JSON.parse(body)
+            response += "NAME: #{content.fullDisplayName}\n"
+            response += "URL: #{content.url}\n"
+
+            if content.description
+              response += "DESCRIPTION: #{content.description}\n"
+
+            response += "BUILDING: #{content.building}\n"
+
+            msg.send response
 
 jenkinsList = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
@@ -184,7 +215,12 @@ module.exports = (robot) ->
   robot.respond /j(?:enkins)? describe (.*)/i, (msg) ->
     jenkinsDescribe(msg)
 
+  robot.respond /j(?:enkins)? last (.*)/i, (msg) ->
+    jenkinsLast(msg)
+
   robot.jenkins = {
     list: jenkinsList,
     build: jenkinsBuild
+    describe: jenkinsDescribe
+    last: jenkinsLast
   }
