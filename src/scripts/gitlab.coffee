@@ -12,7 +12,8 @@
 #   Put http://<HUBOT_URL>:<PORT>/gitlab/system as your system hook
 #   Put http://<HUBOT_URL>:<PORT>/gitlab/web as your web hook (per repository)
 #   You can also append "?targets=%23room1,%23room2" to the URL to control the
-#   message destination.
+#   message destination.  Using the "target" parameter to override the 
+#   GITLAB_CHANNEL configuration value.
 #
 # Commands:
 #   None
@@ -54,7 +55,7 @@ module.exports = (robot) ->
       console.log('hook', hook)
 
     user = {}
-    user.room = if query.targets then gitlabChannel + ',' + query.targets else gitlabChannel
+    user.room = if query.targets then query.targets else gitlabChannel
     user.type = query.type if query.type
 
     switch type
