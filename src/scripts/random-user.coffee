@@ -16,7 +16,7 @@ String::capitalize = ->
 module.exports = (robot) ->
 
   robot.respond /(random|generate) user/i, (msg) ->
-    msg.http('http://randomuser.me/g/')
+    msg.http('http://api.randomuser.me/')
       .get() (err, res, body) ->
         if err?
           msg.reply "Error occured generating a random user: #{err}"
