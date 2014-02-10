@@ -6,13 +6,16 @@
 #   "soupselect": "0.2.0"
 #
 # Configuration:
-#   None
+#   HUBOT_9GAG_NO_GIFS (optional, skips GIFs if defined; default is undefined)
 #
 # Commands:
 #   hubot 9gag me - Returns a random meme image
 #
 # Author:
 #   EnriqueVidal 
+#
+# Contributors:
+#   dedeibel (gif support)
 
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
@@ -37,16 +40,23 @@ send_meme = (message, location, response_handler)->
       location = response.headers['location']
       return send_meme( message, location, response_handler )
 
-    img_src = get_meme_image( body, ".badge-item-img" )
+    selectors = ["a img.badge-item-img"]
+    if ! process.env.HUBOT_9GAG_NO_GIFS?
+      selectors.unshift("div.badge-animated-container-animated img")
+
+    img_src = get_meme_image( body, selectors )
 
     if img_src.substr(0, 4) != "http"
       img_src = "http:#{img_src}"
 
     response_handler img_src
 
-get_meme_image = (body, selector)->
+get_meme_image = (body, selectors)->
   html_handler  = new HTMLParser.DefaultHandler((()->), ignoreWhitespace: true )
   html_parser   = new HTMLParser.Parser html_handler
 
   html_parser.parseComplete body
-  Select( html_handler.dom, selector )[0].attribs.src
+  for selector in selectors
+    img_container = Select( html_handler.dom, selector )
+    if img_container && img_container[0]
+      return img_container[0].attribs.src
