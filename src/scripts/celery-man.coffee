@@ -44,8 +44,8 @@ module.exports = (robot) ->
   robot.hear /yes/i, (msg) ->
     if tayne and moretayne
       moretayne = false
-      msg.send "http://imgur.com/h27BPKW"
+      msg.send "http://i.imgur.com/h27BPKW.png"
   robot.hear /tayne/gi, (msg) ->
     if tayne and not moretayne
       tayne = false
-      msg.send "http://imgur.com/TrdLwoz"
+      msg.send "http://i.imgur.com/TrdLwoz.gif"
