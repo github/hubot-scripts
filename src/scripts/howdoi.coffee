@@ -9,7 +9,7 @@
 #   None
 #
 # Commands:
-#   howdoi
+#   hubot howdoi <do thing> - Searches Stack Overflow for a way of doing thing.
 #
 # Author:
 #   pettazz 
