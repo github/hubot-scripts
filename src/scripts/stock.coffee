@@ -21,3 +21,4 @@ module.exports = (robot) ->
         result = JSON.parse(body.replace(/\/\/ /, ''))
 
         msg.send result[0].l_cur + "(#{result[0].c})"
+        msg.send "http://chart.finance.yahoo.com/z?s=#{ticker}&t=1d&q=l&l=on&z=l&a=v&p=s&lang=en-US&region=US#.png"
