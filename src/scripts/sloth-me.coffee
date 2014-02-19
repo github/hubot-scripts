@@ -48,6 +48,15 @@ sloths = [
   'http://i.imgur.com/C975XnF.jpg'
   'http://i.imgur.com/7rz0Bll.jpg'
   'http://i.imgur.com/Mtl0pTt.jpg'
+  'http://i.imgur.com/tBxfiOo.gif'
+  'http://i.imgur.com/aiXPItB.gif'
+  'http://i.imgur.com/WKIYCXY.gif'
+  'http://i.imgur.com/PwOFcmM.gif'
+  'http://i.imgur.com/gGgVGEn.gif'
+  'http://i.imgur.com/NAJYZRJ.gif'
+  'http://i.imgur.com/QppoTRe.gif'
+  'http://i.imgur.com/DWoZS2y.gif'
+  'http://i.imgur.com/eafrx63.gif'
 ]
 
 module.exports = (robot) ->
