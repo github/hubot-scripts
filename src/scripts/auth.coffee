@@ -25,6 +25,7 @@
 #   alexwilliamsca
 
 module.exports = (robot) ->
+  robot.logger.warning 'DEPRECATION NOTICE: auth.coffee has moved to https://github.com/hubot-scripts/hubot-auth'
   admin = process.env.HUBOT_AUTH_ADMIN
 
   class Auth
