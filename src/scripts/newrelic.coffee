@@ -22,8 +22,10 @@
 # Author:
 #   briandoll
 
+Parser = require("xml2js").Parser
+
 module.exports = (robot) ->
-  fetchData = (appId) ->
+  fetchData = (accountId, appId, apiKey, msg) ->
     msg.http("https://rpm.newrelic.com/accounts/#{accountId}/applications/#{appId}/threshold_values?api_key=#{apiKey}")
       .get() (err, res, body) ->
         if err
@@ -41,6 +43,5 @@ module.exports = (robot) ->
     accountId = process.env.HUBOT_NEWRELIC_ACCOUNT_ID
     appIds     = process.env.HUBOT_NEWRELIC_APP_ID.split(',')
     apiKey    = process.env.HUBOT_NEWRELIC_API_KEY
-    Parser = require("xml2js").Parser
-    fetchData(appId) for appId in appIds
+    fetchData(accountId, appId, apiKey, msg) for appId in appIds
 
