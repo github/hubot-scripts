@@ -5,7 +5,7 @@
 #   "cheerio": "x"
 #
 # Commands:
-#   hubot euphemism me - Goes to the Euphemism Generator and pics up a fresh euphemism. That's what she said.
+#   hubot euphemism me - Goes to the Euphemism Generator and pics up a fresh euphemism.
 cheerio = require("cheerio")
 
 module.exports = (robot) ->
