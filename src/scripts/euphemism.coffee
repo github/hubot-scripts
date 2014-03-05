@@ -6,6 +6,10 @@
 #
 # Commands:
 #   hubot euphemism me - Goes to the Euphemism Generator and pics up a fresh euphemism.
+#
+# Author:
+#   mattroyer
+#
 cheerio = require("cheerio")
 
 module.exports = (robot) ->
