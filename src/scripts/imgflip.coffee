@@ -5,8 +5,8 @@
 #   None
 #
 # Configuration:
-#   HUBOT_MEMEGEN_USERNAME
-#   HUBOT_MEMEGEN_PASSWORD
+#   HUBOT_IMGFLIP_USERNAME
+#   HUBOT_IMGFLIP_PASSWORD
 #
 # Commands:
 #   Y U NO <text>  - Generates the Y U NO GUY with the bottom caption of <text>
