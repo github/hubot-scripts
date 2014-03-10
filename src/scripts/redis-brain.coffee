@@ -5,7 +5,7 @@
 #   "redis": "0.8.4"
 #
 # Configuration:
-#   REDISTOGO_URL or REDISCLOUD_URL or BOXEN_REDIS_URL
+#   REDISTOGO_URL or REDISCLOUD_URL or BOXEN_REDIS_URL or REDIS_URL
 #
 # Commands:
 #   None
@@ -17,7 +17,7 @@ Url   = require "url"
 Redis = require "redis"
 
 module.exports = (robot) ->
-  info   = Url.parse process.env.REDISTOGO_URL or process.env.REDISCLOUD_URL or process.env.BOXEN_REDIS_URL or 'redis://localhost:6379'
+  info   = Url.parse process.env.REDISTOGO_URL or process.env.REDISCLOUD_URL or process.env.BOXEN_REDIS_URL or process.env.REDIS_URL or 'redis://localhost:6379'
   client = Redis.createClient(info.port, info.hostname)
 
   robot.brain.setAutoSave false
