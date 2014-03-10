@@ -225,6 +225,10 @@ module.exports = (robot) ->
         configuration = option
         project = null
 
+        unless configuration?
+          msg.send "builds of which project?"
+          return
+
         buildTypeRE = /^\s*of (.*?) of (.+) (\d+)/i
         buildTypeMatches = option.match buildTypeRE
         if buildTypeMatches?
