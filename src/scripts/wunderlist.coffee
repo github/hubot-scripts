@@ -7,7 +7,7 @@
 # Configuration:
 #   HUBOT_WUNDERLIST_SMTP_HOST - your smtp host e.g. smtp.gmail.com
 #   HUBOT_WUNDERLIST_SMTP_PORT - the port to connect to
-#   HUBOT_WUNDERLIST_SMTP_USESSL - wether you want to connect via SSL
+#   HUBOT_WUNDERLIST_SMTP_USESSL - whether you want to connect via SSL
 #   HUBOT_WUNDERLIST_SMTP_SENDDOMAIN - the domain from which to send
 #   HUBOT_WUNDERLIST_SMTP_USEAUTH - BOOL: authentication required
 #   HUBOT_WUNDERLIST_SMTP_AUTH_NAME - username for authentication

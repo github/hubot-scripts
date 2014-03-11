@@ -19,13 +19,14 @@ module.exports = (robot) ->
      datetime = new Date()
      username = msg.match[1]
      room = msg.message.user.room
-     tellmessage = username + ": " + msg.message.user.name + " @ " + datetime.toLocaleString() + " said: " + msg.match[2] + "\r\n"
+     tellmessage = msg.message.user.name + " @ " + datetime.toLocaleString() + " said: " + msg.match[2] + "\r\n"
      if not localstorage[room]?
        localstorage[room] = {}
      if localstorage[room][username]?
        localstorage[room][username] += tellmessage
      else
        localstorage[room][username] = tellmessage
+     msg.send "Ok, I'll tell #{username} you said '#{msg.match[2]}'."
      return
  
    # When a user enters, check if someone left them a message
@@ -36,7 +37,7 @@ module.exports = (robot) ->
        for recipient, message of localstorage[room]
          # Check if the recipient matches username
          if username.match(new RegExp "^"+recipient, "i")
-           tellmessage = localstorage[room][recipient]
+           tellmessage = username + ": " + localstorage[room][recipient]
            delete localstorage[room][recipient]
            msg.send tellmessage
      return

@@ -8,7 +8,7 @@
 #   HUBOT_NEWRELIC_ACCOUNT_ID
 #   HUBOT_NEWRELIC_APP_ID
 #   HUBOT_NEWRELIC_API_KEY
-# 
+#
 # Commands:
 #   hubot newrelic me - Returns summary application stats from New Relic
 #
@@ -18,17 +18,14 @@
 #   Given: https://rpm.newrelic.com/accounts/xxx/applications/yyy
 #     xxx is your Account ID and yyy is your App ID
 #   Account Settings > API + Web Integrations > API Access > "API key"
-# 
+#
 # Author:
 #   briandoll
 
+Parser = require("xml2js").Parser
+
 module.exports = (robot) ->
-  robot.respond /newrelic me/i, (msg) ->
-    accountId = process.env.HUBOT_NEWRELIC_ACCOUNT_ID
-    appId     = process.env.HUBOT_NEWRELIC_APP_ID
-    apiKey    = process.env.HUBOT_NEWRELIC_API_KEY
-    Parser = require("xml2js").Parser
-    
+  fetchData = (accountId, appId, apiKey, msg) ->
     msg.http("https://rpm.newrelic.com/accounts/#{accountId}/applications/#{appId}/threshold_values?api_key=#{apiKey}")
       .get() (err, res, body) ->
         if err
@@ -39,5 +36,12 @@ module.exports = (robot) ->
           threshold_values = json['threshold-values']['threshold_value'] || []
           lines = threshold_values.map (threshold_value) ->
             "#{threshold_value['$']['name']}: #{threshold_value['$']['formatted_metric_value']}"
-             
+
           msg.send lines.join("\n"), "https://rpm.newrelic.com/accounts/#{accountId}/applications/#{appId}"
+
+  robot.respond /newrelic me/i, (msg) ->
+    accountId = process.env.HUBOT_NEWRELIC_ACCOUNT_ID
+    appIds     = process.env.HUBOT_NEWRELIC_APP_ID.split(',')
+    apiKey    = process.env.HUBOT_NEWRELIC_API_KEY
+    fetchData(accountId, appId, apiKey, msg) for appId in appIds
+

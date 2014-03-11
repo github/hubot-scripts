@@ -9,7 +9,7 @@
 #   None
 #
 # Commands:
-#   howdoi
+#   hubot howdoi <do thing> - Searches Stack Overflow for a way of doing thing.
 #
 # Author:
 #   pettazz 
@@ -34,7 +34,7 @@ module.exports = (robot) ->
             if jQuery('*:contains("did not match any documents.")').length > 0
                 message.send "Sorry, I don't know anything about that.\n"
             else
-                first_sresult = jQuery("a.l:first").attr('href')
+                first_sresult = jQuery(".r a:first").attr('href')
                 options.uri = first_sresult
                 message.send options.uri
                 scraper options, (err, jQuery) ->

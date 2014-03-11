@@ -1,26 +1,26 @@
 # Description:
-#	 Nickname generator
+#   Nickname generator
 #
 # Dependencies:
-#	 "cheerio": "0.10.5"
+#   "cheerio": "0.10.5"
 #
 # Configuration:
 #   None
 #
 # Commands:
-#	 hubot nick pirate <name> - Get your pirate name.
-#	 hubot nick wutang <name> - Get your Wutang Clan name.
-#	 hubot nick blues <name> - Get your Blues guitarist name.
-#	 hubot nick potter <name> - Get your Harry Potter universe name.
-#	 hubot nick hacker <name> - Get your l337 hacker name.
+#   hubot nick pirate <name> - Get your pirate name.
+#   hubot nick wutang <name> - Get your Wutang Clan name.
+#   hubot nick blues <name> - Get your Blues guitarist name.
+#   hubot nick potter <name> - Get your Harry Potter universe name.
+#   hubot nick hacker <name> - Get your l337 hacker name.
 #
-#	 hubot nick help - explains usage
+#   hubot nick help - explains usage
 #
 # Notes:
-#	 None
+#   None
 #
 # Author:
-#	 @commadelimited
+#   @commadelimited
 
 $ = require 'cheerio'
 

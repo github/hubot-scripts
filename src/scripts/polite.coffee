@@ -40,7 +40,7 @@ farewellResponses = [
 youTalkinToMe = (msg, robot) ->
   input = msg.message.text.toLowerCase()
   name = robot.name.toLowerCase()
-  input.indexOf(name) != -1
+  input.match(new RegExp('\\b' + name + '\\b', 'i'))?
 
 module.exports = (robot) ->
   robot.hear /\b(thanks|thank you|cheers|nice one)\b/i, (msg) ->

@@ -20,7 +20,7 @@ Select     = require("soupselect").select
 module.exports = (robot) ->
   robot.respond /npm version (.*)/i, (msg) ->
     packageName = escape(msg.match[1])
-    msg.http("https://npmjs.org/package/#{packageName}").get() (err, res, body) ->
+    msg.http("https://www.npmjs.org/package/#{packageName}").get() (err, res, body) ->
       if err
         msg.send "I tried talking to npmjs.org, but it seems to be ignoring me."
       else

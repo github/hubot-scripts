@@ -1,7 +1,7 @@
 # Description:
 #   Looks up jira issues when they're mentioned in chat
 #
-#   Will ignore users set in HUBOT_JIRA_IGNORE_USERS (by default, JIRA and GitHub).
+#   Will ignore users set in HUBOT_JIRA_ISSUES_IGNORE_USERS (by default, JIRA and GitHub).
 #
 # Dependencies:
 #   None
@@ -11,7 +11,7 @@
 #   HUBOT_JIRA_IGNORECASE (optional; default is "true")
 #   HUBOT_JIRA_USERNAME (optional)
 #   HUBOT_JIRA_PASSWORD (optional)
-#   HUBOT_JIRA_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
+#   HUBOT_JIRA_ISSUES_IGNORE_USERS (optional, format: "user1|user2", default is "jira|github")
 #
 # Commands:
 # 
@@ -53,8 +53,10 @@ module.exports = (robot) ->
           now = new Date().getTime()
           if cache.length > 0
             cache.shift() until cache.length is 0 or cache[0].expires >= now
+
+          msg.send item.message for item in cache when item.issue is issue
+
           if cache.length == 0 or (item for item in cache when item.issue is issue).length == 0
-            cache.push({issue: issue, expires: now + 120000})
             robot.http(jiraUrl + "/rest/api/2/issue/" + issue)
               .auth(auth)
               .get() (err, res, body) ->
@@ -74,11 +76,12 @@ module.exports = (robot) ->
                   else
                     message += ', fixVersion: NONE'
 
-                  msg.send message
-
                   urlRegex = new RegExp(jiraUrl + "[^\\s]*" + key)
                   if not msg.message.text.match(urlRegex)
-                    msg.send jiraUrl + "/browse/" + key
+                    message += "\n" + jiraUrl + "/browse/" + key
+
+                  msg.send message
+                  cache.push({issue: issue, expires: now + 120000, message: message})
                 catch error
                   try
                     msg.send "[*ERROR*] " + json.errorMessages[0]

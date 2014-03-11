@@ -58,10 +58,11 @@ module.exports = (robot) ->
     res.end('')
 
     envelope = {notstrat:"Fs"}
-    envelope.user = {}
     envelope.room = query.room if query.room
-    envelope.user.type = query.type if query.type
     envelope.notstrat = query.notstrat if query.notstrat 
+    if query.type
+      envelope.user = {type: query.type}
+
     try
       data = req.body
 

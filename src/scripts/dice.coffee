@@ -8,6 +8,7 @@
 #   None
 #
 # Commands:
+#   hubot roll (die|one) - Roll one six-sided dice
 #   hubot roll dice - Roll two six-sided dice
 #   hubot roll <x>d<y> - roll x dice, each of which has y sides
 #
@@ -15,6 +16,8 @@
 #   ab9
 
 module.exports = (robot) ->
+  robot.respond /roll (die|one)/i, (msg) ->
+    msg.reply report [rollOne(6)]
   robot.respond /roll dice/i, (msg) ->
     msg.reply report roll 2, 6
   robot.respond /roll (\d+)d(\d+)/i, (msg) ->

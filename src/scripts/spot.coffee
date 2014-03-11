@@ -22,6 +22,8 @@
 #   hubot [name here] says turn it down - Sets the volume to 15 and blames [name here].
 #   hubot say <message> - Tells hubot to read a message aloud.
 #   hubot find <song> - See if Spotify knows about a song without attempting to play it.
+#   hubot airplay <Apple TV> - Tell Spot to broadcast to the specified Apple TV.
+#   hubot spot - Start or restart the Spotify client.
 #
 # Author:
 #   mcminton
@@ -101,4 +103,13 @@ module.exports = (robot) ->
     search = message.match[1]
     params = {q: search}
     spotRequest message, '/just-find', 'post', params, (err, res, body) ->
-      message.send(body)     
+      message.send(body)
+
+  robot.respond /airplay (.*)/i, (message) ->
+    params = {atv: message.match[1]}
+    spotRequest message, '/airplay', 'put', params, (err, res, body) ->
+      message.send("#{body} :mega:")
+
+  robot.respond /spot/i, (message) ->
+    spotRequest message, '/spot', 'put', {}, (err, res, body) ->
+      message.send(body)

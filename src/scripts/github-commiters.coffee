@@ -29,7 +29,7 @@ module.exports = (robot) ->
             max_length -= 1
             return unless max_length
 
-  robot.respond /repo top-commiter (.*)$/i, (msg) ->
+  robot.respond /repo top-commiters? (.*)$/i, (msg) ->
       read_contributors msg, (commits) ->
           top_commiter = null
           for commit in commits
@@ -47,9 +47,7 @@ module.exports = (robot) ->
         else if commits.length == 0
           msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
         else
-          unless process.env.HUBOT_GITHUB_API
-            msg.send "https://github.com/#{repo}"
-          else
-            ghe_url = base_url.replace /\/api\/v3/, ''
-            msg.send "#{ghe_url}/#{repo}"
-            response_handler commits
+          if process.env.HUBOT_GITHUB_API
+            base_url = base_url.replace /\/api\/v3/, ''
+          msg.send "#{base_url}/#{repo}"
+          response_handler commits

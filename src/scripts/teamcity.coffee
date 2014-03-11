@@ -43,7 +43,6 @@ module.exports = (robot) ->
 
   getBuildType = (msg, type, callback) ->
     url = "#{base_url}/httpAuth/app/rest/buildTypes/#{type}"
-    console.log "sending request to #{url}"
     msg.http(url)
       .headers(getAuthHeader())
       .get() (err, res, body) ->
@@ -96,7 +95,7 @@ module.exports = (robot) ->
       .query(locator: ["count:#{amount}","running:any"].join(","))
       .get() (err, res, body) ->
         err = body unless res.statusCode == 200
-        builds = JSON.parse(body).build.splice(amount) unless err
+        builds = JSON.parse(body).build unless err
         callback err, msg, builds
 
   mapNameToIdForBuildType = (msg, project, name, callback) ->
@@ -226,6 +225,10 @@ module.exports = (robot) ->
         configuration = option
         project = null
 
+        unless configuration?
+          msg.send "builds of which project?"
+          return
+
         buildTypeRE = /^\s*of (.*?) of (.+) (\d+)/i
         buildTypeMatches = option.match buildTypeRE
         if buildTypeMatches?
@@ -254,9 +257,8 @@ module.exports = (robot) ->
                 configuration = buildTypeMatches[1]
                 project = null
 
-
         getBuilds msg, project, configuration, amount, (err, msg, builds) ->
-          if not builds
+          if not builds || builds.length == 0
             msg.send "Could not find builds for #{option}"
             return
           createAndPublishBuildMap(builds, msg)

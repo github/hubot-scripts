@@ -72,6 +72,7 @@ module.exports = (robot) ->
     if userAcct
       userAcct = userAcct.replace /^\s+|\s+$/g, ""
       userAcct = userAcct.replace "@", ""
+      userAcct = userAcct.toLowerCase()
       getRequest msg, "/workspaces/#{workspace}/users", (err, res, body) ->
         response = JSON.parse body
         assignedUser = ""

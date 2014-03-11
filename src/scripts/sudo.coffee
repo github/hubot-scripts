@@ -14,5 +14,5 @@
 #   searls
 
 module.exports = (robot) ->
-  robot.respond /(sudo)(.*)/i, (msg) ->
-    msg.send "Alright. I'll #{msg.match?[2] || "do whatever it is you wanted."}"
+  robot.respond /(?:sudo) ?(.*)/i, (msg) ->
+    msg.send "Alright. I'll #{msg.match?[1] || "do whatever it is you wanted."}"

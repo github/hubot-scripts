@@ -13,10 +13,8 @@
 #
 # Author:
 #   maddox
+#   johnwyles
 
-module.exports = (robot) ->
-
-  robot.respond /stock( me)?( -(\d+\w+))? (.*)/i, (msg) ->
-    ticker = msg.match[4]
-    time = msg.match[3] || '1d'
-    msg.send "http://chart.finance.yahoo.com/z?s=#{ticker}&t=#{time}&q=l&l=on&z=l&a=v&p=s&lang=en-US&region=US#.png"
+modules.exports = (robot) ->
+  robot.logger.warning "stocks.coffee has been merged with stock.coffee, update hubot-scripts.json to use stock.coffee instead"
+  require('./stocks.coffee')(robot)
