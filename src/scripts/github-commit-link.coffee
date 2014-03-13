@@ -59,6 +59,6 @@ module.exports = (robot) ->
             url = commit_obj.url.replace(/api\./,'')
           url = url.replace(/repos\//,'')
           url = url.replace(/commits/,'commit')
-          msg.send "Commit: " + commit_obj.commit.message + " " + url
+          msg.send "Commit: " + commit_obj.commit.message.split("\n")[0] + "\n" + url
     else
       msg.send "Hey! You need to set HUBOT_GITHUB_REPO and HUBOT_GITHUB_TOKEN before I can link to that commit."
