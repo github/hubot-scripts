@@ -28,7 +28,7 @@
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  robot.hear /.*(\b[0-9a-f]{7}\b|\b[0-9a-f]{40}\b).*/i, (msg) ->
+  robot.hear /.*(\b[0-9a-f]{7,40}\b).*/i, (msg) ->
     if process.env.HUBOT_GITHUB_REPO && process.env.HUBOT_GITHUB_TOKEN
       if !(msg.message.text.match(/commit\//))
         commit_sha = msg.match[1].replace /\b/, ""
