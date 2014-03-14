@@ -117,7 +117,7 @@ module.exports = (robot) ->
   mapBuildToNameList = (build) ->
     id = build['buildTypeId']
     msg = build['messengerBot']
-    url = "http://#{hostname}/httpAuth/app/rest/buildTypes/id:#{id}"
+    url = "#{base_url}/httpAuth/app/rest/buildTypes/id:#{id}"
     msg.http(url)
       .headers(getAuthHeader())
       .get() (err, res, body) ->
