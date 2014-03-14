@@ -53,9 +53,9 @@ module.exports = (robot) ->
     if (arguments.length == 2)
       if (Object.prototype.toString.call(type) == "[object Function]")
         callback = type
-        url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=running:true"
+        url = "#{base_url}/httpAuth/app/rest/builds/?locator=running:true"
     else
-      url = "http://#{hostname}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
+      url = "#{base_url}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
     msg.http(url)
       .headers(getAuthHeader())
       .get() (err, res, body) ->
