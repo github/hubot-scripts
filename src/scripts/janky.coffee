@@ -83,6 +83,9 @@ post = (path, params, cb, method='POST') ->
     cb e, 500, "Client Error"
   req.end(bodyParams)
 
+del = (path, params, cb) ->
+  post path, params, cb, 'DELETE'
+
 module.exports = (robot) ->
   robot.respond /ci\??$/i, (msg) ->
     get "help", { }, (err, statusCode, body) ->
@@ -180,3 +183,23 @@ module.exports = (robot) ->
   robot.router.post "/janky", (req, res) ->
     robot.messageRoom req.body.room, req.body.message
     res.end "ok"
+
+  robot.respond /ci show ([-_\.0-9a-zA-Z]+)/i, (msg) ->
+    app = msg.match[1]
+    get "show/#{app}", { }, (err, statusCode, body) ->
+      if statusCode == 200
+        repo = JSON.parse(body)
+        lines = for key, val of repo
+          "#{key}: #{val}"
+       response = lines.join("\n")
+        msg.send response
+      else
+        replyMsg = "Error F7U12: Can't show: #{statusCode}: #{body}"
+        msg.reply replyMsg
+
+  robot.respond /ci delete ([-_\.0-9a-zA-Z]+)/i, (msg) ->
+    app = msg.match[1]
+    del "#{app}", {}, (err, statusCode, body) ->
+      if statusCode != 200
+        msg.reply "I got an error removing #{app}; sometimes deleting all the old commits/branches times out the unicorn. Maybe
+      msg.send body
