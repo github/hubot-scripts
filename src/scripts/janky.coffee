@@ -191,7 +191,7 @@ module.exports = (robot) ->
         repo = JSON.parse(body)
         lines = for key, val of repo
           "#{key}: #{val}"
-       response = lines.join("\n")
+        response = lines.join("\n")
         msg.send response
       else
         replyMsg = "Error F7U12: Can't show: #{statusCode}: #{body}"
@@ -201,5 +201,5 @@ module.exports = (robot) ->
     app = msg.match[1]
     del "#{app}", {}, (err, statusCode, body) ->
       if statusCode != 200
-        msg.reply "I got an error removing #{app}; sometimes deleting all the old commits/branches times out the unicorn. Maybe
+        msg.reply "I got an error removing #{app}; sometimes deleting all the old commits/branches times out the unicorn. Maybe try again?"
       msg.send body
