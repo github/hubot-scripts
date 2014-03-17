@@ -191,7 +191,7 @@ module.exports = (robot) ->
         repo = JSON.parse(body)
         lines = for key, val of repo
           "#{key}: #{val}"
-       response = lines.join("\n")
+        response = lines.join("\n")
         msg.send response
       else
         replyMsg = "Error F7U12: Can't show: #{statusCode}: #{body}"
