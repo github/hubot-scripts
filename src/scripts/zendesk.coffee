@@ -7,19 +7,17 @@
 #   HUBOT_ZENDESK_SUBDOMAIN
 #
 # Commands:
-#   (all) tickets - returns the total count of all unsolved tickets. The 'all'
-#                   keyword is optional.
-#   new tickets - returns the count of all new (unassigned) tickets
-#   open tickets - returns the count of all open tickets
-#   escalated tickets - returns a count of tickets with escalated tag that are open or pending
-#   pending tickets - returns a count of tickets that are pending
-#   list (all) tickets - returns a list of all unsolved tickets. The 'all'
-#                   keyword is optional.
-#   list new tickets - returns a list of all new tickets
-#   list open tickets - returns a list of all open tickets
-#   list pending tickets - returns a list of pending tickets
-#   list escalated tickets - returns a list of escalated tickets
-#   ticket <ID> - returns information about the specified ticket
+#   hubot (all) tickets - returns the total count of all unsolved tickets. The 'all' keyword is optional.
+#   hubot new tickets - returns the count of all new (unassigned) tickets
+#   hubot open tickets - returns the count of all open tickets
+#   hubot escalated tickets - returns a count of tickets with escalated tag that are open or pending
+#   hubot pending tickets - returns a count of tickets that are pending
+#   hubot list (all) tickets - returns a list of all unsolved tickets. The 'all' keyword is optional.
+#   hubot list new tickets - returns a list of all new tickets
+#   hubot list open tickets - returns a list of all open tickets
+#   hubot list pending tickets - returns a list of pending tickets
+#   hubot list escalated tickets - returns a list of escalated tickets
+#   hubot ticket <ID> - returns information about the specified ticket
 
 sys = require 'sys' # Used for debugging
 tickets_url = "https://#{process.env.HUBOT_ZENDESK_SUBDOMAIN}.zendesk.com/tickets"
