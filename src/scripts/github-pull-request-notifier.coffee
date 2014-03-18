@@ -25,7 +25,7 @@
 #
 # Notes:
 #   Room information can be obtained by hubot-script: room-info.coffee
-#   Room must be in url encoded format (i.e. encodeURIComponent("yourRoomInfo")
+#   Room must be in url encoded format (i.e. encodeURIComponent("yourRoomInfo"))
 
 
 url = require('url')
