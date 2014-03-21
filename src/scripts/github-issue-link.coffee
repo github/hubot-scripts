@@ -1,20 +1,22 @@
 # Description:
 #   Github issue link looks for #nnn and links to that issue for your default
 #   repo. Eg. "Hey guys check out #273"
-#   Defaults to issues in HUBOT_GITHUB_REPO, unless a repo is specified Eg. "Hey guys, check out awesome-repo#273"
+#   Defaults to issues in HUBOT_GITHUB_REPO, unless a repo is specified Eg.
+#   "Hey guys, check out awesome-repo#273" in which case it uses HUBOT_GITHUB_ORG
 #
 # Dependencies:
 #   "githubot": "0.4.x"
 #
 # Configuration:
 #   HUBOT_GITHUB_REPO
+#   HUBOT_GITHUB_ORG
 #   HUBOT_GITHUB_TOKEN
 #   HUBOT_GITHUB_API
 #   HUBOT_GITHUB_ISSUE_LINK_IGNORE_USERS
 #
 # Commands:
 #   #nnn - link to GitHub issue nnn for HUBOT_GITHUB_REPO project
-#   repo#nnn - link to GitHub issue nnn for repo project
+#   repo#nnn - link to GitHub issue nnn for repo project for HUBOT_GITHUB_ORG organization
 #   user/repo#nnn - link to GitHub issue nnn for user/repo project
 #
 # Notes:
@@ -40,7 +42,7 @@ module.exports = (robot) ->
     if msg.match[2] == undefined
       bot_github_repo = github.qualified_repo process.env.HUBOT_GITHUB_REPO
     else
-      bot_github_repo = github.qualified_repo msg.match[2]
+      bot_github_repo = github.qualified_repo process.env.HUBOT_GITHUB_ORG + "/" + msg.match[2]
     
     issue_title = ""
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
