@@ -24,7 +24,7 @@ module.exports = (robot) ->
 		else
 			for user, state of users_away
 				substr = msg.message.text.substring(0, user.length+1)
-				if substr == user + ':' or substr == user.toLowerCase() + ':'
+				if substr.toLowerCase() == user.toLowerCase() + ':'
 					msg.send user + " is currently away."
 					break
 		)
