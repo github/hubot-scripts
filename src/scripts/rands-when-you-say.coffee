@@ -91,7 +91,16 @@ module.exports = (robot) ->
     "When you say “Well, you‘re lucky that..”, I hear “Well, I have absolutely no control or influence over this situation”. http://twitter.com/rands/statuses/52036340375764992",
     "When you say “No Meeting Wednesday,” I hear, “We’ve let meetings take over.” https://twitter.com/rands/status/294480995644743680",
     "When you say “Sinus infection,” I hear, “I’m fully in denial that I am sick.” https://twitter.com/rands/status/306933143703781377",
-    "@IAmRoot When you say “management consultants,” I die a little inside. https://twitter.com/rands/status/300290819913555972"
+    "@IAmRoot When you say “management consultants,” I die a little inside. https://twitter.com/rands/status/300290819913555972",
+    "When you say “We’re firefighting,” I hear “We lack a credible plan.” https://twitter.com/rands/status/317647183547621376",
+    "When you say “It’s was an iterative process,” I hear “It blows.” https://twitter.com/rands/status/326919083364847616",
+    "When you say “It is what what it is,” I hear “It is not what I want.” https://twitter.com/rands/status/330570233339334656",
+    "When you say “Can you remind me?” I hear “I’ve already forgotten this thing I don’t actually care about.” https://twitter.com/rands/status/358258824701947904",
+    "When you say, “It’s not a big deal,” I hear, “I’d prefer if you thought this wasn’t a big deal.” https://twitter.com/rands/status/364934241697542144",
+    "When you say “You get the idea,” I hear “Because I’m bored talking about it.” https://twitter.com/rands/status/400741704442990592",
+    "When you say, “Everything happens for a reason,” I hear “I wish I knew the reason.” https://twitter.com/rands/status/422980222099529728",
+    "When you say “Let’s keep an open mind,” I hear “Because you’re really not going to like what is about to occur.” https://twitter.com/rands/status/434793516573532160",
+    "When you say, “I’ll know it when I see it,” I hear “Your time is less important in figuring out this thing I care more about than you.” https://twitter.com/rands/status/437682992018776064"
   ]
   robot.respond /rands$/i, (msg) ->
     msg.send msg.random wisdom
