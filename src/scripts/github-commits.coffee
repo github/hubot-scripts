@@ -35,6 +35,7 @@ module.exports = (robot) ->
 
     try
       payload = JSON.parse req.body.payload
+      return if payload.zen? # initial ping
 
       if payload.commits.length > 0
         commitWord = if payload.commits.length > 1 then "commits" else "commit"
