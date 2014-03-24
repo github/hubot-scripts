@@ -3,7 +3,7 @@
 #
 # Dependencies:
 #   "htmlparser": "1.7.6"
-#   "soupselect: "0.2.0"
+#   "soupselect": "0.2.0"
 #   "jsdom": "0.2.14"
 #   "underscore": "1.3.3"
 #
