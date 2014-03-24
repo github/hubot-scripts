@@ -28,10 +28,10 @@ squirrels = [
   "http://www.zmescience.com/wp-content/uploads/2010/09/squirrel.jpg",
   "http://img70.imageshack.us/img70/4853/cutesquirrels27rn9.jpg",
   "http://img70.imageshack.us/img70/9615/cutesquirrels15ac7.jpg",
-  "http://dl.dropbox.com/u/602885/github/sniper-squirrel.jpg",
+  "https://dl.dropboxusercontent.com/u/602885/github/sniper-squirrel.jpg",
   "http://1.bp.blogspot.com/_v0neUj-VDa4/TFBEbqFQcII/AAAAAAAAFBU/E8kPNmF1h1E/s640/squirrelbacca-thumb.jpg",
-  "http://dl.dropbox.com/u/602885/github/soldier-squirrel.jpg",
-  "http://dl.dropbox.com/u/602885/github/squirrelmobster.jpeg",
+  "https://dl.dropboxusercontent.com/u/602885/github/soldier-squirrel.jpg",
+  "https://dl.dropboxusercontent.com/u/602885/github/squirrelmobster.jpeg",
   "http://f.cl.ly/items/0S1M2d1h0I132S082A05/flying-squirrel.gif"
 ]
 
