@@ -126,7 +126,7 @@ drush_interface = ->
     site_alias = extra_args.shift()
     command_suff = ''
     if site_alias.charAt(0) is "@"
-      unless verify_alias(site_alias) is false
+      unless verify_alias(site_alias.slice(1)) is false
         command_suff = extra_args.shift()
       else
         `undefined`
