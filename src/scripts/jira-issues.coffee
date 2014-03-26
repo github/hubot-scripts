@@ -79,6 +79,9 @@ module.exports = (robot) ->
                     message += ', fixVersion: '+json.fields.fixVersions[0].name
                   else
                     message += ', fixVersion: NONE'
+                  
+                  if json.fields.priority and json.fields.priority.name
+                    message += ', priority: ' + json.fields.priority.name
 
                   urlRegex = new RegExp(jiraUrl + "[^\\s]*" + key)
                   if not msg.message.text.match(urlRegex)
