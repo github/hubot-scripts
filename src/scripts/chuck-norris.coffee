@@ -33,4 +33,4 @@ module.exports = (robot) ->
           if message_from_chuck.length == 0
             msg.send "Achievement unlocked: Chuck Norris is quiet!"
           else
-            msg.send message_from_chuck.value.joke
+            msg.send message_from_chuck.value.joke.replace /\s\s/g, " "
