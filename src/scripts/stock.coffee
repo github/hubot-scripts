@@ -16,7 +16,7 @@
 #   johnwyles
 
 module.exports = (robot) ->
-  robot.respond /stock (:?info|price|quote)?\s?(:?for|me)?\s?@?([A-Za-z0-9.-_]+)\s?(\d+\w+)?/i, (msg) ->
+  robot.respond /stock (?:info|price|quote)?\s?(?:for|me)?\s?@?([A-Za-z0-9.-_]+)\s?(\d+\w+)?/i, (msg) ->
     ticker = escape(msg.match[1])
     time = msg.match[2] || '1d'
     msg.http('http://finance.google.com/finance/info?client=ig&q=' + ticker)
