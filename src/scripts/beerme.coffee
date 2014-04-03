@@ -19,7 +19,7 @@ beers = [
   "http://www.joyandfood.com/wp-content/uploads/2012/05/Beer-beer.jpg",
   "http://www.bristolvantage.com/wp-content/uploads/2012/02/beer-calories1.jpg",
   "http://cdn.biruwananbai.com/wp-content/uploads/2012/04/more_beer-01.jpg",
-  "http://blog.collegebars.net/uploads/10-beers-you-must-drink-this-summer/10-beers-you-must-drink-this-summer-sam-adams-summer-ale.jpg"
+  "http://blog.collegebars.net/uploads/10-beers-you-must-drink-this-summer/10-beers-you-must-drink-this-summer-sam-adams-summer-ale.jpg",
   "http://media.treehugger.com/assets/images/2011/10/save-the-beers.jpg",
   "http://poemsforkush.files.wordpress.com/2012/04/beer.jpg",
   "http://www.wirtzbeveragegroup.com/wirtzbeveragenevada/wp-content/uploads/2010/06/Beer.jpg",
