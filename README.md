@@ -52,7 +52,7 @@ name and required version in the TomDoc comments at the top of your script.
 ## Documentation
 
 We're now requiring all scripts in hubot-scripts to contain a documentation
-header so people know every thing about the script.
+header so people know everything about the script.
 
 ```coffeescript
 # Description
