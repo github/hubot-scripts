@@ -50,7 +50,7 @@ module.exports = (robot) ->
          if element == "HN.top"
            idx = 0
          else
-           idx = (Number) msg.match[0].replace(/[^0-9]/g, '')
+           idx = (Number) msg.match[0].replace(/[^0-9]/g, '') - 1
          try
            item = feed.getItems()[idx]
            msg.send item.getTitle() + ": " + item.getPermalink() + " (" + item.getComments()?.html + ")"
