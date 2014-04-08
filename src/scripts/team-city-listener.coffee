@@ -21,7 +21,7 @@
 # Author:
 #   cubanx 
 
-Robot = require('hubot').Robot
+TextMessage = require('hubot').TextMessage
 
 room = process.env.HUBOT_ROOM_TO_RECEIVE_TEAM_CITY_BUILD_RESULTS
 unless room
@@ -41,8 +41,8 @@ module.exports = (robot)->
       failList = ["dog", "cat", "baby"]
       soundToPlay = 'http://soundfxnow.com/soundfx/Sad-Trombone.mp3'
       message = 'bing image fail ' + failList[Math.floor(Math.random() * failList.length)]
-      robot.receive new Robot.TextMessage user, message
+      robot.receive new TextMessage user, message
 
-    robot.receive new Robot.TextMessage user, "hubot sound #{soundToPlay}"
+    robot.receive new TextMessage user, "hubot sound #{soundToPlay}"
 
     res.end "that tickles:" + process.env.PORT
