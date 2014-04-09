@@ -24,7 +24,7 @@ module.exports = (robot) ->
 
   robot.respond /rem(?:ember)?\s+(.*)/i, (msg) ->
     words = msg.match[1]
-    if match = words.match /(.*?)(\s+is\s+(.*))$/i
+    if match = words.match /(.*?)(\s+is\s+([\s\S]*))$/i
       msg.finish()
       key = match[1].toLowerCase()
       value = match[3]
