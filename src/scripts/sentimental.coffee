@@ -61,9 +61,6 @@ module.exports = (robot) ->
 
         #console.log "#{username} now has #{sent[username].score} / #{sent[username].average}"
 
-  robot.respond /check everyone/i, (msg) ->
-    msg.send "this is deprecated, please use \"check on everyone\""
-
   robot.respond /check on (.*)/i, (msg) ->
     username = msg.match[1]
     client.get "sent:userScore", (err, reply) ->
