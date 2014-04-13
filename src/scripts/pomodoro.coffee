@@ -31,7 +31,7 @@ module.exports = (robot) ->
       return
 
     currentPomodoro = {}
-    
+
     currentPomodoro.func = ->
       msg.send "Pomodoro completed!"
       currentPomodoro = null
