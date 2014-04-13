@@ -1,4 +1,4 @@
-# hubot-scripts t
+# hubot-scripts
 
 These are a collection of community scripts for [hubot][hubot], a chat bot for
 your company.
