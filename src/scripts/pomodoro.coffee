@@ -24,7 +24,7 @@ module.exports = (robot) ->
 
   robot.brain.data.pomodoros ||= 0
 
-  robot.respond /start pomo(?:doro)? ?(\d+)?/i, (msg) ->
+  robot.respond /start pomodoro ?(\d+)?/i, (msg) ->
 
     if currentPomodoro?
       msg.send "Pomodoro already started"
@@ -45,7 +45,7 @@ module.exports = (robot) ->
 
     currentPomodoro.timer = setTimeout(currentPomodoro.func, currentPomodoro.length * 60 * 1000)
 
-  robot.respond /pomo(doro)?\?/i, (msg) ->
+  robot.respond /pomodoro\?/i, (msg) ->
     unless currentPomodoro?
       msg.send "You have not started a pomodoro"
       return
@@ -57,7 +57,7 @@ module.exports = (robot) ->
 
     msg.send "There are still #{minutes} minutes in this pomodoro"
 
-  robot.respond /stop pomo(doro)?/i, (msg) ->
+  robot.respond /stop pomodoro/i, (msg) ->
     unless currentPomodoro?
       msg.send "You have not started a pomodoro"
       return
@@ -67,5 +67,5 @@ module.exports = (robot) ->
     currentPomodoro = null
     msg.send "Pomodoro stopped!"
 
-  robot.respond /(total )?pomo(doro)?s/i, (msg) ->
+  robot.respond /total pomodoros/i, (msg) ->
     msg.send "You have completed #{robot.brain.data.pomodoros} pomodoros"
