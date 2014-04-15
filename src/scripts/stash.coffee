@@ -18,21 +18,22 @@
 module.exports = (robot) ->
   room = process.env.HUBOT_CAMPFIRE_ROOMS
 
-  robot.router.post "/stash", (req, res) ->
+  robot.router.post '/stash', (req, res) ->
     jsonstring = JSON.stringify(req.body)
     message = JSON.parse jsonstring
     robot.logger.info "Received stash message: '#{jsonstring}' received"
 
     #set up response to campfire
     unless room
-      robot.logger.error "Please set the HUBOT_CAMPFIRE_ROOMS variable to post the message"
+      robot.logger.error 'Please set the HUBOT_CAMPFIRE_ROOMS variable to post the message'
       return
     user = robot.brain.userForId 'broadcast'
     user.room = room
     user.type = 'groupchat'
     robot.send user, "Received stash post commit: \n
         Repository: #{message.repository.project.name} (#{message.repository.project.description}) \n
-        Changes: \n#{i.link.url for i in message.changesets.values}"
+        Changes: \n
+        #{i.link.url for i in message.changesets.values}"
 
     #respond to request
     res.writeHead 200, {'Content-Type': 'text/plain'}
