@@ -17,12 +17,12 @@
 module.exports = (robot) ->
 
   robot.respond /corgi me/i, (msg) ->
-    msg.http("http://corgibomb.heroku.com/random")
+    msg.http("http://corginator.herokuapp.com/random")
       .get() (err, res, body) ->
-        msg.send body
+        msg.send JSON.parse(body).corgi
 
   robot.respond /corgi bomb( (\d+))?/i, (msg) ->
     count = msg.match[2] || 5
-    msg.http("http://corgibomb.heroku.com/bomb/" + count)
+    msg.http("http://corginator.heroku.com/bomb?count=" + count)
       .get() (err, res, body) ->
-        msg.send corgi for corgi in JSON.parse(body)
+        msg.send corgi for corgi in JSON.parse(body).corgis
