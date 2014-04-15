@@ -9,6 +9,7 @@
 #
 # Commands:
 #   hubot remind me in <time> to <action> - Set a reminder in <time> to do an <action> <time> is in the format 1 day, 2 hours, 5 minutes etc. Time segments are optional, as are commas
+#   hubot remind <user> in <time> to <action> - Set a reminder in <time> to do an <action> <time> is in the format 1 day, 2 hours, 5 minutes etc. Time segments are optional, as are commas
 #
 # Author:
 #   whitman
@@ -42,7 +43,12 @@ class Reminders
       if @cache.length > 0
         trigger = =>
           reminder = @removeFirst()
-          @robot.reply reminder.msg_envelope, 'you asked me to remind you to ' + reminder.action
+          if reminder.msg_envelope.message.user.name == reminder.msg_envelope.user.name
+            from = 'you'
+          else
+            from = reminder.msg_envelope.message.user.name
+          @robot.send reminder.msg_envelope, from + ' asked me to remind you to ' + reminder.action
+
           @queue()
         # setTimeout uses a 32-bit INT
         extendTimeout = (timeout, callback) ->
@@ -82,6 +88,7 @@ class Reminder
 
     @due = new Date().getTime()
     @due += ((periods.weeks.value * 604800) + (periods.days.value * 86400) + (periods.hours.value * 3600) + (periods.minutes.value * 60) + periods.seconds.value) * 1000
+    @to = @who
 
   dueDate: ->
     dueDate = new Date @due
@@ -97,3 +104,19 @@ module.exports = (robot) ->
     reminder = new Reminder msg.envelope, time, action
     reminders.add reminder
     msg.send 'I\'ll remind you to ' + action + ' on ' + reminder.dueDate()
+
+
+  robot.respond /(remind )(.*) in ((?:(?:\d+) (?:weeks?|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?)[ ,]*(?:and)? +)+)to (.*)/i, (msg) ->
+    who = msg.match[2]
+    time = msg.match[3]
+    action = msg.match[4]
+    users = robot.brain.usersForFuzzyName(who)
+
+    if users.length is 1
+      user = users[0]
+
+    msg.envelope.user = user
+
+    reminder = new Reminder msg.envelope, time, action
+    reminders.add reminder
+    msg.send 'I\'ll remind ' + who + ' to ' + action + ' on ' + reminder.dueDate()
