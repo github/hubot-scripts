@@ -30,7 +30,7 @@ module.exports = (robot) ->
       output = ""
       output += "#{human_id(metric)}\n" for metric in data
       msg.send output
-  robot.hear /graphite show (\S+)/i, (msg) ->
+  robot.hear /graphite show (.+)$/i, (msg) ->
     treeversal msg, (data) ->
       construct_url msg, data[0].graphUrl, (url) ->
         msg.send url
