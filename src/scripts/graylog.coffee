@@ -56,13 +56,15 @@ module.exports = (robot) ->
       msg.send what
 
 graylogStreamMessages = (msg, stream_title, count, cb) ->
+  stream_title = stream_title.toLowerCase()
   if stream_title == 'all'
     graylogMessages msg, 'messages.json', (messages) ->
       sayMessages messages, count, cb
   else
     graylogStreamList msg, (streams) ->
       for stream in streams
-        if stream.title == stream_title
+        lstream = stream.title.toLowerCase()
+        if lstream == stream_title
           url = "streams/#{stream._id}-#{stream.title}/messages.json"
           graylogMessages msg, url, (messages) ->
             sayMessages messages, count, cb
