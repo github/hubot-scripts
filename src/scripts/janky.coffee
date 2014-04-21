@@ -109,7 +109,7 @@ module.exports = (robot) ->
 
       msg.send response
 
-  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s?([\.\-_a-z0-9]+))?/i, (msg) ->
+  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s([\.\-_a-z0-9]+)(\s([\.\-_a-z0-9]+))?)?/i, (msg) ->
     nwo     = msg.match[1]
     params  = "?nwo=#{nwo}"
     if msg.match[3] != undefined
