@@ -141,6 +141,23 @@ module.exports = (robot) ->
       else
         msg.send "I couldn't update the room. Got HTTP status #{statusCode}"
 
+  robot.respond /ci set context ([-_0-9a-zA-Z\.]+) (.*)$/i, (msg) ->
+    repo = msg.match[1]
+    context = encodeURIComponent(msg.match[2])
+    put "#{repo}/context?context=#{context}", {}, (err, statusCode, body) ->
+      if [404, 403, 200].indexOf(statusCode) > -1
+        msg.send body
+      else
+        msg.send "I couldn't update the context. Got HTTP status #{statusCode}"
+
+  robot.respond /ci unset context ([-_0-9a-zA-Z\.]+)$/i, (msg) ->
+    repo = msg.match[1]
+    delete "#{repo}/context", {}, (err, statusCode, body) ->
+      if [404, 403, 200].indexOf(statusCode) > -1
+        msg.send body
+      else
+        msg.send "I couldn't update the context. Got HTTP status #{statusCode}"
+
   robot.respond /ci rooms$/i, (msg) ->
     get "rooms", { }, (err, statusCode, body) ->
       if statusCode == 200
