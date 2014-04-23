@@ -7,7 +7,7 @@
 #
 # Configuration:
 #   HUBOT_AUTH_ADMIN
-#   HUBOT_AUTH_ADMIN_ONLY_GROUP_GROUPS
+#   HUBOT_AUTH_ADMIN_ONLY_GROUP_MANAGE
 #
 # Commands:
 #   hubot <user> has <role> role - Assigns a role to a user
@@ -28,7 +28,7 @@
 module.exports = (robot) ->
   admin = process.env.HUBOT_AUTH_ADMIN
 
-  if typeof process.env.HUBOT_AUTH_ADMIN_ONLY_GROUP_GROUPS is "undefined" or process.env.HUBOT_AUTH_ADMIN_ONLY_GROUP_GROUPS is 0
+  if typeof process.env.HUBOT_AUTH_ADMIN_ONLY_GROUP_MANAGE is "undefined" or process.env.HUBOT_AUTH_ADMIN_ONLY_GROUP_MANAGE is 0
     onlyadmin = false
   else
     onlyadmin = true
