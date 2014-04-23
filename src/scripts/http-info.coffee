@@ -54,8 +54,21 @@ module.exports = (robot) ->
         else if title
           msg.send "#{title}"
 
+    versionCompare = (v1, v2, comparison) ->
+      v1parts = v1.split('.')
+      v2parts = v2.split('.')
+
+      for value1, i in v1parts
+        value1 = parseInt(value1, 10)
+        value2 = parseInt(v2parts[i], 10)
+        if comparison == '<' and value1 < value2
+          return 1
+        if comparison == '>' and value1 > value2
+          return 1
+      return 0
+
     unless ignore
-      if jsdom.version < '0.7.0'
+      if versionCompare jsdom.version, '0.7.0', '<'
         jsdom.env
           html: url
           scripts: [ jquery ]
