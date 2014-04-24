@@ -39,9 +39,9 @@ module.exports = (robot) ->
 
   # Enable a looser regex if environment variable is set
   if process.env.HUBOT_SHIP_EXTRA_SQUIRRELS
-    regex = /ship(ping|z|s|ped)? it/i
+    regex = /ship(ping|z|s|ped)?\s*it/i
   else
-    regex = /ship it/i
+    regex = /ship\s*it/i
 
   robot.hear regex, (msg) ->
     msg.send msg.random squirrels
