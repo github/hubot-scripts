@@ -8,9 +8,9 @@
 #   SOURCING_IO_API_KEY
 #
 # Commands:
-#   hubot sourcing email <email address>
-#   hubot sourcing twitter <twitter handle>
-#   hubot sourcing github <github username>
+#   hubot sourcing --email <email address>
+#   hubot sourcing --twitter <twitter handle>
+#   hubot sourcing --github <github username>
 #
 # Notes:
 #   I'm lazy and won't implement a command for https://sourcing.io/api#people-search
