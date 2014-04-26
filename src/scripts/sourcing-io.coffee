@@ -44,7 +44,7 @@ module.exports = (robot) ->
   auth = 'Bearer ' + process.env.SOURCING_IO_API_KEY
 
   # Find by email
-  robot.respond /sourcing email (.*)/i, (msg) ->
+  robot.respond /sourcing --email (.*)/i, (msg) ->
 
     email = escape(msg.match[1])
 
@@ -58,7 +58,7 @@ module.exports = (robot) ->
             msg.send "Sourcing.io doesn't have a record for that email address."
 
   # Find by twitter 
-  robot.respond /sourcing twitter @(.+)/, (msg) ->
+  robot.respond /sourcing --twitter @(.+)/, (msg) ->
   
     handle = escape(msg.match[1])
 
@@ -72,7 +72,7 @@ module.exports = (robot) ->
             msg.send "Sourcing.io doesn't have a record for that handle."
 
   # Find by Github 
-  robot.respond /sourcing github (.+)/, (msg) ->
+  robot.respond /sourcing --github (.+)/, (msg) ->
   
     username = escape(msg.match[1])
 
