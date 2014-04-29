@@ -55,7 +55,7 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         out = JSON.parse(body)
         ret = out.stdout or out.stderr
-        msg.send ret.split("\n")
+        msg.send ret
 
   robot.brain.on 'loaded', ->
     ready = true
