@@ -1,3 +1,6 @@
+# THIS SCRIPT HAS MOVED TO ITS OWN PACKAGE. PLEASE USE
+# https://github.com/lorenzhs/hubot-tell INSTEAD!
+#
 # Description:
 #   Tell Hubot to send a user a message when present in the room
 #
@@ -14,6 +17,7 @@
 #   christianchristensen, lorenzhs, xhochy
 
 module.exports = (robot) ->
+   robot.logger.warning "tell.coffee has moved from hubot-scripts to its own package. See https://github.com/lorenzhs/hubot-tell/blob/master/UPGRADING.md for upgrade instructions"
    localstorage = {}
    robot.respond /tell ([\w.-]*):? (.*)/i, (msg) ->
      datetime = new Date()
