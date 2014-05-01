@@ -78,9 +78,9 @@ module.exports = (robot) ->
         branch = hook.ref.split("/")[2..].join("/")
         # if the ref before the commit is 00000, this is a new branch
         if /^0+$/.test(hook.before)
-            message = "#{bold(hook.user_name)} pushed a new branch (#{bold(branch)}) to #{bold(hook.repository.name)} (#{underline(hook.repository.homepage)})"
+            message = "#{bold(hook.user_name)} pushed a new branch (#{bold(branch)}) to #{bold(hook.repository.name)} ( #{underline(hook.repository.homepage)} )"
         else
-            message = "#{bold(hook.user_name)} pushed #{bold(hook.total_commits_count)} commits to #{bold(branch)} in #{bold(hook.repository.name)} (#{underline(hook.repository.homepage + '/compare/' + hook.before.substr(0,9) + '...' + hook.after.substr(0,9))})"
+            message = "#{bold(hook.user_name)} pushed #{bold(hook.total_commits_count)} commits to #{bold(branch)} in #{bold(hook.repository.name)} ( #{underline(hook.repository.homepage + '/compare/' + hook.before.substr(0,9) + '...' + hook.after.substr(0,9))} )"
         robot.send user, message
 
   robot.router.post "/gitlab/system", (req, res) ->
