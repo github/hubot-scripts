@@ -3,7 +3,6 @@
 #   Can also notify about builds, just enable the webhook notification on travis http://about.travis-ci.org/docs/user/build-configuration/ -> 'Webhook notification'
 #
 # Dependencies:
-#   "gitio": "1.0.1"
 #
 # Configuration:
 #   None
@@ -21,7 +20,6 @@
 
 url = require('url')
 querystring = require('querystring')
-gitio = require('gitio')
 
 module.exports = (robot) ->
   
@@ -39,9 +37,6 @@ module.exports = (robot) ->
 
   robot.router.post "/hubot/travis", (req, res) ->
     query = querystring.parse url.parse(req.url).query
-    res.end JSON.stringify {
-       received: true #some client have problems with and empty response
-    }
 
     user = {}
     user.room = query.room if query.room
@@ -50,9 +45,11 @@ module.exports = (robot) ->
     try
       payload = JSON.parse req.body.payload
 
-      gitio payload.compare_url, (err, data) ->
-        robot.send user, "#{payload.status_message.toUpperCase()} build (#{payload.build_url}) on #{payload.repository.name}:#{payload.branch} by #{payload.author_name} with commit (#{if err then payload.compare_url else data})"
+      robot.send user, "#{payload.status_message.toUpperCase()} build (#{payload.build_url}) on #{payload.repository.name}:#{payload.branch} by #{payload.author_name} with commit (#{payload.compare_url})"
 
     catch error
       console.log "travis hook error: #{error}. Payload: #{req.body.payload}"
-
+     
+    res.end JSON.stringify {
+      send: true #some client have problems with and empty response, sending that response ion sync makes debugging easier
+    }
