@@ -23,6 +23,6 @@ module.exports = (robot) ->
 
   robot.respond /corgi bomb( (\d+))?/i, (msg) ->
     count = msg.match[2] || 5
-    msg.http("http://corginator.heroku.com/bomb?count=" + count)
+    msg.http("http://corginator.herokuapp.com/bomb?count=" + count)
       .get() (err, res, body) ->
         msg.send corgi for corgi in JSON.parse(body).corgis
