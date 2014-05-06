@@ -152,7 +152,7 @@ module.exports = (robot) ->
 
   robot.respond /ci unset context ([-_0-9a-zA-Z\.]+)$/i, (msg) ->
     repo = msg.match[1]
-    delete "#{repo}/context", {}, (err, statusCode, body) ->
+    del "#{repo}/context", {}, (err, statusCode, body) ->
       if [404, 403, 200].indexOf(statusCode) > -1
         msg.send body
       else
