@@ -6,7 +6,7 @@
 #
 # Configuration:
 #   REDISTOGO_URL or REDISCLOUD_URL or BOXEN_REDIS_URL or REDIS_URL.
-#   URL format: redis://<host>:<port>[/<brain_prefix>]
+#   URL format: redis://<host>:<port>/[<brain_prefix>]
 #   If not provided, '<brain_prefix>' will default to 'hubot'.
 #
 # Commands:
