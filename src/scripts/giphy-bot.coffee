@@ -1,5 +1,8 @@
 # Description:
-#     The official Giphy Bot
+#     The Official Giphy Bot
+#
+# Configuration:
+#     None.  All bots use the public beta key: dc6zaTOxFJmzC
 #
 # Commands:
 #     giphy help - commands available
@@ -8,10 +11,13 @@
 #     giphy trending - get a random recently trending gif
 #
 # Author:
-#     Giphy, Inc.
+#     alexchung
 
 module.exports = (robot) ->
 
+    # use the public beta key
+    api_key = 'dc6zaTOxFJmzC'
+    
     # listen for giphy
     robot.hear /^(giphy|gif) (.*)/i, (msg) ->
         bot msg, msg.match[0], (url) ->                
@@ -22,9 +28,10 @@ module.exports = (robot) ->
         msg.http('http://api.giphy.com/v1/bots/hubot')
         .query
             q: query
-            api_key: 'dc6zaTOxFJmzC'
+            api_key: api_key
         .get() (err, res, body) ->
             response = JSON.parse(body)
             gifs = response.data
             for gif in gifs
-                cb gif.images.original.url
+                if gif.images
+                    cb gif.images.original.url
