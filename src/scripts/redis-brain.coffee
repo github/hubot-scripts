@@ -35,7 +35,7 @@ module.exports = (robot) ->
         robot.logger.info "Data for #{prefix} brain retrieved from Redis"
         robot.brain.mergeData JSON.parse(reply.toString())
       else
-        robot.logger.info "Initializing new #{prefix} data for brain"
+        robot.logger.info "Initializing new data for #{prefix} brain"
         robot.brain.mergeData {}
 
       robot.brain.setAutoSave true
