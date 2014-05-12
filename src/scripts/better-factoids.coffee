@@ -69,13 +69,15 @@ module.exports = (robot) ->
 
   blip = '!' unless process.env.HUBOT_FACTOID_PREFIX
 
-  robot.hear new RegExp("^#{blip}(.{3,})", 'i'), (msg) ->
+  robot.hear new RegExp("^#{blip}([\\w\\s-]{2,}\\w)( @(.+))?", 'i'), (msg) ->
     fact = factoids.get msg.match[1]
+    to = msg.match[3]
     if not fact? or fact.forgotten
       msg.reply "Not a factoid"
     else
       fact.popularity++
-      msg.reply fact.value
+      to ?= msg.message.user.name
+      msg.send "@#{to}: #{fact.value}"
 
   robot.respond /learn (.{3,}) = (.+)/i, (msg) ->
     msg.send factoids.set msg.match[1], msg.match[2], msg.message.user.name
