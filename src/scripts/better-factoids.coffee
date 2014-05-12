@@ -35,7 +35,7 @@ factoids =
 
       fact.history.push hist
       fact.value = value
-      if fact.disabled? then fact.disabled = false
+      if fact.forgotten? then fact.forgotten = false
     else
       fact =
         value: value
@@ -51,7 +51,7 @@ factoids =
     fact = factoids.get key
 
     if fact
-      fact.disabled = true
+      fact.forgotten = true
       "OK, forgot #{key}"
 
 module.exports = (robot) ->
@@ -67,7 +67,7 @@ module.exports = (robot) ->
 
   robot.hear new RegExp("^#{blip}(.{3,})", 'i'), (msg) ->
     fact = factoids.get msg.match[1]
-    if not fact? or fact.disabled
+    if not fact? or fact.forgotten
       msg.reply "Not a factoid"
     else
       fact.popularity++
