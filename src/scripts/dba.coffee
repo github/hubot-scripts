@@ -9,7 +9,7 @@
 #
 # Commands:
 #   hubot dba me - A randomly selected photo and caption from dbareactions.com
-#   hubot dba bomb <number> - Explostion of random dba reactions, defaults to 5.
+#   hubot dba bomb <number> - Explosion of random dba reactions, defaults to 5.
 #
 # Author:
 #   @AgentO3
