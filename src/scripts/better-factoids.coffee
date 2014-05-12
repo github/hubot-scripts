@@ -41,11 +41,11 @@ factoids =
         value: value
         popularity: 0
 
-    factoids.data[key] = fact
+    factoids.data[key.toLowerCase()] = fact
     "OK #{who}, #{key} is now #{value}"
 
   get: (key) ->
-    fact = factoids.data?[key]
+    fact = factoids.data?[key.toLowerCase()]
     alias = fact?.value?.match /^@([^@].+)$/i
     if alias?
       fact = factoids.get alias[1]
