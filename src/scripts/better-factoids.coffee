@@ -8,6 +8,7 @@
 #
 # Configuration:
 #   HUBOT_FACTOID_PREFIX - prefix character to use for retrieving a factoid
+#   HUBOT_BASE_URL - URL of Hubot (ex. http://myhubothost.com:5555/)
 #
 # Commands:
 #   hubot learn <factoid> = <details> - learn a new factoid
@@ -53,9 +54,11 @@ factoids =
       fact.disabled = true
       "OK, forgot #{key}"
 
-
 module.exports = (robot) ->
-  factoids.data = robot.brain.data.betterFactoids ?= {}
+  factoids.data ?= {}
+
+  robot.brain.on "loaded", ->
+    factoids.data = robot.brain.data.betterFactoids ?= {}
 
   robot.router.get "/hubot/factoids", (req, res) ->
     res.end JSON.stringify factoids.data, null, 2
@@ -64,20 +67,27 @@ module.exports = (robot) ->
 
   robot.hear new RegExp("^#{blip}(.{3,})", 'i'), (msg) ->
     fact = factoids.get msg.match[1]
-    fact.popularity++
-    msg.reply fact.value unless fact.disabled
+    if not fact? or fact.disabled
+      msg.reply "Not a factoid"
+    else
+      fact.popularity++
+      msg.reply fact.value
 
   robot.respond /learn (.{3,}) = (.+)/i, (msg) ->
-    msg.reply factoids.set msg.match[1], msg.match[2], msg.message.user.name
+    msg.send factoids.set msg.match[1], msg.match[2], msg.message.user.name
 
-  robot.respond /learn (.{3,}) =~ s\/(.+)\/(.+)\/(.+)/i, (msg) ->
+  robot.respond /learn (.{3,}) =~ s\/(.+)\/(.+)\/(.*)/i, (msg) ->
     key = msg.match[1]
     re = new RegExp(msg.match[2], msg.match[4])
     fact = factoids.get key
     value = fact.value.replace re, msg.match[3]
 
-    msg.reply factoids.set key, value, msg.message.user.name
+    msg.send factoids.set key, value, msg.message.user.name
 
   robot.respond /forget (.{3,})/i, (msg) ->
     forgot = factoids.forget msg.match[1]
     msg.reply "Not a factoid" unless forgot
+
+  robot.respond /factoids/i, (msg) ->
+    url = process.env.HUBOT_BASE_URL or "http://not-yet-set/"
+    msg.reply "#{url.replace /\/$/, ''}/hubot/factoids"
