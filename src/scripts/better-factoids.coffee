@@ -45,7 +45,11 @@ factoids =
     "OK #{who}, #{key} is now #{value}"
 
   get: (key) ->
-    factoids.data?[key]
+    fact = factoids.data?[key]
+    alias = fact?.value?.match /^@([^@].+)$/i
+    if alias?
+      fact = factoids.get alias[1]
+    fact
 
   forget: (key) ->
     fact = factoids.get key
@@ -91,3 +95,9 @@ module.exports = (robot) ->
   robot.respond /factoids/i, (msg) ->
     url = process.env.HUBOT_BASE_URL or "http://not-yet-set/"
     msg.reply "#{url.replace /\/$/, ''}/hubot/factoids"
+
+  robot.respond /alias (.{3,}) = (.{3,})/i, (msg) ->
+    who = msg.message.user.name
+    alias = msg.match[1]
+    target = msg.match[2]
+    msg.send "OK #{who}, aliased #{alias} to #{target}" if factoids.set msg.match[1], "@#{msg.match[2]}", msg.message.user.name
