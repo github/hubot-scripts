@@ -34,7 +34,7 @@ module.exports = (robot) ->
     user.type = query.type if query.type
 
     try
-      payload = JSON.parse req.body.payload
+      payload = req.body
       return if payload.zen? # initial ping
 
       if payload.commits.length > 0
