@@ -1,13 +1,13 @@
 # Description:
 #   A better implementation of factoid support for your hubot.
 #   Supports history (in case you need to revert a change), as
-#   well as popularity and aliases and @mentions.
+#   well as factoid popularity, aliases and @mentions.
 #
 # Dependencies:
 #   None
 #
 # Configuration:
-#   HUBOT_FACTOID_PREFIX - prefix character to use for retrieving a factoid
+#   HUBOT_FACTOID_PREFIX - prefix character to use for retrieving a factoid (! is the default)
 #   HUBOT_BASE_URL - URL of Hubot (ex. http://myhubothost.com:5555/)
 #
 # Commands:
@@ -16,7 +16,7 @@
 #   hubot alias <factoid> = <factoid>
 #   hubot forget <factoid> - forget a factoid
 #   hubot factoids - get a link to the raw factoid data
-#   !<factoid> - play back a factoid (! is the default prefix)
+#   !<factoid> - play back a factoid
 #
 # Author:
 #   therealklanni
