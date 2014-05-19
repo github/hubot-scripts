@@ -47,6 +47,16 @@ module.exports = (robot) ->
           return
       callback(false)
 
+  run_eval = (lang, code, msg) ->
+    command = robot.brain.data.eval_langs[lang]
+    msg
+      .http("http://api.dan.co.jp/lleval.cgi")
+      .query(s: "#!/usr/bin/#{command}\n#{code}")
+      .get() (err, res, body) ->
+        out = JSON.parse(body)
+        ret = out.stdout or out.stderr
+        msg.send ret
+
   robot.brain.on 'loaded', ->
     ready = true
     get_languages robot
@@ -61,9 +71,9 @@ module.exports = (robot) ->
   robot.respond /eval[,:]? +on +([a-z]+) *$/i, (msg) ->
     robot.brain.data.eval or= {}
     lang = msg.match[1]
-    
+
     is_valid = (valid) ->
-      if not valid 
+      if not valid
         msg.send "Unknown language #{lang} - use eval list command for languages"
         return
 
@@ -79,19 +89,13 @@ module.exports = (robot) ->
     return unless robot.brain.data.eval?[msg.message.user.name]?.recording
     code = robot.brain.data.eval[msg.message.user.name].code?.join("\n")
     lang = robot.brain.data.eval[msg.message.user.name].lang
-    
+
     is_valid = (valid) ->
       if not valid
         msg.send "Unknown language #{lang} - use eval list command for languages"
         return
 
-      msg
-        .http("http://api.dan.co.jp/lleval.cgi")
-        .query(s: "#!/usr/bin/#{lang}\n#{code}")
-        .get() (err, res, body) ->
-          out = JSON.parse(body)
-          ret = out.stdout or out.stderr
-          msg.send ret.split("\n")
+      run_eval(lang, code, msg)
       delete robot.brain.data.eval[msg.message.user.name]
 
     lang_valid(robot, lang, is_valid)
@@ -109,13 +113,7 @@ module.exports = (robot) ->
         msg.send "Unknown language #{lang} - use eval list command for languages"
         return
 
-      msg
-        .http("http://api.dan.co.jp/lleval.cgi")
-        .query(s: "#!/usr/bin/#{lang}\n#{msg.match[3]}")
-        .get() (err, res, body) ->
-          out = JSON.parse(body)
-          ret = out.stdout or out.stderr
-          msg.send ret.split("\n")
+      run_eval(lang, msg.match[3], msg)
 
     lang_valid(robot, lang, is_valid)
 
