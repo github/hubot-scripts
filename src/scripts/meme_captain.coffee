@@ -22,6 +22,8 @@
 #   hubot Brace yourself <text> - Ned Stark braces for <text>
 #   hubot Iron Price <text> - To get <text>? Pay the iron price!
 #   hubot Not sure if <something> or <something else> - Generates a Futurama Fry meme
+#   hubot <text>, AND IT'S GONE - Bank Teller
+#   hubot WHAT IF I TOLD YOU <text> - Morpheus What if I told you
 #
 # Author:
 #   bobanj
@@ -95,6 +97,13 @@ module.exports = (robot) ->
     memeGenerator msg, 'http://memecaptain.com/philosoraptor.jpg', msg.match[1], msg.match[2] + (if msg.match[2].search(/\?$/)==(-1) then '?' else ''), (url) ->
       msg.send url
 
+  robot.respond /(.*)(AND IT\'S GONE.*)/i, (msg) ->
+    memeGenerator msg, 'http://memecaptain.com/src_images/uIZe3Q.jpg', msg.match[1], msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /WHAT IF I TOLD YOU (.*)/i, (msg) ->
+    memeGenerator msg, 'http://memecaptain.com/src_images/fWle1w.png', 'WHAT IF I TOLD YOU', msg.match[1], (url) ->
+      msg.send url
 
 memeGenerator = (msg, imageName, text1, text2, callback) ->
   imageUrl = imageName
