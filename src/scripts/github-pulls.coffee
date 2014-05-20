@@ -18,7 +18,7 @@
 # Notes:
 #   HUBOT_GITHUB_API allows you to set a custom URL path (for Github enterprise users)
 #
-#   You can further filter pull request title by providing a reguar expression.
+#   You can further filter pull request title by providing a regular expression.
 #   For example, `show me hubot pulls with awesome fix`.
 #
 # Author:
