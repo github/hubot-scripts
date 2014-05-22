@@ -27,7 +27,7 @@ module.exports = (robot) ->
   robot.router.post "/hubot/gh-commits", (req, res) ->
     query = querystring.parse(url.parse(req.url).query)
 
-    res.end
+    res.send 200
 
     user = {}
     user.room = query.room if query.room
