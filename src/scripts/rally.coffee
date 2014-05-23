@@ -159,7 +159,7 @@ getLinkToItem = (msg, object, type) ->
     objectId = object.ObjectID
     jsPos = project._ref.lastIndexOf '.js'
     lastSlashPos = project._ref.lastIndexOf '/'
-    projectId = project._ref[(lastSlashPos+1)..(jsPos-1)]
+    projectId = project._ref[(lastSlashPos+1)..(jsPos)]
     msg.send "https://rally1.rallydev.com/#/#{projectId}/detail/#{type}/#{objectId}"
   else
     #do nothing
