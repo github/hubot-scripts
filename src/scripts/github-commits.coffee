@@ -14,6 +14,9 @@
 #   HUBOT_GITHUB_API
 #     Optional, default is https://api.github.com. Override with
 #     http[s]://yourdomain.com/api/v3/ for Enterprise installations.
+#   HUBOT_COMMIT_ONELINE
+#     Set nonempty to only show the summary lines.  If not unset or
+#     empty, show the full message.
 #
 # Commands:
 #   None
@@ -60,7 +63,9 @@ module.exports = (robot) ->
                 commit.url = commit.url.replace(/api\./,'')
               commit.url = commit.url.replace(/repos\//,'')
               commit.url = commit.url.replace(/commits/,'commit')
-            robot.send user, "  * #{commit.message} (#{commit.url})"
+            if process.env.HUBOT_COMMIT_ONELINE
+              commit.message = commit.message.split("\n")[0] + "\n"
+            robot.send user, "* #{commit.message}  (#{commit.url})"
       else
         if push.created
           robot.send user, "#{push.pusher.name} created: #{push.ref}: #{push.base_ref}"
