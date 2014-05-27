@@ -159,20 +159,24 @@ getLinkToItem = (msg, object, type) ->
     objectId = object.ObjectID
     jsPos = project._ref.lastIndexOf '.js'
     lastSlashPos = project._ref.lastIndexOf '/'
-    projectId = project._ref[(lastSlashPos+1)..(jsPos-1)]
+    projectId = project._ref[(lastSlashPos+1)..(jsPos)]
     msg.send "https://rally1.rallydev.com/#/#{projectId}/detail/#{type}/#{objectId}"
   else
     #do nothing
+
+stripHtml = (html, cb) ->
+  return_text = html.replace(/<style.+\/style>/g, '')
+  return_text = return_text.replace(/<br ?\/?>/g, "\n\n").replace(/&nbsp;/g, ' ').replace(/[ ]+/g, ' ').replace(/%22/g, '"').replace(/&amp;/g, '&').replace(/<\/?.+?>/g, '')
+  return_text = return_text.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
+  cb return_text
 
 prettifyDescription = (html_description, cb) ->
   child = exec "echo \"#{html_description}\" | lynx -dump -stdin", (error, stdout, stderr) ->
     return_text = html_description
     if !error
       return_text = stdout
+    else
+      stripHtml return_text, (cleaned) ->
+        return_text = cleaned
     cb return_text
 
-stripHtml = (html, cb) ->
-  return_text = html.replace(/<style.+\/style>/g, '')
-  return_text = return_text.replace(/<\/?.+?>/g, '').replace(/<br ?\/?>/g, "\n\n").replace(/&nbsp;/g, ' ').replace(/[ ]+/g, ' ').replace(/%22/g, '"').replace(/&amp;/g, '&')
-  return_text = return_text.replace(/&gt;/g, '>').replace(/&lt;/g, '<')
-  cb return_text
