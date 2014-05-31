@@ -67,7 +67,9 @@ module.exports = (robot) ->
                   message = "[" + key + "] " + json.fields.summary
                   message += '\nStatus: '+json.fields.status.name
                   
-                  if ('value' of json.fields.assignee or 'displayName' of json.fields.assignee)
+                  if (json.fields.assignee == null)
+                    message += ', unassigned'
+                  else if ('value' of json.fields.assignee or 'displayName' of json.fields.assignee)
                     if (json.fields.assignee.name == "assignee" and json.fields.assignee.value.displayName)
                       message += ', assigned to ' + json.fields.assignee.value.displayName
                     else if (json.fields.assignee and json.fields.assignee.displayName)
