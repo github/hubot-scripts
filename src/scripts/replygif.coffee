@@ -1,54 +1,47 @@
 # Description:
-#   Makes ReplyGif easier to use. See http://replygif.net.
+#   Show ReplyGifs based on tags. See http://replygif.net.
 #
 # Dependencies:
-#   "cheerio": ">= 0.9.2"
+#   None
 #
 # Configuration:
-#   None
+#   HUBOT_REPLYGIF_API_KEY: the api key for replygif.net, defaults to public key "39YAprx5Yi"
 #
 # Commands:
-#   http://replygif.net/<id> - Embeds image from ReplyGif with that id.
-#   hubot replygif <keyword> - Embeds random ReplyGif with the keyword.
-#   hubot replygif me <keyword> - Same as `hubot replygif <keyword>`.
+#   hubot replygif <tag> - Embed a random ReplyGif with the given tag.
+#   hubot replygif me <tag> - Same as `hubot replygif <tag>`.
+#   hubot replygif id <id> - Embed the ReplyGif with the given id
+#   hubot replygif me id <id> - Same as `hubot replygif id <id>`.
 #
 # Notes:
-#   None
+#   Use 'rg' as shorthand for the 'replygif' command
 #
 # Author:
-#   sumeetjain, meatballhat
+#   altschuler (previous non-api version by sumeetjain, meatballhat)
 
-cheerio = require 'cheerio'
+apiKey = process.env.HUBOT_REPLYGIF_API_KEY or "39YAprx5Yi"
+
+apiUrl = "http://replygif.net/api/gifs?api-key=#{apiKey}"
 
 module.exports = (robot) ->
-  # Listen for someone to link to a ReplyGif and reply with the image.
-  robot.hear /.*replygif\.net\/(i\/)?(\d+).*/i, (msg) ->
-    id = msg.match[2]
-    msg.send "http://replygif.net/i/#{id}#.gif"
+    apiCall = (msg, failMsg, query) ->
+        robot.http(apiUrl + query).get() (err, res, body) ->
+            try
+                gifs = JSON.parse body
+            if not gifs? or not gifs.length
+                msg.send failMsg
+            else
+                msg.send (msg.random gifs).file
 
-  # Listen for a command to look up a ReplyGif by ID.
-  robot.respond /replygif( me)? (\d+)/i, (msg) ->
-    id = msg.match[2]
-    msg.send "http://replygif.net/i/#{id}#.gif"
+    robot.hear /.*replygif\.net\/(i\/)?(\d+)(?!.*\.gif).*/i, (msg) ->
+        id = msg.match[2]
+        msg.send "http://replygif.net/i/#{id}.gif"
 
-  # Listen for a command to look up a ReplyGif by tag.
-  robot.respond /replygif( me)? (\D+)/i, (msg) ->
-    replyGifByTag(msg, msg.match[2])
+    robot.respond /(replygif|rg)( me)? ([\w|\ ]+)/i, (msg) ->
+        tag = msg.match[3]
+        if tag is "id" then return # hubot's looking for an id
+        apiCall msg, "I don't know that reaction", "&tag=#{tag}"
 
-replyGifByTag = (msg, tag) ->
-  msg
-    .http("http://replygif.net/t/#{tagify(tag)}")
-    .header('User-Agent: ReplyGIF for Hubot (+https://github.com/github/hubot-scripts)')
-    .get() (err, res, body) ->
-      if not err and res.statusCode is 200
-        msg.send msg.random getGifs(body)
-      else
-        msg.send 'No GIF for you, human.'
-
-getGifs = (body) ->
-  $ = cheerio.load(body)
-  $('img.gif[src]').map (i, elem) ->
-    elem.attribs.src.replace(/thumbnail/, 'i')
-
-tagify = (s) ->
-  s.toLowerCase().replace(/\s+/g, '-').replace(/[^-a-z]/g, '')
+    robot.respond /(replygif|rg)( me)? id (\d+)/i, (msg) ->
+        id = msg.match[3]
+        apiCall msg, "I don't any gifs with that id", "&id=#{id}"
