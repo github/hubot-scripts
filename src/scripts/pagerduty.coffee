@@ -6,7 +6,7 @@
 #   hubot who's on call - return the username of who's on call
 #   hubot pager me trigger <msg> - create a new incident with <msg>
 #   hubot pager me 60 - take the pager for 60 minutes
-#   hubot shotgun me 60 - take the secondary pager for 60 minutes
+#   hubot pager shotgun me 60 - take the secondary pager for 60 minutes
 #   hubot pager me as <email> - remember your pager email is <email>
 #   hubot pager me incidents - return the current incidents
 #   hubot pager me incident NNN - return the incident NNN
@@ -111,7 +111,7 @@ module.exports = (robot) ->
             msg.send "Rejoice, #{old_username}! #{json.override.user.name} has the pager until #{end.format()}"
 
   # Shotgun!
-  robot.respond /shotgun( me)? (\d+)/i, (msg) ->
+  robot.respond /pager shotgun( me)? (\d+)/i, (msg) ->
     withPagerDutyUser msg, (user) ->
 
       userId = user.id
