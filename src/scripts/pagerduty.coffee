@@ -116,6 +116,7 @@ module.exports = (robot) ->
 
       userId = user.id
       return unless userId
+      return unless pagerDutyShotgunId
 
       start     = moment().format()
       minutes   = parseInt msg.match[2]
