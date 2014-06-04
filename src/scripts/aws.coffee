@@ -106,7 +106,7 @@ getRegionInstances = (region, msg) ->
 getRegionQueues = (region, msg) ->
   sqs.setRegion(region).request 'ListQueues', {}, (error, queues) ->
     if error?
-      msg.send 'Failed to list queues for region #{region} - error #{error}'
+      msg.send "Failed to list queues for region #{region} - error #{error}"
       return
 
     urls = _.flatten [queues.ListQueuesResult?.QueueUrl ? []]
