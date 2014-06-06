@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   None
+#   [YouTube video URL] - shows title and time length for the URL
 #
 # Notes:
 #   For text-based adapters like IRC.
