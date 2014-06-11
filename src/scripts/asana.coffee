@@ -31,17 +31,17 @@ api_key = process.env.HUBOT_ASANA_API_KEY
 
 
 getRequest = (msg, path, callback) ->
-  auth = 'Basic ' + new Buffer("#{api_key}:").toString('base64')
   msg.http("#{url}#{path}")
-    .headers("Authorization": auth, "Accept": "application/json")
+    .headers("Accept": "application/json")
+    .auth(api_key, '')
     .get() (err, res, body) ->
       callback(err, res, body)
 
 postRequest = (msg, path, params, callback) ->
   stringParams = JSON.stringify params
-  auth = 'Basic ' + new Buffer("#{api_key}:").toString('base64')
   msg.http("#{url}#{path}")
-    .headers("Authorization": auth, "Content-Length": stringParams.length, "Accept": "application/json")
+    .headers("Content-Length": stringParams.length, "Accept": "application/json")
+    .auth(api_key, '')
     .post(stringParams) (err, res, body) ->
       callback(err, res, body)
 
