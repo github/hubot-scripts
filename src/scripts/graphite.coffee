@@ -43,7 +43,7 @@ construct_url = (msg, graphUrl, cb) ->
   server = process.env.GRAPHITE_URL.match(serverRegex)[2]
   port = construct_port()
   timestamp = '#' + new Date().getTime()
-  suffix = '&png'
+  suffix = '&.png'
   if process.env.GRAPHITE_AUTH
     newUrl = proto + process.env.GRAPHITE_AUTH + '@' + server + port + uri + timestamp + suffix
   else
