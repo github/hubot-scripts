@@ -40,7 +40,10 @@ showInfo = (msg, video_hash) ->
       if res.statusCode is 200
         data = JSON.parse(body)
         entry = data.entry
-        msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)})"
+        r = entry.gd$rating
+        thumbs_up = Math.round(((r.average-r.min)/(r.max-r.min))*r.numRaters)
+        thumbs_down = r.numRaters - thumbs_up
+        msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)}, #{humanizeNumber(entry.yt$statistics.viewCount)} views, #{humanizeNumber(thumbs_up)} thumbs up, #{humanizeNumber(thumbs_down)} thumbs down)"
       else
         msg.send "YouTube: error: #{video_hash} returned #{res.statusCode}: #{body}"
 
@@ -55,3 +58,11 @@ formatTime = (seconds) ->
     result += "#{sec}s"
 
   result
+
+humanizeNumber = (n) ->
+  n = n.toString()
+  while true
+    n2 = n.replace(/(\d)(\d{3})($|,)/g, '$1,$2$3')
+    break if n == n2
+    n = n2
+  n
