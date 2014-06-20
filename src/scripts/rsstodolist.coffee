@@ -43,12 +43,20 @@ module.exports = (robot) ->
          .query(l: arg || 10)
          .get() (err, res, body) ->
             try
+              reply = ''
               xml = jsdom.jsdom(body)
               for item in xml.getElementsByTagName("rss")[0].getElementsByTagName("channel")[0].getElementsByTagName("item")
                 do (item) ->
                   link = item.getElementsByTagName("link")[0].childNodes[0].nodeValue
                   title = item.getElementsByTagName("title")[0].childNodes[0].nodeValue
-                  hubotReply = " - #{title}, [#{link}]"
-                  msg.reply hubotReply
+                  descriptionNode = item.getElementsByTagName("description")[0]
+                  description = descriptionNode.childNodes[0].nodeValue if descriptionNode.childNodes.length == 1
+
+                  reply += " - #{title},"
+                  reply += " " + description if description != undefined
+                  reply += " [#{link}]\n"
             catch err
                   msg.reply err
+
+            msg.reply reply
+
