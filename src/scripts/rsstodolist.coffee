@@ -53,7 +53,7 @@ module.exports = (robot) ->
                   description = descriptionNode.childNodes[0].nodeValue if descriptionNode.childNodes.length == 1
 
                   reply += " - #{title},"
-                  reply += " " + description if description != undefined
+                  reply += " #{description}" if description?
                   reply += " [#{link}]\n"
             catch err
                   msg.reply err
