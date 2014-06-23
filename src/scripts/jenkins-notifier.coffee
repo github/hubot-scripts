@@ -66,7 +66,7 @@ module.exports = (robot) ->
     try
       data = req.body
 
-      if data.build.phase == 'FINISHED'
+      if data.build.phase == 'FINISHED' or data.build.phase == 'FINALIZED'
         if data.build.status == 'FAILURE'
           if data.name in @failing
             build = "is still"
