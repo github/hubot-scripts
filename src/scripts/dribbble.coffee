@@ -26,7 +26,7 @@ requestImage = (msg, url) ->
 
 module.exports = (robot) ->
   robot.respond /(depress|dribbble|inspire)( me)? (.*)/i, (msg) ->
-    query = msg.match[4]
+    query = msg.match[3]
     query ||= 'popular'
     msg.http("http://api.dribbble.com/shots/#{query}")
       .get() (err, res, body) ->
