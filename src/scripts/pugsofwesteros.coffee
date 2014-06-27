@@ -5,9 +5,13 @@
 #   None
 #
 # Commands:
-#   hubot calm me | manatee me - Reply with Manatee
-#   calm down | simmer down | that escalated quickly - Reply with Manatee
-#   ALL CAPS | LONGCAPS - Reply with Manatee
+#   game of thrones | westeros - Reply with a pug of Westeros
+#   ned | stark | winterfell - Reply with Ned or the Starks
+#   tyrion | imp - Reply with Tyrion
+#   jon snow | you know nothing - Reply with Jon Snow
+#   tyrion | imp - Reply with Tyrion
+#   king | joffrey | bastard - Reply with The king Bastard Joffrey
+#   daenerys | targaryen - Reply with Daenerys
 
 pugs = [
   "http://38.media.tumblr.com/076aebb944f6a19bfa1ae4d82b355fed/tumblr_n7p1mmtIz71r3gb3zo1_400.gif",
@@ -56,7 +60,7 @@ module.exports = (robot) ->
   robot.hear /jon snow|you know nothing/i, (msg) ->
     msg.send jonsnow()
 
-  robot.hear /king|joffery|bastard/i, (msg) ->
+  robot.hear /king|joffrey|bastard/i, (msg) ->
     msg.send king()
 
   robot.hear /daenerys|targaryen/i, (msg) ->
