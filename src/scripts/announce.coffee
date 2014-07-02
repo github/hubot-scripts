@@ -36,7 +36,7 @@ module.exports = (robot) ->
     startTime = msg.match[2]
 
     message = ["The '#{service}' service will be going down for maintenance starting #{startTime}.",
-      "If you have questions about this maintenance, please talk to #{user.name} in the the #{user.room} room.  Thank you for your patience."]
+      "If you have questions about this maintenance, please talk to #{user.name} in the #{user.room} room.  Thank you for your patience."]
 
     for room in allRooms
       robot.messageRoom room, message...
