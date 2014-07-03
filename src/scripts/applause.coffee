@@ -39,7 +39,8 @@ images =
     "http://assets0.ordienetworks.com/images/GifGuide/clapping/riker.gif",
     "http://assets0.ordienetworks.com/images/GifGuide/clapping/hp3.gif",
     "http://assets0.ordienetworks.com/images/GifGuide/clapping/1292223254212-dumpfm-mario-Obamaclap.gif",
-    "http://www.reactiongifs.com/wp-content/uploads/2013/01/applause.gif"
+    "http://www.reactiongifs.com/wp-content/uploads/2013/01/applause.gif",
+    "http://stream1.gifsoup.com/view7/4263859/billy-madison-clapping-o.gif"
   ]
   insincere: [
     "http://i.imgur.com/2QXgcqP.gif",
