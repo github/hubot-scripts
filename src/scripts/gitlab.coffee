@@ -88,8 +88,7 @@ module.exports = (robot) ->
         else
           switch hook.object_kind
             when "issue"
-              robot.send user, "Issue #{bold(hook.object_attributes.id)}: #{hook.object_attributes.title} (#{h
-ook.object_attributes.state})"
+              robot.send user, "Issue #{bold(hook.object_attributes.id)}: #{hook.object_attributes.title} (#{hook.object_attributes.state})"
             when "merge_request"
               robot.send user, "Merge Request #{bold(hook.object_attributes.id)}: #{hook.object_attributes.title} (#{hook.object_attributes.state}) between #{bold(hook.object_attributes.source_branch)} and #{bold(hook.object_attributes.target_branch)}"
           if hook.object_attributes.description
