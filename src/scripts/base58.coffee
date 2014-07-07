@@ -45,7 +45,7 @@ class Base58Builder
 
   decode: (str) ->
     num = 0
-    for char, index in str.split(//).reverse()
+    for char, index in str.split("").reverse()
       if (char_index = @alphabet.indexOf(char)) == -1
         throw new Error('Value passed is not a valid Base58 string.')
       num += char_index * Math.pow(@base, index)

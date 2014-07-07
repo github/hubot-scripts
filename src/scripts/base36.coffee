@@ -48,7 +48,7 @@ class Base36Builder
   decode: (str) ->
     num = bigInt("0")
     power = bigInt(@base)
-    for char, index in str.split(//).reverse()
+    for char, index in str.split("").reverse()
       if (char_index = @alphabet.indexOf(char)) == -1
         throw new Error('Value passed is not a valid Base36 string.')
       num = num.plus(power.pow(index).multiply(char_index))
