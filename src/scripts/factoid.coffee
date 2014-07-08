@@ -14,7 +14,7 @@
 #   ~<factoid> - Prints the factoid, if it exists. Otherwise tells you there is no factoid
 #   ~tell <user> about <factoid> - Tells the user about a factoid, if it exists
 #   ~~<user> <factoid> - Same as ~tell, less typing
-#   <factoid>? - Same as ~<factiod> except for there is no response if not found
+#   <factoid>? - Same as ~<factoid> except for there is no response if not found
 #   hubot no, <factoid> is <some phrase, link, whatever> - Replaces the full definition of a factoid
 #   hubot factoids list - List all factoids
 #   hubot factoid delete "<factoid>" - delete a factoid
