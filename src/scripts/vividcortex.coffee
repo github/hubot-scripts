@@ -16,51 +16,58 @@
 #
 # Notes:
 #   - Does not support graphs at the moment
-#   - The second parameter is harcoded to "last", the plan is making it support multiple values like timestamps.
+#   - The second parameter only accepts "last" as a option, the plan is making it support multiple values like timestamps.
 #
 # Author:
 #   cesarvarela
 
 # VividCortex api URL
+
 api = "https://app.vividcortex.com/api/v2"
+
+# Config
 
 ORGANIZATION = process.env.HUBOT_VC_SHARE_ORGANIZATION # This is the organization nickname, you'll see it in the VividCortex app URL
 ENVIRONMENT = process.env.HUBOT_VC_SHARE_ENVIRONMENT # This is the environment ID, you'll see it in the VividCortex app URL too
 TOKEN = process.env.HUBOT_VC_SHARE_TOKEN # This is the same token used to install VividCortex
 
-
 module.exports = (robot) ->
 
   urls =
-    "top-queries"   : "/top-queries?limit=5&rankBy=time_us&rank=queries&selectedProfile=&UIMode=normal&filter=&filterTagName=&filterTagValue=&columns=Count&columns=First%20Seen&columns=Action&columns=Notifications&hosts="
-    "query-compare" : "/query-compare?limit=5&rankBy=time_us&rank=queries&filter=&hosts="
-    "top-processes" : "/top-processes?limit=5&filter=&rankBy=user_us&hosts="
 
-  getURL = (component, since = "last", count = 1, unit = "minutes", msg) ->
+  # Customizing this URLS allow us to add/remove columns, filters, sort by, etc.
+
+    "top-queries"   : "/top-queries?limit=5&hosts="
+    "query-compare" : "/query-compare?limit=5&hosts="
+    "top-processes" : "/top-processes?limit=5&hosts="
+
+
+  # Generates the url to be loaded before generating the screenshot,
+  # the <since> parameter is going to be used in the future
+
+  getURL = (component, since, count, unit) ->
 
     base = "/#{ORGANIZATION}/#{ENVIRONMENT}"
     from = 0
     till = 0
 
-    if since == "last"
-
-      switch unit
+    switch unit
       when "seconds", "second" then from = 1
       when "minutes", "minute" then from = 60
       when "hours", "hour" then from  = 3600
       when "days", "day" then from  = 3600 * 24
       when "months", "month" then from  = 3600 * 24 * 30
-
-      msg.send since, count, unit
+      else from = 3600
 
     range =  "&from=" + (-from * count) + "&until=" + till
     url = base + urls[component] + range
 
-    msg.send "Loading #{url}"
-
     return url
 
-  loadShare = (config = 2, msg) ->
+
+  # Creates the api-share request
+
+  loadShare = (config, msg) ->
 
     msg.send "Capturing #{config.component}, say cheese..."
 
@@ -68,14 +75,16 @@ module.exports = (robot) ->
     .header('Accept', 'application/json')
     .header('Authorization', "Bearer #{TOKEN}")
     .get() (err, res, body) ->
-      # error checking code here
       try
         data = JSON.parse(body)
       catch e
-        msg.send "Invalid api response: #{body}"
+        msg.send "Invalid api-share response: #{body}"
 
       if data and 'url' of data
         msg.send data.url
+
+
+  # Respond callback
 
   robot.respond /share (.+)/i, (msg) ->
 
@@ -84,12 +93,16 @@ module.exports = (robot) ->
     component = commandArray[0]
     since = commandArray[1]
 
-    if commandArray[2].match /^\d+$/
-      count = parseInt commandArray[2]
-      unit = commandArray[3]
+    if commandArray[2]
+      if commandArray[2].match /^\d+$/ # check if user specified a number
+        count = parseInt commandArray[2]
+        unit = commandArray[3]
+      else
+        count = 1
+        unit = commandArray[2]
     else
       count = 1
-      unit = commandArray[2]
+      unit = "hour"
 
     if component of urls
       config =
@@ -98,6 +111,5 @@ module.exports = (robot) ->
         url: getURL(component, since, count, unit, msg)
 
       loadShare(config, msg)
-
     else
       msg.send "Component #{component} not defined."
