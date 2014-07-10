@@ -49,6 +49,7 @@ success = (msg) ->
 
 reloadAllScripts = (msg, success, error) ->
   robot = msg.robot
+  robot.emit('reload_scripts')
   scriptsPath = Path.resolve ".", "scripts"
   robot.load scriptsPath
 
