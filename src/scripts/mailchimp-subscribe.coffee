@@ -2,7 +2,7 @@
 #   Add email to Mailchimp list
 #
 # Dependencies:
-#   "mailchimp": "0.9.5"
+#   "mailchimp": "1.1.0"
 #
 # Configuration:
 #   MAILCHIMP_API_KEY
