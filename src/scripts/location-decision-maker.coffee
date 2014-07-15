@@ -45,9 +45,9 @@ class Locations
 module.exports = (robot) ->
   locations = new Locations robot
 
-  robot.respond /remember (.*) as a (.*) location/i, (msg) ->
-    locationname = msg.match[1]
-    locationgroup = msg.match[2]
+  robot.respond /(remember|add) (.*) as a (.*) location/i, (msg) ->
+    locationname = msg.match[2]
+    locationgroup = msg.match[3]
     locations.add locationgroup, locationname
 
     if locationname.toLowerCase() is "nandos"
@@ -57,10 +57,12 @@ module.exports = (robot) ->
     locationname = msg.match[1]
     locationgroup = msg.match[2]
     locations.remove locationgroup, locationname
+    msg.send "I've forgotten #{locationname} from #{locationgroup}"
 
   robot.respond /forget all locations for (.*)/i, (msg) ->
     locationgroup = msg.match[1]
     locations.removeAll locationgroup
+    msg.send "I've forgotten all locations from #{locationgroup}"
 
   robot.respond /where can we go for (.*)\?$/i, (msg) ->
     locationgroup = msg.match[1]
