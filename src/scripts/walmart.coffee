@@ -16,14 +16,13 @@
 
 module.exports = (robot) ->
   robot.respond /(wal)?mart( me)?/i, (msg) ->
-    random = Math.floor(Math.random() * 770)
-    msg.http("http://www.peopleofwalmart.com/photos/random-photos/page/#{random}/")
-    .get() (err, res, body) ->
-      col1 = body.indexOf '<div class="column_one">'
-      if (col1 != -1)
-        body = body.substring col1
-        match = body.match /http:\/\/media.peopleofwalmart.com\/wp-content\/uploads\/\d\d\d\d\/\d\d\/.+?\.jpg/g
-        if (match) 
-          total_pics = match.length
-          random_pic = Math.floor(Math.random() * total_pics)
-          msg.send match[random_pic]
+    msg.http("http://www.peopleofwalmart.com/?random=1")
+    .get() (error, response) ->
+      msg.http(response.headers['location'])
+        .get() (err, res, body) ->
+          col1 = body.indexOf '<div class="nest">'
+          if (col1 != -1)
+            body = body.substring col1
+            match = body.match /http:\/\/media.peopleofwalmart.com\/wp-content\/uploads\/\d\d\d\d\/\d\d\/.+?\.jpg/g
+            if (match) 
+              msg.send match[0]
