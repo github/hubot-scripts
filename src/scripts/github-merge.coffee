@@ -22,7 +22,7 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
 
   # http://rubular.com/r/vnnwHvt75L
-  robot.respond /merge ([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))? into ([-_\.a-zA-z0-9\/]+)$/i, (msg) ->
+  robot.respond /merge ([-_\.0-9a-zA-Z]+\/[-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))? into ([-_\.a-zA-z0-9\/]+)$/i, (msg) ->
     app      = msg.match[1]
     head     = msg.match[3] || "master"
     base     = msg.match[4]
