@@ -49,7 +49,7 @@ questions = [
   "A romantic candlelit dinner would be incomplete without _____.",
   "After blacking out during New Year's Eve, I was awoken by _____.",
   "After months of debate, the Occupy Wall Street General Assembly could only agree on “More _____!”",
-  "After the earthquake, Sean Penn bought ______ to the people of Haiti.",
+  "After the earthquake, Sean Penn brought ______ to the people of Haiti.",
   "Alternative medicine is now embracing the curative powers of _____.",
   "And I would have gotten away with it, too, if it hadn't been for _____.",
   "Anthropologists have recently discovered a primitive tribe that worships _____.",
