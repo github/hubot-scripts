@@ -1,6 +1,12 @@
 ﻿# Description:
 #   tombola feature toggle functionality for hubot.
 #
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
 # Commands:
 #   hubot ft status <toggle_name> <country> --<environment> - Returns whether or not the toggle is active
 #   hubot ft status <toggle_name> for <country> on <environment>
@@ -12,6 +18,8 @@
 #   match[2] = feature toggle name
 #   match[3] = target country
 #   match[4] = target environment
+# Author:
+#   tombola <marc-costello>
 
 module.exports = (robot) ->
   
