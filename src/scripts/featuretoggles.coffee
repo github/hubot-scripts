@@ -2,8 +2,16 @@
 #   tombola feature toggle functionality for hubot.
 #
 # Commands:
-#   hubot ft <toggle_name> <country> --<environment> - Returns whether or not the toggle is active
+#   hubot ft status <toggle_name> <country> --<environment> - Returns whether or not the toggle is active
+#   hubot ft status <toggle_name> for <country> on <environment>
+#
 #   hubot toggle <toggle_name> <country> --<environment> - Toggles the feature
+#   hubot toggle <toggle_name> for <country> on <environment>
+#
+# Notes:
+#   match[2] = feature toggle name
+#   match[3] = target country
+#   match[4] = target environment
 
 module.exports = (robot) ->
   
@@ -22,9 +30,6 @@ module.exports = (robot) ->
 	    #live: "http://tombola.co.uk/new/api/"
   
   getApiUrl = (country, env) ->
-    # 2 = feature toggle name
-    # 3 = target country
-    # 4 = target environment
     return null if !country
     env = env || 'dev'
     
@@ -39,7 +44,7 @@ module.exports = (robot) ->
     robot.http(selectedApi + 'v2/featuretoggle/' + msg.match[2])
         .headers('Content-Type': 'application/json', Accept: 'application/json')
         .put() (err, res, body) ->
-            if res.statusCode is 204 #success
+            if res.statusCode is 204 #success (no content)
                 msg.send("Just toggled " + msg.match[2] + " haven't a")
             else
                 resBody = JSON.parse(body)
@@ -48,7 +53,7 @@ module.exports = (robot) ->
   robot.respond /(toggle) (.*) (.*) --(.*)/i, toggle
   robot.respond /(toggle) (.*) for (.*) on (.*)/i, toggle
   
-  # is ft active   
+  # ft status
   isActive = (msg) ->
     selectedApi = getApiUrl msg.match[3], msg.match[4]
     return if not selectedApi?
@@ -56,7 +61,7 @@ module.exports = (robot) ->
         .headers(Accept: 'application/json')
         .get() (err, res, body) ->
             resBody = JSON.parse(body)
-            if res.statusCode is 200 #success
+            if res.statusCode is 200 #success (OK)
                 msg.send(msg.match[2] + " : " + resBody)
             else
                 msg.send("Sorry chief, " + resBody.customerMessage)    
