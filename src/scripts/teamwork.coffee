@@ -21,9 +21,11 @@ module.exports = (robot) ->
 
     unless user
       msg.send "The HUBOT_TEAMWORK_API_KEY must be provided in order to complete teamwork tasks"
+      return
 
     unless teamwork_url
       msg.send "The HUBOT_TEAMWORK_URL must be provided in order to complete teamwork tasks"
+      return
 
     auth = 'BASIC ' + new Buffer("#{user}:xxx").toString('base64');
     url = "#{teamwork_url}/tasks/#{id}/complete.json"
@@ -35,6 +37,9 @@ module.exports = (robot) ->
           when 200
             msg.send "Great!  Task #{id} was marked complete"
           when 401
-            msg.send "Your authentication credentials were denied.  Please check your HUBOT_TEAMWORK_API_KEY and HUBOT_TEAMWORK_URL"
+            msg.send "
+              Your authentication credentials were denied.  
+              Please check your HUBOT_TEAMWORK_API_KEY and HUBOT_TEAMWORK_URL
+              "
           else
             msg.send body
