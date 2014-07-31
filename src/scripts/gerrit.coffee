@@ -60,7 +60,7 @@ module.exports = (robot) ->
     robot.respond /gerrit (ignore|report)(?: me)? events for (project|user|event) (.+)/i, ignoreOrReportEventsMe robot, gerrit
 
 searchMe = (robot, gerrit) -> (msg) ->
-  cp.exec "ssh #{gerrit.hostname} -p #{gerrit.port} gerrit query --format=JSON #{msg.match[1]}", (err, stdout, stderr) ->
+  cp.exec "ssh #{gerrit.hostname} -p #{gerrit.port} gerrit query --format=JSON -- #{msg.match[1]}", (err, stdout, stderr) ->
     if err
       msg.send "Sorry, something went wrong talking with Gerrit: #{stderr}"
     else
