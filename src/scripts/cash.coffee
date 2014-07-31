@@ -88,11 +88,11 @@ module.exports = (robot) ->
   optf = new OutputFormatter()
 
   robot.respond /cash (left|on hand):? (.+)$/i, (msg) ->
-    amount = cash.set_on_hand msg.match[3]
+    amount = cash.set_on_hand msg.match[2]
     msg.send "Ok, cash on hand is #{optf.toDollars(amount)}"
 
   robot.respond /cash burn( rate)?:? (.+)$/i, (msg) ->
-    amount = cash.set_burn_rate msg.match[3]
+    amount = cash.set_burn_rate msg.match[2]
     msg.send "Ok, our burn rate is #{optf.toDollars(amount)} per month"
 
   robot.respond /cash (stats|state|update)/i, (msg) ->
