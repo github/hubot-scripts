@@ -11,7 +11,7 @@
 #   whitepeople - display a #whitepeople gif
 #
 # Author:
-#   steven 
+#   shuynh 
 
 whitepeople = [
   "https://i.minus.com/iAkhq7VOddshd.gif",
