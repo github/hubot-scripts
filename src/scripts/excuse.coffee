@@ -10,6 +10,7 @@
 # Commands:
 #   hubot developer excuse me - Get a random developer excuse
 #   hubot developer excuse - Get a random developer excuse
+#   hubot excuse - Get a random developer excuse
 #
 #   hubot designer excuse me - Get a random designer excuse
 #   hubot designer excuse - Get a random designer excuse
@@ -48,7 +49,7 @@ DESIGNER_EXCUSES = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /developer excuse|excuse(?: me)?/i, (msg) ->
+  robot.respond /(?:developer excuse|excuse)(?: me)?/i, (msg) ->
     robot.http("http://developerexcuses.com")
       .get() (err, res, body) ->
         matches = body.match /<a [^>]+>(.+)<\/a>/i
@@ -56,5 +57,5 @@ module.exports = (robot) ->
         if matches and matches[1]
           msg.send matches[1]
 
-  robot.respond /designer excuse|excuse(?: me)?/i, (msg) ->
+  robot.respond /designer excuse(?: me)?/i, (msg) ->
     msg.send msg.random(DESIGNER_EXCUSES)
