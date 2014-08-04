@@ -16,7 +16,7 @@ installed. Check `package.json` to be sure. If that is the case, you update
 `hubot-scripts.json` to list any scripts from this repository you want to load.
 The default `hubot-scripts.json` looks like:
 
-    ["redis-brain.coffee", "tweet.coffee", "shipit.coffee"]
+    ["redis-brain.coffee", "shipit.coffee"]
     
 If you update `hubot-scripts` in `package.json`, you will automatically get
 updates to your scripts listed here.
