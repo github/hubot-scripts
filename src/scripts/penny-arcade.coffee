@@ -2,8 +2,8 @@
 #   Who doesnt love Penny Arcade?
 #
 # Dependencies:
-#   "htmlparser": "1.7.6"
-#   "soupselect: "0.2.0"
+#   "htmlparser": ">=1.7.6"
+#   "soupselect: ">=0.2.0"
 #
 # Configuration:
 #   None
