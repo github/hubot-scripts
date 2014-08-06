@@ -13,7 +13,7 @@
 #   hubot pa <date> - Penny Arcade comic from <date> - mm/dd/yyyy format
 #
 # Author:
-#   apblardo
+#   blardo
 
 htmlparser = require "htmlparser"
 Select     = require("soupselect").select
