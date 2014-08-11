@@ -2,9 +2,9 @@
 #   Who doesnt love Penny Arcade?
 #
 # Dependencies:
-#   "htmlparser": "1.7.6"
-#   "soupselect: "0.2.0"
-# 
+#   "htmlparser": ">=1.7.7"
+#   "soupselect: ">=0.2.0"
+#
 # Configuration:
 #   None
 #
@@ -13,7 +13,7 @@
 #   hubot pa <date> - Penny Arcade comic from <date> - mm/dd/yyyy format
 #
 # Author:
-#   apblardo
+#   blardo
 
 htmlparser = require "htmlparser"
 Select     = require("soupselect").select
@@ -24,14 +24,14 @@ module.exports = (robot) ->
       date = ''
     else
       date = "#{msg.match[4]}/#{msg.match[2]}/#{msg.match[3]}/"
-    
+
     msg.http("http://penny-arcade.com/comic/#{date}")
         .get() (err, res, body) ->
           handler = new htmlparser.DefaultHandler()
           parser = new htmlparser.Parser(handler)
           parser.parseComplete(body)
 
-          img = Select handler.dom, ".comic img"
+          img = Select handler.dom, "#comicFrame img"
           comic = img[0].attribs
 
           msg.send comic.src
