@@ -48,10 +48,9 @@ module.exports = (robot) ->
       callback(false)
 
   run_eval = (lang, code, msg) ->
-    command = robot.brain.data.eval_langs[lang]
     msg
       .http("http://api.dan.co.jp/lleval.cgi")
-      .query(s: "#!/usr/bin/#{command}\n#{code}")
+      .query({s: "#{code}", l: "#{lang}"})
       .get() (err, res, body) ->
         out = JSON.parse(body)
         ret = out.stdout or out.stderr
