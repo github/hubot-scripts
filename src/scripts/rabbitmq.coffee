@@ -6,9 +6,10 @@
 #
 # Configuration:
 #   HUBOT_RABBITMQ_HOST
+#   HUBOT_RABBITMQ_SCHEME <http || https> (default is 'http')
 #   HUBOT_RABBITMQ_USER (default is 'guest')
 #   HUBOT_RABBITMQ_PWD (default is 'guest')
-#   HUBOT_RABBITMQ_VIRT_HOST (defaults to '/')
+#   HUBOT_RABBITMQ_VIRT_HOST (defaults to '/')\
 #
 # Commands:
 #   hubot rabbit nodes - display list of cluster nodes (name, uptime)
@@ -21,10 +22,10 @@
 # Notes:
 #
 # Author:
-#   kevwil
-
+#   kevwil, davidsulpy
 
 host = process.env.HUBOT_RABBITMQ_HOST
+scheme = process.env.HUBOT_RABBITMQ_SCHEME ?= 'http'
 user = process.env.HUBOT_RABBITMQ_USER ?= 'guest'
 pwd = process.env.HUBOT_RABBITMQ_PWD ?= 'guest'
 virt = process.env.HUBOT_RABBITMQ_VIRT_HOST ?= '%2F'
@@ -43,7 +44,7 @@ dhm = (t) ->
 
 # get_queues = (msg) ->
 #   msg
-#     .http("http://#{host}/api/queues")
+#     .http("#{scheme}://#{host}/api/queues")
 #     .query(sort_reverse: 'messages')
 #     .headers(Authorization: auth, Accept: 'application/json')
 #     .get() (err, res, body) ->
@@ -66,7 +67,7 @@ module.exports = (robot) ->
   robot.respond /rabbit nodes/i, (msg) ->
     results = []
     msg
-      .http("http://#{host}/api/nodes")
+      .http("#{scheme}://#{host}/api/nodes")
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
         if err
@@ -82,7 +83,7 @@ module.exports = (robot) ->
   robot.respond /rabbit queues/i, (msg) ->
     results = []
     msg
-      .http("http://#{host}/api/queues")
+      .http("#{scheme}://#{host}/api/queues")
       .query(sort_reverse: 'messages')
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
@@ -103,7 +104,7 @@ module.exports = (robot) ->
   robot.respond /rabbit slow queues/i, (msg) ->
     results = []
     msg
-      .http("http://#{host}/api/queues")
+      .http("#{scheme}://#{host}/api/queues")
       .query(sort_reverse: 'messages')
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
@@ -126,7 +127,7 @@ module.exports = (robot) ->
     sub = msg.match[1]
     results = []
     msg
-      .http("http://#{host}/api/queues/#{virt}/#{sub}/bindings")
+      .http("#{scheme}://#{host}/api/queues/#{virt}/#{sub}/bindings")
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
         if err
@@ -148,7 +149,7 @@ module.exports = (robot) ->
   robot.respond /rabbit vhosts/i, (msg) ->
     results = []
     msg
-      .http("http://#{host}/api/vhosts")
+      .http("#{scheme}://#{host}/api/vhosts")
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
         if err
