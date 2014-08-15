@@ -26,4 +26,4 @@ module.exports = (robot) ->
             .get() (error, response, body) ->
                 results = JSON.parse body
                 # passes back the complete reponse
-                msg.send results.thought.thought
+                msg.send results.thought
