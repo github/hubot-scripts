@@ -14,8 +14,8 @@
 #   sschneid
 
 module.exports = (robot) ->
-  robot.hear /aw( )?yiss(,)? (.+)/i, (msg) ->
-    data = "phrase=#{msg.match[3]}"
+  robot.hear /aw+ yiss+,? (.+)/i, (msg) ->
+    data = "phrase=#{msg.match[1]}"
     msg
       .http("http://awyisser.com/api/generator")
       .header("Content-Type","application/x-www-form-urlencoded")
