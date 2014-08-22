@@ -32,6 +32,7 @@
 #   hubot memegen PREPARE YOURSELF <text> - Generates GoT
 #   hubot memegen WHAT IF I TOLD YOU <text> - Generates Morpheus
 #   hubot memegen <text> BETTER DRINK MY OWN PISS - Generates Bear Grylls
+#   hubot memegen INTERNET KID <text>, <text> - Generates First-day-on-the-Internet Kid
 # Author:
 #   skalnik
 
@@ -140,6 +141,11 @@ module.exports = (robot) ->
         regex: /(memegen)?(.*) (BETTER DRINK MY OWN PISS)/i,
         generatorID: 92,
         imageID: 89714
+      },
+      {
+        regex: /(memegen)? ?INTERNET KID ?([^,]*),?(.*)/i,
+        generatorID: 1095654,
+        imageID: 4714007
       }
     ]
 
