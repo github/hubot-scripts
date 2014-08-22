@@ -25,6 +25,8 @@
 #   alexwilliamsca
 
 module.exports = (robot) ->
+  robot.logger.warning "auth.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-auth installation instructions"
+
   admin = process.env.HUBOT_AUTH_ADMIN
 
   class Auth
