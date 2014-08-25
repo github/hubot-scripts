@@ -11,6 +11,7 @@
 #   hubot define me <word> - Grabs a dictionary definition of a word.
 #   hubot pronounce me <word> - Links to a pronunciation of a word.
 #   hubot spell me <word> - Suggests correct spellings of a possible word.
+#   hubot bigram me <word> - Grabs the most frequently used bigram phrases containing this word
 #
 # Notes:
 #   You'll need an API key from http://developer.wordnik.com/
@@ -72,6 +73,24 @@ module.exports = (robot) ->
       else
         list = wordinfo.suggestions.join(', ')
         msg.send "Suggestions for \"#{word}\": #{list}"
+
+  # Bigrams
+  robot.respond /bigram( me)? (.*)/i, (msg) ->
+    word = msg.match[2]
+      
+    fetch_wordnik_resource(msg, word, 'phrases', {}) (err, res, body) ->
+      phrases = JSON.parse(body)
+      
+      if phrases.length == 0
+        msg.send "No bigrams for \"#{word}\" found."
+      else
+        reply = "Bigrams for \"#{word}\":\n"
+        
+        phrases = phrases.forEach (phrase) ->
+          if phrase.gram1 != undefined and phrase.gram2 != undefined
+            reply += "#{phrase.gram1} #{phrase.gram2}\n"
+        
+        msg.send reply
 
 fetch_wordnik_resource = (msg, word, resource, query, callback) ->
   # FIXME prefix with HUBOT_ for
