@@ -15,7 +15,7 @@
 #
 
 module.exports = (robot) ->
-  robot.hear /zen/i, (msg) ->
+  robot.hear /\bzen\b/i, (msg) ->
     msg
       .http("https://api.github.com/zen")
       .get() (err, res, body) ->
