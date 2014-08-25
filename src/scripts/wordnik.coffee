@@ -11,10 +11,12 @@
 #   hubot define me <word> - Grabs a dictionary definition of a word.
 #   hubot pronounce me <word> - Links to a pronunciation of a word.
 #   hubot spell me <word> - Suggests correct spellings of a possible word.
+#   hubot wotd me (short) - Returns the word of the day.
+#   hubot word of the day me (short) - Returns the word of the day.
 #
 # Notes:
 #   You'll need an API key from http://developer.wordnik.com/
-#   FIXME This should be merged with word-of-the-day.coffee
+#   FIXED Merged with word-of-the-day.coffee (however, only uses wordnik)
 #
 # Author:
 #   Aupajo
@@ -73,6 +75,12 @@ module.exports = (robot) ->
         list = wordinfo.suggestions.join(', ')
         msg.send "Suggestions for \"#{word}\": #{list}"
 
+  robot.respond /(word of the day|wotd)\s?(me)?\s?(short)?(.*)$/i, (msg) ->
+    if process.env.WORDNIK_API_KEY?
+      fetch_wordnik_wotd msg, msg.match[3]?
+    else
+      msg.send "Missing WORDNIK_API_KEY env variable."
+
 fetch_wordnik_resource = (msg, word, resource, query, callback) ->
   # FIXME prefix with HUBOT_ for
   if process.env.WORDNIK_API_KEY == undefined
@@ -83,3 +91,41 @@ fetch_wordnik_resource = (msg, word, resource, query, callback) ->
     .query(query)
     .header('api_key', process.env.WORDNIK_API_KEY)
     .get(callback)
+
+fetch_wordnik_wotd = (msg, short_response) ->
+  msg.http("http://api.wordnik.com/v4/words.json/wordOfTheDay")
+    .header("api_key", process.env.WORDNIK_API_KEY)
+    .get() (err, res, body) ->
+      if err?
+        msg.reply "Sorry, there was an error looking up the word of the day"
+      else
+        wotd = JSON.parse(body)
+        if not wotd.word?
+          msg.reply "Sorry, there was no word of the day"
+          return;
+
+        reply = "Word of the day: #{wotd.word}\n"        
+        lastSpeechType = null
+
+        if wotd.definitions?
+          reply += "Definitions:\n"
+          for def in wotd.definitions
+            if def.partOfSpeech != lastSpeechType
+              reply += " (#{def.partOfSpeech})\n" if def.partOfSpeech != undefined
+
+            # Track the part of speech
+            lastSpeechType = def.partOfSpeech
+
+            # Add the definition
+            reply += "  - #{def.text}\n"
+        else
+          reply += "No definitions for #{wotd.word}"
+        if not short_response
+          if wotd.examples?
+            reply += "\nExamples:\n"
+            for example in wotd.examples
+              reply += "  - #{example.text}\n"
+          if wotd.note?
+            reply += "\nNote:\n"
+            reply += "  - #{wotd.note}"
+        msg.send reply
