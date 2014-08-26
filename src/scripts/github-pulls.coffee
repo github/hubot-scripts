@@ -65,7 +65,7 @@ module.exports = (robot) ->
       msg.send "No organization specified, please provide one or set HUBOT_GITHUB_ORG accordingly."
       return
 
-    url = "#{url_api_base}/orgs/#{org_name}/issues?filter=all&state=open"
+    url = "#{url_api_base}/orgs/#{org_name}/issues?filter=all&state=open&per_page=100"
     github.get url, (issues) ->
       if issues.length == 0
         summary = "Achievement unlocked: open pull requests zero!"
