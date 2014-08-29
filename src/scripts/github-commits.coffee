@@ -46,7 +46,10 @@ module.exports = (robot) ->
               robot.send user, "  * #{commit.message} (#{if err then commit.url else data})"
       else
         if push.created
-          robot.send user, "#{push.pusher.name} created: #{push.ref}: #{push.base_ref}"
+          if push.base_ref
+            robot.send user, "#{push.pusher.name} created: #{push.ref}: #{push.base_ref}"
+          else
+            robot.send user, "#{push.pusher.name} created: #{push.ref}"
         if push.deleted
           robot.send user, "#{push.pusher.name} deleted: #{push.ref}"
 
