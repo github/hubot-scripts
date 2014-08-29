@@ -8,6 +8,7 @@
 #
 # Configuration:
 #   Just put this url <HUBOT_URL>:<PORT>/hubot/gh-commits?room=<room> into you'r github hooks
+#   HUBOT_GITHUB_COMMITS_ONLY -- Only report pushes with commits. Ignores creation of tags and branches.
 #
 # Commands:
 #   None
@@ -44,7 +45,7 @@ module.exports = (robot) ->
           do (commit) ->
             gitio commit.url, (err, data) ->
               robot.send user, "  * #{commit.message} (#{if err then commit.url else data})"
-      else
+      else if !process.env.HUBOT_GITHUB_COMMITS_ONLY
         if push.created
           if push.base_ref
             robot.send user, "#{push.pusher.name} created: #{push.ref}: #{push.base_ref}"
