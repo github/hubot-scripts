@@ -51,7 +51,7 @@ darkSkyMe = (msg, lat, lng, cb) ->
         cb "#{result.error}"
         return
 
-      isFahrenheit = process.env.HUBOT_DARK_SKY_UNITS == 'us'
+      isFahrenheit = process.env.HUBOT_DARK_SKY_UNITS == "us"
       if isFahrenheit
         fahrenheit = result.currently.temperature
         celsius = (fahrenheit - 32) * (5 / 9)
