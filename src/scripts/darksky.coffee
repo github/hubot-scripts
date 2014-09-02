@@ -34,7 +34,7 @@ module.exports = (robot) ->
           lat = result.results[0].geometry.location.lat
           lng = result.results[0].geometry.location.lng
           darkSkyMe msg, lat,lng , (darkSkyText) ->
-            response = "Weather for #{result.results[0].formatted_address}\n#{darkSkyText}"
+            response = "Weather for #{result.results[0].formatted_address}. #{darkSkyText}"
             msg.send response
         else
           msg.send "Couldn't find #{location}"
@@ -51,7 +51,15 @@ darkSkyMe = (msg, lat, lng, cb) ->
         cb "#{result.error}"
         return
 
-      response = "Currently: #{result.currently.summary} (#{result.currently.temperature}°)"
-      response += "\nToday: #{result.hourly.summary}"
-      response += "\nComing week: #{result.daily.summary}"
+      isFahrenheit = process.env.HUBOT_DARK_SKY_UNITS == "us"
+      if isFahrenheit
+        fahrenheit = result.currently.temperature
+        celsius = (fahrenheit - 32) * (5 / 9)
+      else
+        celsius = result.currently.temperature
+        fahrenheit = celsius * (9 / 5) + 32
+      response = "Currently: #{result.currently.summary} (#{fahrenheit}°F/"
+      response += "#{celsius}°C). "
+      response += "Today: #{result.hourly.summary} "
+      response += "Coming week: #{result.daily.summary}"
       cb response
