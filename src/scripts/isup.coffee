@@ -14,8 +14,8 @@
 #   jmhobbs
 
 module.exports = (robot) ->
-  robot.respond /is (http\:\/\/)?(.*?) (up|down)(\?)?/i, (msg) ->
-    isUp msg, msg.match[2], (domain) ->
+  robot.respond /is (?:http\:\/\/)?(.*?) (up|down)(\?)?/i, (msg) ->
+    isUp msg, msg.match[1], (domain) ->
       msg.send domain
 
 isUp = (msg, domain, cb) ->
