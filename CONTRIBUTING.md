@@ -20,7 +20,7 @@ Some things that will increase the chance that your pull request is accepted:
     whatever is affected by your contribution
   * Include any information that would be relevant to reproducing bugs, use
     cases for new features, etc.
-  * Impact on existing usesrs if modifying a script.
+  * Impact on existing users if modifying a script.
 
 Syntax:
 
