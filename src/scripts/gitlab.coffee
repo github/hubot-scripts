@@ -82,7 +82,8 @@ module.exports = (robot) ->
           if /^0+$/.test(hook.before)
             message = "#{bold(hook.user_name)} pushed a new branch (#{bold(branch)}) to #{bold(hook.repository.name)} #{underline(hook.repository.homepage)}"
           else
-            message = "#{bold(hook.user_name)} pushed #{bold(hook.total_commits_count)} commits to #{bold(branch)} in #{bold(hook.repository.name)} #{underline(hook.repository.homepage + '/compare/' + hook.before.substr(0,9) + '...' + hook.after.substr(0,9))}"
+            message = "#{bold(hook.user_name)} pushed to #{branch} at #{hook.repository.name} (#{underline(hook.repository.homepage + '/compare/' + hook.before.substr(0,9) + '...' + hook.after.substr(0,9))})"
+            message += "\n" + hook.commits.map((commit) -> commit.message).join("\n")
           robot.send user, message
         # not code? must be a something good!
         else
