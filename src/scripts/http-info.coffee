@@ -45,8 +45,8 @@ module.exports = (robot) ->
     done = (errors, window) ->
       unless errors
         $ = window.$
-        title = $('title').text()
-        description = $('meta[name=description]').attr("content") || ""
+        title = $('title').first().text().replace(/(\r\n|\n|\r)/gm,"").replace(/\s{2,}/g,' ').trim()
+        description = $('meta[name=description]').first().attr("content").replace(/(\r\n|\n|\r)/gm,"").replace(/\s{2,}/g,' ').trim() || ""
 
         if title and description and not process.env.HUBOT_HTTP_INFO_IGNORE_DESC
           msg.send "#{title}\n#{description}"
