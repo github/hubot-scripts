@@ -54,7 +54,7 @@ module.exports = (robot) ->
 
                   reply += " - #{title},"
                   reply += " #{description}" if description?
-                  reply += " [#{link}]\n"
+                  reply += " (#{link})\n"
             catch err
                   msg.reply err
 
