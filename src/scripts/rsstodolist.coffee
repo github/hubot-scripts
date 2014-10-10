@@ -47,8 +47,8 @@ module.exports = (robot) ->
               xml = jsdom.jsdom(body)
               for item in xml.getElementsByTagName("rss")[0].getElementsByTagName("channel")[0].getElementsByTagName("item")
                 do (item) ->
-                  link = item.getElementsByTagName("link")[0].childNodes[0].nodeValue
-                  title = item.getElementsByTagName("title")[0].childNodes[0].nodeValue
+                  link = item.getElementsByTagName("link")[0].childNodes[0].nodeValue if item.getElementsByTagName("link")[0].childNodes.length == 1
+                  title = item.getElementsByTagName("title")[0].childNodes[0].nodeValue if item.getElementsByTagName("title")[0].childNodes.length == 1
                   descriptionNode = item.getElementsByTagName("description")[0]
                   description = descriptionNode.childNodes[0].nodeValue if descriptionNode.childNodes.length == 1
 
