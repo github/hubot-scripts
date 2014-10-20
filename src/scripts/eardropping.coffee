@@ -71,9 +71,7 @@ module.exports = (robot) ->
     tasks.sort (a,b) ->
       return if a.order >= b.order then 1 else -1
 
-    console.log "Tasks: #{tasks}"
     tasksToRun = []
-
     for task in tasks
       if new RegExp(task.key, "i").test(robotHeard)
         tasksToRun.push task
