@@ -36,7 +36,7 @@ module.exports = (robot) ->
     envelope.user.type = body.type or 'groupchat'
 
     if message
-      robot.send user, "#{message}"
+      robot.send envelope, message
 
     res.writeHead 200, {'Content-Type': 'text/plain'}
     res.end 'Thanks\n'
