@@ -15,10 +15,13 @@
 
 appendAmbush = (data, toUser, fromUser, message) ->
   data[toUser.name] or= []
-  
+
   data[toUser.name].push [fromUser.name, message]
-  
+
 module.exports = (robot) ->
+
+  robot.logger.warning "ambush.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-ambush installation instructions"
+
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}
 
@@ -32,7 +35,7 @@ module.exports = (robot) ->
       msg.send "Too many users like that"
     else
       msg.send "#{msg.match[1]}? Never heard of 'em"
-  
+
   robot.hear /./i, (msg) ->
     return unless robot.brain.data.ambushes?
     if (ambushes = robot.brain.data.ambushes[msg.message.user.name])
