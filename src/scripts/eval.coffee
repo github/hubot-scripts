@@ -23,8 +23,8 @@ ready = false
 module.exports = (robot) ->
   get_languages = (robot, callback) ->
     callback or= () ->
-    if not ready or robot.brain?.data?.eval_langs
-      callback(robot.brain?.data?.eval_langs || {})
+    if not ready
+      callback {}
       return
 
     url = "http://api.dan.co.jp/lleval.cgi"
@@ -34,7 +34,6 @@ module.exports = (robot) ->
       .query(q: "1")
       .get() (err, res, body) ->
         langs = JSON.parse(body)
-        robot.brain.data.eval_langs = langs
         callback(langs)
         robot.logger.info "Brain received eval language list #{util.inspect(langs)}"
 
@@ -48,10 +47,9 @@ module.exports = (robot) ->
       callback(false)
 
   run_eval = (lang, code, msg) ->
-    command = robot.brain.data.eval_langs[lang]
     msg
       .http("http://api.dan.co.jp/lleval.cgi")
-      .query(s: "#!/usr/bin/#{command}\n#{code}")
+      .query({s: "#{code}", l: "#{lang}"})
       .get() (err, res, body) ->
         out = JSON.parse(body)
         ret = out.stdout or out.stderr
