@@ -19,7 +19,7 @@ module.exports = (robot) ->
   robot.respond /(clojure|clj)\s+(.*)/i, (msg)->
     script = msg.match[2]
 
-    msg.http("http://tryclj.com/eval.json")
+    msg.http("http://www.tryclj.com/eval.json")
       .query(expr: script)
       .headers(Cookie: "ring-session=#{ringSessionID}")
       .get() (err, res, body) ->
