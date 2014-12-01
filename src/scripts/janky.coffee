@@ -41,7 +41,7 @@ buildStatusMessage = (build) ->
   response = ""
   response += "Build ##{build.number} (#{build.sha1}) of #{build.repo}/#{build.branch} #{build.status}"
   response += "(#{build.duration}s) #{build.compare}"
-  response += " [Log: #{build.web_url}]"
+  response += " [Log: #{build.web_url} ]"
 
 
 get = (path, params, cb) ->
