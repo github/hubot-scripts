@@ -24,10 +24,10 @@ installed. Check `package.json` to be sure. If that is the case, you update
 The default `hubot-scripts.json` looks like:
 
     ["redis-brain.coffee", "shipit.coffee"]
-    
+
 If you update `hubot-scripts` in `package.json`, you will automatically get
 updates to your scripts listed here.
-    
+
 Alternatively, you can copy files from this repository into your `scripts`
 directory. Note that you would not get updates from the `hubot-scripts`
 repository unless you copy them yourself.
@@ -91,6 +91,6 @@ repository.
 [script-catalog]: http://hubot-script-catalog.herokuapp.com
 [src-scripts]: https://github.com/github/hubot-scripts/tree/master/src/scripts
 [tomdoc]: http://tomdoc.org
-[example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee 
+[example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee
 [hubot-script-tests]: https://github.com/github/hubot-scripts/blob/master/test/tests.coffee
 [example-script-doc]: https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5
