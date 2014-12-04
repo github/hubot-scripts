@@ -3,8 +3,13 @@
 These are a collection of community scripts for [hubot][hubot], a chat bot for
 your company.
 
-**Imporant**: please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting new scripts.
+**Imporant**: this repository is no longer accepting new scripts. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
+There is a new system for distributing scripts, and adding them to your own hubot. Locate the appropriate script in the [hubot-scripts organization](https://github.com/github/hubot-scripts) or on [npm tagged as *hubot-scripts*](https://www.npmjs.org/browse/keyword/hubot-scripts), and follow the script's documentation. In general, this will be something like:
+
+1. Add a line to external-scripts.json
+2. Add a line to package.json
+3. Add environment variables, depending on the script
 
 ## Discovering
 
@@ -19,10 +24,10 @@ installed. Check `package.json` to be sure. If that is the case, you update
 The default `hubot-scripts.json` looks like:
 
     ["redis-brain.coffee", "shipit.coffee"]
-    
+
 If you update `hubot-scripts` in `package.json`, you will automatically get
 updates to your scripts listed here.
-    
+
 Alternatively, you can copy files from this repository into your `scripts`
 directory. Note that you would not get updates from the `hubot-scripts`
 repository unless you copy them yourself.
@@ -86,6 +91,6 @@ repository.
 [script-catalog]: http://hubot-script-catalog.herokuapp.com
 [src-scripts]: https://github.com/github/hubot-scripts/tree/master/src/scripts
 [tomdoc]: http://tomdoc.org
-[example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee 
+[example-script]: https://github.com/github/hubot-scripts/blob/master/src/scripts/tweet.coffee
 [hubot-script-tests]: https://github.com/github/hubot-scripts/blob/master/test/tests.coffee
 [example-script-doc]: https://github.com/github/hubot-scripts/blob/master/src/scripts/speak.coffee#L1-5
