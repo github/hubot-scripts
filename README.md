@@ -6,7 +6,6 @@ your company.
 **Imporant**: this repository is no longer accepting new scripts. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 There is a new system for distributing scripts, and adding them to your own hubot. Locate the appropriate script in the [hubot-scripts organization](https://github.com/github/hubot-scripts) or on [npm tagged as *hubot-scripts*](https://www.npmjs.org/browse/keyword/hubot-scripts), and follow the script's documentation. In general, this will be something like:
-cu
 
 1. Add a line to external-scripts.json
 2. Add a line to package.json
