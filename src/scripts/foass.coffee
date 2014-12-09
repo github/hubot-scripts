@@ -13,7 +13,7 @@
 
 
 module.exports = (robot) ->
-  robot.hear /^fu( )?(\w+)?/i, (msg) ->
+  robot.hear /^fu ?(\w+)?/i, (msg) ->
     options = [
       'off',
       'you',
@@ -30,7 +30,7 @@ module.exports = (robot) ->
 
     from = msg.message.user.name
 
-    to = msg.match[2]
+    to = msg.match[1]
 
     if to
       options.push(to)
