@@ -13,7 +13,7 @@
 #
 # Notes
 #   Request an WWO API KEY in http://www.worldweatheronline.com/
-#   The url is likely to be something like http://api.worldweatheronline.com/free/v1/tz.ashx
+#   The url is likely to be something like http://api.worldweatheronline.com/free/v2/tz.ashx
 #
 #   City parameter can be:
 #     city
