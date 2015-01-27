@@ -5,7 +5,9 @@
 #   None
 #
 # Configuration:
-#   None
+#   Store your imgur.com application client id in an environment
+#   variable called IMGUR_CLIENT_ID. To get API access, visit
+#   http://api.imgur.com and register an application.
 #
 # Commands:
 #   hubot cheer me up - A little pick me up
@@ -22,10 +24,12 @@ module.exports = (robot) ->
     aww msg
 
 aww = (msg) ->
+  client_id = 'Client-ID ' + process.env.IMGUR_CLIENT_ID
   msg
-    .http('http://imgur.com/r/aww.json')
+    .http('https://api.imgur.com/3/gallery/r/aww')
+      .headers(Authorization: client_id)
       .get() (err, res, body) ->
         images = JSON.parse(body)
         images = images.data
         image  = msg.random images
-        msg.send "http://i.imgur.com/#{image.hash}#{image.ext}"
+        msg.send image.link
