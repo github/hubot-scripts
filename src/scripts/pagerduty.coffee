@@ -48,22 +48,15 @@ inspect = require('util').inspect
 
 moment = require('moment')
 
-pagerDutyApiKey        = process.env.HUBOT_PAGERDUTY_API_KEY
-pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
-pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
-pagerDutyServiceApiKey = process.env.HUBOT_PAGERDUTY_SERVICE_API_KEY
-pagerDutyScheduleId    = process.env.HUBOT_PAGERDUTY_SCHEDULE_ID
-pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
-# Webhook listener endpoint. Set it to whatever URL you want, and make sure it matches your pagerduty service settings 
-pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
-
 module.exports = (robot) ->
   robot.logger.warning "pagerduty.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-pager-me installation instructions"
 
   robot.respond /pager( me)?$/i, (msg) ->
-    if missingEnvironmentForApi(msg)
-      return
+    # Pull in our team credentials
+    env = pagerDutyEnv(msg)
 
+    if missingEnvironmentForApi(env)
+      return
 
     withPagerDutyUser msg, (user) ->
       emailNote = if msg.message.user.pagerdutyEmail
@@ -71,7 +64,7 @@ module.exports = (robot) ->
                   else if msg.message.user.email_address
                     "I'm assuming your PagerDuty email is #{msg.message.user.email_address}. Change it with `#{robot.name} pager me as you@yourdomain.com`"
       if user
-        msg.send "I found your PagerDuty user https://#{pagerDutySubdomain}.pagerduty.com#{user.user_url}, #{emailNote}"
+        msg.send "I found your PagerDuty user https://#{env.pagerDutySubdomain}.pagerduty.com#{user.user_url}, #{emailNote}"
       else
         msg.send "I couldn't find your user :( #{emailNote}"
 
@@ -203,19 +196,44 @@ module.exports = (robot) ->
     withCurrentOncall msg, (username) ->
       msg.reply "#{username} is on call"
 
+  pagerDutyEnv = (team) ->
+    if !team
+      team = "DEFAULT"
+    else
+      team = team.toUpperCase()
+
+    subdomain = process.env."HUBOT_PAGERDUTY_#{team}_SUBDOMAIN"
+
+    environment = 
+      pagerDutyApiKey        = process.env."HUBOT_PAGERDUTY_#{team}_API_KEY"
+      pagerDutySubdomain     = subdomain
+      pagerDutyBaseUrl       = "https://#{subdomain}.pagerduty.com/api/v1"
+      pagerDutyServiceApiKey = process.env."HUBOT_PAGERDUTY_#{team}_SERVICE_API_KEY"
+      pagerDutyScheduleId    = process.env."HUBOT_PAGERDUTY_#{team}_SCHEDULE_ID"
+      pagerTeamRooms         = process.env."HUBOT_PAGERDUTY_#{team}_ROOMS".split ','
+      pagerRoom              = process.env."HUBOT_PAGERDUTY_#{team}_ROOM"
+      # Webhook listener endpoint. Set it to whatever URL you want, and make sure it matches your pagerduty service settings 
+      pagerEndpoint          = process.env."HUBOT_PAGERDUTY_#{team}_ENDPOINT" || "/hook"
+
+  mapRoomToPagerDutyAcct = (room) ->
+    return
+
   parseIncidentNumbers = (match) ->
     match.split(/[ ,]+/).map (incidentNumber) ->
       parseInt(incidentNumber)
 
-  missingEnvironmentForApi = (msg) ->
+  missingEnvironmentForApi = (env) ->
     missingAnything = false
-    unless pagerDutySubdomain?
+    unless env.pagerTeamRooms.indexOf(team)
+      msg.send "PagerDuty is missing:  Ensure that HUBOT_PAGERDUTY_SUBDOMAIN is set."
+      missingAnything |= true
+    unless env.pagerDutySubdomain?
       msg.send "PagerDuty Subdomain is missing:  Ensure that HUBOT_PAGERDUTY_SUBDOMAIN is set."
       missingAnything |= true
-    unless pagerDutyApiKey?
+    unless env.pagerDutyApiKey?
       msg.send "PagerDuty API Key is missing:  Ensure that HUBOT_PAGERDUTY_API_KEY is set."
       missingAnything |= true
-    unless pagerDutyScheduleId?
+    unless env.pagerDutyScheduleId?
       msg.send "PagerDuty Schedule ID is missing:  Ensure that HUBOT_PAGERDUTY_SCHEDULE_ID is set."
       missingAnything |= true
     missingAnything
@@ -237,7 +255,8 @@ module.exports = (robot) ->
 
 
   pagerDutyGet = (msg, url, query, cb) ->
-    if missingEnvironmentForApi(msg)
+    env = pagerDutyEnv(msg)
+    if missingEnvironmentForApi(env)
       return
 
     auth = "Token token=#{pagerDutyApiKey}"
@@ -275,7 +294,8 @@ module.exports = (robot) ->
         cb json_body
 
   pagerDutyPost = (msg, url, data, cb) ->
-    if missingEnvironmentForApi(msg)
+    env = pagerDutyEnv(msg)
+    if missingEnvironmentForApi(env)
       return
 
     json = JSON.stringify(data)
@@ -319,7 +339,8 @@ module.exports = (robot) ->
       cb(json.incidents)
 
   pagerDutyIntegrationAPI = (msg, cmd, description, cb) ->
-    unless pagerDutyServiceApiKey?
+    env = pagerDutyEnv(msg)
+    unless env.pagerDutyServiceApiKey?
       msg.send "PagerDuty API service key is missing."
       msg.send "Ensure that HUBOT_PAGERDUTY_SERVICE_API_KEY is set."
       return
@@ -327,7 +348,7 @@ module.exports = (robot) ->
     data = null
     switch cmd
       when "trigger"
-        data = JSON.stringify { service_key: pagerDutyServiceApiKey, event_type: "trigger", description: description}
+        data = JSON.stringify { service_key: env.pagerDutyServiceApiKey, event_type: "trigger", description: description}
         pagerDutyIntergrationPost msg, data, (json) ->
           cb(json)
 
