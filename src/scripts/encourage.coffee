@@ -9,7 +9,7 @@
 #
 # Commands:
 #   hubot encourage me
-#   hubot encourge name
+#   hubot encourage name
 #   hubot encourage all
 #   
 # Author:
