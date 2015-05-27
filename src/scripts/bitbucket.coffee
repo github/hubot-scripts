@@ -8,7 +8,7 @@
 # Configuration:
 #   For instructions on how to set up BitBucket's POST service for your
 #   repositories, visit:
-#   http://confluence.atlassian.com/display/BITBUCKET/Setting+Up+the+bitbucket+POST+Service
+#   https://confluence.atlassian.com/display/BITBUCKET/POST+hook+management
 #
 # Author:
 #   JRusbatch
