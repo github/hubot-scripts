@@ -4,10 +4,19 @@
 # Dependencies:
 #   "url": ""
 #   "querystring": ""
-#   "gitio2": "2.0.0"
+#   "gitio2": "2.0.0"  (optional)
 #
 # Configuration:
-#   Just put this url <HUBOT_URL>:<PORT>/hubot/gh-commits?room=<room> into you'r github hooks
+#   Put this url <HUBOT_URL>:<PORT>/hubot/gh-commits?room=<room> into your GitHub hooks
+#   HUBOT_GITIO
+#     Set nonempty for shortened URLs.  If not unset or empty, you
+#     don't need gitio2.
+#   HUBOT_GITHUB_API
+#     Optional, default is https://api.github.com. Override with
+#     http[s]://yourdomain.com/api/v3/ for Enterprise installations.
+#   HUBOT_COMMIT_ONELINE
+#     Set nonempty to only show the summary lines.  If not unset or
+#     empty, show the full message.
 #
 # Commands:
 #   None
@@ -20,7 +29,8 @@
 
 url = require('url')
 querystring = require('querystring')
-gitio = require('gitio2')
+if process.env.HUBOT_GITIO
+  gitio = require('gitio2')
 
 module.exports = (robot) ->
 
@@ -42,8 +52,20 @@ module.exports = (robot) ->
         robot.send user, "Got #{push.commits.length} new #{commitWord} from #{push.commits[0].author.name} on #{push.repository.name}"
         for commit in push.commits
           do (commit) ->
-            gitio commit.url, (err, data) ->
-              robot.send user, "  * #{commit.message} (#{if err then commit.url else data})"
+            if process.env.HUBOT_GITIO
+              gitio commit.url, (err, data) ->
+                if not err
+                  commit.url = data
+            else
+              if process.env.HUBOT_GITHUB_API
+                commit.url = commit.url.replace(/api\/v3\//,'')
+              else
+                commit.url = commit.url.replace(/api\./,'')
+              commit.url = commit.url.replace(/repos\//,'')
+              commit.url = commit.url.replace(/commits/,'commit')
+            if process.env.HUBOT_COMMIT_ONELINE
+              commit.message = commit.message.split("\n")[0] + "\n"
+            robot.send user, "* #{commit.message}  (#{commit.url})"
       else
         if push.created
           robot.send user, "#{push.pusher.name} created: #{push.ref}: #{push.base_ref}"
