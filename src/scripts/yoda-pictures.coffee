@@ -14,7 +14,7 @@
 #   vquaiato
 
 module.exports = (robot) ->
-	robot.hear /^yoda pic$/i, (msg) ->
+	robot.hear /.*(yoda pic).*/i, (msg) ->
 		images = ["http://upload.wikimedia.org/wikipedia/pt/thumb/4/45/Yoda.jpg/200px-Yoda.jpg",
 			"http://images.wikia.com/pt.starwars/images/c/c4/Yoda2.jpg",
 			"http://images.wikia.com/starwars/images/e/e0/Yoda_SWSB.jpg",
