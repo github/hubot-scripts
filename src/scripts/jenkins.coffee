@@ -60,6 +60,8 @@ jenkinsBuild = (msg, buildWithEmptyParameters) ->
           msg.reply "(#{res.statusCode}) Build started for #{job} #{url}/job/#{job}"
         else if 400 == res.statusCode
           jenkinsBuild(msg, true)
+        else if 404 == res.statusCode
+          msg.reply "Build not found, double check that it exists and is spelt correctly."
         else
           msg.reply "Jenkins says: Status #{res.statusCode} #{body}"
 
