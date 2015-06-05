@@ -198,7 +198,7 @@ jenkinsList = (msg) ->
                 index = jobList.indexOf(job.name)
 
               state = if job.color == "red" then "FAIL" else "PASS"
-              if filter.test job.name
+              if (filter.test job.name) or (filter.test state)
                 response += "[#{index + 1}] #{state} #{job.name}\n"
             msg.send response
           catch error
