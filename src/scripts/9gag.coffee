@@ -9,7 +9,7 @@
 #   HUBOT_9GAG_NO_GIFS (optional, skips GIFs if defined; default is undefined)
 #
 # Commands:
-#   hubot 9gag me - Returns a random meme image
+#   hubot 9gag me [category] - Returns a random meme image by default  
 #
 # Author:
 #   EnriqueVidal 
