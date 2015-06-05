@@ -23,7 +23,7 @@
 # Author:
 #   kevwil, davidsulpy
 
-url = process.env.HUBOT_RABBITMQ_HOST
+url = process.env.HUBOT_RABBITMQ_ROOT_URL
 user = process.env.HUBOT_RABBITMQ_USER ?= 'guest'
 pwd = process.env.HUBOT_RABBITMQ_PWD ?= 'guest'
 virt = process.env.HUBOT_RABBITMQ_VIRT_HOST ?= '%2F'
