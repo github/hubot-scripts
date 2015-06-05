@@ -50,7 +50,7 @@ shouldNotify = (notstrat, data, @failing) ->
 
 module.exports = (robot) ->
 
-  robot.router.post "/hubot/jenkins-notify", (req, res) ->
+  robot.router.post "/#{robot.name}/jenkins-notify", (req, res) ->
 
     @failing ||= []
     query = querystring.parse(url.parse(req.url).query)
