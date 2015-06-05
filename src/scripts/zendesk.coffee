@@ -10,6 +10,7 @@
 #   hubot (all) tickets - returns the total count of all unsolved tickets. The 'all' keyword is optional.
 #   hubot new tickets - returns the count of all new (unassigned) tickets
 #   hubot open tickets - returns the count of all open tickets
+#   hubot on hold tickets - returns the count of all on hold tickets
 #   hubot escalated tickets - returns a count of tickets with escalated tag that are open or pending
 #   hubot pending tickets - returns a count of tickets that are pending
 #   hubot list (all) tickets - returns a list of all unsolved tickets. The 'all' keyword is optional.
@@ -24,6 +25,7 @@ tickets_url = "https://#{process.env.HUBOT_ZENDESK_SUBDOMAIN}.zendesk.com/ticket
 queries =
   unsolved: "search.json?query=status<solved+type:ticket"
   open: "search.json?query=status:open+type:ticket"
+  hold: "search.json?query=status:hold+type:ticket"
   new: "search.json?query=status:new+type:ticket"
   escalated: "search.json?query=tags:escalated+status:open+status:pending+type:ticket"
   pending: "search.json?query=status:pending+type:ticket"
@@ -90,6 +92,11 @@ module.exports = (robot) ->
     zendesk_request msg, queries.open, (results) ->
       ticket_count = results.count
       msg.send "#{ticket_count} open tickets"
+      
+  robot.hear /on hold tickets$/i, (msg) ->
+    zendesk_request msg, queries.hold, (results) ->
+      ticket_count = results.count
+      msg.send "#{ticket_count} on hold tickets"
 
   robot.respond /list (all )?tickets$/i, (msg) ->
     zendesk_request msg, queries.unsolved, (results) ->
