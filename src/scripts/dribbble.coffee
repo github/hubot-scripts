@@ -25,9 +25,9 @@ requestImage = (msg, url) ->
       msg.send '"' + data.title + '"' + " by " + data.player.name
 
 module.exports = (robot) ->
-  robot.respond /(depress|dribbble|inspire)( me)? (.*)/i, (msg) ->
-    query = msg.match[4]
-    query ||= 'popular'
+  robot.respond /(?:depress|dribbble|inspire)(?: me)?(.*)/i, (msg) ->
+    query = msg.match[1] || 'popular'
+    query = query.trim()
     msg.http("http://api.dribbble.com/shots/#{query}")
       .get() (err, res, body) ->
         data = JSON.parse(body)
