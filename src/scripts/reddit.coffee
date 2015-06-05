@@ -2,7 +2,6 @@
 #   None
 #
 # Dependencies:
-#   "htmlparser": "1.7.6"
 #   "soupselect: "0.2.0"
 # 
 # Configuration:
@@ -15,7 +14,6 @@
 #   EnriqueVidal
 
 Select      = require( "soupselect" ).select
-HTMLParser  = require "htmlparser"
 
 lookup_site = "http://www.reddit.com/"
 
