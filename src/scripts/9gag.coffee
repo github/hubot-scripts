@@ -21,6 +21,8 @@ Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
+  robot.logger.warning "9gag.coffee has moved from hubot-scripts to its own package. See https://github.com/luijose/hubot-9gag installation instructions"
+
   robot.respond /9gag( me)?/i, (message)->
     send_meme message, false, (title, src)->
       message.send title, src
