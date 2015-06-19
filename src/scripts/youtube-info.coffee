@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   apiKey - You will want to get an API key from https://console.developers.google.com/ to avoid being locked out from too many requests
 #
 # Commands:
 #   [YouTube video URL] - shows title and time length for the URL
@@ -15,9 +15,11 @@
 #
 # Author:
 #   mmb
+#   Updated to YouTube API v3 by Serneum
 
 querystring = require 'querystring'
 url = require 'url'
+apiKey = <INSERT KEY HERE>
 
 module.exports = (robot) ->
   robot.hear /(https?:\/\/www\.youtube\.com\/watch\?.+?)(?:\s|$)/i, (msg) ->
@@ -33,29 +35,34 @@ module.exports = (robot) ->
     showInfo msg, video_hash
 
 showInfo = (msg, video_hash) ->
-  msg.http("http://gdata.youtube.com/feeds/api/videos/#{video_hash}")
+  msg.http("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,statistics&id=#{video_hash}&key=#{apiKey}")
     .query({
       alt: 'json'
     }).get() (err, res, body) ->
       if res.statusCode is 200
         data = JSON.parse(body)
-        entry = data.entry
-        r = entry.gd$rating
+        title = data.items[0].title
+        views = humanizeNumber(data.statistics.viewCount)
+        thumbs_up = humanizeNumber(data.statistics.likeCount)
+        thumbs_down = humanizeNumber(data.statistics.dislikeCount)
+        time = formatTime(data.contentDetails.duration)
         thumbs_up = Math.round(((r.average-r.min)/(r.max-r.min))*r.numRaters)
         thumbs_down = r.numRaters - thumbs_up
-        msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)}, #{humanizeNumber(entry.yt$statistics.viewCount)} views, #{humanizeNumber(thumbs_up)} thumbs up, #{humanizeNumber(thumbs_down)} thumbs down)"
+        msg.send "YouTube: #{title} (#{time}, #{views} views, #{thumbs_up} thumbs up, #{thumbs_down} thumbs down)"
       else
         msg.send "YouTube: error: #{video_hash} returned #{res.statusCode}: #{body}"
 
-formatTime = (seconds) ->
-  min = Math.floor(seconds / 60)
-  sec = seconds % 60
+formatTime = (duration) ->
+  pattern = /PT(\d+H)?(\d+M)?(\d+S)?/g
+  [hours, min, sec] = duration.match(pattern)[1..3]
 
   result = ''
-  if (min > 0)
-    result += "#{min}m"
-  if (sec > 0)
-    result += "#{sec}s"
+  if (!!hours)
+    result += "#{hours.slice(0, -1)}h"
+  if (!!min)
+    result += "#{min.slice(0, -1)}m"
+  if (!!sec)
+    result += "#{sec.slice(0, -1)}s"
 
   result
 
