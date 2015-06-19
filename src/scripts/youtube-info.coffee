@@ -46,8 +46,6 @@ showInfo = (msg, video_hash) ->
         thumbs_up = humanizeNumber(data.statistics.likeCount)
         thumbs_down = humanizeNumber(data.statistics.dislikeCount)
         time = formatTime(data.contentDetails.duration)
-        thumbs_up = Math.round(((r.average-r.min)/(r.max-r.min))*r.numRaters)
-        thumbs_down = r.numRaters - thumbs_up
         msg.send "YouTube: #{title} (#{time}, #{views} views, #{thumbs_up} thumbs up, #{thumbs_down} thumbs down)"
       else
         msg.send "YouTube: error: #{video_hash} returned #{res.statusCode}: #{body}"
