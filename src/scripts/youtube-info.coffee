@@ -12,12 +12,15 @@
 #
 # Notes:
 #   For text-based adapters like IRC.
+#   You will need to replace apiKey with an actual value. You can get an API key from https://console.developers.google.com/ to avoid being locked out from too many requests
 #
 # Author:
 #   mmb
+#   Updated to YouTube API v3 by Serneum
 
 querystring = require 'querystring'
 url = require 'url'
+apiKey = <YOUR API KEY>
 
 module.exports = (robot) ->
   robot.hear /(https?:\/\/www\.youtube\.com\/watch\?.+?)(?:\s|$)/i, (msg) ->
@@ -33,28 +36,36 @@ module.exports = (robot) ->
     showInfo msg, video_hash
 
 showInfo = (msg, video_hash) ->
-  msg.http("http://gdata.youtube.com/feeds/api/videos/#{video_hash}")
+  msg.http("https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=#{video_hash}&key=#{apiKey}")
     .query({
       alt: 'json'
     }).get() (err, res, body) ->
       if res.statusCode is 200
-        data = JSON.parse(body)
-        entry = data.entry
-        r = entry.gd$rating
-        thumbs_up = Math.round(((r.average-r.min)/(r.max-r.min))*r.numRaters)
-        thumbs_down = r.numRaters - thumbs_up
-        msg.send "YouTube: #{entry.title.$t} (#{formatTime(entry.media$group.yt$duration.seconds)}, #{humanizeNumber(entry.yt$statistics.viewCount)} views, #{humanizeNumber(thumbs_up)} thumbs up, #{humanizeNumber(thumbs_down)} thumbs down)"
+        data = JSON.parse(body).items[0]
+        title = data.snippet.title
+        views = humanizeNumber(data.statistics.viewCount)
+        thumbs_up = humanizeNumber(data.statistics.likeCount)
+        thumbs_down = humanizeNumber(data.statistics.dislikeCount)
+        time = formatTime(data.contentDetails.duration)
+        msg.send "YouTube: #{title} (#{time}, #{views} views, #{thumbs_up} thumbs up, #{thumbs_down} thumbs down)"
       else
         msg.send "YouTube: error: #{video_hash} returned #{res.statusCode}: #{body}"
 
-formatTime = (seconds) ->
-  min = Math.floor(seconds / 60)
-  sec = seconds % 60
+formatTime = (duration) ->
+  # I'm not good enough at regex groups to make this any better
+  hoursPattern = ///(\d+)H///
+  minPattern = ///(\d+)M///
+  secPattern = ///(\d+)S///
+  hours = duration.match(hoursPattern)?[1]
+  min = duration.match(minPattern)?[1]
+  sec = duration.match(secPattern)?[1]
 
   result = ''
-  if (min > 0)
+  if (!!hours)
+    result += "#{hours}h"
+  if (!!min)
     result += "#{min}m"
-  if (sec > 0)
+  if (!!sec)
     result += "#{sec}s"
 
   result
