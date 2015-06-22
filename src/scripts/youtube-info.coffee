@@ -5,13 +5,14 @@
 #   None
 #
 # Configuration:
-#   apiKey - You will want to get an API key from https://console.developers.google.com/ to avoid being locked out from too many requests
+#   None
 #
 # Commands:
 #   [YouTube video URL] - shows title and time length for the URL
 #
 # Notes:
 #   For text-based adapters like IRC.
+#   You will need to replace apiKey with an actual value. You can get an API key from https://console.developers.google.com/ to avoid being locked out from too many requests
 #
 # Author:
 #   mmb
@@ -19,7 +20,7 @@
 
 querystring = require 'querystring'
 url = require 'url'
-apiKey = <INSERT KEY HERE>
+apiKey = <YOUR API KEY>
 
 module.exports = (robot) ->
   robot.hear /(https?:\/\/www\.youtube\.com\/watch\?.+?)(?:\s|$)/i, (msg) ->
@@ -35,13 +36,13 @@ module.exports = (robot) ->
     showInfo msg, video_hash
 
 showInfo = (msg, video_hash) ->
-  msg.http("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,statistics&id=#{video_hash}&key=#{apiKey}")
+  msg.http("https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=#{video_hash}&key=#{apiKey}")
     .query({
       alt: 'json'
     }).get() (err, res, body) ->
       if res.statusCode is 200
-        data = JSON.parse(body)
-        title = data.items[0].title
+        data = JSON.parse(body).items[0]
+        title = data.snippet.title
         views = humanizeNumber(data.statistics.viewCount)
         thumbs_up = humanizeNumber(data.statistics.likeCount)
         thumbs_down = humanizeNumber(data.statistics.dislikeCount)
@@ -51,16 +52,21 @@ showInfo = (msg, video_hash) ->
         msg.send "YouTube: error: #{video_hash} returned #{res.statusCode}: #{body}"
 
 formatTime = (duration) ->
-  pattern = /PT(\d+H)?(\d+M)?(\d+S)?/g
-  [hours, min, sec] = duration.match(pattern)[1..3]
+  # I'm not good enough at regex groups to make this any better
+  hoursPattern = ///(\d+)H///
+  minPattern = ///(\d+)M///
+  secPattern = ///(\d+)S///
+  hours = duration.match(hoursPattern)?[1]
+  min = duration.match(minPattern)?[1]
+  sec = duration.match(secPattern)?[1]
 
   result = ''
   if (!!hours)
-    result += "#{hours.slice(0, -1)}h"
+    result += "#{hours}h"
   if (!!min)
-    result += "#{min.slice(0, -1)}m"
+    result += "#{min}m"
   if (!!sec)
-    result += "#{sec.slice(0, -1)}s"
+    result += "#{sec}s"
 
   result
 
