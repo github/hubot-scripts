@@ -196,8 +196,19 @@ jenkinsList = (msg) ->
               if index == -1
                 jobList.push(job.name)
                 index = jobList.indexOf(job.name)
+                
+              state = if job.color == "red"
+                        "FAIL" 
+                      else if job.color == "aborted"
+                        "ABORTED"
+                      else if job.color == "aborted_anime"
+                        "CURRENTLY RUNNING"
+                      else if job.color == "red_anime"
+                        "CURRENTLY RUNNING"
+                      else if job.color == "blue_anime"
+                        "CURRENTLY RUNNING"
+                      else "PASS"
 
-              state = if job.color == "red" then "FAIL" else "PASS"
               if (filter.test job.name) or (filter.test state)
                 response += "[#{index + 1}] #{state} #{job.name}\n"
             msg.send response
