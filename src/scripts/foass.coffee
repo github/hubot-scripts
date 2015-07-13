@@ -13,7 +13,7 @@
 
 
 module.exports = (robot) ->
-  robot.hear /^fu ?(\w+)?/i, (msg) ->
+  robot.hear /^fu(?:\s)(?=([\w ]+))/i, (msg) ->
     options = [
       'off',
       'you',
