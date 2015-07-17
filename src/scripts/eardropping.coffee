@@ -46,7 +46,11 @@ module.exports = (robot) ->
     key = msg.match[1]
     for task_raw in msg.match[2].split ";"
       task_split = task_raw.split "|"
-      earDropping.add(key, task_split[1], task_split[0])
+      # If it's a single task, don't add an "order" property
+      if not task_split[1]
+        earDropping.add(key, task_split[0])
+      else
+        earDropping.add(key, task_split[1], task_split[0])
     msg.send "I am now ear dropping for #{key}. Hehe."
 
   robot.respond /stop ear *dropping$/i, (msg) ->
