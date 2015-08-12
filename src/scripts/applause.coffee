@@ -33,7 +33,6 @@ images =
     "http://i.imgur.com/wf5qvOM.gif",
     "http://i.imgur.com/9Zv4V.gif",
     "http://i.imgur.com/t8zvc.gif",
-    "http://cache.blippitt.com/wp-content/uploads/2012/06/Daily-Life-GIFs-06-The-Rock-Clapping.gif",
     "http://25.media.tumblr.com/tumblr_m00e9mCyWj1rqtbn0o1_500.gif"
     "http://assets0.ordienetworks.com/images/GifGuide/clapping/Kurtclapping.gif",
     "http://assets0.ordienetworks.com/images/GifGuide/clapping/riker.gif",
