@@ -86,7 +86,7 @@ module.exports = (robot) ->
   karma = new Karma robot
   allow_self = process.env.KARMA_ALLOW_SELF or "true"
 
-  robot.hear /(\S+[^+:\s])[: ]*\+\+(\s|$)/, (msg) ->
+  robot.hear /(\S+[^+:\s])[: ]*\+\+(\s|$)/,{id: 'karma.increment'}, (msg) ->
     subject = msg.match[1].toLowerCase()
     if allow_self is true or msg.message.user.name.toLowerCase() != subject
       karma.increment subject
@@ -94,7 +94,7 @@ module.exports = (robot) ->
     else
       msg.send msg.random karma.selfDeniedResponses(msg.message.user.name)
 
-  robot.hear /(\S+[^-:\s])[: ]*--(\s|$)/, (msg) ->
+  robot.hear /(\S+[^-:\s])[: ]*--(\s|$)/,{id: 'karma.decrement'}, (msg) ->
     subject = msg.match[1].toLowerCase()
     if allow_self is true or msg.message.user.name.toLowerCase() != subject
       karma.decrement subject
@@ -102,7 +102,7 @@ module.exports = (robot) ->
     else
       msg.send msg.random karma.selfDeniedResponses(msg.message.user.name)
 
-  robot.respond /karma empty ?(\S+[^-\s])$/i, (msg) ->
+  robot.respond /karma empty ?(\S+[^-\s])$/i,{id: 'karma.empty'}, (msg) ->
     subject = msg.match[1].toLowerCase()
     if allow_self is true or msg.message.user.name.toLowerCase() != subject
       karma.kill subject
@@ -110,19 +110,19 @@ module.exports = (robot) ->
     else
       msg.send msg.random karma.selfDeniedResponses(msg.message.user.name)
 
-  robot.respond /karma( best)?$/i, (msg) ->
+  robot.respond /karma( best)?$/i,{id: 'karma.get.best'}, (msg) ->
     verbiage = ["The Best"]
     for item, rank in karma.top()
       verbiage.push "#{rank + 1}. #{item.name} - #{item.karma}"
     msg.send verbiage.join("\n")
 
-  robot.respond /karma worst$/i, (msg) ->
+  robot.respond /karma worst$/i,{id: 'karma.get.worst'}, (msg) ->
     verbiage = ["The Worst"]
     for item, rank in karma.bottom()
       verbiage.push "#{rank + 1}. #{item.name} - #{item.karma}"
     msg.send verbiage.join("\n")
 
-  robot.respond /karma (\S+[^-\s])$/i, (msg) ->
+  robot.respond /karma (\S+[^-\s])$/i,{id: 'karma.get'}, (msg) ->
     match = msg.match[1].toLowerCase()
     if match != "best" && match != "worst"
       msg.send "\"#{match}\" has #{karma.get(match)} karma."

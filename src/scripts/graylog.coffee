@@ -25,31 +25,31 @@
 
 module.exports = (robot) ->
 
-  robot.respond /graylog streams$/i, (msg) ->
+  robot.respond /graylog streams$/i,{id: 'graylog.streams.list'}, (msg) ->
     graylogStreams msg, (what) ->
       msg.send what
 
-  robot.respond /graylog hosts$/i, (msg) ->
+  robot.respond /graylog hosts$/i,{id: 'graylog.hosts.list'}, (msg) ->
     graylogHosts msg, (what) ->
       msg.send what
 
-  robot.respond /graylog$/i, (msg) ->
+  robot.respond /graylog$/i,{id: 'graylog.get.default'}, (msg) ->
     graylogStreamMessages msg, 'all', 5, (what) ->
       msg.send what
 
-  robot.respond /graylog (\d+)$/i, (msg) ->
+  robot.respond /graylog (\d+)$/i,{id: 'graylog.get.custom'}, (msg) ->
     count = parseInt(msg.match[1] || '5')
     graylogMessages msg, 'messages.json', (messages) ->
       sayMessages messages, count, (what) ->
         msg.send what
 
-  robot.respond /graylog (.+) (\d+)/i, (msg) ->
+  robot.respond /graylog (.+) (\d+)/i,{id: 'graylog.streams.get'}, (msg) ->
     stream = msg.match[1]
     count = parseInt(msg.match[2] || '5')
     graylogStreamMessages msg, stream, count, (what) ->
       msg.send what
 
-  robot.respond /graylog host (.+) (\d+)/i, (msg) ->
+  robot.respond /graylog host (.+) (\d+)/i,{id: 'graylog.hosts.get'}, (msg) ->
     host = msg.match[1]
     count = parseInt(msg.match[2] || '5')
     graylogHostMessages msg, host, count, (what) ->

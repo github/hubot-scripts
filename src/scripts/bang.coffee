@@ -18,7 +18,7 @@ Bang  = require "bang"
 {split} = require "shellwords"
 
 module.exports = (robot) ->
-  robot.respond /bang\s+(.*)/i, (msg) ->
+  robot.respond /bang\s+(.*)/i,{id: 'bang.store'}, (msg) ->
     try
       args = split(msg.match[1])
     catch error

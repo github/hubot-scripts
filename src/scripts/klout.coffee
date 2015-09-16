@@ -24,7 +24,7 @@ klout_api_key = () ->
     return process.env.HUBOT_KLOUT_API_KEY
     
 module.exports = (robot) -> 
-    robot.respond /.*(klout) [@]?(.+)$/i, (msg) ->
+    robot.respond /.*(klout) [@]?(.+)$/i,{id: 'klout.get'}, (msg) ->
         unless klout_api_key()
             msg.send "I wont report any scores until your environment HUBOT_KLOUT_API_KEY is set"
             return

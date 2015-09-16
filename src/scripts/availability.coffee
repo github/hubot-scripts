@@ -34,7 +34,7 @@ module.exports = (robot) ->
       false
 
 
-  robot.respond /is (.*) available(\?)?/i, (msg) ->
+  robot.respond /is (.*) available(\?)?/i,{id: 'availability.view'}, (msg) ->
     name = msg.match[1]
     user = findUser name
 
@@ -49,7 +49,7 @@ module.exports = (robot) ->
       msg.send "I have never met #{name}"
 
 
-  robot.respond /((i am ))?(available|free|not busy|at hand|back|here)/i, (msg) ->
+  robot.respond /((i am ))?(available|free|not busy|at hand|back|here)/i,{id: 'availability.set.available'}, (msg) ->
     name = msg.message.user.name
     user = findUser name
 
@@ -62,7 +62,7 @@ module.exports = (robot) ->
       msg.send "I have never met #{name}"
 
 
-  robot.respond /((i am ))? (unavailable|dnd|do not disturb|busy|in the zone|away|gone|afk|brb)/i, (msg) ->
+  robot.respond /((i am ))? (unavailable|dnd|do not disturb|busy|in the zone|away|gone|afk|brb)/i,{id: 'availability.set.unavailable'}, (msg) ->
     name = msg.message.user.name
     user = findUser name
 

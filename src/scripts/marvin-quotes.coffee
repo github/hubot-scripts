@@ -23,8 +23,8 @@ quotes = [
 
 module.exports = (robot) ->
 
-  robot.hear /you saved me/, (msg) ->
+  robot.hear /you saved me/,{id: 'marvin.saved'}, (msg) ->
     msg.send "I know. Wretched isn't it?"
 
-  robot.hear /(.*)(life)(.*)/i, (msg) ->
+  robot.hear /(.*)(life)(.*)/i,{id: 'marvin.life'}, (msg) ->
     msg.send msg.random quotes

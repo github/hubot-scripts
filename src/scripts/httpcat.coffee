@@ -26,7 +26,7 @@ codes = [100, 101, 200, 201, 202, 204, 206, 207, 300, 301, 303, 304,
         431, 444, 450, 500, 502, 503, 506, 507, 508, 509, 599]
 
 module.exports = (robot) ->
-    robot.respond /httpcat (.+)/i, (msg) ->
+    robot.respond /httpcat (.+)/i,{id: 'httpcat.status.get'}, (msg) ->
         status = parseInt(msg.match[1], 10)
         if (codes.indexOf( status ) > -1)
             msg.send 'http://httpcats.herokuapp.com/' + status + '.jpg'
@@ -34,5 +34,5 @@ module.exports = (robot) ->
             msg.send "That's not a valid HTTP status code, sorry amigo!"
 
 
-    robot.respond /httpcat help/i, (msg) ->
+    robot.respond /httpcat help/i,{id: 'httpcat.help.get'}, (msg) ->
         msg.send "Usage: httpcat <http status code>; a number"

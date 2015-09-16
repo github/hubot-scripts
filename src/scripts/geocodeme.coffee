@@ -15,11 +15,11 @@
 #   mattheath
 
 module.exports = (robot) ->
-  robot.respond /geocode( me)? (.*)/i, (msg) ->
+  robot.respond /geocode( me)? (.*)/i,{id: 'geocode.me'}, (msg) ->
     query = msg.match[2]
     geocodeMe msg, query, (text) ->
       msg.reply text
-  robot.respond /where is (.*)/i, (msg) ->
+  robot.respond /where is (.*)/i,{id: 'geocode.get'}, (msg) ->
     query = msg.match[1]
     geocodeMe msg, query, (text) ->
       msg.reply text

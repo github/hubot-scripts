@@ -14,7 +14,7 @@
 #   webandtech
 
 module.exports = (robot) ->
-  robot.respond /joinme$/i, (msg) ->
+  robot.respond /joinme$/i,{id: 'joinme.get'}, (msg) ->
     joinme(msg)
 
 joinme = (msg) ->

@@ -14,7 +14,7 @@
 #   pj4533
 
 module.exports = (robot) ->
-  robot.respond /locpix?(?: me)? (.*)/i, (msg) ->
+  robot.respond /locpix?(?: me)? (.*)/i,{id: 'locpix.get'}, (msg) ->
     q = escape(msg.match[1])
     msg.http('http://www.loc.gov/pictures/search/?fo=json&fa=displayed:anywhere&q=' + q )
       .get() (err, res, body) ->

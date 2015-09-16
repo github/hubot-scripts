@@ -14,5 +14,5 @@
 #   lmarburger
 
 module.exports = (robot) ->
-  robot.hear /frick/i, (msg) ->
+  robot.hear /frick/i,{id: 'frick.get'}, (msg) ->
     msg.send 'https://twitter.com/holman/status/296703339696111617'

@@ -32,7 +32,7 @@ url = require('url')
 querystring = require('querystring')
 
 module.exports = (robot) ->
-  robot.router.post "/hubot/gh-pull-requests", (req, res) ->
+  robot.router.post "/hubot/gh-pull-requests",{id: 'github.pr.notify'}, (req, res) ->
     query = querystring.parse(url.parse(req.url).query)
 
     data = req.body

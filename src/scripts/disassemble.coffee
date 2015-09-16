@@ -14,5 +14,5 @@
 #   listrophy
 
 module.exports = (robot) ->
-  robot.hear /disassemble/i, (msg) ->
+  robot.hear /disassemble/i,{id: 'disassemble.send'}, (msg) ->
     msg.send 'NO DISASSEMBLE!'

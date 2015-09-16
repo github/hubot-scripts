@@ -44,5 +44,5 @@ gobs = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /gob it/i, (msg) ->
+  robot.hear /gob it/i,{id: 'gob.random'}, (msg) ->
     msg.send msg.random gobs

@@ -75,7 +75,7 @@ complete_assignee = (msg, name) ->
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  robot.respond ASK_REGEX, (msg) ->
+  robot.respond ASK_REGEX,{id: 'github.issue.get'}, (msg) ->
     criteria = parse_criteria msg.message.text
     criteria.repo = github.qualified_repo criteria.repo
     criteria.assignee = complete_assignee msg, criteria.assignee if criteria.assignee?

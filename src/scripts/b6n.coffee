@@ -14,7 +14,7 @@
 #  chids
 
 module.exports = (robot) ->
-    robot.hear /ask b6n/i, (msg) ->
+    robot.hear /ask b6n/i,{id: 'b6n.get'}, (msg) ->
         quotes = ["reading is fundamental",
         "apparently it’s a bad idea to run a large database on a handful of puny rackspace cloud instances.\nwho knew?",
         "totally resharded",

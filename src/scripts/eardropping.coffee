@@ -42,7 +42,7 @@ class EarDropping
 module.exports = (robot) ->
   earDropping = new EarDropping robot
 
-  robot.respond /when you hear (.+?) do (.+?)$/i, (msg) ->
+  robot.respond /when you hear (.+?) do (.+?)$/i,{id: 'eardropping.hear'}, (msg) ->
     key = msg.match[1]
     for task_raw in msg.match[2].split ";"
       task_split = task_raw.split "|"
@@ -53,16 +53,16 @@ module.exports = (robot) ->
         earDropping.add(key, task_split[1], task_split[0])
     msg.send "I am now ear dropping for #{key}. Hehe."
 
-  robot.respond /stop ear *dropping$/i, (msg) ->
+  robot.respond /stop ear *dropping$/i,{id: 'eardropping.stop.all'}, (msg) ->
     earDropping.deleteAll()
     msg.send 'Okay, fine. :( I will keep my ears shut.'
 
-  robot.respond /stop ear *dropping (for|on) (.+?)$/i, (msg) ->
+  robot.respond /stop ear *dropping (for|on) (.+?)$/i,{id: 'eardropping.stop.one'}, (msg) ->
     pattern = msg.match[2]
     earDropping.deleteByPattern(pattern)
     msg.send "Okay, I will ignore #{pattern}"
 
-  robot.respond /show ear *dropping/i, (msg) ->
+  robot.respond /show ear *dropping/i,{id: 'eardropping.list'}, (msg) ->
     response = "\n"
     for task in earDropping.all()
       response += "#{task.key} -> #{task.task}\n"

@@ -16,7 +16,7 @@
 htmlparser = require "htmlparser"
 
 module.exports = (robot) ->
-  robot.respond /((show|fetch)( me )?)?dilbert/i, (msg) ->
+  robot.respond /((show|fetch)( me )?)?dilbert/i,{id: 'dilbert.get'}, (msg) ->
     dilbertRss msg, (url) ->
       msg.send url
 

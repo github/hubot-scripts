@@ -14,7 +14,7 @@
 #   artfuldodger
 
 module.exports = (robot) ->
-  robot.respond /fml/i, (msg) ->
+  robot.respond /fml/i,{id: 'fml.get'}, (msg) ->
     fml msg
 
 fml = (msg) ->

@@ -17,7 +17,7 @@
 #   Only works on gtalk
 
 module.exports = (robot) ->
-  robot.respond /im ([\w.-@]*) (.*)/i, (msg) ->
+  robot.respond /im ([\w.-@]*) (.*)/i,{id: 'im.send'}, (msg) ->
    new_user =
     id: msg.match[1] + "@" + msg.message.user.domain
     name: msg.match[1]

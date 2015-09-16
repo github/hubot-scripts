@@ -20,7 +20,7 @@ NodePie = require("nodepie")
 hnFeedUrl = "https://news.ycombinator.com/rss"
 
 module.exports = (robot) ->
-  robot.respond /HN top (\d+)?/i, (msg) ->
+  robot.respond /HN top (\d+)?/i,{id: 'hackernews.get.top.multiple'}, (msg) ->
     msg.http(hnFeedUrl).get() (err, res, body) ->
       if res.statusCode is not 200
         msg.send "Something's gone awry"
@@ -35,7 +35,7 @@ module.exports = (robot) ->
           console.log(e)
           msg.send "Something's gone awry"
 
-  robot.hear /HN(\.top|\[\d+\])/i, (msg) ->
+  robot.hear /HN(\.top|\[\d+\])/i,{id: 'hackernews.get.specific.one'}, (msg) ->
      msg.http(hnFeedUrl).get() (err, res, body) ->
        if res.statusCode is not 200
          msg.send "Something's gone awry"

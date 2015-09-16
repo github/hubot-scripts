@@ -17,7 +17,7 @@
 
 module.exports = (robot) ->
 
-  robot.respond /search things (.*)/i, (msg) ->
+  robot.respond /search things (.*)/i,{id: 'flattr.search'}, (msg) ->
     query = msg.match[1]
     msg.http("https://api.flattr.com/rest/v2/things/search")
       .query(query: query)
@@ -33,7 +33,7 @@ module.exports = (robot) ->
           msg.send "[#{thing.flattrs}] #{thing.title} (#{thing.url}) owned by #{thing.owner.username} -> #{thing.link}"
 
 
-  robot.respond /user (?:me )?(?:http(?:s)?:\/\/flattr.com\/profile\/)?(.*)$/i, (msg) ->
+  robot.respond /user (?:me )?(?:http(?:s)?:\/\/flattr.com\/profile\/)?(.*)$/i,{id: 'flattr.get.user'}, (msg) ->
     user = msg.match[1].trim()
     msg.http("https://api.flattr.com/rest/v2/users/#{user}")
       .headers(Accept: "application/json")
@@ -66,7 +66,7 @@ module.exports = (robot) ->
         # Profile
         msg.send "More: #{user.link}"
 
-  robot.hear /(?:http(?:s)?:\/\/flattr.com\/(?:t|thing)\/|thing me )(\d+)/i, (msg) ->
+  robot.hear /(?:http(?:s)?:\/\/flattr.com\/(?:t|thing)\/|thing me )(\d+)/i,{id: 'flattr.get'}, (msg) ->
     id = msg.match[1]
     msg.http("https://api.flattr.com/rest/v2/things/#{id}")
       .headers(Accept: "application/json")

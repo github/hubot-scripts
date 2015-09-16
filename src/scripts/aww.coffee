@@ -16,7 +16,7 @@
 url = require("url")
 
 module.exports = (robot) ->
-  robot.respond /aww/i, (msg) ->
+  robot.respond /aww/i,{id: 'aww.get'}, (msg) ->
     search = escape(msg.match[1])
     msg.http('http://www.reddit.com/r/aww.json')
       .get() (err, res, body) ->

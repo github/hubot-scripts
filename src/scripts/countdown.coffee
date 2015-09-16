@@ -30,7 +30,7 @@ module.exports = (robot) ->
     gap =  Math.floor(gap / (1000 * 60 * 60 * 24));
     "Only #{gap} days remaining till #{countdownKey}!"
 
-  robot.hear /countdown set (\w+) (.*)/i, (msg) ->
+  robot.hear /countdown set (\w+) (.*)/i,{id: 'countdown.set'}, (msg) ->
     robot.brain.data.countdown or= {}
 
     dateString = msg.match[2];
@@ -48,22 +48,22 @@ module.exports = (robot) ->
         console.log(error.message)
         msg.send "Invalid date passed!"
 
-  robot.hear /countdown list/i, (msg) ->
+  robot.hear /countdown list/i,{id: 'countdown.list'}, (msg) ->
     countdowns = robot.brain.data.countdown;
     for countdownKey of countdowns
       msg.send countdownKey + " -> " + new Date(countdowns[countdownKey].date).toDateString() +
         " -> " + getCountdownMsg(countdownKey) if countdowns.hasOwnProperty(countdownKey)
 
-  robot.hear /(countdown)( for)? (.*)/, (msg) ->
+  robot.hear /(countdown)( for)? (.*)/,{id: 'countdown.show'} (msg) ->
     countdownKey = msg.match[3]
     countdowns = robot.brain.data.countdown;
     msg.send getCountdownMsg(countdownKey)  if countdowns.hasOwnProperty(countdownKey)
 
-  robot.hear /countdown clear/i, (msg) ->
+  robot.hear /countdown clear/i,{id: 'countdown.clear'}, (msg) ->
     robot.brain.data.countdown = {}
     msg.send "Countdowns cleared"
 
-  robot.hear /countdown delete (.*)/i, (msg) ->
+  robot.hear /countdown delete (.*)/i,{id: 'countdown.delete'}, (msg) ->
     countdownKey = msg.match[1]
     if robot.brain.data.countdown.hasOwnProperty(countdownKey)
       delete robot.brain.data.countdown[countdownKey]
@@ -71,7 +71,7 @@ module.exports = (robot) ->
     else
       msg.send "Countdown for #{countdownKey} does not exist!"
 
-  robot.hear /countdown set$|countdown help/i, (msg) ->
+  robot.hear /countdown set$|countdown help/i,{id: 'countdown.help'}, (msg) ->
     msg.send "countdown set #meetupname# #datestring# e.g. countdown set PuneRubyMeetup 21 Jan 2014"
     msg.send "countdown [for] #meetupname# e.g. countdown PuneRubyMeetup"
     msg.send "countdown list"

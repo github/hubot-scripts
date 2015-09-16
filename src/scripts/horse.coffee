@@ -14,7 +14,7 @@
 #   lavelle
 
 module.exports = (robot) ->
-    robot.respond /horse/i, (msg) ->
+    robot.respond /horse/i,{id: 'horse.ebooks.get'}, (msg) ->
         url = 'http://api.twitter.com/1/statuses/user_timeline.json'
         msg
             .http(url)

@@ -21,7 +21,7 @@ jquery = 'http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js'
 
 module.exports = (robot) ->
 
-  robot.hear /beastmode.fm.*?(\/(\d+))/i, (msg) ->
+  robot.hear /beastmode.fm.*?(\/(\d+))/i,{id: 'beastmode.get'}, (msg) ->
     robot.http('http://beastmode.fm/track/' + msg.match[2])
       .get() (err, res, body) ->
         jsdom.env body, [jquery], (errors, window) ->

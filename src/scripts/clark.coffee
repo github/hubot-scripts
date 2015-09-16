@@ -16,7 +16,7 @@
 clark = require 'clark'
 
 module.exports = (robot) ->
-  robot.respond /clark (.*)/i, (msg) ->
+  robot.respond /clark (.*)/i,{id: 'clark.build'}, (msg) ->
     data = msg.match[1].trim().split(' ')
     msg.send(clark(data))
 

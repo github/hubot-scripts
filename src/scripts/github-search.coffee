@@ -17,7 +17,7 @@ module.exports = (robot) ->
 
   github = require('githubot')(robot, apiVersion: 'preview')
 
-  robot.respond /github search ((.+\/[^\s]+) )?(.+)/i, (msg) ->
+  robot.respond /github search ((.+\/[^\s]+) )?(.+)/i,{id: 'github.search'}, (msg) ->
     try
       repo = msg.match[2]
       query = msg.match[3].trim()

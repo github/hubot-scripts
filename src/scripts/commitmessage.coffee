@@ -14,7 +14,7 @@
 #   mrtazz
 
 module.exports = (robot) ->
-  robot.respond /commit message/i, (msg) ->
+  robot.respond /commit message/i,{id: 'commitmessage.random'}, (msg) ->
     msg.http("http://whatthecommit.com/index.txt")
        .get() (err, res, body) ->
          msg.reply body

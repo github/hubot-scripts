@@ -95,11 +95,11 @@ module.exports = (robot) ->
           if hook.object_attributes.description
             robot.send user, ">> #{hook.object_attributes.description}"
 
-  robot.router.post "/gitlab/system", (req, res) ->
+  robot.router.post "/gitlab/system",{id: 'gitlab.system'}, (req, res) ->
     handler "system", req, res
     res.end ""
 
-  robot.router.post "/gitlab/web", (req, res) ->
+  robot.router.post "/gitlab/web",{id: 'gitlab.web'}, (req, res) ->
     handler "web", req, res
     res.end ""
 

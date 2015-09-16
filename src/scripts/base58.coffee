@@ -14,14 +14,14 @@
 #   jimeh
 
 module.exports = (robot) ->
-  robot.respond /base58 encode( me)? (.*)/i, (msg) ->
+  robot.respond /base58 encode( me)? (.*)/i,{id: 'base58.encode'}, (msg) ->
     try
       msg.send Base58.encode(msg.match[2])
     catch e
       throw e unless e.message == 'Value passed is not an integer.'
       msg.send "Base58 encoding only works with Integer values."
 
-  robot.respond /base58 decode( me)? (.*)/i, (msg) ->
+  robot.respond /base58 decode( me)? (.*)/i,{id: 'base58.decode'}, (msg) ->
     try
       msg.send Base58.decode(msg.match[2])
     catch e

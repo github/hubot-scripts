@@ -16,7 +16,7 @@
 # brickattack
 
 module.exports = (robot) ->
-  robot.respond /(.*) gif/i, (msg) ->
+  robot.respond /(.*) gif/i,{id: 'gifme.get'}, (msg) ->
     search = escape(msg.match[1])
     client_id = 'Client-ID ' + process.env.IMGUR_CLIENT_ID
     msg.http('https://api.imgur.com/3/gallery/search')

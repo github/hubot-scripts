@@ -22,7 +22,7 @@ unless espnApiKey
   throw "You must enter your HUBOT_ESPN_ACCOUNT_KEY in your environment variables"
 
 module.exports = (robot) ->
-  robot.respond /espn headline/i, (msg) ->
+  robot.respond /espn headline/i,{id: 'espn.headline'}, (msg) ->
     search = escape(msg.match[2])
     msg.http('http://api.espn.com/v1/sports/news/headlines?apikey=' + espnApiKey)
       .get() (err, res, body) ->
@@ -39,28 +39,28 @@ module.exports = (robot) ->
         rnd = Math.floor(Math.random()*urls.length)
         msg.send urls[rnd]
 
-  robot.respond /(espn)( mlb) (.*)/i, (msg) ->
+  robot.respond /(espn)( mlb) (.*)/i,{id: 'espn.mlb'}, (msg) ->
     msg.http('http://api.espn.com/v1/sports/baseball/mlb/teams?apikey=' + espnApiKey)
       .get() (err, res, body) ->
         result = JSON.parse(body)
         getTeamPage msg, result, (url) ->
           msg.send url
 
-  robot.respond /(espn)( nfl) (.*)/i, (msg) ->
+  robot.respond /(espn)( nfl) (.*)/i,{id: 'espn.nfl'}, (msg) ->
       msg.http('http://api.espn.com/v1/sports/football/nfl/teams?apikey=' + espnApiKey)
         .get() (err, res, body) ->
           result = JSON.parse(body)
           getTeamPage msg, result, (url) ->
             msg.send url
 
-  robot.respond /(espn)( nba) (.*)/i, (msg) ->
+  robot.respond /(espn)( nba) (.*)/i,{id: 'espn.nba'}, (msg) ->
       msg.http('http://api.espn.com/v1/sports/basketball/nba/teams?apikey=' + espnApiKey)
         .get() (err, res, body) ->
           result = JSON.parse(body)
           getTeamPage msg, result, (url) ->
             msg.send url
 
-  robot.respond /(espn)( nhl) (.*)/i, (msg) ->
+  robot.respond /(espn)( nhl) (.*)/i,{id: 'espn.nhl'}, (msg) ->
       msg.http('http://api.espn.com/v1/sports/hockey/nhl/teams?apikey=' + espnApiKey)
         .get() (err, res, body) ->
           result = JSON.parse(body)

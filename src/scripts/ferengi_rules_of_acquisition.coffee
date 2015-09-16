@@ -267,6 +267,6 @@ module.exports = (robot) ->
   words = ["ferengi rule", "money", "profit", "sale", "discount", "opportunity"]
   regex = new RegExp('(?:^|\\s)(' + words.join('|') + ')(?:\\s|\\.|\\?|!|$)', 'i');
 
-  robot.hear regex, (msg) ->
+  robot.hear regex,{id: 'ferengi.get'}, (msg) ->
     msg.send msg.random rules
 

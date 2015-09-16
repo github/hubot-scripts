@@ -40,7 +40,7 @@ getChart = (msg, apiKey, site) ->
         msg.send "I see #{people} #{pluralize} on #{site} right now!"
 
 module.exports = (robot) ->
-  robot.respond /chart( me)? (.*)/i, (msg) ->
+  robot.respond /chart( me)? (.*)/i,{id: 'chartbeat.chat'}, (msg) ->
     if (!process.env.HUBOT_CHARTBEAT_SITE && msg.match[2] == 'me')
       msg.send "You need to set a default site"
       return

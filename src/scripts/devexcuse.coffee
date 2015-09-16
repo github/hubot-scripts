@@ -11,7 +11,7 @@
 cheerio = require 'cheerio'
 
 module.exports = (robot) ->
-  robot.respond /excuse me/i, (msg) ->
+  robot.respond /excuse me/i,{id: 'devexcuse.get'}, (msg) ->
     robot.http("http://developerexcuses.com/")
       .get() (err, res, body) ->
         $ = cheerio.load(body)

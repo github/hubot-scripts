@@ -14,7 +14,7 @@
 #   Brandon Satrom
 
 module.exports = (robot) ->
-  robot.respond /(bing)( me)? (.*)/i, (msg) ->
+  robot.respond /(bing)( me)? (.*)/i,{id: 'bing.text'}, (msg) ->
     bingMe msg, msg.match[3], (url) ->
       msg.send url
 

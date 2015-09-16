@@ -23,7 +23,7 @@ module.exports = (robot) ->
     percent: 0
     pledged: 0
 
-  robot.respond /kickstarter start/i, (msg) ->
+  robot.respond /kickstarter start/i,{id: 'kickstarter.start'}, (msg) ->
     if not init
       init = true
       setTimer interval, msg
@@ -31,13 +31,13 @@ module.exports = (robot) ->
     else
       msg.send "Its already running!"
 
-  robot.respond /kickstarter stop/i, (msg) ->
+  robot.respond /kickstarter stop/i,{id: 'kickstarter.stop'}, (msg) ->
     if init
       init = false
       clearTimeout timer
       msg.send "Stopped the kickstarter update feed"
 
-  robot.respond /kickstarter change ([1-9][0-9]*)/i, (msg) ->
+  robot.respond /kickstarter change ([1-9][0-9]*)/i,{id: 'kickstarter.change'}, (msg) ->
     clearTimeout timer
     interval = parseInt msg.match[1]
     setTimer interval, msg

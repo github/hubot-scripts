@@ -58,6 +58,6 @@ gorbies = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /gorby|puff|thunderhorse/i, (msg) ->
+  robot.hear /gorby|puff|thunderhorse/i,{id: 'gorbypuff.get'}, (msg) ->
     msg.send msg.random gorbies
 

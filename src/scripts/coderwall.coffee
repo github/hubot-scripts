@@ -14,7 +14,7 @@
 #   mexitek
 
 module.exports = (robot) ->
-  robot.respond /(coderwall)( me)? (.*)/i, (msg) ->
+  robot.respond /(coderwall)( me)? (.*)/i,{id: 'coderwall.show'}, (msg) ->
     user = msg.match[3]
     msg.http("https://coderwall.com/"+user+".json")
       .get() (err, res, body) ->

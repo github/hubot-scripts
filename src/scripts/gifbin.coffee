@@ -19,7 +19,7 @@ HTMLParser  = require "htmlparser"
 gif_domain  = "http://www.gifbin.com"
 
 module.exports = (robot)->
-  robot.respond /gifbin( me)?/i, (message)->
+  robot.respond /gifbin( me)?/i,{id: 'gifbin.get'}, (message)->
     send_gif message, false, (text)->
       message.send text
 

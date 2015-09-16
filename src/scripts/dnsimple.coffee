@@ -15,7 +15,7 @@
 #   jonmagic
 
 module.exports = (robot) ->
-  robot.hear /check domain (.*)/i, (msg) ->
+  robot.hear /check domain (.*)/i,{id: 'dnsimple.check'}, (msg) ->
     domain = escape(msg.match[1])
     user = process.env.DNSIMPLE_USERNAME
     pass = process.env.DNSIMPLE_PASSWORD

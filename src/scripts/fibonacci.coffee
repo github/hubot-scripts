@@ -36,5 +36,5 @@ divmodBasic = (x, y) ->
   return [(q = Math.floor(x/y)), (r = if x < y then x else x % y)]
 
 module.exports = (robot) ->
-  robot.hear /fibonacci me (\d+)/i, (msg) ->
+  robot.hear /fibonacci me (\d+)/i,{id: 'fibonacci.calculate'}, (msg) ->
     msg.send fibFast(msg.match[1]).toString()

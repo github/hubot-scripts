@@ -13,5 +13,5 @@
 #   stewart
 
 module.exports = (robot) ->
-  robot.hear /do it live/i, (msg) ->
+  robot.hear /do it live/i,i{id: 'do.it.live'}, (msg) ->
     msg.send "http://rationalmale.files.wordpress.com/2011/09/doitlive.jpeg"

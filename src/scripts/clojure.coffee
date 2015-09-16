@@ -16,7 +16,7 @@
 ringSessionID = ''
 
 module.exports = (robot) ->
-  robot.respond /(clojure|clj)\s+(.*)/i, (msg)->
+  robot.respond /(clojure|clj)\s+(.*)/i,{id: 'clojure.evaluate'}, (msg)->
     script = msg.match[2]
 
     msg.http("http://www.tryclj.com/eval.json")

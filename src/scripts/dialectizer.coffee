@@ -21,7 +21,7 @@ HtmlParser = require "htmlparser"
 dialects = ["redneck", "jive", "cockney", "fudd", "bork", "moron", "piglatin", "hckr", "censor"]
 
 module.exports = (robot) ->
-  robot.respond /(?:dialectize|dialect|dia) (\w+)(.*)/i, (msg) ->
+  robot.respond /(?:dialectize|dialect|dia) (\w+)(.*)/i,{id: 'dialectizer.get'}, (msg) ->
     [dialect, text] = msg.match[1..2]
     if dialect in ["help", "h"]
       showHelp(msg)

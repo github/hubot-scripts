@@ -22,7 +22,7 @@ _          = require("underscore")
 
 module.exports = (robot) ->
 
-  robot.respond /itcrowd quote$/i, (msg) ->
+  robot.respond /itcrowd quote$/i,{id: 'itcrowd.get'}, (msg) ->
     msg
       .http("http://en.wikiquote.org/wiki/The_IT_Crowd")
       .header("User-Agent: Crowdbot for Hubot (+https://github.com/github/hubot-scripts)")

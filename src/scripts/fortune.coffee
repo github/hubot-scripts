@@ -14,7 +14,7 @@
 #   mrtazz
 
 module.exports = (robot) ->
-  robot.respond /(fortune)( me)?/i, (msg) ->
+  robot.respond /(fortune)( me)?/i,{id: 'fortune.get'}, (msg) ->
     msg.http('http://www.fortunefortoday.com/getfortuneonly.php')
        .get() (err, res, body) ->
          msg.reply body

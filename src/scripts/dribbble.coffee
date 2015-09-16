@@ -25,7 +25,7 @@ requestImage = (msg, url) ->
       msg.send '"' + data.title + '"' + " by " + data.player.name
 
 module.exports = (robot) ->
-  robot.respond /(?:depress|dribbble|inspire)(?: me)?(.*)/i, (msg) ->
+  robot.respond /(?:depress|dribbble|inspire)(?: me)?(.*)/i,{id: 'dribble.get.popular'}, (msg) ->
     query = msg.match[1] || 'popular'
     query = query.trim()
     msg.http("http://api.dribbble.com/shots/#{query}")
@@ -35,6 +35,6 @@ module.exports = (robot) ->
         for i in [0..2]
           msg.send data.shots[idx + i].image_url
   
-  robot.hear /^https?:\/\/((www\.)?dribbble\.com\/shots\/?([0-9]+))|(drbl\.in\/([a-zA-Z0-9]+))/, (msg) ->
+  robot.hear /^https?:\/\/((www\.)?dribbble\.com\/shots\/?([0-9]+))|(drbl\.in\/([a-zA-Z0-9]+))/,{id: 'dribble.get.image'}, (msg) ->
     query = msg.match[3] || msg.match[5]
     requestImage msg, "http://api.dribbble.com/shots/#{query}"

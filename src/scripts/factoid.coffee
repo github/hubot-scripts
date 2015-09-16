@@ -92,22 +92,22 @@ class Factoids
 module.exports = (robot) ->
   factoids = new Factoids robot
 
-  robot.hear /^~(.+)/i, (msg) ->
+  robot.hear /^~(.+)/i,{id: 'factoid.random'}, (msg) ->
     if match = (/^~tell (.+) about (.+)/i.exec msg.match) or (/^~~(.+) (.+)/.exec msg.match)
       msg.send factoids.handleFactoid msg.message.text
     else
       msg.reply factoids.handleFactoid msg.message.text
 
-  robot.hear /(.+)\?/i, (msg) ->
+  robot.hear /(.+)\?/i,{id: 'factoid.get'}, (msg) ->
     factoid = factoids.get msg.match[1]
     if factoid
       msg.reply msg.match[1] + " is " + factoid
 
-  robot.respond /no, (.+) is (.+)/i, (msg) ->
+  robot.respond /no, (.+) is (.+)/i,{id: 'factoid.reset'}, (msg) ->
     msg.reply factoids.setFactoid msg.match[1], msg.match[2]
 
-  robot.respond /factoids? list/i, (msg) ->
+  robot.respond /factoids? list/i,{id: 'factoid.list'}, (msg) ->
     msg.send factoids.list().join('\n')
 
-  robot.respond /factoids? delete "(.*)"$/i, (msg) ->
+  robot.respond /factoids? delete "(.*)"$/i,{id: 'factoid.delete'}, (msg) ->
     msg.reply factoids.delFactoid msg.match[1]

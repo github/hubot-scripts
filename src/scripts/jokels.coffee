@@ -11,7 +11,7 @@
 #   sylturner
 
 module.exports = (robot) ->
-  robot.respond /(jokel|jokels|joke)/i, (msg) ->
+  robot.respond /(jokel|jokels|joke)/i,{id: 'jokels.get'}, (msg) ->
     msg.http('http://jokels.com/random_joke').get() (err, res, body) ->
       joke = JSON.parse(body).joke
       vote = joke.up_votes - joke.down_votes

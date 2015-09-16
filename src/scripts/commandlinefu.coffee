@@ -15,7 +15,7 @@
 #   aaronott
 
 module.exports = (robot) ->
-  robot.respond /commandlinefu(?: me)? *(.*)?/i, (msg) ->
+  robot.respond /commandlinefu(?: me)? *(.*)?/i,{id: 'commandlinefu.get'}, (msg) ->
     query = if msg.match[1]
           "matching/#{msg.match[1]}/#{new Buffer(msg.match[1]).toString('base64')}/json"
         else 

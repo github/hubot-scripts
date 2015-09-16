@@ -25,7 +25,7 @@ gitio = require('gitio2')
 
 module.exports = (robot) ->
 
-  robot.router.post "/hubot/gh-commits", (req, res) ->
+  robot.router.post "/hubot/gh-commits",{id: 'github.commit.notify'}, (req, res) ->
     query = querystring.parse(url.parse(req.url).query)
 
     res.send 200

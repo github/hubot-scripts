@@ -34,5 +34,5 @@ beers = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /.*(beer me).*/i, (msg) ->
+  robot.hear /.*(beer me).*/i,{id: 'beerme.get'}, (msg) ->
     msg.send msg.random beers

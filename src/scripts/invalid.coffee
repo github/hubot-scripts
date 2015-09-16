@@ -38,5 +38,5 @@ invalids = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /invalid ?arg/i, (msg) ->
+  robot.hear /invalid ?arg/i,{id: 'invalid.get'}, (msg) ->
     msg.send msg.random invalids

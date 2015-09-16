@@ -14,5 +14,5 @@
 #   phyreman
 
 module.exports = (robot) ->
-  robot.hear /me gusta/i, (msg) ->
+  robot.hear /me gusta/i,{id: 'megusta.get'}, (msg) ->
     msg.send "http://s3.amazonaws.com/kym-assets/entries/icons/original/000/002/252/me-gusta.jpg"

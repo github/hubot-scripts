@@ -41,7 +41,7 @@ allinclusive = [
 ]
 
 module.exports = (robot) ->
-	robot.respond /(encourage )(.*)/i, (msg) ->
+	robot.respond /(encourage )(.*)/i,{id: 'encourage.get'}, (msg) ->
 		encourage = msg.random remarks
 
 		encouragingme = () -> msg.send encourage.replace "%", msg.message.user.name

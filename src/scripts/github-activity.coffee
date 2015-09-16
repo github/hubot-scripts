@@ -23,7 +23,7 @@ require('date-utils')
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  robot.respond /repo show (.*)$/i, (msg) ->
+  robot.respond /repo show (.*)$/i,{id: 'github.repo.show.activity'}, (msg) ->
     repo = github.qualified_repo msg.match[1]
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
     url = "#{base_url}/repos/#{repo}/commits"

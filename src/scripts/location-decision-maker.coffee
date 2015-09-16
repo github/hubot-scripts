@@ -45,7 +45,7 @@ class Locations
 module.exports = (robot) ->
   locations = new Locations robot
 
-  robot.respond /(remember|add) (.*) as a (.*) location/i, (msg) ->
+  robot.respond /(remember|add) (.*) as a (.*) location/i,{id: 'location.add'}, (msg) ->
     locationname = msg.match[2]
     locationgroup = msg.match[3]
     locations.add locationgroup, locationname
@@ -53,18 +53,18 @@ module.exports = (robot) ->
     if locationname.toLowerCase() is "nandos"
       msg.send "Nom peri peri. My fav."
 
-  robot.respond /forget (.*) as a (.*) location/i, (msg) ->
+  robot.respond /forget (.*) as a (.*) location/i,{id: 'location.remove'}, (msg) ->
     locationname = msg.match[1]
     locationgroup = msg.match[2]
     locations.remove locationgroup, locationname
     msg.send "I've forgotten #{locationname} from #{locationgroup}"
 
-  robot.respond /forget all locations for (.*)/i, (msg) ->
+  robot.respond /forget all locations for (.*)/i,{id: 'location.remove.all'}, (msg) ->
     locationgroup = msg.match[1]
     locations.removeAll locationgroup
     msg.send "I've forgotten all locations from #{locationgroup}"
 
-  robot.respond /where can we go for (.*)\?$/i, (msg) ->
+  robot.respond /where can we go for (.*)\?$/i,{id: 'location.can.get'}, (msg) ->
     locationgroup = msg.match[1]
     grouplocations = locations.group(locationgroup)
 
@@ -74,7 +74,7 @@ module.exports = (robot) ->
     else
       msg.send "I don't know anywhere to go for #{locationgroup}"
 
-  robot.respond /where (should|shall) we go for (.*)\?$/i, (msg) ->
+  robot.respond /where (should|shall) we go for (.*)\?$/i,{id: 'location.should.get'}, (msg) ->
     locationgroup = msg.match[2]
     grouplocations = locations.group(locationgroup)
 

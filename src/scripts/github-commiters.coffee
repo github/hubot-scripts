@@ -20,7 +20,7 @@
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  robot.respond /repo commiters (.*)$/i, (msg) ->
+  robot.respond /repo commiters (.*)$/i,{id: 'github.repo.commiters'}, (msg) ->
       read_contributors msg, (commits) ->
           max_length = commits.length
           max_length = 20 if commits.length > 20
@@ -29,7 +29,7 @@ module.exports = (robot) ->
             max_length -= 1
             return unless max_length
 
-  robot.respond /repo top-commiters? (.*)$/i, (msg) ->
+  robot.respond /repo top-commiters? (.*)$/i,{id: 'github.repo.top.commiters'}, (msg) ->
       read_contributors msg, (commits) ->
           top_commiter = null
           for commit in commits

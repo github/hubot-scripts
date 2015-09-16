@@ -15,7 +15,7 @@
 #   dylanegan
 
 module.exports = (robot) ->
-  robot.respond /buscemi?(?: me)? (.*)/i, (msg) ->
+  robot.respond /buscemi?(?: me)? (.*)/i,{id: 'buscemi.query'}, (msg) ->
     buscemi = "http://buscemi.heroku.com?src="
     imagery = msg.match[1]
 

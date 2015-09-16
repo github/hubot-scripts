@@ -19,7 +19,7 @@
 #   monde
 
 module.exports = (robot) ->
-  robot.respond /cap (.*)/i, (msg) ->
+  robot.respond /cap (.*)/i,{id: 'capgun.start'}, (msg) ->
     Capgun.start msg, msg.match[1]
 
 Capgun =

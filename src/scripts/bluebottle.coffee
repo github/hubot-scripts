@@ -17,7 +17,7 @@ cheerio = require('cheerio')
 
 module.exports = (robot) ->
 
-  robot.respond /blue bottle me/i, (msg) ->
+  robot.respond /blue bottle me/i,{id: 'bluebottle.line.image'}, (msg) ->
     msg.http('http://bb.zaarly.com/').get() (err, res, body) ->
       if res.statusCode != 200
         msg.send "Couldn't access http://bb.zaarly.com. No coffee for you!"

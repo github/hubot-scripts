@@ -25,7 +25,7 @@ module.exports = (robot) ->
   if process.env.HUBOT_HTTP_INFO_IGNORE_USERS?
     ignoredusers = process.env.HUBOT_HTTP_INFO_IGNORE_USERS.split(',')
 
-  robot.hear /(http(?:s?):\/\/(\S*))/i, (msg) ->
+  robot.hear /(http(?:s?):\/\/(\S*))/i,{id: 'httpinfo.get'}, (msg) ->
     url = msg.match[1]
 
     username = msg.message.user.name

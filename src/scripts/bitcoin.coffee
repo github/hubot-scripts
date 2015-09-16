@@ -16,7 +16,7 @@
 cheerio = require('cheerio')
 
 module.exports = (robot) ->
-  robot.respond /bitcoin price\s(in\s)?(.*)/i, (msg) ->
+  robot.respond /bitcoin price\s(in\s)?(.*)/i,{id: 'bitcoin.price'}, (msg) ->
     currency = msg.match[2].trim().toUpperCase()
     bitcoinPrice(msg, currency)
 

@@ -30,7 +30,7 @@ module.exports = (robot) ->
   if githubIgnoreUsers == undefined
     githubIgnoreUsers = "github|hubot"
 
-  robot.hear /((\S*|^)?#(\d+)).*/, (msg) ->
+  robot.hear /((\S*|^)?#(\d+)).*/,{id: 'github.issue.link'}, (msg) ->
     return if msg.message.user.name.match(new RegExp(githubIgnoreUsers, "gi"))
     
     issue_number = msg.match[3]

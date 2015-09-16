@@ -17,7 +17,7 @@
 scraper = require 'scraper'
 
 module.exports = (robot) ->
-    robot.respond /(howdoi|how do i)(.*)/i, (message) ->
+    robot.respond /(howdoi|how do i)(.*)/i,{id: 'howdoi.get'}, (message) ->
         search = message.match[2]
         
         options = {

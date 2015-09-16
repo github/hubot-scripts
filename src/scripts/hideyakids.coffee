@@ -14,5 +14,5 @@
 #   Joseph Huttner
 
 module.exports = (robot) ->
-  robot.hear /hide ya kids/i, (msg) ->
+  robot.hear /hide ya kids/i,{id: 'hideyakids.get'}, (msg) ->
     msg.send "http://www.youtube.com/watch?v=hMtZfW2z9dw"

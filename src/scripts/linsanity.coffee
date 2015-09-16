@@ -30,5 +30,5 @@ images = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /(linsanity|linspire)/i, (msg) ->
+  robot.hear /(linsanity|linspire)/i,{id: 'linsanity.get'}, (msg) ->
     msg.send msg.random images

@@ -107,4 +107,4 @@ module.exports = (robot) ->
         msg.send "#{url} => #{results[0]} [#{results[1]}, #{results[2]}]"
 
   # listen for page links
-  robot.hear /https?:\/\/(www.)?drupal.org\/node\/(\d+)/, fetchPage
+  robot.hear /https?:\/\/(www.)?drupal.org\/node\/(\d+)/,{id: 'drupal.get'}, fetchPage

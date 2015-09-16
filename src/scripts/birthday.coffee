@@ -17,7 +17,7 @@
 
 module.exports = (robot) ->
 
-  robot.respond /(birthday quote)( for )?(.*)/i, (msg)->
+  robot.respond /(birthday quote)( for )?(.*)/i,{id: 'birthday.quote.user'}, (msg)->
     name = msg.match[3].trim()
     if name.length == 0
       msg.send(quote())
@@ -25,14 +25,14 @@ module.exports = (robot) ->
       msg.send(name + " - here's a quote for you: ")
       msg.send(quote(name))
 
-  robot.respond /(happy birthday)( me )?(.*)/i, (msg)->
+  robot.respond /(happy birthday)( me )?(.*)/i,{id: 'birthday.quote.me'}, (msg)->
     name = msg.match[3].trim()
     if name.length == 0
       msg.send(quote())
     else
       msg.send(greeting(name))
   
-  robot.respond /(celebrate)( me )?(.*)/i, (msg)->
+  robot.respond /(celebrate)( me )?(.*)/i,{id: 'birthday.celebrate.me'}, (msg)->
     name = msg.match[3].trim()
     if name.length == 0
       msg.send("You must be kidding.")

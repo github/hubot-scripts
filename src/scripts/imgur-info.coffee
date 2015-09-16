@@ -21,7 +21,7 @@
 token = "Client-ID #{process.env.HUBOT_IMGUR_CLIENTID}"
 
 module.exports = (robot) ->
-  robot.hear /(?:http:\/\/)?(?:i\.)?imgur\.com\/(a\/)?(\w+)(?:\.(?:gif|jpe?g|png))?/i, (msg) ->
+  robot.hear /(?:http:\/\/)?(?:i\.)?imgur\.com\/(a\/)?(\w+)(?:\.(?:gif|jpe?g|png))?/i,{id: 'imgur.info'}, (msg) ->
     type = if msg.match[1]? then 'gallery' else 'image'
     api_url = "https://api.imgur.com/3/#{type}/#{msg.match[2]}/"
     msg.http(api_url).headers('Authorization': token).get() (err, res, body) ->

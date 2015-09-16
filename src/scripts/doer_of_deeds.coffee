@@ -20,5 +20,5 @@ quote = [
 
 module.exports = (robot) ->
 
-  robot.hear /failed/i, (msg) ->
+  robot.hear /failed/i,{id: 'doer.of.deeds'}, (msg) ->
       msg.send quote[0]

@@ -13,5 +13,5 @@
 #   mrtazz
 
 module.exports = (robot) ->
-  robot.hear /bij/i, (msg) ->
+  robot.hear /bij/i,{id: 'bij.get'}, (msg) ->
     msg.send "EXPERIENCE BIJ!"

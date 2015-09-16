@@ -36,5 +36,5 @@ images = [
   ]
 
 module.exports = (robot) ->
-  robot.hear /like a boss|boss|like a baws|baws/i, (msg) ->
+  robot.hear /like a boss|boss|like a baws|baws/i,{id: 'likeaboss.get'}, (msg) ->
     msg.send msg.random images

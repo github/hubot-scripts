@@ -25,5 +25,5 @@ vulcans = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /.*(illogical).*/i, (msg) ->
+  robot.hear /.*(illogical).*/i,{id: 'illogical.get'}, (msg) ->
     msg.send msg.random vulcans

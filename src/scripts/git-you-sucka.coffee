@@ -14,5 +14,5 @@
 #   samn
 
 module.exports = (robot) ->
-  robot.hear /\bgit\b/, (msg) ->
+  robot.hear /\bgit\b/,{id: 'gityousucka.respond'}, (msg) ->
     if Math.random() < 0.1 then msg.reply 'ima git you sucka'

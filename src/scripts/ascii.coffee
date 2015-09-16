@@ -14,7 +14,7 @@
 #   atmos
 
 module.exports = (robot) ->
-  robot.respond /ascii( me)? (.+)/i, (msg) ->
+  robot.respond /ascii( me)? (.+)/i,{id: 'ascii.generate'}, (msg) ->
     msg
       .http("http://asciime.herokuapp.com/generate_ascii")
       .query(s: msg.match[2].split(' ').join('  '))

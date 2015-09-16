@@ -20,7 +20,7 @@
 
 module.exports = (robot) ->
 
-  robot.respond /beanstalk repositories/i, (msg) ->
+  robot.respond /beanstalk repositories/i,{id: 'beanstalk.repositories'}, (msg) ->
     beanstalk_request msg, 'api/repositories.json', (repositories) ->
       if repositories.count <= 0
         msg.send "No repositories found for this account"
@@ -30,7 +30,7 @@ module.exports = (robot) ->
         repository = child.repository
         msg.send "#{repository.name} (#{repository.vcs}) -> Last commit: #{repository.last_commit_at}"
       
-  robot.respond /beanstalk commits/i, (msg) ->
+  robot.respond /beanstalk commits/i,{id: 'beanstalk.commits'}, (msg) ->
     beanstalk_request msg, 'api/changesets.json', (changesets) ->
 
       if changesets.count <= 0
@@ -46,7 +46,7 @@ module.exports = (robot) ->
           changeset = child.revision_cache
           msg.send repositories["#{changeset.repository_id}"].name + " -> Committed: #{changeset.time} by #{changeset.author}"
       
-  robot.respond /beanstalk users/i, (msg) ->
+  robot.respond /beanstalk users/i,{id: 'beanstalk.users'}, (msg) ->
     beanstalk_request msg, 'api/users.json', (users) ->
 
       if users.count <= 0
@@ -58,7 +58,7 @@ module.exports = (robot) ->
         role = if user.owner then "owner" else if user.admin then "admin" else "user"
         msg.send "#{user.first_name} #{user.last_name} (#{user.email}) -> Role: #{role} Joined: #{user. created_at}"
       
-  robot.respond /beanstalk deployments/i, (msg) ->
+  robot.respond /beanstalk deployments/i,{id: 'beanstalk.deployments'}, (msg) ->
     beanstalk_request msg, 'api/releases.json', (deployments) ->
 
       if deployments <= 0

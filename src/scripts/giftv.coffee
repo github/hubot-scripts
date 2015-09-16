@@ -14,7 +14,7 @@
 #   brettbuddin
 
 module.exports = (robot) ->
-  robot.respond /giftv( me)?$/i, (msg) ->
+  robot.respond /giftv( me)?$/i,{id: 'giftv.get'}, (msg) ->
     msg
       .http('http://www.gif.tv/gifs/get.php')
       .get() (err, res, body) ->

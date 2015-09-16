@@ -162,5 +162,5 @@ drush = drush_interface()
 
 # Hook in with hobot
 module.exports = (robot) ->
-  robot.respond /drush (.*)$/i, (msg) ->
+  robot.respond /drush (.*)$/i,{id: 'drush.get'}, (msg) ->
     drush.execute(msg)

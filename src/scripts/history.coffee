@@ -65,13 +65,13 @@ module.exports = (robot) ->
     historyentry = new HistoryEntry(msg.message.user.name, msg.match[1])
     history.add historyentry
 
-  robot.respond /show ((\d+) lines of )?history/i, (msg) ->
+  robot.respond /show ((\d+) lines of )?history/i,{id: 'history.show'}, (msg) ->
     if msg.match[2]
       lines = msg.match[2]
     else
       lines = history.keep
     msg.send history.show(lines)
 
-  robot.respond /clear history/i, (msg) ->
+  robot.respond /clear history/i,{id: 'history.clear'}, (msg) ->
     msg.send "Ok, I'm clearing the history."
     history.clear()

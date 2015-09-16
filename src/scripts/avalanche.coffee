@@ -66,7 +66,7 @@ joinArs = (places, scores) ->
 
 
 module.exports = (robot)->
-  robot.respond /avy me/i, (msg) ->
+  robot.respond /avy me/i,{id: 'avalanche.get'}, (msg) ->
     jsdom.env("http://varsom.no/Snoskred/", ['http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'],
     (errors, window) ->
       $ = window.$

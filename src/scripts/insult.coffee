@@ -16,7 +16,7 @@
 cheerio = require('cheerio')
 
 module.exports = (robot) ->
-  robot.respond /insult (.*)/i, (msg) ->
+  robot.respond /insult (.*)/i,{id: 'insult.give'}, (msg) ->
     name = msg.match[1].trim()
     insult(msg, name)
 

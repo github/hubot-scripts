@@ -87,14 +87,14 @@ del = (path, params, cb) ->
   post path, params, cb, 'DELETE'
 
 module.exports = (robot) ->
-  robot.respond /ci\??$/i, (msg) ->
+  robot.respond /ci\??$/i,{id: 'janky.help'}, (msg) ->
     get "help", { }, (err, statusCode, body) ->
       if statusCode == 200
         msg.send body
       else
         msg.reply "Unable to fetch help. Got HTTP status #{statusCode}"
 
-  robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i, (msg) ->
+  robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i,{id: 'janky.build'}, (msg) ->
     app     = msg.match[1]
     branch  = msg.match[3] || "master"
     room_id = msg.message.user.room
@@ -109,7 +109,7 @@ module.exports = (robot) ->
 
       msg.send response
 
-  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s([\.\-_a-z0-9]+)(\s([\.\-_a-z0-9]+))?)?/i, (msg) ->
+  robot.respond /ci setup ([\.\-\/_a-z0-9]+)(\s([\.\-_a-z0-9]+)(\s([\.\-_a-z0-9]+))?)?/i,{id: 'janky.setup'}, (msg) ->
     nwo     = msg.match[1]
     params  = "?nwo=#{nwo}"
     if msg.match[3] != undefined
@@ -123,7 +123,7 @@ module.exports = (robot) ->
       else
         msg.reply "Can't Setup. Make sure I have access to it. Expected HTTP status 201, got #{statusCode}"
 
-  robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i, (msg) ->
+  robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i,{id: 'janky.toggle'}, (msg) ->
     app    = msg.match[1]
 
     post "toggle/#{app}", { }, (err, statusCode, body) ->
@@ -132,7 +132,7 @@ module.exports = (robot) ->
       else
         msg.reply "Failed to flip the flag. Sorry. Got HTTP status #{statusCode}"
 
-  robot.respond /ci set room ([-_0-9a-zA-Z\.]+) (.*)$/i, (msg) ->
+  robot.respond /ci set room ([-_0-9a-zA-Z\.]+) (.*)$/i,{id: 'janky.set.room'}, (msg) ->
     repo = msg.match[1]
     room = encodeURIComponent(msg.match[2])
     put "#{repo}?room=#{room}", {}, (err, statusCode, body) ->
@@ -141,7 +141,7 @@ module.exports = (robot) ->
       else
         msg.send "I couldn't update the room. Got HTTP status #{statusCode}"
 
-  robot.respond /ci set context ([-_0-9a-zA-Z\.]+) (.*)$/i, (msg) ->
+  robot.respond /ci set context ([-_0-9a-zA-Z\.]+) (.*)$/i,{id: 'janky.set.context'}, (msg) ->
     repo = msg.match[1]
     context = encodeURIComponent(msg.match[2])
     put "#{repo}/context?context=#{context}", {}, (err, statusCode, body) ->
@@ -150,7 +150,7 @@ module.exports = (robot) ->
       else
         msg.send "I couldn't update the context. Got HTTP status #{statusCode}"
 
-  robot.respond /ci unset context ([-_0-9a-zA-Z\.]+)$/i, (msg) ->
+  robot.respond /ci unset context ([-_0-9a-zA-Z\.]+)$/i,{id: 'janky.unset.context'}, (msg) ->
     repo = msg.match[1]
     del "#{repo}/context", {}, (err, statusCode, body) ->
       if [404, 403, 200].indexOf(statusCode) > -1
@@ -158,7 +158,7 @@ module.exports = (robot) ->
       else
         msg.send "I couldn't update the context. Got HTTP status #{statusCode}"
 
-  robot.respond /ci rooms$/i, (msg) ->
+  robot.respond /ci rooms$/i,{id: 'janky.rooms'}, (msg) ->
     get "rooms", { }, (err, statusCode, body) ->
       if statusCode == 200
         rooms = JSON.parse body
@@ -166,7 +166,7 @@ module.exports = (robot) ->
       else
         msg.reply "can't predict rooms now."
 
-  robot.respond /ci builds ([0-9]+) ?(building)?$/i, (msg) ->
+  robot.respond /ci builds ([0-9]+) ?(building)?$/i,{id: 'janky.builds'}, (msg) ->
     limit = msg.match[1]
     building = msg.match[2]?
     get "builds?limit=#{limit}&building=#{building}", {}, (err, statusCode, body) ->
@@ -175,7 +175,7 @@ module.exports = (robot) ->
 
       msg.send response
 
-  robot.respond /ci status( (\*\/[-_\+\.a-zA-z0-9\/]+))?$/i, (msg) ->
+  robot.respond /ci status( (\*\/[-_\+\.a-zA-z0-9\/]+))?$/i,{id: 'janky.status'}, (msg) ->
     path = if msg.match[2] then "/#{msg.match[2]}" else ""
     get path, {}, (err, statusCode, body) ->
       if statusCode == 200
@@ -183,7 +183,7 @@ module.exports = (robot) ->
       else
         msg.send("Couldn't get status. Got HTTP status #{statusCode}")
 
-  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i, (msg) ->
+  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\+\.a-zA-z0-9\/]+))?/i,{id: 'janky.status.builds'}, (msg) ->
     app    = msg.match[2]
     count  = 5
     branch = msg.match[4] || 'master'
@@ -201,7 +201,7 @@ module.exports = (robot) ->
     robot.messageRoom req.body.room, req.body.message
     res.end "ok"
 
-  robot.respond /ci show ([-_\.0-9a-zA-Z]+)/i, (msg) ->
+  robot.respond /ci show ([-_\.0-9a-zA-Z]+)/i,{id: 'janky.show'}, (msg) ->
     app = msg.match[1]
     get "show/#{app}", { }, (err, statusCode, body) ->
       if statusCode == 200
@@ -214,7 +214,7 @@ module.exports = (robot) ->
         replyMsg = "Error F7U12: Can't show: #{statusCode}: #{body}"
         msg.reply replyMsg
 
-  robot.respond /ci delete ([-_\.0-9a-zA-Z]+)/i, (msg) ->
+  robot.respond /ci delete ([-_\.0-9a-zA-Z]+)/i,{id: 'janky.delete'}, (msg) ->
     app = msg.match[1]
     del "#{app}", {}, (err, statusCode, body) ->
       if statusCode != 200

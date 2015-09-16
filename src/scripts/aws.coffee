@@ -164,9 +164,9 @@ getRegionQueues = (region, msg) ->
 defaultRegions = 'us-east-1,us-west-1,us-west-2,eu-west-1,ap-southeast-1,ap-northeast-1,sa-east-1'
 
 module.exports = (robot) ->
-  robot.respond /(^|\W)sqs status(\z|\W|$)/i, (msg) ->
+  robot.respond /(^|\W)sqs status(\z|\W|$)/i,{id: 'aws.sqs.status'}, (msg) ->
     regions = process.env?.HUBOT_AWS_SQS_REGIONS ? defaultRegions
     getRegionQueues region, msg for region in regions.split ','
-  robot.respond /(^|\W)ec2 status(\z|\W|$)/i, (msg) ->
+  robot.respond /(^|\W)ec2 status(\z|\W|$)/i,{id: 'aws.ec2.status'}, (msg) ->
     regions = process.env?.HUBOT_AWS_EC2_REGIONS ? defaultRegions
     getRegionInstances region, msg for region in regions.split ','

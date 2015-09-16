@@ -19,7 +19,7 @@ require('date-utils')
 
 module.exports = (robot) ->
   bitbucket = require("hubucket")(robot)
-  robot.respond /repo show (.*)$/i, (msg) ->
+  robot.respond /repo show (.*)$/i,{id: 'bitbucket.repo.show'} (msg) ->
     repo = bitbucket.qualified_repo msg.match[1]
     url = "repositories/#{repo}/events/"
 

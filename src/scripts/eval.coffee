@@ -59,14 +59,14 @@ module.exports = (robot) ->
     ready = true
     get_languages robot
 
-  robot.respond /eval[,:]?\s+list$/i, (msg) ->
+  robot.respond /eval[,:]?\s+list$/i,{id: 'eval.lang.list'}, (msg) ->
     get_languages robot, (languages) ->
       lang_msg = 'Known Languages\n\n'
       for own id, desc of languages
         lang_msg += "#{id}: #{desc}\n"
       msg.send lang_msg
 
-  robot.respond /eval[,:]? +on +([a-z]+) *$/i, (msg) ->
+  robot.respond /eval[,:]? +on +([a-z]+) *$/i,{id: 'eval.recording.on'}, (msg) ->
     robot.brain.data.eval or= {}
     lang = msg.match[1]
 
@@ -83,7 +83,7 @@ module.exports = (robot) ->
 
     lang_valid robot, lang, is_valid
 
-  robot.respond /eval[,:]? +(?:off|finish|done) *$/i, (msg) ->
+  robot.respond /eval[,:]? +(?:off|finish|done) *$/i,{id: 'eval.record.off'}, (msg) ->
     return unless robot.brain.data.eval?[msg.message.user.name]?.recording
     code = robot.brain.data.eval[msg.message.user.name].code?.join("\n")
     lang = robot.brain.data.eval[msg.message.user.name].lang
@@ -98,11 +98,11 @@ module.exports = (robot) ->
 
     lang_valid(robot, lang, is_valid)
 
-  robot.respond /eval[,:]? +cancel *$/i, (msg) ->
+  robot.respond /eval[,:]? +cancel *$/i,{id: 'eval.cancel'}, (msg) ->
     delete robot.brain.data.eval?[msg.message.user.name]?
     msg.send "canceled #{msg.message.user.name}'s evaluation recording"
 
-  robot.respond /eval( me)? ([^ ]+) (.+)/i, (msg) ->
+  robot.respond /eval( me)? ([^ ]+) (.+)/i,{id: 'eval.code.lang'}, (msg) ->
     lang = msg.match[2]
     return if lang in ['on', 'off', 'finish', 'done', 'cancel']
 
