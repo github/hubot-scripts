@@ -16,7 +16,7 @@
 XMLJS = require("xml2js")
 
 module.exports = (robot) ->
-  robot.respond /complete( me)?(?: x(\d+))? (.*)$/i, (msg) ->
+  robot.respond /complete( me)?(?: x(\d+))? (.*)$/i,{id: 'complete.google.suggest'}, (msg) ->
     number = parseInt(msg.match[2], 10) || 1
     phrase = msg.match[3]
     msg.http('http://google.com/complete/search')

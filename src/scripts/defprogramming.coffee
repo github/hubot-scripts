@@ -18,7 +18,7 @@ Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
 
 module.exports = (robot) ->
-    robot.respond /def programming/i, (msg) ->
+    robot.respond /def programming/i,{id: 'defprogramming.get'}, (msg) ->
         msg.http("http://www.defprogramming.com/random")
            .get() (err, res, body) ->
                handler = new HtmlParser.DefaultHandler()

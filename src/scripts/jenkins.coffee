@@ -216,19 +216,19 @@ jenkinsList = (msg) ->
             msg.send error
 
 module.exports = (robot) ->
-  robot.respond /j(?:enkins)? build ([\w\.\-_ ]+)(, (.+))?/i, (msg) ->
+  robot.respond /j(?:enkins)? build ([\w\.\-_ ]+)(, (.+))?/i,{id: 'jenkins.build'}, (msg) ->
     jenkinsBuild(msg, false)
 
-  robot.respond /j(?:enkins)? b (\d+)/i, (msg) ->
+  robot.respond /j(?:enkins)? b (\d+)/i,{id: 'jenkins.build.by.id'}, (msg) ->
     jenkinsBuildById(msg)
 
-  robot.respond /j(?:enkins)? list( (.+))?/i, (msg) ->
+  robot.respond /j(?:enkins)? list( (.+))?/i,{id: 'jenkins.list'}, (msg) ->
     jenkinsList(msg)
 
-  robot.respond /j(?:enkins)? describe (.*)/i, (msg) ->
+  robot.respond /j(?:enkins)? describe (.*)/i,{id: 'jenkins.describe'}, (msg) ->
     jenkinsDescribe(msg)
 
-  robot.respond /j(?:enkins)? last (.*)/i, (msg) ->
+  robot.respond /j(?:enkins)? last (.*)/i,{id: 'jenkins.last'}, (msg) ->
     jenkinsLast(msg)
 
   robot.jenkins = {

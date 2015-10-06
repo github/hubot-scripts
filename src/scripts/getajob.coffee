@@ -14,7 +14,7 @@
 #   sleekslush
 
 module.exports = (robot) ->
-  robot.respond /find me a (.* )?job( in (.+))?/i, (msg) ->
+  robot.respond /find me a (.* )?job( in (.+))?/i,{id: 'getajob.find'}, (msg) ->
     [keywords, location] = [msg.match[1], msg.match[3]]
 
     params =

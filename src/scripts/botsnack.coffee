@@ -23,5 +23,5 @@ responses = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /botsnack/i, (msg) ->
+  robot.hear /botsnack/i,{id: 'botsnack.feed'}, (msg) ->
     msg.send msg.random responses

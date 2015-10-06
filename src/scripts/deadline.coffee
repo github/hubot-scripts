@@ -18,7 +18,7 @@
 
 module.exports = (robot) ->
 
-  robot.respond /(create|add|set) deadline (\d\d\d\d-\d\d-\d\d) (.*) ?$/i, (msg) ->
+  robot.respond /(create|add|set) deadline (\d\d\d\d-\d\d-\d\d) (.*) ?$/i,{id: 'deadline.set'}, (msg) ->
     due = msg.match[2]
     what = msg.match[3]
 
@@ -27,11 +27,11 @@ module.exports = (robot) ->
     robot.brain.data.deadlines.push { what: what, due: due } 
     msg.send 'Got it! "' + what + '" is due on ' + due
 
-  robot.respond /(clear|flush) deadlines/i, (msg) ->
+  robot.respond /(clear|flush) deadlines/i,{id: 'deadline.clear'}, (msg) ->
     robot.brain.data.deadlines = []
     msg.send "Deadlines cleared. Go do whatever you want."
 
-  robot.respond /(delete|remove|complete) deadline (.*) ?$/i, (msg) ->
+  robot.respond /(delete|remove|complete) deadline (.*) ?$/i,{id: 'deadline.delete'}, (msg) ->
     what = msg.match[2]
 
     robot.brain.data.deadlines ?= []
@@ -51,7 +51,7 @@ module.exports = (robot) ->
       msg.send 'I couldn\'t find that deadline.'
    
 
-  robot.respond /deadlines/i, (msg) ->
+  robot.respond /deadlines/i,{id: 'deadline.get'}, (msg) ->
     robot.brain.data.deadlines ?= []
 
     if robot.brain.data.deadlines.length > 0

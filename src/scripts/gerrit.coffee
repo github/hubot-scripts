@@ -56,8 +56,8 @@ module.exports = (robot) ->
     robot.logger.error "Gerrit commands inactive because HUBOT_GERRIT_SSH_URL=#{gerrit.href} is not a valid SSH URL"
   else
     eventStreamMe robot, gerrit unless eventStreamRooms == "disabled"
-    robot.respond /gerrit (?:search|query)(?: me)? (.+)/i, searchMe robot, gerrit
-    robot.respond /gerrit (ignore|report)(?: me)? events for (project|user|event) (.+)/i, ignoreOrReportEventsMe robot, gerrit
+    robot.respond /gerrit (?:search|query)(?: me)? (.+)/i,{id: 'gerrit.search'}, searchMe robot, gerrit
+    robot.respond /gerrit (ignore|report)(?: me)? events for (project|user|event) (.+)/i,{id: 'gerrit.ignore'}, ignoreOrReportEventsMe robot, gerrit
 
 searchMe = (robot, gerrit) -> (msg) ->
   cp.exec "ssh #{gerrit.hostname} -p #{gerrit.port} gerrit query --format=JSON -- #{msg.match[1]}", (err, stdout, stderr) ->

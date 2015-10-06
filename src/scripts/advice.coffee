@@ -31,17 +31,17 @@ randomAdvice = (msg) ->
 
 
 module.exports = (robot) ->
-  robot.respond /what (do you|should I) do (when|about) (.*)/i, (msg) ->
+  robot.respond /what (do you|should I) do (when|about) (.*)/i,{id: 'advice.get.should'}, (msg) ->
     getAdvice msg, msg.match[3]
 
-  robot.respond /how do you handle (.*)/i, (msg) ->
+  robot.respond /how do you handle (.*)/i,{id: 'advice.get.handle'}, (msg) ->
     getAdvice msg, msg.match[1]
 
-  robot.respond /(.*) some advice about (.*)/i, (msg) ->
+  robot.respond /(.*) some advice about (.*)/i,{id: 'advice.get.about'}, (msg) ->
     getAdvice msg, msg.match[2]
 
-  robot.respond /(.*) think about (.*)/i, (msg) ->
+  robot.respond /(.*) think about (.*)/i,{id: 'advice.get.think'}, (msg) ->
     getAdvice msg, msg.match[2]
 
-  robot.respond /(.*) advice$/i, (msg) ->
+  robot.respond /(.*) advice$/i,{id: 'advice.random'}, (msg) ->
     randomAdvice(msg)

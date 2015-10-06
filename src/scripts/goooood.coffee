@@ -20,5 +20,5 @@ darths = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /gooo+d/i, (msg) ->
+  robot.hear /gooo+d/i,{id: 'goood.get'}, (msg) ->
     msg.send msg.random darths

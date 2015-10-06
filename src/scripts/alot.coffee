@@ -21,5 +21,5 @@ images = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /(^|\W)alot(\z|\W|$)/i, (msg) ->
+  robot.hear /(^|\W)alot(\z|\W|$)/i,{id: 'alot.picture'}, (msg) ->
     msg.send msg.random images

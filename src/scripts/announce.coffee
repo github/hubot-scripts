@@ -25,12 +25,12 @@ module.exports = (robot) ->
   else
     allRooms = []
 
-  robot.respond /announce "(.*)"/i, (msg) ->
+  robot.respond /announce "(.*)"/i,{id: 'announce.message'}, (msg) ->
     announcement = msg.match[1]
     for room in allRooms
       robot.messageRoom room, announcement
 
-  robot.respond /announce downtime for "(.*)" starting (.*)/i, (msg) ->
+  robot.respond /announce downtime for "(.*)" starting (.*)/i,{id: 'announce.downtime.start'}, (msg) ->
     user = msg.message.user
     service = msg.match[1]
     startTime = msg.match[2]
@@ -42,7 +42,7 @@ module.exports = (robot) ->
       robot.messageRoom room, message...
     msg.reply "Don't forget to pause monitoring for this service."
 
-  robot.respond /announce downtime complete for "(.*)"/i, (msg) ->
+  robot.respond /announce downtime complete for "(.*)"/i,{id: 'announce.downtime.end'}, (msg) ->
     service = msg.match[1]
     for room in allRooms
       robot.messageRoom room, 

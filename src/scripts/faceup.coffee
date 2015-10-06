@@ -17,7 +17,7 @@
 #   kneath
 
 module.exports = (robot) ->
-  robot.respond /(hipster|clown|scumbag|rohan|jason)( me)? (.*)/i, (msg) ->
+  robot.respond /(hipster|clown|scumbag|rohan|jason)( me)? (.*)/i,{id: 'faceup.get'}, (msg) ->
     type = msg.match[1]
     imagery = msg.match[3]
 

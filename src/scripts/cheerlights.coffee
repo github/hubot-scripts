@@ -14,7 +14,7 @@
 #   marciotoshio
 
 module.exports = (robot) ->
-  robot.respond /cheerlights/i, (msg) ->
+  robot.respond /cheerlights/i,{id: 'cheerlights.get'}, (msg) ->
    msg.http("http://api.thingspeak.com/channels/1417/field/1/last.json")
     .get() (err, res, body) ->
       response = JSON.parse body

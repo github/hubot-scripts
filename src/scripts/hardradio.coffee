@@ -15,10 +15,10 @@
 #   teo-sk
 
 module.exports = (robot) ->
-  robot.respond /hardradio listen/i, (msg) ->
+  robot.respond /hardradio listen/i,{id: 'hardradio.get.link'}, (msg) ->
     msg.send "http://www.hardradio.com/streaming/hardmp3.pls"
 
-  robot.respond /hardradio song/i, (msg) ->
+  robot.respond /hardradio song/i,{id: 'hardradio.get.song'}, (msg) ->
     msg.http('http://axl.hardradio.com/playnow.txt')
     .get() (err, res, body) ->
       body = body.replace(/song=/g, "Tearing your speakers right now: ")

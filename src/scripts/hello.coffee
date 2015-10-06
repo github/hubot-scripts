@@ -24,10 +24,10 @@ mornings = [
     "Good 'aye!, %"
 ]
 module.exports = (robot) ->
-    robot.hear /(hello|good( [d'])?ay(e)?)/i, (msg) ->
+    robot.hear /(hello|good( [d'])?ay(e)?)/i,{id: 'hello.hello.hear'}, (msg) ->
         hello = msg.random hellos
         msg.send hello.replace "%", msg.message.user.name
 
-    robot.hear /(^(good )?m(a|o)rnin(g)?)/i, (msg) ->
+    robot.hear /(^(good )?m(a|o)rnin(g)?)/i,{id: 'hellow.good.morning.hear'}, (msg) ->
         hello = msg.random mornings
         msg.send hello.replace "%", msg.message.user.name

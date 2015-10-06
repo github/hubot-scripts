@@ -27,7 +27,7 @@ makeServer = process.env.HUBOT_MAKE_ME_URL or 'http://localhost:9292'
 auth64 = (new Buffer("#{authUser}:#{authPass}")).toString("base64")
 
 module.exports = (robot) ->
-  robot.respond /3d\??$/i, (msg) ->
+  robot.respond /3d\??$/i,{id: 'makeme.help'}, (msg) ->
     response = """#{robot.name} 3d me [STL URLs] [[options]] - prints an STL file
 You can list multiple URLs separated by spaces.
 
@@ -49,7 +49,7 @@ The web frontend is at #{makeServer}, and
 the most current log is always available at #{makeServer}/log"""
     msg.send response
 
-  robot.respond /3d (snapshot|status)/i, (msg) ->
+  robot.respond /3d (snapshot|status)/i,{id: 'makme.status'}, (msg) ->
     locked_msg = "unlocked"
     msg.http(makeServer + "/lock")
       .header("Authorization", "Basic #{auth64}")
@@ -67,7 +67,7 @@ the most current log is always available at #{makeServer}/log"""
             else
               msg.reply "I can't seem to get a hold of a picture for you, but the internets tell me the machine is #{locked_msg}."
 
-  robot.respond /3d unlock( me)?/i, (msg) ->
+  robot.respond /3d unlock( me)?/i,{id: 'makeme.unlock'}, (msg) ->
     msg.http(makeServer + "/lock")
       .header("Authorization", "Basic #{auth64}")
       .post(qs.encode({"_method": "DELETE"})) (err, res, body) =>
@@ -79,7 +79,7 @@ the most current log is always available at #{makeServer}/log"""
           msg.reply "Unexpected status code #{res.statusCode}!"
           msg.reply body
 
-  robot.respond /(3d|make)( me)?( a)? (http[^\s]+)\s*(.*)/i, (msg) ->
+  robot.respond /(3d|make)( me)?( a)? (http[^\s]+)\s*(.*)/i,{id: 'makeme.url'}, (msg) ->
     things = [msg.match[4]]
     count = 1
     scale = 1.0

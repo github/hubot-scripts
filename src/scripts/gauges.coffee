@@ -71,11 +71,11 @@ class Gauges
 
 module.exports = (robot) ->
 
-  robot.respond /gauges for (today|yesterday)/i, (msg) ->
+  robot.respond /gauges for (today|yesterday)/i,{id: 'gauges.today.or.yesterday'}, (msg) ->
     day = msg.match[1]
     robot.emit "gauges", { msg: msg, for: day }
 
-  robot.respond /gauges for (\d{4}-\d{2}-\d{2})/i, (msg) ->
+  robot.respond /gauges for (\d{4}-\d{2}-\d{2})/i,{id: 'gauges.specific.date'}, (msg) ->
     day = msg.match[1]
     robot.emit "gauges", { msg: msg, for: 'data' , day: day }
 

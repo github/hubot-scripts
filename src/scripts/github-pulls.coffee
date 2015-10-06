@@ -31,7 +31,7 @@ module.exports = (robot) ->
   unless (url_api_base = process.env.HUBOT_GITHUB_API)?
     url_api_base = "https://api.github.com"
 
-  robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i, (msg)->
+  robot.respond /show\s+(me\s+)?(.*)\s+pulls(\s+with\s+)?(.*)?/i,{id: 'github.user.repo.pr.show'}, (msg)->
     repo = github.qualified_repo msg.match[2]
     filter_reg_exp = new RegExp(msg.match[4], "i") if msg.match[3]
 
@@ -57,7 +57,7 @@ module.exports = (robot) ->
 
       msg.send summary
 
-  robot.respond /show\s+(me\s+)?org\-pulls(\s+for\s+)?(.*)?/i, (msg) ->
+  robot.respond /show\s+(me\s+)?org\-pulls(\s+for\s+)?(.*)?/i,{id: 'github.org.pr.show'}, (msg) ->
 
     org_name = msg.match[3] || process.env.HUBOT_GITHUB_ORG
 

@@ -14,7 +14,7 @@
 #   BM5k
 
 module.exports = (robot) ->
-  robot.hear /fish/i, (msg) ->
+  robot.hear /fish/i,{id: 'fishpun.get'}, (msg) ->
     quotes = [
       "I caught an angelfish! It looks divine!",
       "I caught an arapaima! This thing is huge!",

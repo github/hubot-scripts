@@ -20,17 +20,17 @@
 
 module.exports = (robot) ->
 
-  robot.hear /graphite list/i, (msg) ->
+  robot.hear /graphite list/i,{id: 'graphite.list'}, (msg) ->
     treeversal msg, (data) ->
       output = ""
       output += "#{human_id(metric)}\n" for metric in data
       msg.send output
-  robot.hear /graphite search (\w+)/i, (msg) ->
+  robot.hear /graphite search (\w+)/i,{id: 'graphite.search'}, (msg) ->
     treeversal msg, (data) ->
       output = ""
       output += "#{human_id(metric)}\n" for metric in data
       msg.send output
-  robot.hear /graphite show (.+)$/i, (msg) ->
+  robot.hear /graphite show (.+)$/i,{id: 'graphite.show'}, (msg) ->
     treeversal msg, (data) ->
       construct_url msg, data[0].graphUrl, (url) ->
         msg.send url

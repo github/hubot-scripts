@@ -48,5 +48,5 @@ deal = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /deal with it/i, (msg)->
+  robot.hear /deal with it/i,{id: 'dealwithit.get'}, (msg)->
     msg.send msg.random deal

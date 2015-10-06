@@ -16,14 +16,14 @@
 #   juno
 
 module.exports = (robot) ->
-  robot.respond /heroku status$/i, (msg) ->
+  robot.respond /heroku status$/i,{id: 'heroku.status'}, (msg) ->
     status msg
 
-  robot.respond /heroku status issues\s?(\d*)/i, (msg) ->
+  robot.respond /heroku status issues\s?(\d*)/i,{id: 'heroku.recent.issues'}, (msg) ->
     limit = msg.match[1] or 5
     statusIssues msg, limit
 
-  robot.respond /heroku status issue (\d+)/i, (msg) ->
+  robot.respond /heroku status issue (\d+)/i,{id: 'heroku.status.issue'}, (msg) ->
     id = msg.match[1]
     statusIssue msg, id
 

@@ -16,5 +16,5 @@
 thecoin = ["heads", "tails"]
 
 module.exports = (robot) ->
-  robot.respond /(throw|flip|toss) a coin/i, (msg) ->
+  robot.respond /(throw|flip|toss) a coin/i,{id: 'coin.toss'}, (msg) ->
     msg.reply msg.random thecoin

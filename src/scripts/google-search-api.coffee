@@ -18,7 +18,7 @@
 #   Airborn
 
 module.exports = (robot) ->
-  robot.respond /(google|search)( me)? (.*)/i, (msg) ->
+  robot.respond /(google|search)( me)? (.*)/i,{id: 'google.search.get'}, (msg) ->
     msg
       .http("https://www.googleapis.com/customsearch/v1")
       .query

@@ -16,13 +16,13 @@
 #   voke
 
 module.exports = (robot) ->
-  robot.respond /github status$/i, (msg) ->
+  robot.respond /github status$/i,{id: 'github.status'}, (msg) ->
     status msg
 
-  robot.respond /github status last$/i, (msg) ->
+  robot.respond /github status last$/i,{id: 'github.status.last'}, (msg) ->
     lastMessage msg
 
-  robot.respond /github status messages$/i, (msg) ->
+  robot.respond /github status messages$/i,{id: 'github.status.messages'}, (msg) ->
     statusMessages msg
 
 # NOTE: messages contains new lines for some reason.

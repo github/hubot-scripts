@@ -14,7 +14,7 @@
 #   ajacksified
 
 module.exports = (robot) ->
-  robot.respond /lod\s?(.*)/i, (msg) ->
+  robot.respond /lod\s?(.*)/i,{id: 'lod.get'}, (msg) ->
     response = 'ಠ_ಠ'
 
     name = msg.match[1].trim()

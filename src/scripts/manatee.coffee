@@ -15,7 +15,7 @@
 
 
 module.exports = (robot) ->
-        robot.respond /manatee/i, (msg) ->
+        robot.respond /manatee/i,{id: 'manatee.get'}, (msg) ->
                 msg
                         .http( 'http://calmingmanatee.com' )
                         .headers('User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6')

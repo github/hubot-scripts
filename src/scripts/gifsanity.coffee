@@ -30,10 +30,10 @@ getGif = (blog, msg) ->
     msg.send post.photos[0].original_size.url
 
 module.exports = (robot) ->
-  robot.respond /gif(sanity)?( me)?/i, (msg) ->
+  robot.respond /gif(sanity)?( me)?/i,{id: 'gifsanity.random'}, (msg) ->
     blog = msg.random Object.keys(SOURCES)
     getGif blog, msg
 
   for blog,pattern of SOURCES
-    robot.respond pattern, (msg) ->
+    robot.respond pattern,{id: 'gifsanity.get'}, (msg) ->
       getGif blog, msg

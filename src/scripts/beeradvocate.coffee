@@ -19,7 +19,7 @@
 module.exports = (robot) ->
     robot.logger.warning "The beeradvocate script is broken and will not work (github/hubot-scripts#1436)."
 
-    robot.respond /beer (a|advocate)( me)?/i, (msg) ->
+    robot.respond /beer (a|advocate)( me)?/i,{id: 'beeradvocate.get'}, (msg) ->
         msg.send "I'm sorry but the beer advocate script is broken and will not work."
         # msg.http("http://beeradvocate.com/beer/")
         #     .get() (err, res, body) ->

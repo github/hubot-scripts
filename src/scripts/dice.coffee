@@ -16,11 +16,11 @@
 #   ab9
 
 module.exports = (robot) ->
-  robot.respond /roll (die|one)/i, (msg) ->
+  robot.respond /roll (die|one)/i,{id: 'dice.roll.one'}, (msg) ->
     msg.reply report [rollOne(6)]
-  robot.respond /roll dice/i, (msg) ->
+  robot.respond /roll dice/i,{id: 'dice.roll.two'}, (msg) ->
     msg.reply report roll 2, 6
-  robot.respond /roll (\d+)d(\d+)/i, (msg) ->
+  robot.respond /roll (\d+)d(\d+)/i,{id: 'dice.roll.custom'}, (msg) ->
     dice = parseInt msg.match[1]
     sides = parseInt msg.match[2]
     answer = if sides < 1

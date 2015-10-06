@@ -19,7 +19,7 @@
 $ = require "cheerio"
 
 module.exports = (robot) ->
-  robot.respond /filmwise\s*(?:me)?$/i, (msg) ->
+  robot.respond /filmwise\s*(?:me)?$/i,{id: 'filmwise.get.one'}, (msg) ->
     robot.brain.data.lastfilm = show_filmwise msg, 1
 
     msg.send robot.brain.data.lastfilm.replace
@@ -30,17 +30,17 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         robot.brain.data.lastfilmanswer = $(body).find('img[src$="' + answerImgSrc + '"]').next().next().text()
 
-  robot.respond /filmwise\s+(?:bomb)\s*(?:me)?\s*(\d+)?/i, (msg) ->
+  robot.respond /filmwise\s+(?:bomb)\s*(?:me)?\s*(\d+)?/i,{id: 'filmwise.get.multiple'}, (msg) ->
     count = msg.match[1] || 5
     robot.brain.data.lastfilm = show_filmwise msg, count
-  robot.respond /filmwise\s+(?:guess)\s*(.+)?/i, (msg) ->
+  robot.respond /filmwise\s+(?:guess)\s*(.+)?/i,{id: 'filmwise.guess'}, (msg) ->
     # The double quotes aren't stripped from the answer web page
     guess = '"' + msg.match[1] + '"'
     if robot.brain.data.lastfilmanswer.toLowerCase() == guess.toLowerCase()
       msg.send msg.message.user.name + ': You guessed ' + guess + ' correctly!'
     else
       msg.send msg.message.user.name + ': You guessed ' + guess + ' incorrectly!'
-  robot.respond /filmwise\s+(?:answer|cheat)?$/i, (msg) ->
+  robot.respond /filmwise\s+(?:answer|cheat)?$/i,{id: 'filmwise.answer'}, (msg) ->
     title = ""
     answerUrl = robot.brain.data.lastfilm.replace /\/image_0\d+\.jpg$/, "a.shtml"
     answerImgSrc = robot.brain.data.lastfilm.match /(invisible_\d+\/image_0\d+)\.jpg$/

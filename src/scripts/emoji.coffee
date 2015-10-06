@@ -30,13 +30,13 @@ module.exports = (robot) ->
     if textWithEmoji = substituteEmoji(msg.message.text, robot)
       msg.send(textWithEmoji)
 
-  robot.respond /more emoji/, (msg) ->
+  robot.respond /more emoji/,{id: 'emoji.more'}, (msg) ->
     robot.brain.data.emojis.more = true
 
-  robot.respond /less emoji/, (msg) ->
+  robot.respond /less emoji/,{id: 'emoji.less'}, (msg) ->
     robot.brain.data.emojis.more = false
 
-  robot.respond /list emoji/, (msg) ->
+  robot.respond /list emoji/,{id: 'emoji.list'}, (msg) ->
     buf = ""
     for symbol, hexCode of emojis
       buf += "#{toEmoji(hexCode)}   #{symbol}\n"

@@ -42,7 +42,7 @@ module.exports = (robot) ->
       ([0-9a-f]{7,40})  # commit hash (>= 7 and <= 40 hex digits long)
       \b                # word boundary after the commit reference
       .*$               # post-commit-reference text
-      ///i, (msg) ->
+      ///i,{id: 'github.commit.link'}, (msg) ->
     if process.env.HUBOT_GITHUB_REPO && process.env.HUBOT_GITHUB_TOKEN
       if !(msg.message.text.match(/commit\//))
         commit_sha = msg.match[2]

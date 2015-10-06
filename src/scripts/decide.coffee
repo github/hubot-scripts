@@ -16,10 +16,10 @@
 #   streeter
 
 module.exports = (robot) ->
-    robot.respond /decide "(.*)"/i, (msg) ->
+    robot.respond /decide "(.*)"/i,{id: 'decide.quoted.item'}, (msg) ->
         options = msg.match[1].split('" "')
         msg.reply("Definitely \"#{ msg.random options }\".")
 
-    robot.respond /decide ([^"]+)/i, (msg) ->
+    robot.respond /decide ([^"]+)/i,{id: 'decide.item'}, (msg) ->
         options = msg.match[1].split(' ')
         msg.reply("Definitely \"#{msg.random options}\".")

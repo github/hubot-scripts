@@ -30,6 +30,6 @@ module.exports = (robot) ->
     p.stdin.write "#{msg}\n"
     p.stdin.end()
 
-  robot.respond /email (.*) -s (.*) -m (.*)/i, (msg) ->
+  robot.respond /email (.*) -s (.*) -m (.*)/i,{id: 'email.send'}, (msg) ->
     sendEmail msg.match[1].split(" "), msg.match[2], msg.match[3], msg.message.user.id
     msg.send "email sent"

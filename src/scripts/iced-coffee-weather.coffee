@@ -25,7 +25,7 @@ cheerio = require('cheerio')
 iced_coffee_weather_id = process.env.HUBOT_ICED_COFFEE_WEATHER_ID
 
 module.exports = (robot) ->
-  robot.respond /is it iced (coffee|latte) weather/i, (msg) ->
+  robot.respond /is it iced (coffee|latte) weather/i,{id: 'icedcoffeeweather.get'}, (msg) ->
     if ! iced_coffee_weather_id 
       msg.send "I don't know where you are, so I can't say. Make sure to set HUBOT_ICED_COFFEE_WEATHER_ID"
       return

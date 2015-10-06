@@ -16,10 +16,10 @@
 #   carllerche
 
 module.exports = (robot) ->
-  robot.respond /cheer me up/i, (msg) ->
+  robot.respond /cheer me up/i,{id: 'cheer.up'}, (msg) ->
     aww msg
 
-  robot.hear /i( am|'m) emo/i, (msg) ->
+  robot.hear /i( am|'m) emo/i,{id: 'cheer.emo'}, (msg) ->
     msg.send "Let me cheer you up."
     aww msg
 

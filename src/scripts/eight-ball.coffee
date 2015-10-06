@@ -37,5 +37,5 @@ ball = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /(eightball|8ball)(.*)/i, (msg) ->
+  robot.respond /(eightball|8ball)(.*)/i,{id: 'eight.ball.get'}, (msg) ->
     msg.reply msg.random ball

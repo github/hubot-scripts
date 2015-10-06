@@ -22,10 +22,10 @@
 #   mm53bar
 
 module.exports = (robot) ->
-  robot.respond /feed me/i, (msg) ->
+  robot.respond /feed me/i,{id: 'bookmark.set.delicious.feed'}, (msg) ->
     msg.reply "You can subscribe to the delicious feed at https://delicious.com/v2/rss/#{process.env.DELICIOUS_USER}"
 
-  robot.respond /list bookmarks/i, (msg) ->
+  robot.respond /list bookmarks/i,{id: 'bookmark.delicious.get'}, (msg) ->
     delicious = new Delicious msg, process.env.DELICIOUS_USER, process.env.DELICIOUS_PASSWORD
   
     delicious.listBookmarks (err, message) ->
@@ -34,7 +34,7 @@ module.exports = (robot) ->
       else
         msg.send "#{message}"
 
-  robot.respond /bookmark (http(s?)\:\/\/\S+) as (.+)/i, (msg) ->
+  robot.respond /bookmark (http(s?)\:\/\/\S+) as (.+)/i,{id: 'bookmark.delicious.set'}, (msg) ->
     delicious = new Delicious msg, process.env.DELICIOUS_USER, process.env.DELICIOUS_PASSWORD
     url = msg.match[1]
     description = msg.match[3]
@@ -46,7 +46,7 @@ module.exports = (robot) ->
       else
         msg.send "#{message}" 
         
-  robot.respond /link (http(s?)\:\/\/\S+) as (.+)/i, (msg) ->
+  robot.respond /link (http(s?)\:\/\/\S+) as (.+)/i,{id: 'bookmark.brain.set'}, (msg) ->
     url = msg.match[1]
     description = msg.match[3]    
     bookmark = new Bookmark url, description
@@ -58,7 +58,7 @@ module.exports = (robot) ->
       else
         msg.reply "I've stuck that link into my robot brain." 
         
-  robot.respond /link me for (.+)/i, (msg) ->
+  robot.respond /link me for (.+)/i,{id: 'bookmark.brain.description.get'}, (msg) ->
     description = msg.match[1]
     link = new Link robot
     
@@ -68,7 +68,7 @@ module.exports = (robot) ->
       else
         msg.send bookmark.url
            
-  robot.respond /list links/i, (msg) ->
+  robot.respond /list links/i,{id: 'bookmark.brain.get'}, (msg) ->
     link = new Link robot
     
     link.list (err, message) ->
@@ -77,7 +77,7 @@ module.exports = (robot) ->
       else
         msg.reply message
 
-  robot.hear /(http(s?)\:\/\/\S+)/i, (msg) ->
+  robot.hear /(http(s?)\:\/\/\S+)/i,{id: 'bookmark.url'}, (msg) ->
     href = msg.match[1]
     url = new Url robot
 

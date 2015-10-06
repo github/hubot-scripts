@@ -96,7 +96,7 @@ module.exports = function(robot) {
     });
   }
 
-  robot.respond(/list\s+(all\s+|[0-9]+\s+)?ideas$/i, function(msg){
+  robot.respond(/list\s+(all\s+|[0-9]+\s+)?ideas$/i,{id: 'etherpad.list.ideas'}, function(msg){
     var match = msg.match, count, textCount;
 
     textCount = match[1]? match[1].trim() : null;
@@ -116,7 +116,7 @@ module.exports = function(robot) {
     });
   });
 
-  robot.respond(/list\s+ideas\s+with\s+(.+$)/i, function(msg){
+  robot.respond(/list\s+ideas\s+with\s+(.+$)/i,{id: 'etherpad.list.filter'}, function(msg){
     var match = msg.match, filter;
 
     filter = match[1].trim();
@@ -140,7 +140,7 @@ module.exports = function(robot) {
 
   });
 
-  robot.respond(/show\s+idea(\s+[0-9]+)?/i, function(msg){
+  robot.respond(/show\s+idea(\s+[0-9]+)?/i,{id: 'etherpad.idea.show'}, function(msg){
     var match = msg.match, ideaNum;
 
     ideaNum = match[1]? match[1].trim() : null;
@@ -159,7 +159,7 @@ module.exports = function(robot) {
     });
   });
 
-  robot.respond(/count\s+ideas/i, function(msg){
+  robot.respond(/count\s+ideas/i,{id: 'etherpad.idea.count'}, function(msg){
     getIdeas(msg, function(err, ideas){
       if (err) return msg.send(err);
       msg.send('Total ideas: ' + ideas.length + '.');

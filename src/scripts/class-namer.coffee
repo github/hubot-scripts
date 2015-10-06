@@ -13,7 +13,7 @@
 child_process = require 'child_process'
 
 module.exports = (robot) ->
-  robot.respond /class(?: me)?/i, (msg) -> 
+  robot.respond /class(?: me)?/i,{id: 'classnamer.get'}, (msg) -> 
     child_process.exec 'classnamer', (error, stdout, stderr) ->
       if error
         msg.send "Sorry, but the classnamer gem is not installed. Install with `gem install classnamer`."

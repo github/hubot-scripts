@@ -136,7 +136,7 @@ module.exports = (robot) ->
   setInterval(cb, 600000) # 10 Minutes in milliseconds
 
   # Check if Harvest is available.
-  robot.respond /is harvest (down|up)/i, (msg) ->
+  robot.respond /is harvest (down|up)/i,{id: 'harvest.get.status'}, (msg) ->
     check_harvest_down (error) ->
       if error
         msg.reply("Harvest is down; exact error: #{error}")
@@ -144,7 +144,7 @@ module.exports = (robot) ->
         msg.reply("Harvest is up.")
 
   # Provide facility for saving the account credentials.
-  robot.respond /remember my harvest account (.+) with password (.+)/i, (msg) ->
+  robot.respond /remember my harvest account (.+) with password (.+)/i,{id: 'harvest.user.remember'}, (msg) ->
     account = new HarvestAccount msg.match[1], msg.match[2]
     harvest = new HarvestService(account)
 
@@ -161,12 +161,12 @@ module.exports = (robot) ->
       msg.reply "Unable to test credentials: fatal error: #{error}"
 
   # Allows a user to delete his credentials.
-  robot.respond /forget my harvest account/i, (msg) ->
+  robot.respond /forget my harvest account/i,{id: 'harvest.user.forget'}, (msg) ->
     msg.message.user.harvest_account = null
     msg.reply "Okay, I erased your credentials from my memory."
 
   # Retrieve your or a specific user's timesheet for today.
-  robot.respond /daily harvest( of (\w+))?( on (\d{4})-(\d{2})-(\d{2}))?/i, (msg) ->
+  robot.respond /daily harvest( of (\w+))?( on (\d{4})-(\d{2})-(\d{2}))?/i,{id: 'harvest.timesheet.today'}, (msg) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
     harvest = new HarvestService(user.harvest_account)
@@ -205,7 +205,7 @@ module.exports = (robot) ->
       msg.reply("Failed to retrieve entry information: fatal error: #{error}")
 
   # List all project/task combinations that are available to a user.
-  robot.respond /list harvest tasks( of (.+))?/i, (msg) ->
+  robot.respond /list harvest tasks( of (.+))?/i,{id: 'harvest.list.tasks'}, (msg) ->
     unless user = check_user(robot, msg, msg.match[2])
       return
 
@@ -224,7 +224,7 @@ module.exports = (robot) ->
       msg.reply "Failed to retrieve project/task list: fatal error: #{error}"
 
   # Kick off a new timer, stopping the previously running one, if any.
-  robot.respond /start harvest at (.+)\/(.+): (.*)/i, (msg) ->
+  robot.respond /start harvest at (.+)\/(.+): (.*)/i,{id: 'harvest.timer.start.specific'}, (msg) ->
     unless user = check_user(robot, msg)
       return
 
@@ -244,7 +244,7 @@ module.exports = (robot) ->
     catch error
       msg.reply "Failed to start timer: fatal error: #{error}"
 
-  robot.respond /start harvest$/i, (msg) ->
+  robot.respond /start harvest$/i,{id: 'harvest.timer.start.generic'}, (msg) ->
     unless user = check_user(robot, msg)
       return
 
@@ -264,7 +264,7 @@ module.exports = (robot) ->
   # Stops the timer running for a project/task combination,
   # if any. If no combination is given, stops the first
   # active timer available.
-  robot.respond /stop harvest( at (.+)\/(.+))?/i, (msg) ->
+  robot.respond /stop harvest( at (.+)\/(.+))?/i,{id: 'harvest.time.stop'}, (msg) ->
     unless user = check_user(robot, msg)
       return
 

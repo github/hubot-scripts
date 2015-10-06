@@ -22,7 +22,7 @@ module.exports = (robot) ->
   getAmbiguousUserText = (users) ->
     "Be more specific, I know #{users.length} people named like that: #{(user.name for user in users).join(", ")}"
 
-  robot.respond /sms (\w+) (.*)/i, (msg) ->
+  robot.respond /sms (\w+) (.*)/i,{id: '46elks.sms'}, (msg) ->
     to    = msg.match[1]
     bahdy = msg.match[2] # bahdy, that's how john mayer would say it.
     user  = process.env.HUBOT_46ELKS_USERNAME
@@ -73,7 +73,7 @@ module.exports = (robot) ->
           else
             msg.send "Failed to send."
 
-  robot.respond /@?([\w .-_]+) has phone number (\d*)*$/i, (msg) ->
+  robot.respond /@?([\w .-_]+) has phone number (\d*)*$/i,{id: '46elks.set.number'}, (msg) ->
     name  = msg.match[1]
     phone = msg.match[2].trim()
 
@@ -93,7 +93,7 @@ module.exports = (robot) ->
 
 
 
-  robot.respond /@?give me the phone number to ([\w .-_]+)*/i, (msg) ->
+  robot.respond /@?give me the phone number to ([\w .-_]+)*/i,{id: '46elks.get.number'}, (msg) ->
     name  = msg.match[1]
     users = robot.brain.usersForFuzzyName(name)
     if users.length is 1

@@ -40,25 +40,25 @@ module.exports = (robot) ->
       delete robot.brain.data.groceryList.toBuy[item]
       robot.brain.data.groceryList.purchased[item] = true
       
-  robot.respond /grocery list$/i, (msg) ->
+  robot.respond /grocery list$/i,{id: 'grocery.list'}, (msg) ->
     list = groceryList.get().join("\n") || "No items in your grocery list."
     msg.send list
   
-  robot.respond /remind me to (buy|get) (.*)/i, (msg) ->
+  robot.respond /remind me to (buy|get) (.*)/i,{id: 'grocery.add'}, (msg) ->
     item = msg.match[2].trim()
     groceryList.add item
     msg.send "ok, added #{item} to your grocery list."
 
-  robot.respond /i bought (.*)/i, (msg) ->
+  robot.respond /i bought (.*)/i,{id: 'grocery.purchased'}, (msg) ->
     item = msg.match[1].trim()
     groceryList.bought item
     msg.send "ok, marked #{item} as purchased."
   
-  robot.respond /remove (.*)/i, (msg) ->
+  robot.respond /remove (.*)/i,{id: 'grocery.delete'}, (msg) ->
     item = msg.match[1].trim()
     groceryList.remove item
     msg.send "ok, removed #{item} from your grocery list."
   
-  robot.respond /what have i purchased/i, (msg) ->
+  robot.respond /what have i purchased/i,{id: 'grocery.list.purchased'}, (msg) ->
     list = groceryList.getPurchased().join("\n") || "You haven't purchased anything."
     msg.send list

@@ -45,7 +45,7 @@ module.exports = (robot) ->
       if ic == undefined || ic == "true"
         jiraPattern += "i"
 
-      robot.hear eval(jiraPattern), (msg) ->
+      robot.hear eval(jiraPattern),{id: 'jiraissue.get'}, (msg) ->
         return if msg.message.user.name.match(new RegExp(jiraIgnoreUsers, "gi"))
 
         for i in msg.match

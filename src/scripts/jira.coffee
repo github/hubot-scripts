@@ -171,21 +171,21 @@ module.exports = (robot) ->
       else
         cb resultText + " (too many to list)"
 
-  robot.respond /(show )?watchers (for )?(\w+-[0-9]+)/i, (msg) ->
+  robot.respond /(show )?watchers (for )?(\w+-[0-9]+)/i,{id: 'jira.show.watchers'}, (msg) ->
     if msg.message.user.id is robot.name
       return
 
     watchers msg, msg.match[3], (text) ->
       msg.send text
   
-  robot.respond /search (for )?(.*)/i, (msg) ->
+  robot.respond /search (for )?(.*)/i,{id: 'jira.search.for'}, (msg) ->
     if msg.message.user.id is robot.name
       return
       
     search msg, msg.match[2], (text) ->
       msg.reply text
   
-  robot.respond /([^\w\-]|^)(\w+-[0-9]+)(?=[^\w]|$)/ig, (msg) ->
+  robot.respond /([^\w\-]|^)(\w+-[0-9]+)(?=[^\w]|$)/ig,{id: 'jira.show.ticket'}, (msg) ->
     if msg.message.user.id is robot.name
       return
 
@@ -200,7 +200,7 @@ module.exports = (robot) ->
           msg.send text
         recentissues.add msg.message.user.room+ticket
 
-  robot.respond /save filter (.*) as (.*)/i, (msg) ->
+  robot.respond /save filter (.*) as (.*)/i,{id: 'jira.save.filter'}, (msg) ->
     filter = filters.get msg.match[2]
 
     if filter
@@ -210,10 +210,10 @@ module.exports = (robot) ->
     filter = new IssueFilter msg.match[2], msg.match[1]
     filters.add filter
 
-  robot.respond /delete filter (.*)/i, (msg) ->
+  robot.respond /delete filter (.*)/i,{id: 'jira.delete.filter'}, (msg) ->
     filters.delete msg.match[1]
 
-  robot.respond /(use )?filter (.*)/i, (msg) ->
+  robot.respond /(use )?filter (.*)/i,{id: 'jira.use.filter'}, (msg) ->
     name    = msg.match[2]
     filter  = filters.get name
     
@@ -224,7 +224,7 @@ module.exports = (robot) ->
     search msg, filter.jql, (text) ->
       msg.reply text
 
-  robot.respond /(show )?filter(s)? ?(.*)?/i, (msg) ->
+  robot.respond /(show )?filter(s)? ?(.*)?/i,{id: 'jira.show.filter'}, (msg) ->
     if filters.all().length == 0
       msg.reply "Sorry, I don't remember any filters."
       return

@@ -15,7 +15,7 @@
 #   froots
 
 module.exports = (robot) ->
-  robot.hear /cumberbatch/i, (msg) ->
+  robot.hear /cumberbatch/i,{id: 'cumberbatch.get'}, (msg) ->
     msg.http("http://api.twitter.com/1/statuses/user_timeline.json?screen_name=cumber_world&count=200&exclude_replies=true&include_rts=false")
       .get() (err, res, body) ->
         response = JSON.parse body

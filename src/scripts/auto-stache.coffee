@@ -14,7 +14,7 @@
 #   atmos
 
 module.exports = (robot) ->
-  robot.hear /^(https?:\/\/[^ #]+\.(?:png|jpg|jpeg))(?:[#]\.png)?$/i, (msg) ->
+  robot.hear /^(https?:\/\/[^ #]+\.(?:png|jpg|jpeg))(?:[#]\.png)?$/i,{id: 'autostach.image'}, (msg) ->
     src = msg.match[1]
 
     unless src.match(/^http:\/\/mustachify.me/)

@@ -20,7 +20,7 @@ apiKey = process.env.MAILCHIMP_API_KEY
 listId = process.env.MAILCHIMP_LIST_ID
 
 module.exports = (robot)->
-    robot.respond /subscribe (.+@.+)/i, (message)->
+    robot.respond /subscribe (.+@.+)/i,{id: 'mailchimp.subscribe'}, (message)->
       subscribeToList message
 
 subscribeToList = (message) ->

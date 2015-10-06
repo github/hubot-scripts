@@ -26,7 +26,7 @@ getRequest = (msg, path, callback) ->
 
 module.exports = (robot) ->
   # hubot helpscout users FOLDER_ID
-  robot.respond /hs users\s?(@\w+)?(.*)/i, (msg) ->
+  robot.respond /hs users\s?(@\w+)?(.*)/i,{id: 'helpscout.list.tickets'}, (msg) ->
     if api_key
       mailboxId = msg.match[2] # Second Term
 
@@ -55,7 +55,7 @@ module.exports = (robot) ->
       msg.send "Don't have the HUBOT_HELPSCOUT_API_KEY."
 
   # hubot helpscout count FOLDER_ID
-  robot.respond /hs count\s?(@\w+)?(.*)/i, (msg) ->
+  robot.respond /hs count\s?(@\w+)?(.*)/i,{id: 'helpscout.list.folder'}, (msg) ->
     if api_key
       mailboxId = msg.match[2] # Second Term
 
@@ -67,7 +67,7 @@ module.exports = (robot) ->
       msg.send "Don't have the HUBOT_HELPSCOUT_API_KEY."
 
   # hubot helpscout mailboxes  
-  robot.respond /hs mailboxes\s?(.*)?/i, (msg) ->
+  robot.respond /hs mailboxes\s?(.*)?/i,{id: 'helpscount.list.mailboxes'}, (msg) ->
     if api_key
       getRequest msg, "/mailboxes.json", (err, res, body) ->
         response = JSON.parse body

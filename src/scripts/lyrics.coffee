@@ -15,7 +15,7 @@
 #   mportiz08
 
 module.exports = (robot) ->
-  robot.respond /lyrics for (.*) by (.*)/i, (msg) ->
+  robot.respond /lyrics for (.*) by (.*)/i,{id: 'lyrics.get'}, (msg) ->
     song = msg.match[1]
     artist = msg.match[2]
     getLyrics msg, song, artist

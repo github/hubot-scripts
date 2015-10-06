@@ -56,17 +56,17 @@ class GoodBad
 module.exports = (robot) ->
   goodbad = new GoodBad robot
   
-  robot.respond /(good) (.+?)$/i, (msg) ->
+  robot.respond /(good) (.+?)$/i,{id: 'goodbad.good.add'}, (msg) ->
     message = "#{msg.message.user.name}: #{msg.match[2]}"
     good = goodbad.good message
     msg.send "The sprint is thriving!"
 
-  robot.respond /(bad) (.+?)$/i, (msg) ->
+  robot.respond /(bad) (.+?)$/i,{id: 'goodbad.bad.add'}, (msg) ->
     message = "#{msg.message.user.name}: #{msg.match[2]}"
     bad = goodbad.bad message
     msg.send "The sprint is festering..."
 
-  robot.respond /(goodlist)/i, (msg) ->
+  robot.respond /(goodlist)/i,{id: 'goodbad.good.list'}, (msg) ->
     if goodbad.goodlist().length > 0
       response = ""
       for good, num in goodbad.goodlist()
@@ -75,7 +75,7 @@ module.exports = (robot) ->
     else 
       msg.send "Nothing good happened."
 
-  robot.respond /(badlist)/i, (msg) ->
+  robot.respond /(badlist)/i,{id: 'goodbad.bad.list'}, (msg) ->
     if goodbad.badlist().length > 0
       response = ""
       for bad, num in goodbad.badlist()
@@ -84,10 +84,10 @@ module.exports = (robot) ->
     else 
       msg.send "Nothing bad happened."
 
-  robot.respond /(gooddel)/i, (msg) ->
+  robot.respond /(gooddel)/i,{id: 'goodbad.good.delete'}, (msg) ->
     goodbad.gooddel()
     msg.send "Good things deleted." 
 
-  robot.respond /(baddel)/i, (msg) ->
+  robot.respond /(baddel)/i,{id: 'goodbad.bad.delete'}, (msg) ->
     goodbad.baddel()
     msg.send "Bad things deleted." 

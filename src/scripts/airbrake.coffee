@@ -19,7 +19,7 @@ env = process.env
 
 module.exports = (robot) ->
 
-  robot.respond /(show me )?airbrake( errors)?(.*)/i, (msg) ->
+  robot.respond /(show me )?airbrake( errors)?(.*)/i,{id: 'airbrake.errors'}, (msg) ->
     query msg, (body, err, project_name) ->
       return msg.send err if err
 

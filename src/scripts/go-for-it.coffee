@@ -49,5 +49,5 @@ module.exports = (robot) ->
   else
     regex = /go for it/i
 
-  robot.hear regex, (msg) ->
+  robot.hear regex,{id: 'gopher.random'}, (msg) ->
     msg.send msg.random gophers

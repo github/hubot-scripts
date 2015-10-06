@@ -14,7 +14,7 @@
 #   lmarburger
 
 module.exports = (robot) ->
-  robot.hear /(https?:\/\/cl.ly\/image\/[A-Za-z0-9]+)(\/[^\/]+)?/i, (msg) ->
+  robot.hear /(https?:\/\/cl.ly\/image\/[A-Za-z0-9]+)(\/[^\/]+)?/i,{id: 'cloudapp.show'}, (msg) ->
     return if msg.match[2]  # Ignore already embedded images.
 
     link = msg.match[1]

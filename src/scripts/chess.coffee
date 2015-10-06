@@ -19,11 +19,11 @@
 Chess = require 'chess'
 
 module.exports = (robot) ->
-  robot.respond /chess me$/i, (msg) ->
+  robot.respond /chess me$/i,{id: 'chess.start'}, (msg) ->
     robot.brain.data.chess[msg.message.room] = Chess.create()
     boardToFen robot.brain.data.chess[msg.message.room].getStatus(), (status, fen) ->
       msg.send 'http://webchess.freehostia.com/diag/chessdiag.php?fen=' + encodeURIComponent(fen) + '&size=large&coord=yes&cap=yes&stm=yes&fb=no&theme=classic&format=auto&color1=E3CEAA&color2=635147&color3=000000&.png'
-  robot.respond /chess status/i, (msg) ->
+  robot.respond /chess status/i,{id: 'chess.status'}, (msg) ->
     try
       boardToFen robot.brain.data.chess[msg.message.room].getStatus(), (status, fen) ->
         if status
@@ -32,7 +32,7 @@ module.exports = (robot) ->
     catch e
       msg.send e
 
-  robot.respond /chess move (.*)/i, (msg) ->
+  robot.respond /chess move (.*)/i,{id: 'chess.move'}, (msg) ->
     try
       robot.brain.data.chess[msg.message.room].move msg.match[1]
       boardToFen robot.brain.data.chess[msg.message.room].getStatus(), (status, fen) ->

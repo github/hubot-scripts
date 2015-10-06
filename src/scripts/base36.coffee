@@ -14,14 +14,14 @@
 #   plytro
 
 module.exports = (robot) ->
-  robot.hear /base36 e(ncode)?( me)? (.*)/i, (msg) ->
+  robot.hear /base36 e(ncode)?( me)? (.*)/i,{id: 'base36.encode'}, (msg) ->
     try
       msg.send Base36.encode(msg.match[3])
     catch e
       throw e unless e.message == 'Value passed is not an integer.'
       msg.send "Base36 encoding only works with Integer values."
 
-  robot.hear /base36 d(ecode)?( me)? (.*)/i, (msg) ->
+  robot.hear /base36 d(ecode)?( me)? (.*)/i,{id: 'base36.decode'}, (msg) ->
     try
       msg.send (String) Base36.decode(msg.match[3])
     catch e

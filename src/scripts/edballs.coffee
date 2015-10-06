@@ -14,5 +14,5 @@
 #   @pikesley
 
 module.exports = (robot) ->
-  robot.hear /Ed Balls/i, (msg) ->
+  robot.hear /Ed Balls/i,{id: 'ed.balls'}, (msg) ->
     msg.send "Ed Balls"

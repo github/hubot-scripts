@@ -794,9 +794,9 @@ answers = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /card(?: me)?(?: )(\d+)?/i, (msg) ->
+  robot.respond /card(?: me)?(?: )(\d+)?/i,{id: 'hubotagainsthumanity.card.get'}, (msg) ->
     count = if msg.match[1]? then parseInt(msg.match[1], 10) else 1
     msg.send msg.random answers for i in [1..count]
 
-  robot.respond /q(?:uestion)? card/i, (msg) ->
+  robot.respond /q(?:uestion)? card/i,{id: 'hubotagainsthumanity.question.get'}, (msg) ->
     msg.send msg.random questions

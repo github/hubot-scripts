@@ -13,7 +13,7 @@
 #   jimeh
 
 module.exports = (robot) ->
-  robot.hear /facepalm/i, (msg) ->
+  robot.hear /facepalm/i,{id: 'facepalm.random'}, (msg) ->
     # Randomly use facepalm.org or a Google Image search for "facepalm".
     if msg.random([0, 1])
       facepalmMe msg, (url) ->

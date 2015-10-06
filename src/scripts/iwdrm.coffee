@@ -14,7 +14,7 @@
 #   iangreenleaf
 
 module.exports = (robot) ->
-  robot.respond /(movie|iwdrm)( me)?( .*)/i, (msg) ->
+  robot.respond /(movie|iwdrm)( me)?( .*)/i,{id: 'iwdrm.get'}, (msg) ->
     tumblr_request = (offset, success) ->
       params = { api_key: process.env.HUBOT_TUMBLR_API_KEY, limit: 1, offset: offset }
       msg.http('http://api.tumblr.com/v2/blog/iwdrm.tumblr.com/posts/photo')

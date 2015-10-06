@@ -17,7 +17,7 @@ flip = require 'flip'
 
 module.exports = (robot) ->
 
-  robot.respond /(rage )?flip( .*)?$/i, (msg) ->
+  robot.respond /(rage )?flip( .*)?$/i,{id: 'flip.text'}, (msg) ->
     if msg.match[1] == 'rage '
       guy = '(ノಠ益ಠ)ノ彡'
     else
@@ -36,7 +36,7 @@ module.exports = (robot) ->
     msg.send "#{guy} #{flipped}"
 
 
-  robot.respond /unflip( .*)?$/i, (msg) ->
+  robot.respond /unflip( .*)?$/i,{id: 'flip.text.unflip'}, (msg) ->
     toUnflip = (msg.match[1] || '').trim()
 
     if toUnflip == 'me'

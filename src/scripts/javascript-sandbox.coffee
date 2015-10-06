@@ -16,7 +16,7 @@
 Sandbox = require('sandbox')
 
 module.exports = (robot) ->
-  robot.respond /(run|sandbox|js) (.*)/i, (msg) ->
+  robot.respond /(run|sandbox|js) (.*)/i,{id: 'javascript.sandbox.execute'}, (msg) ->
     sandbox = new Sandbox
     sandbox.run(msg.match[2], (output) ->
       msg.send output.result

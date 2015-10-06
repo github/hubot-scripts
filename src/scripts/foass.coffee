@@ -13,7 +13,7 @@
 
 
 module.exports = (robot) ->
-  robot.hear /^fu(?:\s)(?=([\w ]+))/i, (msg) ->
+  robot.hear /^fu(?:\s)(?=([\w ]+))/i,{id: 'foass.get'}, (msg) ->
     options = [
       'off',
       'you',

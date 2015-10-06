@@ -30,7 +30,7 @@ hatin = (msg) ->
   msg.send msg.random haters
 
 module.exports = (robot) ->
-  robot.respond /haters/i, (msg) ->
+  robot.respond /haters/i,{id: 'haters.respond'}, (msg) ->
     hatin msg
-  robot.hear /haters gonna hate/i, (msg) ->
+  robot.hear /haters gonna hate/i,{id: 'haters.hear'}, (msg) ->
     hatin msg

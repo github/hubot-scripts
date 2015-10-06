@@ -14,7 +14,7 @@
 #   greggroth
 
 module.exports = (robot) ->
-  robot.respond /beer me (.*)/i, (msg) ->
+  robot.respond /beer me (.*)/i,{id: 'brewerydb.beer'}, (msg) ->
     unless process.env.BREWERYDB_API_KEY?
       msg.send "Please specify your BreweyDB API key in BREWERYDB_API_KEY"
       return

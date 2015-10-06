@@ -31,7 +31,7 @@ providers =
     "http://fuckyeahnouns.com/images/#{noun}.jpg"
 
 module.exports = (robot) ->
-  robot.hear /fuck yeah (.+)/i, (msg) ->
+  robot.hear /fuck yeah (.+)/i,{id: 'fyeah.get'}, (msg) ->
     noun = msg.match[1]
 
     url = providers.holman noun

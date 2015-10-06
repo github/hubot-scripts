@@ -18,6 +18,6 @@ dimmer = require('cleverbot-node')
 module.exports = (robot) ->
   d = new dimmer()
 
-  robot.respond /^dimmer/i, (msg) ->
+  robot.respond /^dimmer/i,{id: 'dimmerworld.get'}, (msg) ->
     data = msg.match[1].trim()
     d.write(data, (d) => msg.send(d.message))

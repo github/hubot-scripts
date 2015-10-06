@@ -27,5 +27,5 @@ getMovie = (msg) ->
       msg.send "Movie description  : #{results.desc}"
 
 module.exports = (robot) ->
-  robot.respond /(hubble|hub)( me)? (.*)/i, (msg) ->
+  robot.respond /(hubble|hub)( me)? (.*)/i,{id: 'hubble.get'}, (msg) ->
     getMovie(msg)

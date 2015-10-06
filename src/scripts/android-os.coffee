@@ -31,7 +31,7 @@ module.exports = (robot) ->
       str = str + '.'
     return str      
 
-  robot.respond /android usage?$/i, (msg) ->
+  robot.respond /android usage?$/i,{id: 'android.usage'}, (msg) ->
     phantom.create (ph) ->
       ph.createPage (page) ->
         page.open url, (status) ->

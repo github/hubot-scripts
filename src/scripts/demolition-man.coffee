@@ -47,5 +47,5 @@ module.exports = (robot) ->
   ]
   regex = new RegExp('(?:^|\\s)(' + words.join('|') + ')(?:\\s|\\.|\\?|!|$)', 'i');
 
-  robot.hear regex, (msg) ->
+  robot.hear regex,{id: 'demolitionman.get'}, (msg) ->
     msg.send 'You have been fined one credit for a violation of the verbal morality statute.'

@@ -27,6 +27,6 @@ quotes = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /.*(hey lawrence).*/i, (msg) ->
+  robot.hear /.*(hey lawrence).*/i,{id: 'lawrence.get'}, (msg) ->
     quote = msg.random quotes
     msg.send "http://movies.infinitecoolness.com/27/officespace18.jpg", "\"" + quote + "\""

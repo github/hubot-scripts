@@ -21,7 +21,7 @@ safe_element = ( port_object, element ) ->
   return port_object[ element ]
 
 module.exports = (robot) ->
-  robot.respond /crossing (.*)$/i, (msg) ->
+  robot.respond /crossing (.*)$/i,{id: 'crossing.get'}, (msg) ->
     port_name = msg.match[1]
     message = ""
 

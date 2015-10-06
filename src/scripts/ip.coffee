@@ -14,7 +14,7 @@
 #   ndrake
      
 module.exports = (robot) ->
-  robot.respond /ip/i, (msg) ->
+  robot.respond /ip/i,{id: 'ip.hubot.get'}, (msg) ->
     msg.http("http://jsonip.com")
       .get() (err, res, body) ->
         json = JSON.parse(body)

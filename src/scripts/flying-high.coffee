@@ -14,14 +14,14 @@
 
 module.exports = (robot) ->
 
-  robot.hear /surely you/i, (msg) ->
+  robot.hear /surely you/i,{id: 'flyinghigh.shirley'}, (msg) ->
     msg.reply "I am, and don't call me Shirley."
 
-  robot.hear /I can'?t .* tell/i, (msg) ->
+  robot.hear /I can'?t .* tell/i,{id: 'flyinghigh.doctor'}, (msg) ->
     msg.reply "You can tell me. I'm a doctor."
 
-  robot.hear /I('?ve| have) never/i, (msg) ->
+  robot.hear /I('?ve| have) never/i,{id: 'flyinghigh.never'}, (msg) ->
     msg.reply "You ever seen a grown man naked?"
 
-  robot.hear /hospital\?/i, (msg) ->
+  robot.hear /hospital\?/i,{id: 'flyinghigh.hospital'}, (msg) ->
     msg.reply "It's a big building with patients, but that's not important right now."

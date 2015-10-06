@@ -39,7 +39,7 @@ module.exports = (robot) ->
 
   robot.Auth = new Auth
 
-  robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
+  robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i,{id: 'auth.add.role'}, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
@@ -62,7 +62,7 @@ module.exports = (robot) ->
             user.roles.push(newRole)
             msg.reply "Ok, #{name} has the '#{newRole}' role."
 
-  robot.respond /@?(.+) (doesn't have|does not have) (["'\w: -_]+) (role)/i, (msg) ->
+  robot.respond /@?(.+) (doesn't have|does not have) (["'\w: -_]+) (role)/i,{id: 'auth.remove.role'}, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
@@ -81,7 +81,7 @@ module.exports = (robot) ->
           user.roles = (role for role in user.roles when role isnt newRole)
           msg.reply "Ok, #{name} doesn't have the '#{newRole}' role."
 
-  robot.respond /(what role does|what roles does) @?(.+) (have)\?*$/i, (msg) ->
+  robot.respond /(what role does|what roles does) @?(.+) (have)\?*$/i,{id: 'auth.get.roles'}, (msg) ->
     name = msg.match[2].trim()
 
     user = robot.brain.userForName(name)
@@ -94,5 +94,5 @@ module.exports = (robot) ->
     if name.toLowerCase() in admin.toLowerCase().split(',') then isAdmin = ' and is also an admin' else isAdmin = ''
     msg.reply "#{name} has the following roles: " + user.roles + isAdmin + "."
 
-  robot.respond /who has admin role\?*$/i, (msg) ->
+  robot.respond /who has admin role\?*$/i,{id: 'auth.get.admins'}, (msg) ->
     msg.reply "The following people have the 'admin' role: #{admin.split(',')}"

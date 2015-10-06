@@ -65,7 +65,7 @@ addTask = (msg, taskName, path, params, userAcct) ->
 
 module.exports = (robot) ->
 # Add a task
-  robot.hear /^(todo|task):\s?(@\w+)?(.*)/i, (msg) ->
+  robot.hear /^(todo|task):\s?(@\w+)?(.*)/i,{id: 'asana.todo.add'}, (msg) ->
     taskName = msg.match[3]
     userAcct = msg.match[2] if msg.match[2] != undefined
     params = {data:{name: "#{taskName}", workspace: "#{workspace}"}}
@@ -90,7 +90,7 @@ module.exports = (robot) ->
       addTask msg, taskName, '/tasks', params, false
 
 # show task title
-  robot.hear /https:\/\/app\.asana\.com\/(\d+)\/(\d+)\/(\d+)/, (msg) ->
+  robot.hear /https:\/\/app\.asana\.com\/(\d+)\/(\d+)\/(\d+)/,{id: 'asana.task.title'}, (msg) ->
     taskId = msg.match[3]
     getRequest msg, "/tasks/#{taskId}", (err, res, body) ->
       response = JSON.parse body
@@ -98,7 +98,7 @@ module.exports = (robot) ->
       msg.send "#{taskId}: #{name}"
 
 # List all Users
-  robot.respond /(todo users)/i, (msg) ->
+  robot.respond /(todo users)/i,{id: 'asana.list.users'}, (msg) ->
     getRequest msg, "/workspaces/#{workspace}/users", (err, res, body) ->
       response = JSON.parse body
       userList = ""

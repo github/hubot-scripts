@@ -14,8 +14,8 @@
 #   jimeh
 
 module.exports = (robot) ->
-  robot.respond /base64 encode( me)? (.*)/i, (msg) ->
+  robot.respond /base64 encode( me)? (.*)/i,{id: 'base64.encode'}, (msg) ->
     msg.send new Buffer(msg.match[2]).toString('base64')
 
-  robot.respond /base64 decode( me)? (.*)/i, (msg) ->
+  robot.respond /base64 decode( me)? (.*)/i,{id: 'base65.decode'}, (msg) ->
     msg.send new Buffer(msg.match[2], 'base64').toString('utf8')

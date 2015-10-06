@@ -14,7 +14,7 @@
 #   kristofbc
 
 module.exports = (robot) ->
-	robot.respond /chop (me )?(in )?(\w+) (.*)$/i, (msg) ->
+	robot.respond /chop (me )?(in )?(\w+) (.*)$/i,{id: 'chopapp.cho'}, (msg) ->
 		getUrl(msg) 
 
 getUrl = (msg) ->

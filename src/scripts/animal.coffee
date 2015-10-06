@@ -18,7 +18,7 @@ Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
 
 module.exports = (robot) ->
-  robot.respond /animal me/i, (msg) ->
+  robot.respond /animal me/i,{id: 'animal.image'}, (msg) ->
     randimalMe msg, (url) ->
       msg.send url
 

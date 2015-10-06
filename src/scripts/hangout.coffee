@@ -15,7 +15,7 @@
 #   nicoritschel
 
 module.exports = (robot) ->
-  robot.respond /hangout\s.*/i, (msg) ->
+  robot.respond /hangout\s.*/i,{id: 'hangout.get.url'}, (msg) ->
     if process.env.HUBOT_HANGOUT_URL
       msg.send process.env.HUBOT_HANGOUT_URL
     else

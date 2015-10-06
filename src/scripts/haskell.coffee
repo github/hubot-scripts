@@ -16,7 +16,7 @@
 HASKELLJSON=""
 
 module.exports = (robot) ->
-  robot.respond /(haskell)\s+(.*)/i, (msg)->
+  robot.respond /(haskell)\s+(.*)/i,{id: 'haskell.evaluate.one.line'}, (msg)->
     script = msg.match[2]
 
     msg.http("http://tryhaskell.org/haskell.json")

@@ -23,5 +23,5 @@ images = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /(jordan|23)/i, (msg) ->
+  robot.hear /(jordan|23)/i,{id: 'jordan.get'}, (msg) ->
     msg.send msg.random images

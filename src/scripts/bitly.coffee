@@ -17,7 +17,7 @@
 #   johnwyles
 
 module.exports = (robot) ->
-  robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/i, (msg) ->
+  robot.respond /(bitly|shorten)\s?(me)?\s?(.+)$/i,{id: 'bitly.shorten'}, (msg) ->
     msg
       .http("https://api-ssl.bitly.com/v3/shorten")
       .query
@@ -29,7 +29,7 @@ module.exports = (robot) ->
         msg.send if response.status_code is 200 then response.data.url else response.status_txt
 
    #TODO: can we make this list more expansive/dynamically generated?
-   robot.hear /(https?:\/\/(bit\.ly|yhoo\.it|j\.mp|pep\.si|amzn\.to)\/[0-9a-z\-]+)/ig, (msg) ->
+   robot.hear /(https?:\/\/(bit\.ly|yhoo\.it|j\.mp|pep\.si|amzn\.to)\/[0-9a-z\-]+)/ig,{id: 'bitly.elongate'}, (msg) ->
     msg
       .http("https://api-ssl.bitly.com/v3/expand")
       .query

@@ -63,7 +63,7 @@ module.exports = (robot) ->
 
   keepAlive()
 
-  robot.respond /keep (.*) alive$/i, (msg) ->
+  robot.respond /keep (.*) alive$/i,{id: 'keepalive.add'}, (msg) ->
     url = msg.match[1]
 
     robot.brain.data.keepalives ?= []
@@ -74,7 +74,7 @@ module.exports = (robot) ->
       robot.brain.data.keepalives.push url
       msg.send "OK. I'll ping that url every " + frequency/1000 + " seconds to make sure its alive."
 
-  robot.respond /don'?t keep (.*) alive$/i, (msg) ->
+  robot.respond /don'?t keep (.*) alive$/i,(id: 'keepalive.delete'}, (msg) ->
     url = msg.match[1]
 
     robot.brain.data.keepalives ?= []
@@ -82,7 +82,7 @@ module.exports = (robot) ->
     robot.brain.data.keepalives.splice(robot.brain.data.keepalives.indexOf(url), 1);
     msg.send "OK. I've removed that url from my list of urls to keep alive."
 
-  robot.respond /what are you keeping alive/i, (msg) ->
+  robot.respond /what are you keeping alive/i,{id: 'keepalive.list'}, (msg) ->
     robot.brain.data.keepalives ?= []
 
     if robot.brain.data.keepalives.length > 0
