@@ -19,6 +19,7 @@
 #   hubot tc list builds of <buildType> of <project> <number>- Show the status of the last <number> builds of the specified build type of the specified project. Number can only follow the last variable, so if project is not passed, number must follow buildType directly. <number> Defaults to 5
 #   hubot tc build start <buildType> - Adds a build to the queue for the specified build type
 #   hubot tc build start <buildType> of <project> - Adds a build to the queue for the specified build type of the specified project
+#   hubot tc build start <buildType> of <project> with <paramName1>=<paramValue1> <paramName2>=<paramValue2> - Adds a build to the queue for the specified build type of the specified project with specific params
 #   hubot tc build stop all <buildType> id <buildId> of <project> - Stops all currently running builds of a given buildType. Project parameter is optional. Please note that the special 'all' keyword will kill all currently running builds ignoring all further parameters. hubot tc build stop all all
 #
 # Author:
@@ -173,19 +174,30 @@ module.exports = (robot) ->
   robot.respond /tc build start (.*)/i, (msg) ->
     configuration = buildName = msg.match[1]
     project = null
-    buildTypeRE = /(.*?) of (.*)/i
+    buildTypeRE = /(.*?) of (.*)? ?(with)? ?(.*)?/i
 
     buildTypeMatches = buildName.match buildTypeRE
     if buildTypeMatches?
       configuration = buildTypeMatches[1]
       project = buildTypeMatches[2]
 
+      projectParamsRE = /(.*?) with (.*)/i
+      projectParamsMatches = project.match projectParamsRE
+      params = []
+      if projectParamsMatches?
+        project = projectParamsMatches[1]
+        for param in projectParamsMatches[2].split(' ')
+          nameAndValue = param.split('=')
+          params.push({name: nameAndValue[0], value: nameAndValue[1]})
+
     mapNameToIdForBuildType msg, project, configuration, (msg, buildType) ->
       if not buildType
-        msg.send "Build type #{buildName} was not found"
+        msg.send "Build type #{configuration} of #{project} was not found"
         return
 
       url = "#{base_url}/httpAuth/action.html?add2Queue=#{buildType}"
+      url = url.concat("&name=#{param.name}&value=#{param.value}") for param in params
+
       msg.http(url)
         .headers(getAuthHeader())
         .get() (err, res, body) ->
@@ -193,7 +205,7 @@ module.exports = (robot) ->
           if err
             msg.send "Fail! Something went wrong. Couldn't start the build for some reason"
           else
-            msg.send "Dropped a build in the queue for #{buildName}. Run `tc list builds of #{buildName}` to check the status"
+            msg.send "Dropped a build in the queue for #{buildName}. Run `tc list builds of #{configuration} of #{project}` to check the status"
 
   robot.respond /tc list (projects|buildTypes|builds) ?(.*)?/i, (msg) ->
     type = msg.match[1]
