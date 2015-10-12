@@ -101,7 +101,7 @@ class ScoreKeeper
     all = @top(@cache.scores.length)
     all.sort((a,b) -> b.score - a.score).reverse().slice(0,amount)
 
-module.exports = (robot) ->
+###module.exports = (robot) ->
    robot.logger.warning "plusplus.coffee has merged with karma.coffee and moved from hubot-scripts to its own package. Remove it from your hubot-scripts.json and see https://github.com/ajacksified/hubot-plusplus for upgrade instructions"
   scoreKeeper = new ScoreKeeper(robot)
 
@@ -139,5 +139,5 @@ module.exports = (robot) ->
       graphSize = Math.min(tops.length, Math.min(amount, 20))
       message.splice(0, 0, clark(_.first(_.pluck(tops, "score"), graphSize)))
 
-    msg.send message.join("\n")
+    msg.send message.join("\n")###
 
