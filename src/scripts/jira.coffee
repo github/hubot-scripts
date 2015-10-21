@@ -69,11 +69,11 @@ class IssueFilter
 class RecentIssues
   constructor: (@maxage) ->
     @issues = []
-  
+
   cleanup: ->
     for issue,time of @issues
       age = Math.round(((new Date()).getTime() - time) / 1000)
-      if age > @maxage 
+      if age > @maxage
         #console.log 'removing old issue', issue
         delete @issues[issue]
     0
@@ -83,7 +83,7 @@ class RecentIssues
     @issues[issue]?
 
   add: (issue,time) ->
-    time = time || (new Date()).getTime() 
+    time = time || (new Date()).getTime()
     @issues[issue] = time
 
 
@@ -107,8 +107,17 @@ module.exports = (robot) ->
     if (process.env.HUBOT_JIRA_USER)
       authdata = new Buffer(process.env.HUBOT_JIRA_USER+':'+process.env.HUBOT_JIRA_PASSWORD).toString('base64')
       httprequest = httprequest.header('Authorization', 'Basic ' + authdata)
+      
     httprequest.get() (err, res, body) ->
+      if err
+        res.send "GET failed :( #{err}"
+        return
+
+      if res.statusCode is 200
         cb JSON.parse(body)
+      else
+        console.log("res.statusCode = " + res.statusCode)
+        console.log("body = " + body)
 
   watchers = (msg, issue, cb) ->
     get msg, "issue/#{issue}/watchers", (watchers) ->
@@ -156,12 +165,12 @@ module.exports = (robot) ->
           url: process.env.HUBOT_JIRA_URL + '/browse/' + issues.key
 
       cb "[#{issue.key}] #{issue.summary}. #{issue.assignee()} / #{issue.status}, #{issue.fixVersion()} #{issue.url}"
-      
+
   search = (msg, jql, cb) ->
     get msg, "search/?jql=#{escape(jql)}", (result) ->
       if result.errors?
         return
-      
+
       resultText = "I found #{result.total} issues for your search. #{process.env.HUBOT_JIRA_URL}/secure/IssueNavigator.jspa?reset=true&jqlQuery=#{escape(jql)}"
       if result.issues.length <= maxlist
         cb resultText
@@ -177,14 +186,14 @@ module.exports = (robot) ->
 
     watchers msg, msg.match[3], (text) ->
       msg.send text
-  
+
   robot.respond /search (for )?(.*)/i, (msg) ->
     if msg.message.user.id is robot.name
       return
-      
+
     search msg, msg.match[2], (text) ->
       msg.reply text
-  
+
   robot.respond /([^\w\-]|^)(\w+-[0-9]+)(?=[^\w]|$)/ig, (msg) ->
     if msg.message.user.id is robot.name
       return
@@ -192,7 +201,7 @@ module.exports = (robot) ->
     if (ignoredusers.some (user) -> user == msg.message.user.name)
       console.log 'ignoring user due to blacklist:', msg.message.user.name
       return
-   
+
     for matched in msg.match
       ticket = (matched.match /(\w+-[0-9]+)/)[0]
       if !recentissues.contains msg.message.user.room+ticket
@@ -216,7 +225,7 @@ module.exports = (robot) ->
   robot.respond /(use )?filter (.*)/i, (msg) ->
     name    = msg.match[2]
     filter  = filters.get name
-    
+
     if not filter
       msg.reply "Sorry, could not find filter #{name}"
       return
