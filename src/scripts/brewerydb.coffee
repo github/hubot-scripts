@@ -46,3 +46,6 @@ module.exports = (robot) ->
           if beer['foodPairings']?
             response += "\nFood Pairings:   #{beer['foodPairings']}"
           msg.send response
+          if beer['labels']?
+            response = "#{beer['labels']['medium']}"
+            msg.send response
