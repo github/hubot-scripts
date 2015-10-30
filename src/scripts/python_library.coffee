@@ -18,6 +18,7 @@ module.exports = (robot) ->
 
 libraryMe = (robot, version, lib, callback) ->
     url = "http://docs.python.org/#{version}/library/#{lib}.html"
+    robot.logger.debug "version = #{version}; lib = #{lib}; url = #{url}"
     robot.http(url)
          .get() (err,res,body) ->
              if res.statusCode != 200
