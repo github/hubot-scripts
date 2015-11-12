@@ -19,7 +19,7 @@ module.exports = (robot) ->
       msg.send domain
 
 isUp = (msg, domain, cb) ->
-  msg.http("http://isitup.org/#{domain}.json")
+  msg.http("https://isitup.org/#{domain}.json")
     .header('User-Agent', 'Hubot')
     .get() (err, res, body) ->
       response = JSON.parse(body)
