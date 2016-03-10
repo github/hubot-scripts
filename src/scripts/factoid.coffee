@@ -15,6 +15,7 @@
 #   ~tell <user> about <factoid> - Tells the user about a factoid, if it exists
 #   ~~<user> <factoid> - Same as ~tell, less typing
 #   <factoid>? - Same as ~<factiod> except for there is no response if not found
+#   <factoid>! - Same as <factoid>?
 #   hubot no, <factoid> is <some phrase, link, whatever> - Replaces the full definition of a factoid
 #   hubot factoids list - List all factoids
 #   hubot factoid delete "<factoid>" - delete a factoid
@@ -87,7 +88,7 @@ module.exports = (robot) ->
     else
       msg.reply factoids.handleFactoid msg.message.text
 
-  robot.hear /(.+)\?/i, (msg) ->
+  robot.hear /(.+)[\?!]/i, (msg) ->
     factoid = factoids.get msg.match[1]
     if factoid
       msg.reply msg.match[1] + " is " + factoid
