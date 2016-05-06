@@ -44,9 +44,6 @@
 #   Jesse Newland, Josh Nicols, Jacob Bednarz, Chris Lundquist, Chris Streeter, Joseph Pierri, Greg Hoin
 #
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 inspect = require('util').inspect
 
 moment = require('moment')
@@ -61,8 +58,6 @@ pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
 pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-
   robot.respond /pager( me)?$/i, (msg) ->
     if missingEnvironmentForApi(msg)
       return

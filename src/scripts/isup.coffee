@@ -13,13 +13,7 @@
 # Author:
 #   jmhobbs
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
-
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-  
   robot.respond /is (?:http\:\/\/)?(.*?) (up|down)(\?)?/i, (msg) ->
     isUp msg, msg.match[1], (domain) ->
       msg.send domain

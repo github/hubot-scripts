@@ -12,11 +12,7 @@
 #
 # Author:
 #   atmos
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
   robot.respond /ascii( me)? (.+)/i, (msg) ->
     msg
       .http("http://asciime.herokuapp.com/generate_ascii")

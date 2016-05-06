@@ -15,12 +15,7 @@
 #
 # Author:
 #   christianchristensen, lorenzhs, xhochy
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 module.exports = (robot) ->
-   HubotScripts.deprecate(robot, __filename)
-
    localstorage = {}
    robot.respond /tell ([\w.-]*):? (.*)/i, (msg) ->
      datetime = new Date()

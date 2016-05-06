@@ -17,14 +17,10 @@
 # Contributors:
 #   dedeibel (gif support)
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
-  HubotScripts.deprecate(robot, __filename)
 
   robot.respond /9gag( me)?/i, (message)->
     send_meme message, false, (title, src)->

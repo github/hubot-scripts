@@ -22,8 +22,6 @@
 # Author:
 #   dougcole
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
 querystring = require 'querystring'
 
 # Holds a list of jobs, so we can trigger them with a number
@@ -218,8 +216,6 @@ jenkinsList = (msg) ->
             msg.send error
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-  
   robot.respond /j(?:enkins)? build ([\w\.\-_ ]+)(, (.+))?/i, (msg) ->
     jenkinsBuild(msg, false)
 

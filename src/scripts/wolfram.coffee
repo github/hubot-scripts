@@ -15,14 +15,9 @@
 #
 # Author:
 #   dhorrigan
-
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 Wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
   robot.respond /(question|wfa) (.*)$/i, (msg) ->
     console.log msg.match
     Wolfram.query msg.match[2], (e, result) ->

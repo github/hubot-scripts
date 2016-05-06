@@ -18,11 +18,7 @@
 # Author:
 #   stuartf
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
   cache = []
 
   # In case someone upgrades form the previous version, we'll default to the 

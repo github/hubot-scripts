@@ -15,15 +15,10 @@
 #
 # Author:
 #   mmb
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 querystring = require 'querystring'
 url = require 'url'
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-
   robot.hear /(https?:\/\/www\.youtube\.com\/watch\?.+?)(?:\s|$)/i, (msg) ->
     url_parsed = url.parse(msg.match[1])
     query_parsed = querystring.parse(url_parsed.query)

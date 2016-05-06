@@ -18,9 +18,6 @@
 # Author:
 #   stuartf
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 class Karma
 
   constructor: (@robot) ->
@@ -84,8 +81,6 @@ class Karma
     sorted.slice(-n).reverse()
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-
   karma = new Karma robot
   allow_self = process.env.KARMA_ALLOW_SELF or "true"
 

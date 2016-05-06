@@ -25,13 +25,10 @@
 # Author:
 #   omribahumi
 
-path         = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
 url          = require 'url'
 querystring  = require 'querystring'
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
   
   gitlabChannel = process.env.GITLAB_CHANNEL or "#gitlab"
   debug = process.env.GITLAB_DEBUG?

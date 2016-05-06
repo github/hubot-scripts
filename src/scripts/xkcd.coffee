@@ -15,12 +15,7 @@
 # Author:
 #   twe4ked
 #   Hemanth (fixed the max issue)
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-
   robot.respond /xkcd(\s+latest)?$/i, (msg) ->
     msg.http("http://xkcd.com/info.0.json")
       .get() (err, res, body) ->

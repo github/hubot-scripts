@@ -15,9 +15,6 @@
 #
 # Author:
 #   maddox
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 squirrels = [
   "http://images.cheezburger.com/completestore/2011/11/2/aa83c0c4-2123-4bd3-8097-966c9461b30c.jpg",
   "http://images.cheezburger.com/completestore/2011/11/2/46e81db3-bead-4e2e-a157-8edd0339192f.jpg",
@@ -35,8 +32,6 @@ squirrels = [
 ]
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-
   # Enable a looser regex if environment variable is set
   if process.env.HUBOT_SHIP_EXTRA_SQUIRRELS
     regex = /ship(ping|z|s|ped)?\s*it/i

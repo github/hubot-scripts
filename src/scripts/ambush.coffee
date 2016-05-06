@@ -13,16 +13,12 @@
 # Author:
 #   jmoses
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 appendAmbush = (data, toUser, fromUser, message) ->
   data[toUser.name] or= []
 
   data[toUser.name].push [fromUser.name, message]
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
 
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}

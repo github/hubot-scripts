@@ -22,9 +22,6 @@
 # Author:
 #   arthurkalm
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 class Factoids
   constructor: (@robot) ->
     @robot.brain.on 'loaded', =>
@@ -93,8 +90,6 @@ class Factoids
       this.niceGet match[1]
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-  
   factoids = new Factoids robot
 
   robot.hear /^~(.+)/i, (msg) ->

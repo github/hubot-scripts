@@ -13,12 +13,7 @@
 # Author:
 #   searls
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
-
   robot.respond /(google)( me)? (.*)/i, (msg) ->
     googleMe msg, msg.match[3], (url) ->
       msg.send url

@@ -17,9 +17,6 @@
 # Author:
 #   ajacksified
 
-Path        = require("path")
-HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
-
 _ = require("underscore")
 clark = require("clark").clark
 
@@ -105,7 +102,6 @@ class ScoreKeeper
     all.sort((a,b) -> b.score - a.score).reverse().slice(0,amount)
 
 module.exports = (robot) ->
-  HubotScripts.deprecate(robot, __filename)
   scoreKeeper = new ScoreKeeper(robot)
 
   robot.hear /([\w\S]+)([\W\s]*)?(\+\+)$/i, (msg) ->
