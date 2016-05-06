@@ -17,6 +17,7 @@
   "plusplus.coffee": "https://github.com/ajacksified/hubot-plusplus",
   "resumator.coffee": "https://github.com/ChrisMissal/hubot-resumator",
   "shipit.coffee": "http://github.com/hubot-scripts/hubot-shipit",
+  "s3-brain": "https://github.com/dylanmei/hubot-s3-brain"
   "tell": "https://github.com/hubot-scripts/hubot-tell",
   "wolfram.coffee": "https://github.com/notpeter/hubot-wolfram",
   "xkcd.coffee": "https://www.npmjs.com/package/hubot-xkcd",
