@@ -12,7 +12,7 @@
 #   hubot 9gag me - Returns a random meme image
 #
 # Author:
-#   EnriqueVidal 
+#   EnriqueVidal
 #
 # Contributors:
 #   dedeibel (gif support)
@@ -21,7 +21,6 @@ Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
 
 module.exports = (robot)->
-  robot.logger.warning "9gag.coffee has moved from hubot-scripts to its own package. See https://github.com/luijose/hubot-9gag installation instructions"
 
   robot.respond /9gag( me)?/i, (message)->
     send_meme message, false, (title, src)->
@@ -81,4 +80,3 @@ escape_html_characters = (text)->
   for r in replacements
     text = text.replace r[0], r[1]
   return text
-

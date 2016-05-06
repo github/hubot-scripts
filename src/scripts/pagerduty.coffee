@@ -58,8 +58,6 @@ pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
 pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
 
 module.exports = (robot) ->
-  robot.logger.warning "pagerduty.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-pager-me installation instructions"
-
   robot.respond /pager( me)?$/i, (msg) ->
     if missingEnvironmentForApi(msg)
       return

@@ -102,7 +102,6 @@ class ScoreKeeper
     all.sort((a,b) -> b.score - a.score).reverse().slice(0,amount)
 
 module.exports = (robot) ->
-   robot.logger.warning "plusplus.coffee has merged with karma.coffee and moved from hubot-scripts to its own package. Remove it from your hubot-scripts.json and see https://github.com/ajacksified/hubot-plusplus for upgrade instructions"
   scoreKeeper = new ScoreKeeper(robot)
 
   robot.hear /([\w\S]+)([\W\s]*)?(\+\+)$/i, (msg) ->

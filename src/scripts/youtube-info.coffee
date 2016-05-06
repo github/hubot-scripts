@@ -15,7 +15,6 @@
 #
 # Author:
 #   mmb
-
 querystring = require 'querystring'
 url = require 'url'
 

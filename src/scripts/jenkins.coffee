@@ -196,9 +196,9 @@ jenkinsList = (msg) ->
               if index == -1
                 jobList.push(job.name)
                 index = jobList.indexOf(job.name)
-                
+
               state = if job.color == "red"
-                        "FAIL" 
+                        "FAIL"
                       else if job.color == "aborted"
                         "ABORTED"
                       else if job.color == "aborted_anime"

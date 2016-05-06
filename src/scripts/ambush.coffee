@@ -20,8 +20,6 @@ appendAmbush = (data, toUser, fromUser, message) ->
 
 module.exports = (robot) ->
 
-  robot.logger.warning "ambush.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-ambush installation instructions"
-
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}
 

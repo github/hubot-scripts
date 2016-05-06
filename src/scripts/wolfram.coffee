@@ -15,7 +15,6 @@
 #
 # Author:
 #   dhorrigan
-
 Wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 
 module.exports = (robot) ->
