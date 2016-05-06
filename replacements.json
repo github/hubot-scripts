@@ -16,6 +16,7 @@
   "pagerduty": "https://github.com/hubot-scripts/hubot-pager-me",
   "plusplus": "https://github.com/ajacksified/hubot-plusplus",
   "resumator.coffee": "https://github.com/ChrisMissal/hubot-resumator",
+  "shipit.coffee": "http://github.com/hubot-scripts/hubot-shipit",
   "tell": "https://github.com/hubot-scripts/hubot-tell",
   "wolfram.coffee": "https://github.com/notpeter/hubot-wolfram",
   "xkcd.coffee": "https://www.npmjs.com/package/hubot-xkcd",
