@@ -2,6 +2,7 @@
   "9gag.coffee": "https://github.com/luijose/hubot-9gag",
   "ambush": "https://github.com/hubot-scripts/hubot-ambush",
   "asana.coffee": "https://github.com/hubot-scripts/hubot-asana",
+  "ascii.coffee": "https://github.com/sanderploegsma/hubot-ascii-art"
   "auth": "https://github.com/hubot-scripts/hubot-auth",
   "darksky.coffee": "https://github.com/hubot-scripts/hubot-darksky",
   "factoids.coffee": "https://github.com/hubot-scripts/hubot-factoids",
@@ -10,7 +11,7 @@
   "isup.coffee": "https://github.com/pric/hubot-isup",
   "jenkins.coffee": "https://github.com/balbeko/hubot-jenkins",
   "jira-issues.coffee": "https://github.com/rustedgrail/hubot-jira",
-  "karma.coffee": "https://github.com/ajacksified/hubot-plusplus",
+  "karma.coffee": "https://github.com/notpeter/hubot-karma-classic",
   "meme_captain.coffee": "https://github.com/cycomachead/hubot-meme",
   "pagerduty": "https://github.com/hubot-scripts/hubot-pager-me",
   "plusplus": "https://github.com/ajacksified/hubot-plusplus",
