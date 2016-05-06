@@ -24,8 +24,11 @@
 # Author:
 #   alexwilliamsca
 
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 module.exports = (robot) ->
-  robot.logger.warning "auth.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-auth installation instructions"
+  HubotScripts.deprecate(robot, __filename)
 
   admin = process.env.HUBOT_AUTH_ADMIN
 
@@ -34,7 +37,7 @@ module.exports = (robot) ->
       user = robot.brain.userForName(name)
       if user? and user.roles?
         if role in user.roles then return true
-      
+
       return false
 
   robot.Auth = new Auth
@@ -48,7 +51,7 @@ module.exports = (robot) ->
       if !user?
         msg.reply "#{name} does not exist"
         return
-      
+
       user.roles = user.roles or [ ]
 
       if newRole in user.roles
@@ -71,7 +74,7 @@ module.exports = (robot) ->
       if !user?
         msg.reply "#{name} does not exist"
         return
-      
+
       user.roles = user.roles or [ ]
       if newRole == 'admin'
         msg.reply "Sorry, the 'admin' role can only be removed from the HUBOT_AUTH_ADMIN env variable."
@@ -88,7 +91,7 @@ module.exports = (robot) ->
     if !user?
       msg.reply "#{name} does not exist"
       return
-    
+
     user.roles = user.roles or [ ]
 
     if name.toLowerCase() in admin.toLowerCase().split(',') then isAdmin = ' and is also an admin' else isAdmin = ''

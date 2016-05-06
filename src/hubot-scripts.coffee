@@ -22,7 +22,7 @@ HubotScripts.deprecate = (robot, filename) ->
 
   replacement = replacements[filename]
   if replacement
-    robot.logger.warning "#{filename} has moved to its own package. Remove it from your hubot-scripts.json and see #{replacement} for how to install the new version"
+    robot.logger.warning "#{filename} in hubot-scripts.json has moved to its own package. Remove it from hubot-scripts.json and see #{replacement} for how to install the new version"
     deprecatedScriptsUsed.push(filename)
 
 module.exports = HubotScripts

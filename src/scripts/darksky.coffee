@@ -18,7 +18,12 @@
 #
 # Author:
 #   kyleslattery
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 module.exports = (robot) ->
+  HubotScripts.deprecate(robot, __filename)
+
   robot.respond /weather ?(.+)?/i, (msg) ->
     location = msg.match[1] || process.env.HUBOT_DARK_SKY_DEFAULT_LOCATION
     return if not location

@@ -23,12 +23,14 @@
 #   abh1nav
 #   rajiv
 
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 url  = 'https://app.asana.com/api/1.0'
 
 workspace = process.env.HUBOT_ASANA_WORKSPACE_ID
 project = process.env.HUBOT_ASANA_PROJECT_ID
 api_key = process.env.HUBOT_ASANA_API_KEY
-
 
 getRequest = (msg, path, callback) ->
   msg.http("#{url}#{path}")
@@ -64,6 +66,7 @@ addTask = (msg, taskName, path, params, userAcct) ->
           msg.send "Error creating task."
 
 module.exports = (robot) ->
+  HubotScripts.deprecate(robot, __filename)
 # Add a task
   robot.hear /^(todo|task):\s?(@\w+)?(.*)/i, (msg) ->
     taskName = msg.match[3]

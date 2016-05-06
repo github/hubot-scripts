@@ -13,14 +13,16 @@
 # Author:
 #   jmoses
 
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 appendAmbush = (data, toUser, fromUser, message) ->
   data[toUser.name] or= []
 
   data[toUser.name].push [fromUser.name, message]
 
 module.exports = (robot) ->
-
-  robot.logger.warning "ambush.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-ambush installation instructions"
+  HubotScripts.deprecate(robot, __filename)
 
   robot.brain.on 'loaded', =>
     robot.brain.data.ambushes ||= {}

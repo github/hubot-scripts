@@ -12,13 +12,14 @@
 #   hubot 9gag me - Returns a random meme image
 #
 # Author:
-#   EnriqueVidal 
+#   EnriqueVidal
 #
 # Contributors:
 #   dedeibel (gif support)
 
 Path        = require("path")
 HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 Select      = require( "soupselect" ).select
 HTMLParser  = require "htmlparser"
 

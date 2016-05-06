@@ -5,7 +5,12 @@
 #   hubot job list - Returns the current list of jobs from The Resumator
 #   hubot job applicants - Returns the current list of applicants in the pipeline of the Resumator
 
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 module.exports = (robot) ->
+  HubotScripts.deprecate(robot, __filename)
+
   robot.respond /job list$/i, (msg) ->
     robot.http("https://api.resumatorapi.com/v1/jobs?apikey=#{process.env.RESUMATOR_APIKEY}")
       .get() (err, res, body) ->

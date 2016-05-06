@@ -15,9 +15,12 @@
 #
 # Author:
 #   christianchristensen, lorenzhs, xhochy
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
 
 module.exports = (robot) ->
-   robot.logger.warning "tell.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-tell/blob/master/UPGRADING.md for upgrade instructions"
+   HubotScripts.deprecate(robot, __filename)
+
    localstorage = {}
    robot.respond /tell ([\w.-]*):? (.*)/i, (msg) ->
      datetime = new Date()

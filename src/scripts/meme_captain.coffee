@@ -32,7 +32,12 @@
 # Author:
 #   bobanj, ericjsilva
 
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
+
 module.exports = (robot) ->
+  HubotScripts.deprecate(robot, __filename)
+
   robot.respond /Y U NO (.+)/i, (msg) ->
     memeGenerator msg, 'NryNmg', 'Y U NO', msg.match[1], (url) ->
       msg.send url
