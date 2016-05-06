@@ -2,7 +2,7 @@
   "9gag.coffee": "https://github.com/luijose/hubot-9gag",
   "ambush": "https://github.com/hubot-scripts/hubot-ambush",
   "asana.coffee": "https://github.com/hubot-scripts/hubot-asana",
-  "ascii.coffee": "https://github.com/sanderploegsma/hubot-ascii-art"
+  "ascii.coffee": "https://github.com/sanderploegsma/hubot-ascii-art",
   "auth": "https://github.com/hubot-scripts/hubot-auth",
   "darksky.coffee": "https://github.com/hubot-scripts/hubot-darksky",
   "factoids.coffee": "https://github.com/hubot-scripts/hubot-factoids",
