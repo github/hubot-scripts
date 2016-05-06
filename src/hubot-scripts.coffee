@@ -22,7 +22,11 @@ HubotScripts.deprecate = (robot, filename) ->
 
   replacement = replacements[filename]
   if replacement
-    robot.logger.warning "#{filename} in hubot-scripts.json has moved to its own package. Remove it from hubot-scripts.json and see #{replacement} for how to install the new version"
+    robot.logger.warning "#{filename} in hubot-scripts.json has moved to its own package. Remove it from hubot-scripts.json and see #{replacement} for how to install the new package."
     deprecatedScriptsUsed.push(filename)
+  else
+    inferredPackageName = "hubot-#{filename.replace('.coffee', '')}"
+    robot.logger.warning "#{filename} in hubot-scripts.json has been deprecated without a known replacement yet. You can try https://www.npmjs.com/search?q=#{inferredPackageName} or https://github.com/search?q=#{inferredPackageName}&type=Repositories or your favorite search engine. If you find a replacement or can't find a replacement, please leave a comment on https://github.com/github/hubot-scripts/issues/1641 with what you found."
+
 
 module.exports = HubotScripts
