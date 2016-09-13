@@ -17,17 +17,17 @@
 #   aaronbassett
 
 witimgs = [
-    "http://i.imgur.com/g5GET.jpg",
-    "http://i.imgur.com/HSSmy.jpg",
-    "http://i.imgur.com/wVIkb.jpg",
-    "http://i.imgur.com/a6uNS.jpg",
-    "http://i.imgur.com/QDEtx.jpg",
-    "http://i.imgur.com/gED5u.jpg",
-    "http://i.imgur.com/u6dvm.jpg",
-    "http://i.imgur.com/TEtBW.jpg",
-    "http://i.imgur.com/MMqJW.jpg",
-    "http://i.imgur.com/4aa9h.jpg",
-    "http://i.imgur.com/b3nmR.jpg"
+    "https://i.imgur.com/g5GET.jpg",
+    "https://i.imgur.com/HSSmy.jpg",
+    "https://i.imgur.com/wVIkb.jpg",
+    "https://i.imgur.com/a6uNS.jpg",
+    "https://i.imgur.com/QDEtx.jpg",
+    "https://i.imgur.com/gED5u.jpg",
+    "https://i.imgur.com/u6dvm.jpg",
+    "https://i.imgur.com/TEtBW.jpg",
+    "https://i.imgur.com/MMqJW.jpg",
+    "https://i.imgur.com/4aa9h.jpg",
+    "https://i.imgur.com/b3nmR.jpg"
 ]
 
 module.exports = (robot) ->

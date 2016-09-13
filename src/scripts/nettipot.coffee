@@ -13,7 +13,7 @@
 # Author
 #   alexpgates
 
-nettipot = "http://i.imgur.com/EIqdZ.gif"
+nettipot = "https://i.imgur.com/EIqdZ.gif"
 
 module.exports = (robot) ->
   robot.respond /nettipot/i, (msg) ->
