@@ -4,6 +4,7 @@
   "asana.coffee": "https://github.com/hubot-scripts/hubot-asana",
   "ascii.coffee": "https://github.com/sanderploegsma/hubot-ascii-art",
   "auth.coffee": "https://github.com/hubot-scripts/hubot-auth",
+  "bangbang.coffee": "https://github.com/bdashrad/hubot-bang-bang",
   "coin.coffee": "https://github.com/fordnox/hubot-coin",
   "darksky.coffee": "https://github.com/hubot-scripts/hubot-darksky",
   "factoids.coffee": "https://github.com/hubot-scripts/hubot-factoids",
