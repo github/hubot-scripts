@@ -9,6 +9,7 @@
   "darksky.coffee": "https://github.com/hubot-scripts/hubot-darksky",
   "encourage.coffee": "https://github.com/haroldputman/hubot-encourage",
   "factoids.coffee": "https://github.com/hubot-scripts/hubot-factoids",
+  "flip.coffee": "https://github.com/coryallegory/hubot-flip",
   "gitlab.coffee": "https://github.com/spruce/hubot-gitlab-hooks",
   "google.coffee": "https://github.com/mnpk/hubot-google",
   "isup.coffee": "https://github.com/pric/hubot-isup",

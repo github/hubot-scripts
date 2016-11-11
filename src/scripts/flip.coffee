@@ -12,10 +12,13 @@
 # Authors:
 #   jergason
 #   spajus
+Path        = require("path")
+HubotScripts = require(Path.resolve(__dirname, "..", "hubot-scripts"))
 
 flip = require 'flip'
 
 module.exports = (robot) ->
+  HubotScripts.deprecate(robot, __filename)
 
   robot.respond /(rage )?flip( .*)?$/i, (msg) ->
     if msg.match[1] == 'rage '
