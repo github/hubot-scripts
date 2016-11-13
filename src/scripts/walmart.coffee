@@ -20,7 +20,7 @@ module.exports = (robot) ->
     .get() (error, response) ->
       msg.http(response.headers['location'])
         .get() (err, res, body) ->
-          col1 = body.indexOf '<div class="nest">'
+          col1 = body.indexOf '<div class="entry">'
           if (col1 != -1)
             body = body.substring col1
             match = body.match /http:\/\/media.peopleofwalmart.com\/wp-content\/uploads\/\d\d\d\d\/\d\d\/.+?\.jpg/g
