@@ -40,12 +40,14 @@ module.exports = (robot) ->
       json = JSON.parse(body)
       jiraPrefixes = ( entry.key for entry in json )
       reducedPrefixes = jiraPrefixes.reduce (x,y) -> x + "-|" + y
-      jiraPattern = "/\\b(" + reducedPrefixes + "-)(\\d+)\\b/g"
+      jiraPattern = "\\b(" + reducedPrefixes + "-)(\\d+)\\b"
+      jiraPatternMode = "g"
       ic = process.env.HUBOT_JIRA_IGNORECASE
       if ic == undefined || ic == "true"
-        jiraPattern += "i"
+        jiraPatternMode += "i"
+      jiraPatternRegex = new RegExp(jiraPattern, jiraPatternMode)
 
-      robot.hear eval(jiraPattern), (msg) ->
+      robot.hear jiraPatternRegex, (msg) ->
         return if msg.message.user.name.match(new RegExp(jiraIgnoreUsers, "gi"))
 
         for i in msg.match
