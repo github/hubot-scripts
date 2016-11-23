@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.hear /bee+s?\b/i, (message) ->
-    message.send "http://i.imgur.com/qrLEV.gif"
+    message.send "https://i.imgur.com/qrLEV.gif"

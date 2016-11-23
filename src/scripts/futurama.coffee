@@ -52,7 +52,7 @@ module.exports = (robot) ->
     msg.send "http://i0.kym-cdn.com/photos/images/newsfeed/000/126/314/3cd8a33a.png"
 
   robot.hear /shut up and take my money/i, (msg) ->
-    msg.send "http://i.imgur.com/QlmfC.jpg"
+    msg.send "https://i.imgur.com/QlmfC.jpg"
 
   robot.hear /futurama fry/i, (msg) ->
     url = "http://version1.api.memegenerator.net/Instances_Select_ByPopular?languageCode=en&pageSize=24&urlName=Futurama-Fry"

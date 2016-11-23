@@ -22,17 +22,17 @@ images = [
   "http://funcorner.eu/wp-content/uploads/2011/03/like_a_boss.jpg",
   "https://i.chzbgr.com/maxW500/6972126976/hAA5A99AF/",
   "https://i.chzbgr.com/maxW500/6669391104/h7509954E/",
-  "http://i.imgur.com/eNXkb.gif",
-  "http://i.imgur.com/WN8Ud.gif",
-  "http://i.imgur.com/9y0VV.gif",
-  "http://i.imgur.com/68Jtv.gif",
-  "http://i.imgur.com/hdVDd.gif",
-  "http://i.imgur.com/B0ehW.gif",
-  "http://i.imgur.com/3GU2Q.gif",
-  "http://i.imgur.com/Z3aAs.gif",
-  "http://i.imgur.com/diA9N.gif",
-  "http://i.imgur.com/ze3MJ.gif",
-  "http://i.imgur.com/rBvJany.gif"
+  "https://i.imgur.com/eNXkb.gif",
+  "https://i.imgur.com/WN8Ud.gif",
+  "https://i.imgur.com/9y0VV.gif",
+  "https://i.imgur.com/68Jtv.gif",
+  "https://i.imgur.com/hdVDd.gif",
+  "https://i.imgur.com/B0ehW.gif",
+  "https://i.imgur.com/3GU2Q.gif",
+  "https://i.imgur.com/Z3aAs.gif",
+  "https://i.imgur.com/diA9N.gif",
+  "https://i.imgur.com/ze3MJ.gif",
+  "https://i.imgur.com/rBvJany.gif"
   ]
 
 module.exports = (robot) ->
