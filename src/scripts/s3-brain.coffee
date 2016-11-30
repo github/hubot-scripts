@@ -2,7 +2,7 @@
 #   Stores the brain in Amazon S3
 #
 # Dependencies:
-#   "aws2js": "0.7.10"
+#   "aws-sdk": "2.x.x"
 #
 # Configuration:
 #   HUBOT_S3_BRAIN_ACCESS_KEY_ID      - AWS Access Key ID with S3 permissions
@@ -10,6 +10,9 @@
 #   HUBOT_S3_BRAIN_BUCKET             - Bucket to store brain in
 #   HUBOT_S3_BRAIN_SAVE_INTERVAL      - [Optional] auto-save interval in seconds
 #                                     Defaults to 30 minutes
+#   HUBOT_S3_BRAIN_REGION             - Region which Bucket belongs to
+#   HUBOT_S3_BRAIN_FILE_NAME          - [Optional] brain file name
+#                                     Defaults brain-dump.json
 #
 # Commands:
 #
@@ -48,7 +51,7 @@
 #   Iristyle
 
 util  = require 'util'
-aws   = require 'aws2js'
+aws   = require 'aws-sdk'
 
 module.exports = (robot) ->
 
@@ -58,17 +61,20 @@ module.exports = (robot) ->
   bucket            = process.env.HUBOT_S3_BRAIN_BUCKET
   # default to 30 minutes (in seconds)
   save_interval     = process.env.HUBOT_S3_BRAIN_SAVE_INTERVAL || 30 * 60
-  brain_dump_path   = "#{bucket}/brain-dump.json"
+  brain_file_name   = process.env.HUBOT_S3_BRAIN_FILE_NAME || 'brain-dump.json'
+  region            = process.env.HUBOT_S3_BRAIN_REGION
 
-  if !key && !secret && !bucket
+  if !key && !secret && !bucket && !region
     throw new Error('S3 brain requires HUBOT_S3_BRAIN_ACCESS_KEY_ID, ' +
-      'HUBOT_S3_BRAIN_SECRET_ACCESS_KEY and HUBOT_S3_BRAIN_BUCKET configured')
+      'HUBOT_S3_BRAIN_SECRET_ACCESS_KEY and HUBOT_S3_BRAIN_BUCKET and HUBOT_S3_BRAIN_REGION configured')
 
   save_interval = parseInt(save_interval)
   if isNaN(save_interval)
     throw new Error('HUBOT_S3_BRAIN_SAVE_INTERVAL must be an integer')
 
-  s3 = aws.load('s3', key, secret)
+  # init s3
+  aws.config.update { region: region }
+  s3 = new aws.S3
 
   store_brain = (brain_data, callback) ->
     if !loaded
@@ -79,18 +85,18 @@ module.exports = (robot) ->
     headers =
       'Content-Type': 'application/json'
 
-    s3.putBuffer brain_dump_path, buffer, 'private', headers, (err, response) ->
+    s3.putObject { Bucket: bucket, Key: brain_file_name, ACL: 'private', ContentType: 'application/json', Body: buffer }, (err, response) ->
       if err
         robot.logger.error util.inspect(err)
       else if response
-        robot.logger.debug "Saved brain to S3 path #{brain_dump_path}"
+        robot.logger.debug "Saved brain to S3 path #{bucket}#{brain_file_name}"
 
       if callback then callback(err, response)
 
   store_current_brain = () ->
     store_brain robot.brain.data
 
-  s3.get brain_dump_path, 'buffer', (err, response) ->
+  s3.getObject { Bucket: bucket, Key: brain_file_name, ResponseContentType: 'Buffer' }, (err, response) ->
     # unfortunately S3 gives us a 403 if we have access denied OR
     # the file is simply missing, so no way of knowing if IAM policy is bad
     save_handler = (e, r) ->
@@ -99,9 +105,12 @@ module.exports = (robot) ->
     # try to store an empty placeholder to see if IAM settings are valid
     if err then store_brain {}, save_handler
 
-    if response && response.buffer
-      robot.brain.mergeData JSON.parse(response.buffer.toString())
+    if response && response.Body
+      brain_data = response.Body.toString()
+      robot.logger.debug "Got brain data from s3 #{brain_data}"
+      robot.brain.mergeData JSON.parse(brain_data)
     else
+      robot.logger.debug "Got an empty S3 brain!"
       robot.brain.mergeData {}
 
   robot.brain.on 'loaded', () ->
