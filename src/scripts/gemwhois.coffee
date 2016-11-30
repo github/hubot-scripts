@@ -16,7 +16,7 @@
 module.exports = (robot) ->
   robot.respond /gem whois (.*)/i, (msg) ->
     gemname = escape(msg.match[1])
-    msg.http("http://rubygems.org/api/v1/gems/#{gemname}.json")
+    msg.http("https://rubygems.org/api/v1/gems/#{gemname}.json")
       .get() (err, res, body) ->
         try
           json = JSON.parse(body)
