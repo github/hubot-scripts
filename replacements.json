@@ -24,5 +24,6 @@
   "tell.coffee": "https://github.com/hubot-scripts/hubot-tell",
   "wolfram.coffee": "https://github.com/notpeter/hubot-wolfram",
   "xkcd.coffee": "https://www.npmjs.com/package/hubot-xkcd",
-  "youtube-info.coffee": "https://github.com/ClaudeBot/hubot-youtube-info"
+  "youtube-info.coffee": "https://github.com/ClaudeBot/hubot-youtube-info",
+  "github-status": "https://github.com/scboucher/hubot-github-status"
 }
