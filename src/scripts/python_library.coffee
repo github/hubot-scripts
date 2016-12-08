@@ -17,7 +17,7 @@ module.exports = (robot) ->
           msg.send text
 
 libraryMe = (robot, version, lib, callback) ->
-    url = "http://docs.python.org/#{version}/library/#{lib}.html"
+    url = "https://docs.python.org/#{version}/library/#{lib}.html"
     robot.http(url)
          .get() (err,res,body) ->
              if res.statusCode != 200
