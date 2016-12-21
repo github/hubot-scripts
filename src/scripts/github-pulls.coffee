@@ -53,9 +53,16 @@ module.exports = (robot) ->
           summary = "I found #{filtered_result.length} open pull requests for #{repo}:"
 
         for pull in filtered_result
-          summary = summary + "\n\t#{pull.title} - #{pull.user.login}: #{pull.html_url}"
+          summary = summary + "\n\t\<#{pull.html_url}|##{pull.number}> - #{pull.title} (#{pull.user.login})"
 
-      msg.send summary
+      if process.env.HUBOT_SLACK_INCOMING_WEBHOOK?
+        robot.emit 'slack.attachment',
+          message: msg.message
+          content:
+            fallback: summary
+            text: summary
+      else
+        msg.send summary
 
   robot.respond /show\s+(me\s+)?org\-pulls(\s+for\s+)?(.*)?/i, (msg) ->
 
