@@ -36,7 +36,7 @@ queries =
 zendesk_request = (msg, url, handler) ->
   zendesk_user = "#{process.env.HUBOT_ZENDESK_USER}"
   zendesk_password = "#{process.env.HUBOT_ZENDESK_PASSWORD}"
-  auth = new Buffer("#{zendesk_user}:#{zendesk_password}").toString('base64')
+  auth = new Buffer("#{zendesk_user}/#{zendesk_password}").toString('base64')
   zendesk_url = "https://#{process.env.HUBOT_ZENDESK_SUBDOMAIN}.zendesk.com/api/v2"
 
   msg.http("#{zendesk_url}/#{url}")
