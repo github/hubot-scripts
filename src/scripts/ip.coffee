@@ -15,7 +15,7 @@
      
 module.exports = (robot) ->
   robot.respond /ip/i, (msg) ->
-    msg.http("http://jsonip.com")
+    msg.http("https://jsonip.com")
       .get() (err, res, body) ->
         json = JSON.parse(body)
         switch res.statusCode                                
