@@ -1,0 +1,39 @@
+# Description:
+#   Tiny Trump!
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   tiny trump - Returns a tiny trump.
+#
+
+trump = [
+  "http://68.media.tumblr.com/d5bcfac17e76d0d854aff59706dcc97e/tumblr_olqsuqV4TU1tx94sho1_1280.jpg"
+, "http://68.media.tumblr.com/366669f4806dbafcca74d19809b24a1f/tumblr_olqhveFTij1qa4l1ko2_540.jpg"
+, "http://68.media.tumblr.com/649e3ccfef8a23ded7219d8277faa2d5/tumblr_olqhveFTij1qa4l1ko4_540.jpg"
+, "http://68.media.tumblr.com/f66d7e5891746977dc4a3885b2e39220/tumblr_olqhveFTij1qa4l1ko8_540.jpg"
+, "http://68.media.tumblr.com/777fa8bb9669f90b27d342b823714b09/tumblr_oljvarFE441sktky7o1_1280.jpg"
+, "https://68.media.tumblr.com/3c6f17038218ebc220a7835375720ffd/tumblr_olksksF1Tm1w6omwoo1_1280.jpg"
+, "http://68.media.tumblr.com/945eead9b964a8e7445e334054d2f3d8/tumblr_olla1xCScV1rzz140o1_1280.jpg"
+, "http://68.media.tumblr.com/4bd582cf3136b16266ee8a2dbf828d8c/tumblr_oll9w6N7wi1rzz140o1_1280.jpg"
+, "https://68.media.tumblr.com/a66024c173765d5fe3c2f3ba84eb9b99/tumblr_om3w43jLb21w6x7pqo1_1280.jpg"
+, "http://68.media.tumblr.com/328f6a93ed6781db0190202e0721c1f8/tumblr_olsmnw7b571r4dia6o1_1280.jpg"
+, "https://68.media.tumblr.com/b8fd1534da01766bc5587e2418dd5fb6/tumblr_olwu5b9KtK1w6k0moo1_500.jpg"
+, "https://68.media.tumblr.com/6a171217a60f149df310d8712258410c/tumblr_olwu6aOQQp1w6k0moo1_500.jpg"
+, "http://i.onionstatic.com/avclub/6219/25/16x9/1200.jpg"
+, "http://a.theinspiration.com/wp-content/uploads/9t8rlauaylgy-1074x716.jpg"
+, "http://cdn.smosh.com/sites/default/files/2017/02/tiny-trump-meme-robe.jpg"
+, "http://cdn.smosh.com/sites/default/files/2017/02/tiny-trump-meme-baby-walk.jpg"
+
+]
+
+ttrump = (msg) ->
+  msg.send msg.random trump
+
+module.exports = (robot) ->
+  robot.hear /tiny trump/i, (msg) ->
+    ttrump msg
