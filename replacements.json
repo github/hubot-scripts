@@ -7,7 +7,6 @@
   "bangbang.coffee": "https://github.com/bdashrad/hubot-bang-bang",
   "coin.coffee": "https://github.com/fordnox/hubot-coin",
   "darksky.coffee": "https://github.com/hubot-scripts/hubot-darksky",
-  "encourage.coffee": "https://github.com/haroldputman/hubot-encourage",
   "factoids.coffee": "https://github.com/hubot-scripts/hubot-factoids",
   "gitlab.coffee": "https://github.com/spruce/hubot-gitlab-hooks",
   "google.coffee": "https://github.com/mnpk/hubot-google",
