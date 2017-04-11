@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   botsnack - give the bot a food
+#   hubot botsnack - give the bot a food
 #
 # Author:
 #   richo
