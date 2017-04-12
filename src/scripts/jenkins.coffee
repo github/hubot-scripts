@@ -16,11 +16,13 @@
 #   hubot jenkins build <job>, <params> - builds the specified Jenkins job with parameters as key=value&key2=value2
 #   hubot jenkins list <filter> - lists Jenkins jobs
 #   hubot jenkins describe <job> - Describes the specified Jenkins job
+#   hubot jenkins console <job> - Show Console Log of last Jenkins build
+#   hubot jenkins console <job> <buildNumber> - Show Console Log of particular Jenkins build
 #   hubot jenkins last <job> - Details about the last build for the specified Jenkins job
 
 #
 # Author:
-#   dougcole
+#   dougcole, Paras Patel
 
 querystring = require 'querystring'
 
@@ -174,6 +176,30 @@ jenkinsLast = (msg) ->
 
             msg.send response
 
+jenkinsConsole = (msg) ->
+    url = process.env.HUBOT_JENKINS_URL
+    job = msg.match[1].replace /^\s+|\s+$/g, ""
+    params = msg.match[2].replace /^\s+|\s+$/g, ""
+    path = if params then "#{url}/job/#{job}/#{params}/consoleText/api/json" else "#{url}/job/#{job}/lastBuild/consoleText/api/json"
+    req = msg.http(path)
+
+    if process.env.HUBOT_JENKINS_AUTH
+      auth = new Buffer(process.env.HUBOT_JENKINS_AUTH).toString('base64')
+      req.headers Authorization: "Basic #{auth}"
+
+    req.header('Content-Length', 0)
+    req.get() (err, res, body) ->
+        if err
+          msg.send "Jenkins says: #{err}"
+        else
+          response = "/code "
+          try
+            response += body
+
+            msg.send response
+          catch error
+            msg.send response
+
 jenkinsList = (msg) ->
     url = process.env.HUBOT_JENKINS_URL
     filter = new RegExp(msg.match[2], 'i')
@@ -228,6 +254,9 @@ module.exports = (robot) ->
   robot.respond /j(?:enkins)? describe (.*)/i, (msg) ->
     jenkinsDescribe(msg)
 
+  robot.respond /j(?:enkins)? console ([\w\-\.]*)([0-9 ]*)$/i, (msg) ->
+    jenkinsConsole(msg)
+
   robot.respond /j(?:enkins)? last (.*)/i, (msg) ->
     jenkinsLast(msg)
 
@@ -235,5 +264,6 @@ module.exports = (robot) ->
     list: jenkinsList,
     build: jenkinsBuild
     describe: jenkinsDescribe
+    console: jenkinsConsole
     last: jenkinsLast
   }
