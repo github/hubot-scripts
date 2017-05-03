@@ -105,7 +105,7 @@ module.exports = (robot) ->
           if json.override
             start = moment(json.override.start)
             end = moment(json.override.end)
-            msg.send "Rejoice, #{old_username}! #{json.override.user.name} has the pager until #{end.format()}"
+            msg.send "Rejoice, @#{old_username}! @#{json.override.user.name} has the pager until #{end.format()}"
 
   robot.respond /(pager|major)( me)? incident (.*)$/, (msg) ->
     pagerDutyIncident msg, msg.match[3], (incident) ->
