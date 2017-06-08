@@ -198,7 +198,7 @@ wisdom = [
   "C is actually written in RMS."
   "Richard Stallman can write software that does not have a buffer overflow when counting money lost by Jerome Kerviel."
   "There were no double rainbows before Richard Stallman."
-  "Chuck Norris had to shorten his beard in the presence of Richard Stallman because two beards that awsome, so close would segfault the universe (again)."
+  "Chuck Norris had to shorten his beard in the presence of Richard Stallman because two beards that awesome, so close would segfault the universe (again)."
   "RMS is Titanic."
   "Richard Stallman is the answer to the Turing Test."
   "Richard Stallman's beard makes ads for Gillette and Braun appear."
