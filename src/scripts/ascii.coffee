@@ -12,7 +12,6 @@
 #
 # Author:
 #   atmos
-
 module.exports = (robot) ->
   robot.respond /ascii( me)? (.+)/i, (msg) ->
     msg

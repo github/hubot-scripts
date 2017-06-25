@@ -60,6 +60,8 @@ jenkinsBuild = (msg, buildWithEmptyParameters) ->
           msg.reply "(#{res.statusCode}) Build started for #{job} #{url}/job/#{job}"
         else if 400 == res.statusCode
           jenkinsBuild(msg, true)
+        else if 404 == res.statusCode
+          msg.reply "Build not found, double check that it exists and is spelt correctly."
         else
           msg.reply "Jenkins says: Status #{res.statusCode} #{body}"
 
@@ -195,8 +197,19 @@ jenkinsList = (msg) ->
                 jobList.push(job.name)
                 index = jobList.indexOf(job.name)
 
-              state = if job.color == "red" then "FAIL" else "PASS"
-              if filter.test job.name
+              state = if job.color == "red"
+                        "FAIL"
+                      else if job.color == "aborted"
+                        "ABORTED"
+                      else if job.color == "aborted_anime"
+                        "CURRENTLY RUNNING"
+                      else if job.color == "red_anime"
+                        "CURRENTLY RUNNING"
+                      else if job.color == "blue_anime"
+                        "CURRENTLY RUNNING"
+                      else "PASS"
+
+              if (filter.test job.name) or (filter.test state)
                 response += "[#{index + 1}] #{state} #{job.name}\n"
             msg.send response
           catch error

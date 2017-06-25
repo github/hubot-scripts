@@ -29,7 +29,6 @@ workspace = process.env.HUBOT_ASANA_WORKSPACE_ID
 project = process.env.HUBOT_ASANA_PROJECT_ID
 api_key = process.env.HUBOT_ASANA_API_KEY
 
-
 getRequest = (msg, path, callback) ->
   msg.http("#{url}#{path}")
     .headers("Accept": "application/json")

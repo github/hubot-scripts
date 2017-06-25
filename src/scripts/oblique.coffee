@@ -23,7 +23,7 @@
 module.exports = (robot) ->
   robot.respond /.*strategy/i, (msg) ->
     mentions = msg.message.text.match(/(@\w+)/g)
-    robot.http('http://oblique.io')
+    robot.http('http://obliqueio.herokuapp.com')
       .get() (err, res, body) ->
         strategy = JSON.parse body
         strategy = "#{mentions.join(', ')}: #{strategy}" if mentions

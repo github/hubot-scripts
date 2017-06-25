@@ -15,7 +15,6 @@
 # Author:
 #   twe4ked
 #   Hemanth (fixed the max issue)
-
 module.exports = (robot) ->
   robot.respond /xkcd(\s+latest)?$/i, (msg) ->
     msg.http("http://xkcd.com/info.0.json")

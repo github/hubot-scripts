@@ -1,5 +1,5 @@
 # Description:
-#   PagerDuty Integration for checking who's on call, making exceptions, ack, resolve, etc.
+#   PagerDuty integration for checking who's on call, making exceptions, ack, resolve, etc.
 #
 # Commands:
 #
@@ -13,7 +13,7 @@
 #   hubot pager me notes <incident> - show notes for incident #<incident>
 #   hubot pager me problems - return all open incidents
 #   hubot pager me ack <incident> - ack incident #<incident>
-#   hubot pager me resolve <incident1> <incident2> ... <incidentN> - ack all specified incidents
+#   hubot pager me ack <incident1> <incident2> ... <incidentN> - ack all specified incidents
 #   hubot pager me ack - ack all triggered incidents 
 #   hubot pager me resolve <incident> - resolve incident #<incident>
 #   hubot pager me resolve <incident1> <incident2> ... <incidentN>- resolve all specified incidents
@@ -24,10 +24,10 @@
 #
 # Notes: 
 #   To setup the webhooks and get the alerts in your chatrooms, you need to add the endpoint you define here (e.g /hooks) in 
-#   the service settings of your Pagerduty accounts. You also need to define the room in which you want them to appear. 
+#   the service settings of your PagerDuty accounts. You also need to define the room in which you want them to appear. 
 #   (Unless you want to spam all the rooms with alerts, but we don't believe that should be the default behavior :)  
 #
-# URLS: 
+# URLs: 
 #   http://developer.pagerduty.com/documentation/rest/webhooks
 #   http://support.pagerduty.com/entries/21774694-Webhooks-
 #
@@ -37,8 +37,8 @@
 #   HUBOT_PAGERDUTY_SUBDOMAIN
 #   HUBOT_PAGERDUTY_SERVICE_API_KEY - Service API Key from a 'General API Service'
 #   HUBOT_PAGERDUTY_SCHEDULE_ID
-#   HUBOT_PAGERDUTY_ROOM - Room in which you want the pagerduty webhook notifications to appear
-#   HUBOT_PAGERDUTY_ENDPOINT - Pagerduty Webhook listener e.g /hook
+#   HUBOT_PAGERDUTY_ROOM - Room in which you want the PagerDuty webhook notifications to appear
+#   HUBOT_PAGERDUTY_ENDPOINT - PagerDuty webhook listener e.g /hook
 #
 # Authors: 
 #   Jesse Newland, Josh Nicols, Jacob Bednarz, Chris Lundquist, Chris Streeter, Joseph Pierri, Greg Hoin
@@ -58,8 +58,6 @@ pagerRoom              = process.env.HUBOT_PAGERDUTY_ROOM
 pagerEndpoint          = process.env.HUBOT_PAGERDUTY_ENDPOINT || "/hook"
 
 module.exports = (robot) ->
-  robot.logger.warning "pagerduty.coffee has moved from hubot-scripts to its own package. See https://github.com/hubot-scripts/hubot-pager-me installation instructions"
-
   robot.respond /pager( me)?$/i, (msg) ->
     if missingEnvironmentForApi(msg)
       return

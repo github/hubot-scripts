@@ -74,7 +74,7 @@ module.exports = (robot) ->
       url = msg.match[1]
       if /http(s)?\:\/\//.test(url)
         accountID = parseInt url.match(/\.com\/([0-9]*)\//)[1]
-        projectID = parseInt url.match(/projects\/([0-9]*)-/)[1]
+        projectID = parseInt url.match(/projects\/([0-9]*)/)[1]
         msg.http("https://basecamp.com/#{accountID}/api/v1/projects.json")
           .headers(Authorization: auth, Accept: 'application/json', 'User-Agent': 'Walkie (http://walkie.tybenz.com)')
           .get() (err, res, body) ->

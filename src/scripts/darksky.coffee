@@ -19,6 +19,7 @@
 # Author:
 #   kyleslattery
 module.exports = (robot) ->
+
   robot.respond /weather ?(.+)?/i, (msg) ->
     location = msg.match[1] || process.env.HUBOT_DARK_SKY_DEFAULT_LOCATION
     return if not location

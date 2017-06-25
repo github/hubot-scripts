@@ -1,6 +1,6 @@
 # Description:
 #   Returns the URL of the first google hit for a query
-# 
+#
 # Dependencies:
 #   None
 #

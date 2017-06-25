@@ -22,7 +22,7 @@ module.exports = (robot) ->
     msg.send "4d3d3d3 ENGAGED"
     msg.send "http://i.imgur.com/w1qQO.gif"
   robot.respond /.*add sequence:? oyster/i, (msg) ->
-    msg.send "http://i.imgur.com/EH2CJ.png"
+    msg.send "http://i.imgur.com/9McEqKA.gif"
   robot.respond /.*oyster smiling/, (msg) ->
     # msg.send "http://i.imgur.com/e71P6.png"
     msg.send "http://i.imgur.com/eq5v0RY.gif"
