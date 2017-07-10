@@ -49,6 +49,7 @@ success = (msg) ->
 
 reloadAllScripts = (msg, success, error) ->
   robot = msg.robot
+  unappendedEvents = Object.assign({}, robot.events._events);
   robot.emit('reload_scripts')
   scriptsPath = Path.resolve ".", "scripts"
   robot.load scriptsPath
@@ -80,5 +81,6 @@ reloadAllScripts = (msg, success, error) ->
             error "Error parsing JSON data from external-scripts.json: #{err}"
           robot.loadExternalScripts scripts
           return
+  robot.events._events = unappendedEvents
   success(msg)
 
